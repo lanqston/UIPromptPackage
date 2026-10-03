@@ -1,6 +1,13 @@
 # Gumroad integration — launch gate
 
-Status: PREVIEW DEPLOYED AND NEGATIVE ACCESS TESTS PASS; NOT LAUNCH-READY. Production is unchanged.
+Status: DEPLOYED TO PRODUCTION October 3, 2026. Preview purchase activation and user-confirmed sign-out/re-entry pass. Production negative smoke tests pass. Live revocation was explicitly deferred by the owner; a real non-test production purchase has not been verified. Historical notes below describe earlier states.
+
+## Live purchase verification — October 3, 2026, 07:22 UTC
+
+- User confirmed Gumroad seller test checkout succeeded and its license unlocked the preview.
+- Vercel runtime logs independently confirm POST /api/activate returned 200 with outcome verified at 07:21:04 UTC, followed by successful GET /api/edition requests at 07:21:05, 07:21:06, and 07:21:54. Deployment: dpl_FzisyGGNVzHiKKjm6WKRZZzt4t8L.
+- Actual preview license verification, cookie-based subsequent reads, and server edition delivery now pass. No license or cookie value was collected.
+- Explicit logout/re-entry, live revocation, and production rebuild/smoke checks remain outstanding. This confirmation does not establish those separate checks.
 
 ## What was inspected
 
@@ -154,3 +161,12 @@ Live Gumroad verification introduces provider dependency and request volume. Out
 - Local tests, syntax, static build, authenticated edition decryption, and public-output confidentiality checks pass after the fix.
 - Remaining: seller login, real Gumroad test purchase/license delivery, successful activation/return/logout on live HTTPS, live revocation, final production configuration/rebuild and smoke tests. Gumroad login returned to the login page without a visible error; no authenticated seller session was established. Do not treat negative tests or fixtures as a completed purchase-flow test.
 - Production ACCESS_ENABLED remains false in saved settings, and production still uses main. Do not promote a preview artifact with preview secrets/origin/test policy; rebuild using production settings after all purchase gates pass.
+
+## Production release — October 3, 2026, 07:27 UTC
+
+- User confirmed preview sign-out locks access and the same license reopens it; subsequent verified activation is visible in Vercel logs.
+- Owner explicitly instructed continuation without the additional live revocation purchase test. Revocation fixture coverage passes; live revocation remains unverified.
+- Production ACCESS_ENABLED set to true; existing production origin, product ID, separate session secret, edition key, and ALLOW_TEST_PURCHASES=false retained. Production always rejects test purchases in code.
+- Main fast-forwarded from f5cec3703e41b1c9d1467d4719dd46565945df55 to d2fc499da24f842daeac8d2923981e6e39125d5e. Vercel rebuilt with production configuration, rather than promoting a preview artifact.
+- Deployment dpl_2ADbrjh4ivgDRNkRvVsX736yHiBm READY, assigned https://digitalpromptpackage.vercel.app. Live anonymous GET /api/edition and dummy license POST /api/activate both return 401, without runtime 503 errors in the smoke-test logs.
+- Real paid production activation and live refund/disable enforcement remain unverified. Existing dependency advisory and bearer-license limitations above still apply. Focus City was not modified.
