@@ -14,16 +14,6 @@
 .about-story>p,.about-section p{margin-bottom:22px}
 .about-section{padding-top:30px;margin-top:20px}
 .about-section h2{margin:0 0 18px;font-size:clamp(1.6rem,2.8vw,2.15rem)}
-.about-personal{margin-top:58px;padding:32px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.about-personal-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:22px}
-.about-personal-heading .tiny,.about-personal-heading .quiet{margin:0}
-.about-personal-heading .quiet{max-width:330px;text-align:right}
-.about-fact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.about-fact{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px}
-.about-fact span{display:block;color:var(--muted);font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px}
-.about-fact strong{display:block;font-size:1.025rem;line-height:1.45}
-.about-fact p{margin:7px 0 0;color:var(--muted);font-size:.925rem;line-height:1.55}
-.about-disclaimer{margin:22px 0 0}
 .about-cta{margin-top:44px;padding:28px 30px;background:var(--tint);border:1px solid #dad8ef;border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:28px}
 .about-cta .tiny{color:var(--accent);margin-bottom:9px}
 .about-cta h2{margin-bottom:8px}
@@ -34,11 +24,6 @@
   .about-hero{margin-bottom:32px}
   .about-story{font-size:1rem}
   .about-section{padding-top:20px;margin-top:14px}
-  .about-personal{margin-top:42px;padding:28px 0}
-  .about-personal-heading{display:block}
-  .about-personal-heading .quiet{max-width:none;text-align:left;margin-top:8px}
-  .about-fact-grid{grid-template-columns:1fr}
-  .about-fact{padding:18px}
-  .about-cta{display:block;padding:24px 22px;margin-top:34px}
+            .about-cta{display:block;padding:24px 22px;margin-top:34px}
   .about-cta .button{margin-top:20px;width:100%;min-height:50px}
 }
