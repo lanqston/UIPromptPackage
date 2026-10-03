@@ -1,30 +1,30 @@
 # UI Prompt Package
 
-Astro website for the Beginner’s UI Prompting Playbook. Includes a public demo and an encrypted full edition, plus a local prompt builder and toolkit. Focus City is a separate project.
+Astro website for the Beginner’s UI Prompting Playbook. Public samples, 75-topic catalog, prompt builder, and personal toolkit; full edition delivered by server-verified Gumroad access. Focus City is a separate project.
 
-## Run
+**Launch status: blocked pending Gumroad license setup, access to the correct Vercel project, rate-limit cost/configuration approval, and live purchase-flow verification.** This branch is not deployed to production. See [Gumroad launch runbook](docs/GUMROAD-LAUNCH.md) for exact setup, customer copy, test evidence, limits and rollback.
 
-Use Node.js 24. `npm ci`, then `npm run dev`. `npm run build` generates 12 static pages (including the not-found page) in `dist/`. If telemetry cannot write its configuration in a restricted environment, set `ASTRO_TELEMETRY_DISABLED=1`.
+## Run and verify
+
+Node.js 24: `npm ci`, `npm run dev`, `npm run build`, `npm test`, `npm run check:syntax`.
+
+Astro creates 12 public static pages in `dist/`. Paid content is not in those pages/bundles. `/api/activate`, `/api/edition`, and `/api/logout` are Vercel Node functions; Astro's dev server alone does not run them. Local unit tests inject fixture dependencies, never production bypass flags. For UI fixture checks only, with the private edition key available and after a build: `node tests/preview-server.mjs` on localhost:4173. This fixture server is not a production server.
+
+`npm run verify:content` needs ignored `.private/owner-key.txt`; it decrypts the server ciphertext to validate content and scans `dist/` for leaks. Never commit the key or plaintext edition.
 
 ## Content and access
 
-- Public catalog: 75 titles and short descriptions.
-- Free samples: prompts 01, 14, 46; one workflow, one checklist, one lesson.
-- `public/edition.enc.json`: complete edition encrypted with AES-256-GCM and a random 256-bit edition key.
-- Full source and the key live in ignored `.private/`. Never commit them, the owner access file, or plaintext PDF/Word exports.
-- The publisher keeps the key separately. It unlocks content in a browser tab; it is not payment verification, a per-customer license, or DRM. A key holder can copy the content. Checkout and automated Gumroad delivery are intentionally closed.
-- Do not open sales before configuring purchase verification and an appropriate delivery/revocation strategy.
+- Public catalog: titles/descriptions; free prompts 01, 14 and 46 plus a sample workflow, checklist and lesson.
+- `server/edition.enc.json`: encrypted full edition, packaged only with server functions.
+- `EDITION_KEY`: server-only decryption key. The old browser shared-key flow is removed and legacy sessionStorage keys are cleared.
+- Gumroad license → live server verification → encrypted HttpOnly cookie → live verification again on each paid fetch. No account/email linking, local entitlement database or notification receiver.
+- Notes/progress/favorites remain in localStorage with existing export/import. Neither paid content nor licenses are included in backups.
+- No AI API calls or third-party analytics were added.
 
-The import script accepts extracted text from the owner's expanded PDF: `python3 scripts/prepare-content.py /path/to/playbook-source.txt`. It validates 75 prompts, 8 workflows, and 8 checklists. Then run `node scripts/seal-content.mjs` to encrypt. Existing keys are preserved. Run `node scripts/verify-content.mjs` after a build with the private key available.
+The source import/sealing scripts still operate on ignored `.private/` input and write server ciphertext. Keep its key securely backed up separately.
 
-Favorites, reviewed prompts, workflow/checklist progress, notes, and builder inputs use localStorage. Export/import merges backups without including edition keys or paid content. Access keys use sessionStorage. There is no account service, cloud sync, analytics, or AI API.
+## Hosting
 
-## Deployment
+Existing production: https://digitalpromptpackage.vercel.app. Main is connected to Vercel; do not merge this branch until the launch gate in `docs/GUMROAD-LAUNCH.md` is satisfied. `.env.example` lists required server configuration without secrets. Backend access fails closed by default.
 
-`vercel.json` retains Astro, Node 24 from package.json, `npm ci`, `npm run build`, and `dist`. The existing Git integration publishes main to https://digitalpromptpackage.vercel.app. This is separate from Focus City.
-
-See `REFINEMENT-CHECKPOINT.md` for the current route-by-route implementation and browser verification record.
-
-## Recovery checkpoint
-
-The prior public repository contained only a coming-soon page. This implementation reconstructed the requested experience from `UI_Prompting_Playbook_Expanded_Draft.pdf` (85 pages, 75 prompts). The original source document remains unchanged.
+`RECOVERY-CHECKPOINT.md` and `REFINEMENT-CHECKPOINT.md` are historical; the launch runbook supersedes their shared-key access descriptions.
