@@ -1,5 +1,7 @@
 # UIPromptPackage recovery checkpoint
 
+Historical record. The newer `REFINEMENT-CHECKPOINT.md` supersedes publication and browser-testing status below.
+
 ## Saved implementation
 
 - Nine Astro routes: overview, library, guided fixes, builder, workflows, checklists, learn, toolkit, access.

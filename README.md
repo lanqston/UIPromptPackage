@@ -4,7 +4,7 @@ Astro website for the Beginner’s UI Prompting Playbook. Includes a public demo
 
 ## Run
 
-Use Node.js 24. `npm ci`, then `npm run dev`. `npm run build` generates nine static routes in `dist/`. If telemetry cannot write its configuration in a restricted environment, set `ASTRO_TELEMETRY_DISABLED=1`.
+Use Node.js 24. `npm ci`, then `npm run dev`. `npm run build` generates 12 static pages (including the not-found page) in `dist/`. If telemetry cannot write its configuration in a restricted environment, set `ASTRO_TELEMETRY_DISABLED=1`.
 
 ## Content and access
 
@@ -21,7 +21,9 @@ Favorites, reviewed prompts, workflow/checklist progress, notes, and builder inp
 
 ## Deployment
 
-`vercel.json` retains Astro, Node 24 from package.json, `npm ci`, `npm run build`, and `dist`. The intended Vercel project name from the original setup is `digitalpromptpackage`. No Vercel project link was present in this checkout. Connect this repository to that project or deploy it to an explicitly selected new project. Never link it to Focus City.
+`vercel.json` retains Astro, Node 24 from package.json, `npm ci`, `npm run build`, and `dist`. The existing Git integration publishes main to https://digitalpromptpackage.vercel.app. This is separate from Focus City.
+
+See `REFINEMENT-CHECKPOINT.md` for the current route-by-route implementation and browser verification record.
 
 ## Recovery checkpoint
 
