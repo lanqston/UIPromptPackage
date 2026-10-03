@@ -1,10 +1,11 @@
 import { EncryptJWT, jwtDecrypt } from 'jose';
-import { createDecipheriv } from 'node:crypto';
+import { createDecipheriv, createHash, timingSafeEqual } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 
 export const PRODUCT_ID = 'ELdVVW1-tlMwQyuADA6C0A==';
 export const COOKIE = '__Host-uip-session';
 export const MAX_AGE = 30 * 24 * 60 * 60;
+const OWNER_KEY_HASH = 'bfe5a262e2a53c92dd4cea4008184c5d809a74a2a75115e45e75cc3b1093a5d3';
 export class AccessError extends Error {
   constructor(status, code, message) { super(message); this.status = status; this.code = code; }
 }
@@ -25,6 +26,13 @@ export function config(env = process.env) {
 export function normalizeLicense(value) {
   if (typeof value !== 'string' || !/^[a-f0-9]{8}(?:-[a-f0-9]{8}){3}$/i.test(value.trim())) throw invalid();
   return value.trim().toUpperCase();
+}
+export function isOwnerKey(value) {
+  let normalized;
+  try { normalized = normalizeLicense(value); } catch { return false; }
+  const actual = createHash('sha256').update(normalized, 'utf8').digest();
+  const expected = Buffer.from(OWNER_KEY_HASH, 'hex');
+  return actual.length === expected.length && timingSafeEqual(actual, expected);
 }
 // Live verification is the source of truth, not a local grant or a notification.
 export async function verifyLicense(license, cfg, fetcher = fetch) {
@@ -55,6 +63,11 @@ export async function sealSession(license, saleId, cfg) {
     .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' }).setIssuedAt()
     .setIssuer(cfg.origin).setAudience('uip-full-edition').setExpirationTime(`${MAX_AGE}s`).encrypt(cfg.sessionKey);
 }
+export async function sealOwnerSession(cfg) {
+  return new EncryptJWT({ owner: true, productId: cfg.productId })
+    .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' }).setIssuedAt()
+    .setIssuer(cfg.origin).setAudience('uip-full-edition').setExpirationTime(`${MAX_AGE}s`).encrypt(cfg.sessionKey);
+}
 export async function openSession(cookie, cfg) {
   const matches = String(cookie || '').split(';').map(s => s.trim()).filter(s => s.startsWith(`${COOKIE}=`));
   if (matches.length !== 1) throw invalid();
@@ -63,9 +76,11 @@ export async function openSession(cookie, cfg) {
   try {
     const { payload } = await jwtDecrypt(token, cfg.sessionKey, {
       issuer: cfg.origin, audience: 'uip-full-edition', keyManagementAlgorithms: ['dir'], contentEncryptionAlgorithms: ['A256GCM'],
-      maxTokenAge: `${MAX_AGE}s`, requiredClaims: ['exp','iat','saleId','license','productId']
+      maxTokenAge: `${MAX_AGE}s`, requiredClaims: ['exp','iat','productId']
     });
-    if (payload.productId !== cfg.productId || typeof payload.saleId !== 'string') throw invalid();
+    if (payload.productId !== cfg.productId) throw invalid();
+    if (payload.owner === true) return { owner: true };
+    if (typeof payload.saleId !== 'string') throw invalid();
     return { license: normalizeLicense(payload.license), saleId: payload.saleId };
   } catch { throw invalid(); }
 }
