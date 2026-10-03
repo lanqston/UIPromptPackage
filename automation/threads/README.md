@@ -25,4 +25,4 @@ Set `THREADS_AUTOMATION_READY=false` to stop scheduled jobs. GitHub may delay sc
 
 Long-lived Meta tokens expire or can be revoked. Renew securely before expiry; automatic token rotation is not installed. Unauthorized API requests stop the run without retrying sends. GitHub's default branch must contain the workflow for the schedule to run. If an installation cannot write workflow files, add the supplied workflow through GitHub with the necessary permission.
 
-Tests: `node --test automation/threads/matcher.test.mjs`. Preview: supply the token, GH_TOKEN, and GITHUB_REPOSITORY then run `node automation/threads/run.mjs` (no replies unless both live switches are enabled).
+Tests: `node --test automation/threads/*.test.mjs`. Preview: supply the token, GH_TOKEN, and GITHUB_REPOSITORY then run `node automation/threads/run.mjs` (no replies unless both live switches are enabled).

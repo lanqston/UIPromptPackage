@@ -25,9 +25,9 @@ function preview(scenario) {
     await import('./automation/threads/run.mjs');
     console.log('MUTATIONS='+writes.length);
   `;
-  return spawnSync(process.execPath,['--input-type=module','-e',harness],{cwd:new URL('../../',import.meta.url),encoding:'utf8',env:{PATH:process.env.PATH,THREADS_ACCESS_TOKEN:'test-token',GH_TOKEN:'test-gh',GITHUB_REPOSITORY:'test/repo',THREADS_LIVE:'true'}});
+  return spawnSync(process.execPath,['--input-type=module','-e',harness],{cwd:new URL('../../',import.meta.url),encoding:'utf8',env:{PATH:process.env.PATH,THREADS_ACCESS_TOKEN:'test-token',GH_TOKEN:'test-gh',GITHUB_REPOSITORY:'test/repo',THREADS_LIVE:'false'}});
 }
-test('preview never publishes even with the environment live flag',()=>{
+test('preview never publishes regardless of the config activation switch',()=>{
   const run=preview('valid'); assert.equal(run.status,0); assert.match(run.stdout,/Eligible \(preview only\)/); assert.match(run.stdout,/MUTATIONS=0/);
 });
 test('wrong account stops before any mutation',()=>{
