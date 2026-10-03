@@ -27,3 +27,5 @@
             .about-cta{display:block;padding:24px 22px;margin-top:34px}
   .about-cta .button{margin-top:20px;width:100%;min-height:50px}
 }
+
+.footer-social{display:inline-flex;align-items:center;gap:9px;color:inherit;text-decoration:none;font-weight:600;white-space:nowrap}.footer-social img{display:block;width:34px;height:34px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}.footer-social:hover{color:var(--accent)}
