@@ -1,5 +1,5 @@
 import { checkRateLimit } from '@vercel/firewall';
-import { AccessError, config, invalid, unavailable, verifyLicense, sealSession, openSession, sessionCookie, readEdition } from './access.mjs';
+import { AccessError, config, invalid, unavailable, verifyLicense, isOwnerKey, sealSession, sealOwnerSession, openSession, sessionCookie, readEdition } from './access.mjs';
 
 export async function rateLimit(req, cfg, kind) {
   // Never trust a client Host for SDK outbound requests, or forward cookies/licenses to it.
@@ -59,6 +59,15 @@ export function makeHandler(action, deps = {}) {
       await limit(req, cfg, action === 'activate' ? 'activate' : 'edition');
       if (action === 'activate') {
         const { license } = await jsonBody(req);
+        if (isOwnerKey(license)) {
+          phase = 'edition_read';
+          await load(cfg);
+          phase = 'session';
+          const token = await sealOwnerSession(cfg);
+          res.setHeader('Set-Cookie', sessionCookie(token));
+          audit({ event: 'access_activation', outcome: 'owner' });
+          send(200, { ok: true }); return;
+        }
         phase = 'purchase_verification';
         const purchase = await verify(license, cfg);
         phase = 'edition_read';
@@ -71,9 +80,11 @@ export function makeHandler(action, deps = {}) {
       }
       phase = 'session';
       const session = await openSession(req.headers.cookie, cfg);
-      phase = 'purchase_verification';
-      const purchase = await verify(session.license, cfg);
-      if (purchase.saleId !== session.saleId) throw invalid();
+      if (session.owner !== true) {
+        phase = 'purchase_verification';
+        const purchase = await verify(session.license, cfg);
+        if (purchase.saleId !== session.saleId) throw invalid();
+      }
       phase = 'edition_read';
       send(200, await load(cfg));
     } catch (error) {
