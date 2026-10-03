@@ -43,36 +43,45 @@ export function makeHandler(action, deps = {}) {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Vary', 'Cookie');
     const send = (status, data) => { res.statusCode = status; res.end(JSON.stringify(data)); };
+    let phase = 'request';
     try {
       if (!['activate', 'edition', 'logout'].includes(action)) throw new AccessError(404, 'not_found', 'Not found.');
       const method = action === 'edition' ? 'GET' : 'POST';
       if (req.method !== method) { res.setHeader('Allow', method); throw new AccessError(405, 'method_not_allowed', 'Please use the access page.'); }
       // Keys and activation tokens must never be accepted from URLs.
       if (String(req.url).includes('?')) throw new AccessError(400, 'invalid_input', 'Please use the access form.');
+      phase = 'configuration';
       const cfg = config(deps.env || process.env);
       if (req.headers['sec-fetch-site'] === 'cross-site' ||
           (method === 'POST' && req.headers.origin !== cfg.origin)) throw new AccessError(403, 'wrong_origin', 'Open the access page on this website and try again.');
       if (action === 'logout') { res.setHeader('Set-Cookie', sessionCookie('', true)); send(200, { ok: true }); return; }
+      phase = 'rate_limit';
       await limit(req, cfg, action === 'activate' ? 'activate' : 'edition');
       if (action === 'activate') {
         const { license } = await jsonBody(req);
+        phase = 'purchase_verification';
         const purchase = await verify(license, cfg);
+        phase = 'edition_read';
         await load(cfg); // Do not issue a success/session for an unreadable edition.
+        phase = 'session';
         const token = await sealSession(license, purchase.saleId, cfg);
         res.setHeader('Set-Cookie', sessionCookie(token));
         audit({ event: 'access_activation', outcome: 'verified' });
         send(200, { ok: true }); return;
       }
+      phase = 'session';
       const session = await openSession(req.headers.cookie, cfg);
+      phase = 'purchase_verification';
       const purchase = await verify(session.license, cfg);
       if (purchase.saleId !== session.saleId) throw invalid();
+      phase = 'edition_read';
       send(200, await load(cfg));
     } catch (error) {
       const safe = error instanceof AccessError ? error : unavailable();
       if (safe.status === 401 && action === 'edition') res.setHeader('Set-Cookie', sessionCookie('', true));
       if (safe.status === 429 || safe.status === 503) res.setHeader('Retry-After', '60');
       // No raw errors, request bodies, license keys, cookies, emails, or upstream payloads.
-      if (safe.status !== 401) audit({ event: 'access_request', action, status: safe.status, code: safe.code });
+      if (safe.status !== 401) audit({ event: 'access_request', action, phase, status: safe.status, code: safe.code });
       send(safe.status, { error: safe.message, code: safe.code });
     }
   };
