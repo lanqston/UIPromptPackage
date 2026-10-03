@@ -1,6 +1,6 @@
 # Gumroad integration — launch gate
 
-Status: IMPLEMENTED ON A BRANCH; NOT LAUNCH-READY. Production is unchanged.
+Status: PREVIEW DEPLOYED AND NEGATIVE ACCESS TESTS PASS; NOT LAUNCH-READY. Production is unchanged.
 
 ## What was inspected
 
@@ -144,3 +144,13 @@ Live Gumroad verification introduces provider dependency and request volume. Out
 - Preview APP_ORIGIN uses the stable branch alias. Preview permits Gumroad test purchases; production rejects them. ACCESS_ENABLED remains false until live testing.
 - Published SDK rule `uip-activate` is 10/60 seconds; code now shares the one supported rule using independent origin/action/IP counters. SDK-level fixture tests cover bucket isolation, untrusted-host rejection, header minimization, missing rule, blocked/over-limit, service failure, and non-Vercel fail-closed behavior.
 - Live preview, automation bypass configuration if required, real Gumroad activation/revocation, and production promotion remain pending. A READY static deployment is not proof of working paid access.
+
+## Live verification update — October 3, 2026, 07:08 UTC
+
+- User approved a project-specific automation bypass. Vercel generated it and assigned it as VERCEL_AUTOMATION_BYPASS_SECRET; its value was not revealed. Preview was rebuilt with this setting.
+- Preview ACCESS_ENABLED is true. The most recent tested code is 25b6eaf234e45e60672d35b8f1922c94a27cac6e and deployment dpl_CzhcXhXVekjG2rQJc8q1aV8Vnxb8.
+- Live HTTPS checks: anonymous edition GET returns 401; dummy well-formed licenses reach verification and return 401; repeated activation reaches the 10/minute threshold and returns 429 with the clear retry message. Runtime audit events identify the safe failure phase without raw private data.
+- Live testing found default GET form submission was possible before async initialization. Fixed with explicit POST fallback and a submit button disabled until the secure JSON handler is attached. Only a dummy fixture key was used in the test. No actual buyer license was exposed.
+- Local tests, syntax, static build, authenticated edition decryption, and public-output confidentiality checks pass after the fix.
+- Remaining: seller login, real Gumroad test purchase/license delivery, successful activation/return/logout on live HTTPS, live revocation, final production configuration/rebuild and smoke tests. Gumroad login returned to the login page without a visible error; no authenticated seller session was established. Do not treat negative tests or fixtures as a completed purchase-flow test.
+- Production ACCESS_ENABLED remains false in saved settings, and production still uses main. Do not promote a preview artifact with preview secrets/origin/test policy; rebuild using production settings after all purchase gates pass.
