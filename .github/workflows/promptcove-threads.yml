@@ -1,0 +1,30 @@
+name: PromptCove Threads invitations
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: promptcove-threads-replies
+  cancel-in-progress: false
+jobs:
+  check:
+    if: vars.THREADS_AUTOMATION_READY == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verify matching and duplicate prevention
+        run: node --test automation/threads/*.test.mjs
+      - name: Check invitations
+        env:
+          GH_TOKEN: ${{ github.token }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_LIVE: ${{ vars.THREADS_LIVE }}
+        run: node automation/threads/run.mjs

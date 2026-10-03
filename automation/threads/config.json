@@ -1,0 +1,10 @@
+{
+  "username": "promptcove",
+  "enabled": false,
+  "maxPerDay": 3,
+  "maxPerRun": 1,
+  "maxAgeHours": 48,
+  "queries": ["drop your product", "share your project", "drop your website", "digital products"],
+  "communities": ["aithreads", "businessthreads", "techthreads", "uiuxdesign"],
+  "comment": "I created a UI Prompt Package its 75 super detailed prompts for improving websites and apps, with guidance on what to customize, what to expect, and how to follow up. It also includes workflows, checklists, and a prompt builder.\n\nI’m a grad student and wanted to keep it affordable: $7.99, one-time. You can try 3 prompts free!\n\nhttps://digitalpromptpackage.vercel.app"
+}
