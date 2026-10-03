@@ -87,16 +87,16 @@ Vercel supplies `VERCEL=1`, `VERCEL_ENV` and production `NODE_ENV`. The rate lim
 
 ### Rate limiting — requires cost decision before enabling
 
-Code uses Vercel's official `@vercel/firewall` SDK. Configure two `@vercel/firewall` rules in the correct project's Firewall → Configure → New Rule:
+Code uses Vercel's official `@vercel/firewall` SDK. Configure one `@vercel/firewall` rule in the correct project's Firewall → Configure → New Rule:
 
-- Rate limit ID `uip-activate`: initially 10 requests per 60 seconds per IP.
-- Rate limit ID `uip-edition`: initially 120 requests per 60 seconds per IP.
+- Rate limit ID `uip-activate`: 10 requests per 60 seconds per bucket. Both endpoints use this existing rule; the SDK key includes the configured origin, server-selected action, and trusted client IP. Activation and edition reads each receive an independent 10/minute/IP allowance. Preview cannot consume production buckets.
+- This fits the owning Hobby plan's one-rate-limit-rule allowance. Frequent page navigation or users behind shared NAT can hit the edition limit; return 429 with Retry-After rather than bypassing protection.
 
 The SDK passes only the configured host and trusted edge IP to the firewall, never the license/cookie or arbitrary request headers. Missing rules and service failures deny access. Stage and verify in preview; review traffic before production enforcement. Rule counters are regional, not a global exact quota. Account for shared school/office/mobile NAT addresses when tuning.
 
 Vercel's official pricing page lists WAF rate limiting as metered ($0.50 per million allowed requests when inspected). No billable feature was activated. Confirm the owning plan's allowance and obtain approval before enabling charges; if this is unacceptable, choose an approved durable free-tier counter store before launch. Do not substitute in-memory serverless counters.
 
-Ensure HTTPS, correct origin, both rate-limit rules, and secret injection work on the real deployment. Preview and production have different session secrets/origins and test policies. There are no database migrations.
+Ensure HTTPS, correct origin, the shared rate-limit rule, and secret injection work on the real deployment. Preview and production have different session secrets/origins and test policies. There are no database migrations.
 
 ## Verification and remaining gates
 
@@ -135,3 +135,12 @@ Live Gumroad verification introduces provider dependency and request volume. Out
 - https://vercel.com/docs/vercel-firewall/vercel-waf/rate-limiting-sdk
 - https://vercel.com/docs/vercel-firewall/vercel-waf/usage-and-pricing
 - https://github.com/advisories/GHSA-ch52-4w7c-c8xp
+
+## Continuation — October 3, 2026
+
+- Correct Vercel project is now accessible: `langston3/digitalpromptpackage`, `prj_SfARXMeiaJ6y6EIvhwtedHdN1ZJ1`. Focus City was not modified.
+- User reports Gumroad license/receipt settings saved. Real purchase testing remains required.
+- Production and branch-scoped preview each have SESSION_SECRET and server-only EDITION_KEY entries. Edition-key decryption and public-output checks pass locally.
+- Preview APP_ORIGIN uses the stable branch alias. Preview permits Gumroad test purchases; production rejects them. ACCESS_ENABLED remains false until live testing.
+- Published SDK rule `uip-activate` is 10/60 seconds; code now shares the one supported rule using independent origin/action/IP counters. SDK-level fixture tests cover bucket isolation, untrusted-host rejection, header minimization, missing rule, blocked/over-limit, service failure, and non-Vercel fail-closed behavior.
+- Live preview, automation bypass configuration if required, real Gumroad activation/revocation, and production promotion remain pending. A READY static deployment is not proof of working paid access.

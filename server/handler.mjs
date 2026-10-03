@@ -6,8 +6,12 @@ export async function rateLimit(req, cfg, kind) {
   if (process.env.VERCEL !== '1' || process.env.NODE_ENV !== 'production') throw unavailable();
   const ip = req.headers['x-real-ip']; // Vercel supplies/overwrites this at its trusted edge.
   if (typeof ip !== 'string' || !ip || ip.length > 64) throw unavailable();
-  const result = await checkRateLimit(`uip-${kind}`, {
-    headers: { host: new URL(cfg.origin).host, 'x-real-ip': ip }, rateLimitKey: ip
+  // Hobby supports one SDK rule. Separate server-selected endpoint/environment
+  // buckets preserve activation protection without charging browsing to its quota.
+  if (!['activate', 'edition'].includes(kind)) throw unavailable();
+  const result = await checkRateLimit('uip-activate', {
+    headers: { host: new URL(cfg.origin).host, 'x-real-ip': ip },
+    rateLimitKey: JSON.stringify([cfg.origin, kind, ip])
   });
   if (result.error === 'not-found') throw unavailable();
   if (result.rateLimited || result.error === 'blocked') throw new AccessError(429, 'rate_limited', 'Too many attempts. Wait a minute, then try again.');
