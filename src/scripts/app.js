@@ -101,6 +101,8 @@ $('unlock-form')?.addEventListener('submit',async e=>{
  }catch(error){$('unlock-status').textContent=error.name==='TimeoutError'?'The check took too long. Please try again; you won’t be charged again.':error.message;}
  finally{b.disabled=false;}
 });
+// Enable only after the secure JSON submission handler has been installed.
+if($('unlock-form'))$('unlock-form').querySelector('button[type="submit"]').disabled=false;
 $('lock-edition')?.addEventListener('click',async()=>{
  try{await accessRequest('/api/logout',{method:'POST'});accessChannel?.postMessage('logout');location.reload();}
  catch{$('unlock-status').textContent='We couldn’t sign you out. Please try again.';}
