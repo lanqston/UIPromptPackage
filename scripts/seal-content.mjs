@@ -1,0 +1,10 @@
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { randomBytes, createCipheriv } from 'node:crypto';
+const path = '.private/owner-key.txt';
+const key = existsSync(path) ? Buffer.from(readFileSync(path,'utf8').trim(),'hex') : randomBytes(32);
+if(key.length!==32) throw new Error('Owner key must contain 32 bytes');
+writeFileSync(path,key.toString('hex'),{mode:0o600});
+const iv=randomBytes(12), cipher=createCipheriv('aes-256-gcm',key,iv);
+const encrypted=Buffer.concat([cipher.update(readFileSync('.private/content.json')),cipher.final(),cipher.getAuthTag()]);
+writeFileSync('public/edition.enc.json',JSON.stringify({version:1,algorithm:'AES-GCM',iv:iv.toString('base64'),data:encrypted.toString('base64')}));
+console.log('Full edition encrypted. Key remains in ignored .private/owner-key.txt.');

@@ -1,37 +1,8 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="UI Prompt Package is taking shape. A practical place to start your next interface." />
-    <meta name="theme-color" content="#f5f3ed" />
-    <title>UI Prompt Package — Coming soon</title>
-    <style>
-      :root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #202720; background: #f5f3ed; }
-      * { box-sizing: border-box; }
-      body { margin: 0; min-height: 100svh; display: flex; flex-direction: column; }
-      header, footer { padding: 28px clamp(24px, 6vw, 96px); display: flex; justify-content: space-between; gap: 20px; align-items: center; }
-      .brand { font-size: 16px; font-weight: 650; letter-spacing: -.5px; }
-      .badge { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; border: 1px solid #d7dbcf; border-radius: 30px; padding: 9px 13px; white-space: nowrap; }
-      main { flex: 1; width: 100%; max-width: 1300px; margin: auto; padding: 100px clamp(24px, 6vw, 96px); }
-      .eyebrow { color: #56734c; font-size: 12px; font-weight: 650; letter-spacing: 2px; text-transform: uppercase; }
-      h1 { max-width: 900px; margin: 25px 0; font-size: clamp(48px, 8vw, 108px); line-height: 1.02; font-weight: 500; letter-spacing: -.065em; text-wrap: balance; }
-      h1 span { color: #6a8057; }
-      .description { max-width: 460px; font-size: 18px; line-height: 1.7; color: #61665b; }
-      .note { margin-top: 50px; display: flex; align-items: center; gap: 10px; font-size: 13px; }
-      .dot { width: 7px; height: 7px; border-radius: 50%; background: #738a61; }
-      footer { border-top: 1px solid #dedfd6; color: #74796e; font-size: 12px; }
-      @media (max-width: 600px) { main { padding-top: 70px; padding-bottom: 70px; } header { flex-wrap: wrap; } footer { align-items: flex-start; } }
-    </style>
-  </head>
-  <body>
-    <header><div class="brand">UI Prompt Package</div><span class="badge">In the making</span></header>
-    <main>
-      <p class="eyebrow">A clearer place to start</p>
-      <h1>Good interfaces<br />start with <span>good direction.</span></h1>
-      <p class="description">We're putting UI Prompt Package together. A practical starting point for turning your ideas into thoughtful interfaces.</p>
-      <p class="note"><span class="dot" aria-hidden="true"></span>Coming soon. Taking shape, one detail at a time.</p>
-    </main>
-    <footer><span>UI Prompt Package</span><span>Made with intention.</span></footer>
-  </body>
-</html>
+---
+import Shell from '../layouts/Shell.astro';
+---
+<Shell title="Better interfaces start here"><section class="hero"><div><p class="eyebrow">A field guide for indie builders</p><h1>Better interfaces.<br/><em>Clearer direction.</em></h1><p class="lede">Know what to ask, what to change, and when to stop. A practical playbook for building better interfaces with AI.</p><div class="actions"><a class="button primary" href="/library?sample=1">Explore free prompts</a><a class="text-link" href="/fixes">Help me find a starting point</a></div><p class="quiet">No account needed for the demo. Checkout is not open yet.</p></div><div class="feature-sheet"><div class="sheet-top"><span>YOUR NEXT USEFUL CHANGE</span><span>01 / 75</span></div><p class="tiny">AUDIT & DIAGNOSIS</p><h2>Start with what<br/>feels off.</h2><p>Give the AI one screen and one goal. Ask it to diagnose the problem before changing anything.</p><div class="sample-code">“Organize the response into Must Fix, Should Improve, and Optional Polish.”</div><a href="/library#prompt-1">Read the full audit prompt</a><div class="sheet-bottom">INSPECT <span>→</span> IMPROVE <span>→</span> VERIFY</div></div></section>
+<div class="stats"><div><strong>75</strong><span>Purposeful prompts</span></div><div><strong>08</strong><span>Guided workflows</span></div><div><strong>08</strong><span>Review checklists</span></div><div><strong>01</strong><span>Screen at a time</span></div></div>
+<section class="section"><div class="section-heading"><p class="eyebrow">A process, not a prompt dump</p><h2>From “make it better”<br/>to a clear next step.</h2></div><div class="three-cols"><article><span class="step">01</span><h3>Find the right problem</h3><p>Browse by topic or start with what feels wrong. Each prompt tells you when to use it and what context to share.</p></article><article><span class="step">02</span><h3>Make the prompt yours</h3><p>Add your app, screen, audience, and constraints. Copy the finished brief into the AI tool you already use.</p></article><article><span class="step">03</span><h3>Check the actual result</h3><p>Follow a review checklist, track your progress, and keep the useful findings in your personal toolkit.</p></article></div></section>
+<section class="callout"><div><p class="eyebrow">Try it before the full edition</p><h2>Three prompts. A real starting point.</h2><p>Try a full audit, a mobile review, or an AI-look cleanup. The demo also includes one workflow, one checklist, and UI basics.</p></div><a class="button primary" href="/library?sample=1">Open the demo</a></section>
+</Shell>

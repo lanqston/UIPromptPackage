@@ -1,0 +1,544 @@
+{
+  "prompts": [
+    {
+      "id": 1,
+      "title": "Full UI / UX Audit",
+      "category": "Audit & Diagnosis",
+      "summary": "Diagnose an entire screen before you start redesigning it."
+    },
+    {
+      "id": 2,
+      "title": "Single-Screen Friction Audit",
+      "category": "Audit & Diagnosis",
+      "summary": "Find the exact places where one user flow becomes confusing or slow."
+    },
+    {
+      "id": 3,
+      "title": "Feature-to-UI Fit Review",
+      "category": "Audit & Diagnosis",
+      "summary": "Check whether a feature deserves its current amount of screen space and visual emphasis."
+    },
+    {
+      "id": 4,
+      "title": "Consistency Audit",
+      "category": "Audit & Diagnosis",
+      "summary": "Find places where the app looks like multiple design systems were combined."
+    },
+    {
+      "id": 5,
+      "title": "Before/After Change Review",
+      "category": "Audit & Diagnosis",
+      "summary": "Check whether a recent UI change actually improved the experience."
+    },
+    {
+      "id": 6,
+      "title": "Primary Action Cleanup",
+      "category": "Layout & Hierarchy",
+      "summary": "Make the main action on a screen obvious without making everything else disappear."
+    },
+    {
+      "id": 7,
+      "title": "Spacing Cleanup",
+      "category": "Layout & Hierarchy",
+      "summary": "Standardize awkward gaps, padding, and alignment."
+    },
+    {
+      "id": 8,
+      "title": "Information Density Reduction",
+      "category": "Layout & Hierarchy",
+      "summary": "Reduce clutter without making the screen less useful."
+    },
+    {
+      "id": 9,
+      "title": "Card Overuse Cleanup",
+      "category": "Layout & Hierarchy",
+      "summary": "Stop every section from becoming its own rounded card."
+    },
+    {
+      "id": 10,
+      "title": "Navigation Structure Review",
+      "category": "Navigation & Information Architecture",
+      "summary": "Check whether the app’s navigation matches how users think about the product."
+    },
+    {
+      "id": 11,
+      "title": "Bottom Tab Bar Cleanup",
+      "category": "Navigation & Information Architecture",
+      "summary": "Make a mobile bottom tab bar clearer and less crowded."
+    },
+    {
+      "id": 12,
+      "title": "Settings Reorganization",
+      "category": "Navigation & Information Architecture",
+      "summary": "Turn a long settings page into a predictable structure."
+    },
+    {
+      "id": 13,
+      "title": "Back / Close / Cancel Behavior Review",
+      "category": "Navigation & Information Architecture",
+      "summary": "Make modal and nested-screen exits predictable."
+    },
+    {
+      "id": 14,
+      "title": "Mobile-First Screen Review",
+      "category": "Mobile & Responsive",
+      "summary": "Redesign a screen for actual phone use instead of squeezing the desktop layout."
+    },
+    {
+      "id": 15,
+      "title": "Keyboard + Form Mobile Review",
+      "category": "Mobile & Responsive",
+      "summary": "Prevent the software keyboard from blocking fields, buttons, and feedback."
+    },
+    {
+      "id": 16,
+      "title": "Modal / Sheet Review",
+      "category": "Mobile & Responsive",
+      "summary": "Choose between modal, sheet, inline expansion, or full screen on mobile."
+    },
+    {
+      "id": 17,
+      "title": "Small-Screen Overflow Audit",
+      "category": "Mobile & Responsive",
+      "summary": "Find everything that clips, overflows, or requires sideways scrolling."
+    },
+    {
+      "id": 18,
+      "title": "Touch Target Review",
+      "category": "Mobile & Responsive",
+      "summary": "Make interactive controls comfortable to tap without making the UI bulky."
+    },
+    {
+      "id": 19,
+      "title": "Color System Audit",
+      "category": "Color & Typography",
+      "summary": "Turn random hex values into a small, reusable color system."
+    },
+    {
+      "id": 20,
+      "title": "Typography Hierarchy Audit",
+      "category": "Color & Typography",
+      "summary": "Create a clear text hierarchy without using dozens of sizes and weights."
+    },
+    {
+      "id": 21,
+      "title": "Dark Mode Review",
+      "category": "Color & Typography",
+      "summary": "Make dark mode readable and intentional instead of just inverted."
+    },
+    {
+      "id": 22,
+      "title": "Visual Tone Alignment",
+      "category": "Color & Typography",
+      "summary": "Make the interface match a desired product personality without copying another app."
+    },
+    {
+      "id": 23,
+      "title": "Button System Cleanup",
+      "category": "Components & Design System",
+      "summary": "Standardize buttons by purpose instead of creating a new style for every feature."
+    },
+    {
+      "id": 24,
+      "title": "Input / Form Component System",
+      "category": "Components & Design System",
+      "summary": "Standardize text fields, selects, toggles, checkboxes, and validation feedback."
+    },
+    {
+      "id": 25,
+      "title": "Modal System Review",
+      "category": "Components & Design System",
+      "summary": "Reduce a collection of inconsistent dialogs into a small set of patterns."
+    },
+    {
+      "id": 26,
+      "title": "Icon Consistency Review",
+      "category": "Components & Design System",
+      "summary": "Make icons feel like one family and remain understandable."
+    },
+    {
+      "id": 27,
+      "title": "Login Screen Review",
+      "category": "Forms & Authentication",
+      "summary": "Make login feel trustworthy, clear, and fast."
+    },
+    {
+      "id": 28,
+      "title": "Signup Flow Simplification",
+      "category": "Forms & Authentication",
+      "summary": "Reduce signup friction while keeping required information."
+    },
+    {
+      "id": 29,
+      "title": "Validation Message Rewrite",
+      "category": "Forms & Authentication",
+      "summary": "Turn vague or technical form errors into useful instructions."
+    },
+    {
+      "id": 30,
+      "title": "Permission / Access Denied UX",
+      "category": "Forms & Authentication",
+      "summary": "Handle unauthorized actions without confusing users or leaking sensitive information."
+    },
+    {
+      "id": 31,
+      "title": "First-Run Onboarding Audit",
+      "category": "Onboarding",
+      "summary": "Make the first experience teach the product without turning into a slideshow."
+    },
+    {
+      "id": 32,
+      "title": "Empty New Account Experience",
+      "category": "Onboarding",
+      "summary": "Make a brand-new account feel useful even before the user has data."
+    },
+    {
+      "id": 33,
+      "title": "Feature Introduction Without Pop-up Spam",
+      "category": "Onboarding",
+      "summary": "Teach newly released features without interrupting the whole app."
+    },
+    {
+      "id": 34,
+      "title": "Empty State Design",
+      "category": "States & Feedback",
+      "summary": "Turn “nothing here” into useful guidance."
+    },
+    {
+      "id": 35,
+      "title": "Loading State Review",
+      "category": "States & Feedback",
+      "summary": "Make waiting feel stable and informative without fake progress."
+    },
+    {
+      "id": 36,
+      "title": "Error State System",
+      "category": "States & Feedback",
+      "summary": "Create consistent errors for recoverable, blocking, and offline failures."
+    },
+    {
+      "id": 37,
+      "title": "Success / Confirmation Review",
+      "category": "States & Feedback",
+      "summary": "Confirm completed actions without overusing popups and toasts."
+    },
+    {
+      "id": 38,
+      "title": "Dashboard Priority Audit",
+      "category": "Dashboards & Data",
+      "summary": "Make a dashboard answer the most important questions first."
+    },
+    {
+      "id": 39,
+      "title": "Metric Card Cleanup",
+      "category": "Dashboards & Data",
+      "summary": "Standardize metric cards and make numbers understandable."
+    },
+    {
+      "id": 40,
+      "title": "Table-to-Mobile Transformation",
+      "category": "Dashboards & Data",
+      "summary": "Make a data table usable on a phone without hiding essential information."
+    },
+    {
+      "id": 41,
+      "title": "Filter / Sort UX Review",
+      "category": "Dashboards & Data",
+      "summary": "Simplify filters and sorting so users can predict the result."
+    },
+    {
+      "id": 42,
+      "title": "Accessibility Baseline Audit",
+      "category": "Accessibility",
+      "summary": "Catch common accessibility problems before launch."
+    },
+    {
+      "id": 43,
+      "title": "Keyboard Navigation Review",
+      "category": "Accessibility",
+      "summary": "Make a web interface usable without a mouse."
+    },
+    {
+      "id": 44,
+      "title": "Motion / Animation Restraint Review",
+      "category": "Accessibility",
+      "summary": "Keep animation useful and comfortable."
+    },
+    {
+      "id": 45,
+      "title": "Readable Copy + Contrast Review",
+      "category": "Accessibility",
+      "summary": "Make important text readable under real conditions."
+    },
+    {
+      "id": 46,
+      "title": "AI-Generated UI Cleanup",
+      "category": "AI-Look Cleanup & Copy",
+      "summary": "Remove common visual patterns that make an app feel auto-generated."
+    },
+    {
+      "id": 47,
+      "title": "Humanize Interface Copy",
+      "category": "AI-Look Cleanup & Copy",
+      "summary": "Rewrite UI text so it sounds natural, concise, and specific."
+    },
+    {
+      "id": 48,
+      "title": "Remove Redundant Explanations",
+      "category": "AI-Look Cleanup & Copy",
+      "summary": "Find copy that repeats what the UI already communicates."
+    },
+    {
+      "id": 49,
+      "title": "Notification Copy Review",
+      "category": "AI-Look Cleanup & Copy",
+      "summary": "Make push/in-app notifications useful instead of noisy."
+    },
+    {
+      "id": 50,
+      "title": "Regression Review After UI Changes",
+      "category": "Testing & Final Polish",
+      "summary": "Check that visual improvements did not break behavior."
+    },
+    {
+      "id": 51,
+      "title": "Final Visual Polish Pass",
+      "category": "Testing & Final Polish",
+      "summary": "Catch small inconsistencies after the structure is already correct."
+    },
+    {
+      "id": 52,
+      "title": "Real-Task QA Script",
+      "category": "Testing & Final Polish",
+      "summary": "Test the interface by completing the actual user task end to end."
+    },
+    {
+      "id": 53,
+      "title": "Cross-Screen Consistency Pass",
+      "category": "Testing & Final Polish",
+      "summary": "Check whether the finished app feels like one product."
+    },
+    {
+      "id": 54,
+      "title": "Stop-Redesigning Check",
+      "category": "Testing & Final Polish",
+      "summary": "Decide whether further visual changes are actually necessary."
+    },
+    {
+      "id": 55,
+      "title": "Search Experience Audit",
+      "category": "Search & Discovery",
+      "summary": "Make search predictable, fast to understand, and useful even when the first query fails."
+    },
+    {
+      "id": 56,
+      "title": "Search Results Hierarchy",
+      "category": "Search & Discovery",
+      "summary": "Make result lists scannable so users can distinguish the right item quickly."
+    },
+    {
+      "id": 57,
+      "title": "Global Search / Command Menu Review",
+      "category": "Search & Discovery",
+      "summary": "Design a fast cross-app search or command surface without making it a junk drawer."
+    },
+    {
+      "id": 58,
+      "title": "No-Results Recovery",
+      "category": "Search & Discovery",
+      "summary": "Turn zero search results into a useful next step."
+    },
+    {
+      "id": 59,
+      "title": "Invite Flow Review",
+      "category": "Collaboration & Social UI",
+      "summary": "Make inviting another person understandable from start to finish."
+    },
+    {
+      "id": 60,
+      "title": "Presence / Live Activity Review",
+      "category": "Collaboration & Social UI",
+      "summary": "Show who is active without making the interface noisy or invasive."
+    },
+    {
+      "id": 61,
+      "title": "Activity Feed Cleanup",
+      "category": "Collaboration & Social UI",
+      "summary": "Make recent activity useful instead of turning it into notification spam."
+    },
+    {
+      "id": 62,
+      "title": "Roles & Permissions UX",
+      "category": "Collaboration & Social UI",
+      "summary": "Explain access levels so users understand what they can do and why."
+    },
+    {
+      "id": 63,
+      "title": "Upgrade Screen Review",
+      "category": "Monetization & Upgrade UX",
+      "summary": "Make a premium or upgrade screen clear without turning it into a pressure page."
+    },
+    {
+      "id": 64,
+      "title": "Pricing Comparison Cleanup",
+      "category": "Monetization & Upgrade UX",
+      "summary": "Make plan differences easy to compare without overwhelming users."
+    },
+    {
+      "id": 65,
+      "title": "Trial / Paywall Ethics Review",
+      "category": "Monetization & Upgrade UX",
+      "summary": "Check that monetization is persuasive without using dark patterns."
+    },
+    {
+      "id": 66,
+      "title": "Billing Settings Review",
+      "category": "Monetization & Upgrade UX",
+      "summary": "Make subscription and purchase management easy to understand."
+    },
+    {
+      "id": 67,
+      "title": "Long-Text Resilience Review",
+      "category": "Localization & Content Resilience",
+      "summary": "Make layouts survive longer labels, names, translations, and user-generated text."
+    },
+    {
+      "id": 68,
+      "title": "Date / Time / Number Formatting Review",
+      "category": "Localization & Content Resilience",
+      "summary": "Make regional formats understandable and consistent."
+    },
+    {
+      "id": 69,
+      "title": "Dynamic Content Stress Test",
+      "category": "Localization & Content Resilience",
+      "summary": "Test interfaces with missing, unusually long, zero, huge, and unexpected values."
+    },
+    {
+      "id": 70,
+      "title": "Permission Request UX",
+      "category": "Trust, Privacy & Sensitive Actions",
+      "summary": "Ask for device or account permissions at the moment they make sense."
+    },
+    {
+      "id": 71,
+      "title": "Delete / Export Data Flow",
+      "category": "Trust, Privacy & Sensitive Actions",
+      "summary": "Make account deletion and data export clear, deliberate, and recoverable where appropriate."
+    },
+    {
+      "id": 72,
+      "title": "Sensitive Action Confirmation",
+      "category": "Trust, Privacy & Sensitive Actions",
+      "summary": "Design confirmation for actions that can cause real loss or exposure."
+    },
+    {
+      "id": 73,
+      "title": "Microinteraction Feedback Review",
+      "category": "Interaction Feedback & Motion",
+      "summary": "Make taps, saves, toggles, and state changes feel responsive without decoration overload."
+    },
+    {
+      "id": 74,
+      "title": "Animation Timing Audit",
+      "category": "Interaction Feedback & Motion",
+      "summary": "Standardize transition timing so the app feels coherent and fast."
+    },
+    {
+      "id": 75,
+      "title": "Sound / Haptic Feedback Plan",
+      "category": "Interaction Feedback & Motion",
+      "summary": "Use sound and haptics only where they add meaning."
+    }
+  ],
+  "workflows": [
+    {
+      "id": 1,
+      "title": "My app works, but it looks messy"
+    },
+    {
+      "id": 2,
+      "title": "My desktop version is fine, but mobile feels bad"
+    },
+    {
+      "id": 3,
+      "title": "My app has too many screens and buttons"
+    },
+    {
+      "id": 4,
+      "title": "My app looks like it was generated by AI"
+    },
+    {
+      "id": 5,
+      "title": "I am about to launch a new feature"
+    },
+    {
+      "id": 6,
+      "title": "I keep redesigning the same thing"
+    },
+    {
+      "id": 7,
+      "title": "I am adding friends, rooms, or collaboration"
+    },
+    {
+      "id": 8,
+      "title": "I am adding a paid plan or digital upgrade"
+    }
+  ],
+  "checklists": [
+    {
+      "id": 1,
+      "title": "5-minute screen check"
+    },
+    {
+      "id": 2,
+      "title": "Mobile check"
+    },
+    {
+      "id": 3,
+      "title": "Form check"
+    },
+    {
+      "id": 4,
+      "title": "Navigation check"
+    },
+    {
+      "id": 5,
+      "title": "Accessibility baseline"
+    },
+    {
+      "id": 6,
+      "title": "Visual consistency"
+    },
+    {
+      "id": 7,
+      "title": "Launch readiness"
+    },
+    {
+      "id": 8,
+      "title": "Final QA"
+    }
+  ],
+  "lessons": [
+    {
+      "id": 1,
+      "title": "UI basics without the jargon"
+    },
+    {
+      "id": 2,
+      "title": "Worked examples"
+    },
+    {
+      "id": 3,
+      "title": "Prompt modifiers"
+    },
+    {
+      "id": 4,
+      "title": "When the AI gives you a bad result"
+    },
+    {
+      "id": 5,
+      "title": "Plain-English glossary"
+    }
+  ]
+}

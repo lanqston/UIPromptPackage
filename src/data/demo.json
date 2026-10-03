@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "prompts": [
+    {
+      "id": 1,
+      "title": "Full UI / UX Audit",
+      "category": "Audit & Diagnosis",
+      "summary": "Diagnose an entire screen before you start redesigning it.",
+      "when": "Use when a screen “feels off” but you cannot clearly explain why.",
+      "context": " A screenshot or access to the screen\n The main goal of the screen\n Who uses it\n Any known complaints or constraints",
+      "prompt": "Review [SCREEN / FEATURE] in [APP NAME].\nPrimary user: [TARGET USER]\nMain goal: [WHAT THE USER SHOULD ACCOMPLISH]\nKnown issue: [DESCRIBE IT, OR WRITE 'UNKNOWN']\nFirst inspect the current experience before making changes. Evaluate it for:\n- visual hierarchy\n- spacing and alignment\n- typography\n- button hierarchy\n- color consistency\n- navigation clarity\n- information density\n- redundant actions\n- mobile behavior\n- loading/error/empty states\n- accessibility basics\n- inconsistent components\n- confusing labels\nGuardrails:\n- Do not redesign simply for novelty.\n- Preserve working functionality and product identity.\n- Prioritize the few changes with the largest usability impact.\nFor every issue you find, explain:\n- what is happening\n- why it matters to the user\n- the smallest sensible improvement\n- whether it affects mobile, desktop, or both\nOrganize the response into Must Fix, Should Improve, and Optional Polish. Before implementing anything, \nsummarize the highest-impact changes and identify anything that needs manual verification.",
+      "result": " Separates issues into Must Fix / Should Improve / Optional Polish.\n Explains why each issue matters.\n Proposes a small first pass rather than a total rewrite.",
+      "followups": " Implement only the Must Fix items first, then re-audit.\n Show me the 3 highest-impact changes for mobile only.",
+      "watchout": "If the AI immediately adds gradients, animations, or new features before diagnosing \nanything, stop and rerun the audit."
+    },
+    {
+      "id": 14,
+      "title": "Mobile-First Screen Review",
+      "category": "Mobile & Responsive",
+      "summary": "Redesign a screen for actual phone use instead of squeezing the desktop layout.",
+      "when": "Use whenever mobile is a primary surface.",
+      "context": " Mobile screenshot\n Desktop screenshot if available\n Primary mobile task",
+      "prompt": "Review [SCREEN / FEATURE] in [APP NAME].\nPrimary user: [TARGET USER]\nMain goal: [WHAT THE USER SHOULD ACCOMPLISH]\nKnown issue: [DESCRIBE IT, OR WRITE 'UNKNOWN']\nFirst inspect the current experience before making changes. Evaluate it for:\n- thumb reach\n- tap targets\n- text wrapping\n- stacking\n- modal fit\n- keyboard overlap\n- scroll length\n- fixed elements\n- safe areas\n- hover-only interactions\nGuardrails:\n- Preserve the same capabilities where possible.\n- Allow mobile layout to differ from desktop when needed.\nFor every issue you find, explain:\n- what is happening\n- why it matters to the user\n- the smallest sensible improvement\n- whether it affects mobile, desktop, or both\nOrganize the response into Must Fix, Should Improve, and Optional Polish. Before implementing anything, \nsummarize the highest-impact changes and identify anything that needs manual verification.",
+      "result": " Prioritizes touch usability and clarity.\n Identifies layout changes instead of only shrinking sizes.",
+      "followups": " Create an iPhone-sized QA checklist for this screen.",
+      "watchout": ""
+    },
+    {
+      "id": 46,
+      "title": "AI-Generated UI Cleanup",
+      "category": "AI-Look Cleanup & Copy",
+      "summary": "Remove common visual patterns that make an app feel auto-generated.",
+      "when": "Use when the interface has too many cards, badges, gradients, helper paragraphs, and decorative icons.",
+      "context": " Screen\n Core task",
+      "prompt": "Review [SCREEN / FEATURE] in [APP NAME].\nPrimary user: [TARGET USER]\nMain goal: [WHAT THE USER SHOULD ACCOMPLISH]\nKnown issue: [DESCRIBE IT, OR WRITE 'UNKNOWN']\nFirst inspect the current experience before making changes. Evaluate it for:\n- unnecessary cards\n- nested cards\n- excessive gradients\n- badges\n- decorative icons\n- repetitive helper text\n- giant hero headings\n- glass effects\n- too many accents\n- duplicate information\nGuardrails:\n- Do not remove useful context just to be minimal.\n- Prefer clarity over “minimalism” as an aesthetic goal.\nFor every issue you find, explain:\n- what is happening\n- why it matters to the user\n- the smallest sensible improvement\n- whether it affects mobile, desktop, or both\nOrganize the response into Must Fix, Should Improve, and Optional Polish. Before implementing anything, \nsummarize the highest-impact changes and identify anything that needs manual verification.",
+      "result": " Specifically names what to remove, combine, hide, or reduce.",
+      "followups": " Implement the cleanup without adding new features.",
+      "watchout": "If the “cleanup” response adds more cards, glows, pills, and illustrations, it is moving in \nthe wrong direction."
+    }
+  ],
+  "workflows": [
+    {
+      "id": 1,
+      "title": "My app works, but it looks messy",
+      "steps": [
+        1,
+        8,
+        46,
+        19,
+        20,
+        51,
+        50
+      ],
+      "stop": "Stop when the original goal works, the highest-impact issues are resolved, and QA finds no blocking regressions. Save preference-only ideas for later."
+    }
+  ],
+  "checklists": [
+    {
+      "id": 1,
+      "title": "5-minute screen check",
+      "items": [
+        "Can a first-time user tell what this screen is for?",
+        "Is there one obvious primary action?",
+        "Are secondary actions visually quieter?",
+        "Are spacing and alignment consistent?",
+        "Does every visible sentence add useful context?",
+        "Are cards or borders being used for real grouping?",
+        "Does the screen still make sense without decorative effects?",
+        "Are loading, empty, and error states accounted for?"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": 1,
+      "title": "UI basics without the jargon",
+      "body": "Visual hierarchy\nThe order your eyes notice things. A screen with good hierarchy makes the most important action easier \nto find than less important information.\nInformation density\nHow much information competes for attention at once. Dense screens are not automatically bad, but every\nitem needs a reason to be visible.\nAffordance\nA clue that tells someone how an element works. A button should look clickable. A text field should look \neditable.\nProgressive disclosure\nShow simple, common options first and reveal advanced choices later. This reduces overwhelm without \nremoving functionality.\nResponsive design\nThe layout changes to fit different screen sizes. It is not just a desktop screen shrunk smaller.\nDesign system\nA reusable set of decisions for colors, type, spacing, buttons, forms, cards, and other components.\nState\nWhat a component looks like in a particular condition: normal, loading, empty, success, error, disabled, \nselected, and so on.\nRegression\nWhen a new change accidentally breaks something that used to work.\nKEEP THIS SIMPLE You do not need to memorize these terms. You only need enough understanding to notice \nwhen an AI response is solving the wrong problem."
+    }
+  ]
+}

@@ -1,38 +1,28 @@
 # UI Prompt Package
 
-A minimal Astro starter for the UI Prompt Package website. The current page is a coming-soon placeholder; the full product and checkout are not implemented.
+Astro website for the Beginner’s UI Prompting Playbook. Includes a public demo and an encrypted full edition, plus a local prompt builder and toolkit. Focus City is a separate project.
 
-## Development
+## Run
 
-Use Node.js 24.
+Use Node.js 24. `npm ci`, then `npm run dev`. `npm run build` generates nine static routes in `dist/`. If telemetry cannot write its configuration in a restricted environment, set `ASTRO_TELEMETRY_DISABLED=1`.
 
-```sh
-npm ci
-npm run dev
-```
+## Content and access
 
-## Build
+- Public catalog: 75 titles and short descriptions.
+- Free samples: prompts 01, 14, 46; one workflow, one checklist, one lesson.
+- `public/edition.enc.json`: complete edition encrypted with AES-256-GCM and a random 256-bit edition key.
+- Full source and the key live in ignored `.private/`. Never commit them, the owner access file, or plaintext PDF/Word exports.
+- The publisher keeps the key separately. It unlocks content in a browser tab; it is not payment verification, a per-customer license, or DRM. A key holder can copy the content. Checkout and automated Gumroad delivery are intentionally closed.
+- Do not open sales before configuring purchase verification and an appropriate delivery/revocation strategy.
 
-```sh
-npm run build
-npm run preview
-```
+The import script accepts extracted text from the owner's expanded PDF: `python3 scripts/prepare-content.py /path/to/playbook-source.txt`. It validates 75 prompts, 8 workflows, and 8 checklists. Then run `node scripts/seal-content.mjs` to encrypt. Existing keys are preserved. Run `node scripts/verify-content.mjs` after a build with the private key available.
 
-## GitHub → Vercel
+Favorites, reviewed prompts, workflow/checklist progress, notes, and builder inputs use localStorage. Export/import merges backups without including edition keys or paid content. Access keys use sessionStorage. There is no account service, cloud sync, analytics, or AI API.
 
-Connect `lanqston/UIPromptPackage` to the Vercel project `digitalpromptpackage`.
+## Deployment
 
-| Setting | Value |
-| --- | --- |
-| Production branch | `main` |
-| Root directory | `./` |
-| Framework | Astro |
-| Node.js | 24.x |
-| Install command | `npm ci` |
-| Build command | `npm run build` |
-| Output directory | `dist` |
-| Environment variables | None required |
+`vercel.json` retains Astro, Node 24 from package.json, `npm ci`, `npm run build`, and `dist`. The intended Vercel project name from the original setup is `digitalpromptpackage`. No Vercel project link was present in this checkout. Connect this repository to that project or deploy it to an explicitly selected new project. Never link it to Focus City.
 
-Build settings are recorded in `vercel.json`. With the Vercel GitHub integration connected, pushes to `main` create production deployments and pull requests create preview deployments. No GitHub Actions deployment token is needed.
+## Recovery checkpoint
 
-This repository is public. Keep secrets and private paid content out of commits. The Focus City project is separate.
+The prior public repository contained only a coming-soon page. This implementation reconstructed the requested experience from `UI_Prompting_Playbook_Expanded_Draft.pdf` (85 pages, 75 prompts). The original source document remains unchanged.
