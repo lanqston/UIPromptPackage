@@ -1,8 +1,20 @@
-# UI Prompt Package
+# UI Prompt Package — beginner-friendly AI design prompts
+
+Have an idea for a website or app, but can’t quite get it to look the way you imagined? PromptCove helps you figure out what to change, what to expect, and what to ask AI next.
+
+**[Explore the package and try 3 prompts free](https://mccovery.gumroad.com/l/ui-prompt-package?utm_source=github&utm_medium=referral&utm_campaign=readme)** · Full package: **$7.99, one-time**.
+
+- 75 prompts for website and app UI design, with customization and follow-up guidance.
+- 8 step-by-step workflows, 8 review checklists, and a prompt builder.
+- Created by a grad student who wanted useful guidance to be affordable.
+
+**New to UI prompting?** Start with the [free beginner guide](BEGINNER-UI-GUIDE.md): describe one problem, try one change, and ask a better follow-up.
+
+## Developer documentation
 
 Astro website for the Beginner’s UI Prompting Playbook. Public samples, 75-topic catalog, prompt builder, and personal toolkit; full edition delivered by server-verified Gumroad access. Focus City is a separate project.
 
-**Launch status: blocked pending Gumroad license setup, access to the correct Vercel project, rate-limit cost/configuration approval, and live purchase-flow verification.** This branch is not deployed to production. See [Gumroad launch runbook](docs/GUMROAD-LAUNCH.md) for exact setup, customer copy, test evidence, limits and rollback.
+**Deployment status:** The launch runbook records production deployment on October 3, 2026, successful preview seller-test activation and user-confirmed sign-out/re-entry, and production negative smoke checks. A real non-test production purchase and live revocation remain unverified. See the [Gumroad launch runbook](docs/GUMROAD-LAUNCH.md) for evidence, limits and rollback.
 
 ## Run and verify
 
@@ -25,6 +37,6 @@ The source import/sealing scripts still operate on ignored `.private/` input and
 
 ## Hosting
 
-Existing production: https://digitalpromptpackage.vercel.app. Main is connected to Vercel; do not merge this branch until the launch gate in `docs/GUMROAD-LAUNCH.md` is satisfied. `.env.example` lists required server configuration without secrets. Backend access fails closed by default.
+Existing production: https://digitalpromptpackage.vercel.app. Main is connected to Vercel; review the latest production-release entry in `docs/GUMROAD-LAUNCH.md` before making deployment changes. `.env.example` lists required server configuration without secrets. Backend access fails closed by default.
 
 `RECOVERY-CHECKPOINT.md` and `REFINEMENT-CHECKPOINT.md` are historical; the launch runbook supersedes their shared-key access descriptions.
