@@ -19,3 +19,8 @@ Payloads are constructed from an allowlist. No request bodies, cookies, license 
 GitHub CI exercises the browser SDK against a local build while intercepting outgoing envelopes and checking privacy. The hourly Checkly browser flow performs the same verification on production without sending synthetic errors to Sentry.
 
 For a one-time ingestion smoke test, set SENTRY_SETUP_VERIFY=1 in production and deploy. The build sends an informational setup event, checks Sentry's HTTP response, and logs its event ID. Set the variable back to 0 after verification. This is a build-only script; there is no public test-error endpoint.
+
+
+## Setup verification
+
+On 2026-10-04, Sentry's ingestion endpoint returned HTTP 200 for setup event `1bacb245d8f4483ab333c8611716bed0`. The production `SENTRY_SETUP_VERIFY` flag was then reset to `0`. The event verifies ingestion acceptance; dashboard retention and alert rules are managed in Sentry.
