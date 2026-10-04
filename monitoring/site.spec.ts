@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { assertPrivateSentryReporting } from './assert-sentry';
 
 // Public production flows only: never submit a license, purchase, or creator key.
 test('PromptCove homepage, free prompt, and purchase access', async ({ page }) => {
@@ -17,4 +18,5 @@ test('PromptCove homepage, free prompt, and purchase access', async ({ page }) =
   await expect(page.getByRole('button', { name: 'Open full edition' })).toBeEnabled();
   await expect(page.locator('#unlock-form')).toHaveAttribute('action', '/api/activate');
   expect(errors).toEqual([]);
+  await assertPrivateSentryReporting(page);
 });
