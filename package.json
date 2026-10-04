@@ -12,11 +12,16 @@
     "preview": "astro preview",
     "verify:content": "node scripts/verify-content.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check:syntax": "node --check src/scripts/app.js && node --check server/access.mjs && node --check server/handler.mjs"
+    "check:syntax": "node --check src/scripts/app.js && node --check server/access.mjs && node --check server/handler.mjs",
+    "monitoring:deploy": "node scripts/deploy-monitoring.mjs"
   },
   "dependencies": {
     "@vercel/firewall": "^1.2.5",
     "astro": "7.3.5",
     "jose": "^6.2.12"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "checkly": "^9.5.0"
   }
 }
