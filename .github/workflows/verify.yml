@@ -40,3 +40,11 @@ jobs:
 
       - name: Build production site
         run: npm run build
+        env:
+          PUBLIC_SENTRY_DSN: https://public@o4512195501228032.ingest.us.sentry.io/4512195596386304
+
+      - name: Install browser for monitoring verification
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify browser reporting and privacy
+        run: npx playwright test
