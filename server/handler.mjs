@@ -1,3 +1,4 @@
+import { reportServerFailure } from './monitoring.mjs';
 import { checkRateLimit } from '@vercel/firewall';
 import { AccessError, config, invalid, unavailable, verifyLicense, isOwnerKey, sealSession, sealOwnerSession, openSession, sessionCookie, readEdition } from './access.mjs';
 
@@ -34,6 +35,7 @@ export function makeHandler(action, deps = {}) {
   const verify = deps.verify || verifyLicense;
   const limit = deps.limit || rateLimit;
   const load = deps.load || readEdition;
+  const report = deps.report || reportServerFailure;
   const audit = deps.audit || (event => console.info(JSON.stringify(event)));
   return async (req, res) => {
     res.setHeader('Cache-Control', 'private, no-store, max-age=0');
@@ -93,6 +95,9 @@ export function makeHandler(action, deps = {}) {
       if (safe.status === 429 || safe.status === 503) res.setHeader('Retry-After', '60');
       // No raw errors, request bodies, license keys, cookies, emails, or upstream payloads.
       if (safe.status !== 401) audit({ event: 'access_request', action, phase, status: safe.status, code: safe.code });
+      if (safe.status >= 500) {
+        try { await report({ action, phase, status: safe.status }); } catch { /* Keep the access response available. */ }
+      }
       send(safe.status, { error: safe.message, code: safe.code });
     }
   };
