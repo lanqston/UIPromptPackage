@@ -1,6 +1,6 @@
 // Public GA4 measurement ID. Run only on the public production hostname.
 (() => {
-  if (window.location.hostname !== 'digitalpromptpackage.vercel.app') return;
+  if (window.location.hostname !== 'digivated.vercel.app') return;
   if (document.querySelector('script[data-digivated-analytics]')) return;
   const measurementId = 'G-BRXWQ313J5';
   window.dataLayer = window.dataLayer || [];

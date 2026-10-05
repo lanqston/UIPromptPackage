@@ -40,7 +40,7 @@ export function makeSubmissionHandler(deps={}) {
     try {
       if(req.method!=='POST'){res.setHeader('Allow','POST');throw new SubmissionError(405,'Use the project submission form.');}
       const env=deps.env||process.env;
-      const origin=env.SUBMISSIONS_ORIGIN||'https://digitalpromptpackage.vercel.app';
+      const origin=env.SUBMISSIONS_ORIGIN||'https://digivated.vercel.app';
       if(req.headers.origin!==origin||req.headers['sec-fetch-site']==='cross-site')throw new SubmissionError(403,'Open the submission form on Digivated and try again.');
       if(!/^application\/json(?:;|$)/i.test(req.headers['content-type']||''))throw new SubmissionError(415,'Use the project submission form.');
       const max=710000;

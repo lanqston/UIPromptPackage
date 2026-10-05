@@ -14,7 +14,7 @@ export function adminConfig(env = process.env) {
   const hash = env.DIGIVATED_ADMIN_PASSWORD_HASH;
   const secret = env.DIGIVATED_ADMIN_SESSION_SECRET;
   let origin;
-  try { origin = new URL(env.DIGIVATED_ADMIN_ORIGIN || env.SUBMISSIONS_ORIGIN || 'https://digitalpromptpackage.vercel.app'); } catch { /* fail closed below */ }
+  try { origin = new URL(env.DIGIVATED_ADMIN_ORIGIN || env.SUBMISSIONS_ORIGIN || 'https://digivated.vercel.app'); } catch { /* fail closed below */ }
   const testLocal = env.NODE_ENV === 'test' && env.VERCEL !== '1' && origin?.hostname === '127.0.0.1';
   if (!/^scrypt:[a-f0-9]{32}:[a-f0-9]{128}$/.test(hash || '') || !/^[a-f0-9]{64}$/.test(secret || '') || !origin || (origin.protocol !== 'https:' && !testLocal) || origin.pathname !== '/' || origin.search || origin.hash || origin.username || origin.password) {
     throw new AdminError(503, 'Owner access needs setup. Configure the admin password, session secret, and submission storage in Vercel.');

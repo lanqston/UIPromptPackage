@@ -45,7 +45,7 @@ export function validateEdit(kind, input, previous) {
     } else {
       const url = text(input.url, 'product URL', 500);
       const destination = safeUrl(url) ? new URL(url) : null;
-      const protectedPacket = destination && ((destination.hostname === 'mccovery.gumroad.com' && destination.pathname.replace(/\/$/, '') === '/l/ui-prompt-package') || (destination.hostname === 'digitalpromptpackage.vercel.app' && destination.pathname.replace(/\/$/, '') === '/ui-ux-prompt-packet'));
+      const protectedPacket = destination && ((destination.hostname === 'mccovery.gumroad.com' && destination.pathname.replace(/\/$/, '') === '/l/ui-prompt-package') || (['digitalpromptpackage.vercel.app', 'digivated.vercel.app'].includes(destination.hostname) && destination.pathname.replace(/\/$/, '') === '/ui-ux-prompt-packet'));
       if (!destination || protectedPacket) throw new AdminError(400, 'Use the existing page for a different product. The UI/UX Prompt Packet is managed separately.');
       record = { ...record, name: text(input.name, 'product name', 120), url: safeUrl(url), label: text(input.label || '', 'product label', 160, false) };
     }

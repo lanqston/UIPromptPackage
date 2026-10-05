@@ -10,7 +10,7 @@ The existing backend has no database. This adds one small Vercel Node function u
 
 - `SUBMISSIONS_REDIS_REST_URL`: its HTTPS REST endpoint.
 - `SUBMISSIONS_REDIS_REST_TOKEN`: its write-capable REST token. Never use a PUBLIC_ prefix.
-- `SUBMISSIONS_ORIGIN`: optional exact HTTPS origin; defaults to `https://digitalpromptpackage.vercel.app`. Set the specific preview origin for preview testing with a separate test database.
+- `SUBMISSIONS_ORIGIN`: optional exact HTTPS origin; defaults to `https://digivated.vercel.app`. Set the specific preview origin for preview testing with a separate test database.
 
 Do not rename, reuse, or modify payment variables. Redeploy through the existing Vercel project. No infrastructure was provisioned by this change. Until configured, valid submissions return a clear unavailable response and retain the user's form. A successful UI receipt is shown only after storage confirms the write. There is no email notification service.
 

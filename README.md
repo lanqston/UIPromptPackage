@@ -37,6 +37,6 @@ The source import/sealing scripts still operate on ignored `.private/` input and
 
 ## Hosting
 
-Existing production: https://digitalpromptpackage.vercel.app. Main is connected to Vercel; review the latest production-release entry in `docs/GUMROAD-LAUNCH.md` before making deployment changes. `.env.example` lists required server configuration without secrets. Backend access fails closed by default.
+Existing production: https://digivated.vercel.app. Main is connected to Vercel; review the latest production-release entry in `docs/GUMROAD-LAUNCH.md` before making deployment changes. `.env.example` lists required server configuration without secrets. Backend access fails closed by default.
 
 `RECOVERY-CHECKPOINT.md` and `REFINEMENT-CHECKPOINT.md` are historical; the launch runbook supersedes their shared-key access descriptions.
