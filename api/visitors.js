@@ -11,7 +11,9 @@ export default async function handler(req, res) {
     }
     res.setHeader('Cache-Control', 'public, max-age=300, s-maxage=3600');
     return res.status(200).json(cached.value);
-  } catch {
+  } catch (error) {
+    const code = error.reportingCode || (error.name === 'TimeoutError' ? 'TIMEOUT' : 'REPORTING_FAILED');
+    console.error('visitor_reporting_error', code);
     res.setHeader('Cache-Control', 'no-store');
     return res.status(503).json({ status: 'unavailable' });
   }

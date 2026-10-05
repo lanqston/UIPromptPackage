@@ -24,5 +24,11 @@ test('uses deduplicated period total and fills daily gaps in property timezone',
   assert.deepEqual(requests[0].dateRanges, [{ startDate: '30daysAgo', endDate: 'yesterday' }]);
 });
 test('Google authentication failure cannot be mistaken for zero visitors', async () => {
-  await assert.rejects(getVisitorReport({ env, fetcher: async () => ({ ok: false }) }), /authentication failed/);
+  await assert.rejects(getVisitorReport({ env, fetcher: async () => ({ ok: false, status: 400, json: async () => ({ error: 'invalid_grant', error_description: 'private detail' }) }) }), error => error.reportingCode === 'AUTH_invalid_grant' && !error.message.includes('private detail'));
+});
+test('API enablement failures have a safe diagnostic category', async () => {
+  const fetcher = async url => url.includes('oauth2')
+    ? { ok: true, json: async () => ({ access_token: 'private token' }) }
+    : { ok: false, status: 403, json: async () => ({ error: { status: 'PERMISSION_DENIED', message: 'private detail', details: [{ reason: 'SERVICE_DISABLED' }] } }) };
+  await assert.rejects(getVisitorReport({ env, fetcher }), error => error.reportingCode === 'REPORT_SERVICE_DISABLED' && !error.message.includes('private'));
 });
