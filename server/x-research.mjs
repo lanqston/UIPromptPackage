@@ -41,7 +41,7 @@ export function makeAgent(env, redis, fetcher = fetch) {
     const body = { model: env.XAI_MODEL || MODEL, store: false, max_output_tokens: 5000,
       input: [{ role: 'system', content: SYSTEM }, { role: 'user', content: prompt }] };
     if (search) { body.tools = [{ type: 'x_search', from_date: new Date(Date.now()-7*86400000).toISOString().slice(0,10), to_date: today }]; body.max_tool_calls = 2; }
-    const response = await fetcher('https://api.x.ai/v1/responses', { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(55000),
+    const response = await fetcher('https://api.x.ai/v1/responses', { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(search ? 120000 : 45000),
       headers: { Authorization: `Bearer ${env.XAI_API_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!response.ok) throw new Error(`Grok HTTP ${response.status}`);
     const result = await response.json();

@@ -6,7 +6,7 @@
   "outputDirectory": "dist",
   "functions": {
     "api/x-research.js": {
-      "maxDuration": 300
+      "maxDuration": 600
     },
     "api/x-publish.js": {
       "maxDuration": 120
