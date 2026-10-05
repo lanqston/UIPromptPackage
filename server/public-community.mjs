@@ -1,3 +1,4 @@
+import { withProjectViews } from './project-views.mjs';
 import { redisClient } from './submissions.mjs';
 import { publicRecords, validId, storageKey } from './admin-store.mjs';
 export function makePublicHandler(type, deps = {}) {
@@ -22,7 +23,10 @@ export function makePublicHandler(type, deps = {}) {
         if (!validId(id)) return send(404, { error: 'Not found.' });
         const raw = await redis(['GET', `digivated:public:${kind}:${id}`]);
         if (!raw) return send(404, { error: 'Not found.' });
-        if (!url.searchParams.has('image')) return send(200, { item: JSON.parse(raw) });
+        if (!url.searchParams.has('image')) {
+          const item = JSON.parse(raw);
+          return send(200, { item: kind === 'submission' ? (await withProjectViews(redis, [item]))[0] : item });
+        }
         const privateRaw = await redis(['GET', storageKey(kind, id)]);
         const record = privateRaw ? JSON.parse(privateRaw) : null;
         const published = kind === 'submission' ? record?.consent === true && ['approved', 'featured'].includes(record.status) : record?.status === 'published';
@@ -34,11 +38,12 @@ export function makePublicHandler(type, deps = {}) {
       if (type === 'projects' && url.searchParams.get('view') === 'featured') {
         const featuredId = await redis(['GET', 'digivated:featured']);
         const raw = featuredId ? await redis(['GET', `digivated:public:submission:${featuredId}`]) : null;
-        return send(200, { items: raw ? [JSON.parse(raw)] : [], next: null });
+        return send(200, { items: await withProjectViews(redis, raw ? [JSON.parse(raw)] : []), next: null });
       }
       const offset = Number(url.searchParams.get('offset') || 0);
       if (!Number.isInteger(offset) || offset < 0 || offset > 100000) return send(400, { error: 'Invalid page.' });
-      const items = await publicRecords(redis, kind, offset);
+      let items = await publicRecords(redis, kind, offset);
+      if (kind === 'submission') items = await withProjectViews(redis, items);
       // Article bodies are fetched only on the detail page.
       return send(200, { items: items.map(({ content, ...item }) => item), next: items.length === 100 ? offset + 100 : null });
     } catch { return send(503, { error: 'This collection is temporarily unavailable. Please try again shortly.' }); }

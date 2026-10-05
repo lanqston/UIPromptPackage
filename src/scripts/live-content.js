@@ -1,11 +1,13 @@
+import { observeProjectViews, viewLabel } from './project-views.js';
 import { safeUrl } from '../data/community.mjs';
 const el=(tag,text,className)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;};
 function link(text,url){const node=el('a',text);node.href=url.startsWith('/')?url:safeUrl(url);if(!url.startsWith('/')){node.target='_blank';node.rel='noopener noreferrer';}return node;}
 function thumbnail(url,alt){const img=el('img');img.src=url;img.alt=alt;img.width=640;img.height=400;img.loading='lazy';return img;}
 function projectCard(project){
- const card=el('article',undefined,'project-card');card.dataset.project='';card.dataset.category=project.category;card.dataset.featured=String(project.status==='featured');card.dataset.pick=String(project.pick===true);card.dataset.search=`${project.name} ${project.creator} ${project.description} ${project.category}`.toLowerCase();
+ const card=el('article',undefined,'project-card');card.dataset.project='';card.dataset.projectId=project.id;card.dataset.category=project.category;card.dataset.featured=String(project.status==='featured');card.dataset.pick=String(project.pick===true);card.dataset.search=`${project.name} ${project.creator} ${project.description} ${project.category}`.toLowerCase();
  const image=el('div',undefined,'project-image');image.append(project.image?thumbnail(project.image,`${project.name} project preview`):el('span',project.category,'tiny'));
  const copy=el('div',undefined,'project-copy');copy.append(el('span',project.category,'tag'),el('h3',project.name),el('p',`By ${project.creator}`,'quiet'),el('p',project.description));
+ const views=el('p',viewLabel(project.views),'quiet');views.dataset.projectViews=project.id;views.title='Approximate project card views on Digivated. Repeat views from the same network count once every 24 hours.';copy.append(views);
  const actions=el('div',undefined,'card-links');actions.append(link('Visit Project →',project.url));if(project.socialUrl)actions.append(link('Creator →',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
 }
 function resourceCard(resource){
@@ -28,6 +30,7 @@ async function loadProjects(){
   const projects=await collection('/api/projects');
   for(const shelf of shelves){const mode=shelf.dataset.liveProjects;let selected=projects;if(mode==='featured')selected=projects.filter(p=>p.status==='featured');if(mode==='picks')selected=projects.filter(p=>p.pick);renderShelf(shelf,selected,projectCard);}
   document.dispatchEvent(new Event('digivated:collection-updated'));
+  observeProjectViews();
  }catch{for(const shelf of shelves){const status=shelf.querySelector('[data-live-status]');if(status)status.textContent='Projects are temporarily unavailable. Please try again shortly.';}}
 }
 async function loadResources(){
