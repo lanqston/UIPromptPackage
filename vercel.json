@@ -5,12 +5,12 @@
   "buildCommand": "npm run build && npm run monitoring:deploy && node scripts/verify-sentry.mjs && node scripts/verify-grok.mjs",
   "outputDirectory": "dist",
   "functions": {
+    "api/x-research.js": {
+      "maxDuration": 300
+    },
     "api/*.js": {
       "includeFiles": "server/edition.enc.json",
       "maxDuration": 15
-    },
-    "api/x-research.js": {
-      "maxDuration": 300
     }
   },
   "headers": [
