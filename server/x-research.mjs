@@ -59,7 +59,7 @@ export async function runResearch(redis, agent, clock = Date.now) {
   const report = { day, period, status: 'running', added: 0, startedAt: new Date(clock()).toISOString(), postingEnabled: false, usage: [] };
   await redis(['SET', `${PREFIX}latest`, JSON.stringify(report)]);
   try {
-    let candidates = await agent('scout', `Find up to seven actual posts from the last seven days (prefer 48 hours) explicitly inviting professional connections in these niches: ${JSON.stringify(NICHES)}. Exclude bios-only invitations, giveaways, sales pitches, token promotions and engagement exchanges. Read each post. Return a JSON array with url, author, text (exact full text), created_at (ISO timestamp with timezone), invitation_excerpt (exact substring), niche (exactly one supplied niche). Exclude inaccessible or undated posts. Current UTC time: ${new Date(clock()).toISOString()}.`, true, report.usage);
+    let candidates = await agent('scout', `Find up to seven actual posts from the last seven days (prefer 48 hours) explicitly inviting professional connections. Target posts like: "I want more builders on my timeline. If you are working on AI/ML, SaaS, AI agents, dev tools or startups, tell me what you are building. Let us connect." Search multiple combinations of builder, indie hacker, SaaS, AI agents, designers and developers with "let\'s connect", "looking to connect", "more builders on my timeline" or "who wants to connect". Invitations to introduce a project are eligible; exclude requests to exchange likes, follows or reposts. Map SaaS, AI agents and dev tools to the closest supplied niche. Niches: ${JSON.stringify(NICHES)}. Exclude bios-only invitations, giveaways, sales pitches, token promotions and engagement exchanges. Read each post. Return a JSON array with url, author, text (exact full text), created_at (ISO timestamp with timezone), invitation_excerpt (exact substring), niche (exactly one supplied niche). Exclude inaccessible or undated posts. Current UTC time: ${new Date(clock()).toISOString()}.`, true, report.usage);
     if (!Array.isArray(candidates)) throw new Error('Invalid scout output');
     candidates = candidates.slice(0,7).filter(c => validCandidate(c, clock()));
     const unique = [];
@@ -77,7 +77,7 @@ export async function runResearch(redis, agent, clock = Date.now) {
       candidates = candidates.filter(c => checks.some(v => v.url === c.url && v.verified === true));
     }
     if (candidates.length) {
-      const drafts = await agent('writer', `Return an array of {url, reply} for these posts. Use one concise observation specific to the actual post, followed by a natural invitation to connect. Never rotate generic wording merely to evade detection. Do not claim experiences or interests that are not established. Stay under 200 characters. No invented familiarity, links, promotional claims or engagement bait. Candidate data: ${JSON.stringify(candidates)}`, false, report.usage);
+      const drafts = await agent('writer', `Return an array of {url, reply} for these posts. Keep replies short and friendly, usually 5–20 words, ending naturally with "Let’s connect 🤝". Where useful acknowledge the niche, for example "Always up for connecting with fellow builders. Let’s connect 🤝". Never invent what Digivated is building or claim an unsupported identity or expertise. Never rotate generic wording merely to evade detection. Do not claim experiences or interests that are not established. Stay under 200 characters. No invented familiarity, links, promotional claims or engagement bait. Candidate data: ${JSON.stringify(candidates)}`, false, report.usage);
       if (!Array.isArray(drafts)) throw new Error('Invalid writer output');
       const proposed = candidates.map(c => ({ ...c, reply: drafts.find(d => d.url === c.url)?.reply })).filter(c => typeof c.reply === 'string' && c.reply.trim() && c.reply.length <= 240);
       if (proposed.length) {
@@ -94,8 +94,9 @@ export async function runResearch(redis, agent, clock = Date.now) {
   } catch (error) {
     report.status = 'failed';
     // Only allow known internal error labels into storage/logs.
-    report.error = /^(Grok HTTP \d{3}|Grok key missing|Research paused)$/.test(error.message || '') ? error.message : 'Research failed; no automatic retry. Check provider access or output.';
+    report.error = /^(Grok HTTP \d{3}|Grok key missing|Research paused|Incomplete Grok response|Invalid scout output|Invalid verifier output|Invalid writer output|Invalid reviewer output)$/.test(error.message || '') ? error.message : 'Research failed; no automatic retry. Check provider access or output.';
   }
+  console.info(JSON.stringify({event:'x_research_result',status:report.status,added:report.added,error:report.error || null}));
   report.finishedAt = new Date(clock()).toISOString();
   await redis(['SET', `${PREFIX}latest`, JSON.stringify(report)]);
   return report;
