@@ -4,9 +4,9 @@ The home page card reads `/api/visitors`. It shows unique users for the last 30 
 
 To connect real data:
 
-1. Create or use a Google Analytics 4 property collecting this site's traffic.
+1. Use the Digivated Google Analytics 4 property. The production site now loads measurement ID `G-BRXWQ313J5` through `public/analytics.js`.
 2. Enable Google Analytics Data API in the service account's Google Cloud project.
 3. Grant that service account Viewer access in GA4 Property Access Management.
 4. Add `GA4_PROPERTY_ID` (numeric property ID), `GA4_CLIENT_EMAIL`, and `GA4_PRIVATE_KEY` to the production Vercel environment and redeploy. The PEM key accepts real newlines or escaped `\n` characters.
 
-The API returns aggregate counts only. Credentials stay on the server. This implementation reads GA4 reports; it does not install a tracking tag or begin collecting visitor data. A GA4 collection setup must already be connected to this site before reports can contain visits. Until configuration is supplied, the card displays an em dash and “Visitor analytics coming soon.” Google reporting may lag; it is not a realtime counter.
+The API returns aggregate counts only. Credentials stay on the server. Tracking is installed on the public production hostname only. The tag strips URL query strings and fragments from page locations and referrers, and disables Google Signals and advertising personalization. The site CSP allows the Google tag and Analytics collection endpoints. Report display still requires the separate read-only credentials above. Until configuration is supplied, the card displays an em dash and “Visitor analytics coming soon.” Google reporting may lag; it is not a realtime counter.

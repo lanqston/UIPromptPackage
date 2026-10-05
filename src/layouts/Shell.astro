@@ -16,6 +16,7 @@ const previewImage=`${siteUrl}/digivated-logo-site.jpg`;
 <div class="shell"><aside id="site-navigation"><nav aria-label="Main navigation"><a href="/" aria-current={section==='home'?'page':undefined}>Home</a>{links.map(([slug,label])=><a href={'/'+slug} aria-current={section===slug?'page':undefined}>{label}</a>)}</nav><a class="return-access" href="/access">Already purchased? Activate your packet</a><div class="side-note"><span class="tiny">NEW TO AI PROMPTS?</span><p>Start with one screen and one thing to improve.</p><a href="/start">Follow the quick guide</a></div></aside>
 <main id="main" tabindex="-1"><slot/></main></div><footer><a class="footer-brand" href="/">UI Prompt Package</a><span>Made by Langston McCovery</span><a class="footer-social" href="https://www.threads.com/@digivated" target="_blank" rel="noopener noreferrer" aria-label="Digivated on Threads, @digivated"><span class="footer-logo-wrap"><img class="footer-logo" src="/digivated-logo-site.jpg?v=5" width="34" height="34" alt=""/></span>@digivated</a><div class="footer-links"><a href="https://mccovery.gumroad.com/l/ui-prompt-package">Buy the packet</a><a href="/about">About Langston</a><a href="/start">Start Here</a><a href="/access">Access & privacy</a></div></footer>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script is:inline src="/analytics.js"></script>
 <script>import '../scripts/monitoring.js'; import '../scripts/app.js';</script>
 <style>
 .brand-logo-wrap{display:block;width:43px;height:43px;overflow:hidden;flex:none;border-radius:12px;background:#fff}

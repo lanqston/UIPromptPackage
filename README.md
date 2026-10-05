@@ -31,7 +31,7 @@ Astro creates 12 public static pages in `dist/`. Paid content is not in those pa
 - `EDITION_KEY`: server-only decryption key. The old browser shared-key flow is removed and legacy sessionStorage keys are cleared.
 - Gumroad license → live server verification → encrypted HttpOnly cookie → live verification again on each paid fetch. No account/email linking, local entitlement database or notification receiver.
 - Notes/progress/favorites remain in localStorage with existing export/import. Neither paid content nor licenses are included in backups.
-- No AI API calls or third-party analytics were added.
+- No AI API calls are used. Production visitor analytics uses Google Analytics 4; see `docs/visitor-analytics.md` for collection and reporting setup.
 
 The source import/sealing scripts still operate on ignored `.private/` input and write server ciphertext. Keep its key securely backed up separately.
 
