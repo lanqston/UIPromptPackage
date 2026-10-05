@@ -27,6 +27,6 @@ for(const width of [375,768,1440])test(`visible card counts persist safely at ${
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:test.info().outputPath(`project-views-${width}.png`),fullPage:true});
  await page.goto(base);await expect(page.locator('[data-project-id]')).toHaveCount(3);await page.locator('[data-project-id]').first().scrollIntoViewIfNeeded();await expect.poll(()=>writes).toBe(3);await expect(page.locator('[data-project-views]')).toHaveText(['1 view','1 view','1 view']);
- await page.route('**/api/project-views?*',r=>r.fulfill({status:503,json:{error:'offline'}}));await page.goto(base+'/discover');await card.scrollIntoViewIfNeeded();await card.getByRole('link',{name:'Visit Project →'}).click({trial:true});
+ await page.route('**/api/project-views?*',r=>r.fulfill({status:503,json:{error:'offline'}}));await page.goto(base+'/discover');await card.scrollIntoViewIfNeeded();await card.getByRole('link',{name:'Visit Project'}).click({trial:true});
  expect(errors).toEqual([]);await redis(['FLUSHDB']);
 });
