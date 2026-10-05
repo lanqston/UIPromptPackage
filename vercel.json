@@ -2,9 +2,12 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
   "installCommand": "npm ci",
-  "buildCommand": "npm run build && npm run monitoring:deploy && node scripts/verify-sentry.mjs",
+  "buildCommand": "npm run build && npm run monitoring:deploy && node scripts/verify-sentry.mjs && node scripts/verify-grok.mjs",
   "outputDirectory": "dist",
   "functions": {
+    "api/x-research.js": {
+      "maxDuration": 300
+    },
     "api/*.js": {
       "includeFiles": "server/edition.enc.json",
       "maxDuration": 15
@@ -48,6 +51,12 @@
       ],
       "destination": "https://digivated.vercel.app/:path*",
       "permanent": true
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/x-research",
+      "schedule": "0 9 * * *"
     }
   ]
 }
