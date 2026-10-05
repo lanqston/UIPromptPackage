@@ -6,7 +6,7 @@ for(const width of [390,430,1280])test(`refined controls and layouts at ${width}
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/api/**',async route=>{const url=new URL(route.request().url());if(url.pathname==='/api/projects')return route.fulfill({json:{items:projects,next:null}});if(url.pathname==='/api/project-views')return route.fulfill({json:{views:12}});if(url.pathname==='/api/content')return route.fulfill({json:url.searchParams.has('id')?{item:resources.find(r=>r.id===url.searchParams.get('id'))}:{items:resources,next:null}});return route.fulfill({json:{status:'unconfigured'}});});
  await page.setViewportSize({width,height:900});await page.goto(base);
- const plus=page.getByRole('link',{name:'Submit your project to Digivated',exact:true});await expect(plus).toHaveAttribute('href','/submit-project');await plus.click({trial:true});
+ const submit=page.locator('.hero-copy').getByRole('link',{name:'Submit Your Project',exact:true});await expect(submit).toHaveAttribute('href','/submit-project');await submit.click({trial:true});
  await expect(page.locator('[data-live-projects=featured] .card-links .button')).toHaveAttribute('href','https://example.com/');
  await page.screenshot({path:test.info().outputPath(`home-${width}.png`),fullPage:true});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:test.info().outputPath(`hero-${width}.png`)});
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
