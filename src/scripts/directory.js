@@ -3,8 +3,8 @@ if (directory) {
   const search = document.getElementById('directory-search');
   const category = document.getElementById('directory-category');
   const view = document.getElementById('directory-view');
-  const cards = [...document.querySelectorAll(directory.dataset.directory === 'projects' ? '[data-project]' : '[data-resource]')];
   const update = () => {
+    const cards = [...document.querySelectorAll(directory.dataset.directory === 'projects' ? '[data-project]' : '[data-resource]')];
     let count = 0;
     const query = search.value.trim().toLowerCase();
     for (const card of cards) {
@@ -24,5 +24,6 @@ if (directory) {
   search.addEventListener('input', update);
   category.addEventListener('change', update);
   view?.addEventListener('change', update);
+  document.addEventListener('digivated:collection-updated', update);
   update();
 }

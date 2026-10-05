@@ -1,5 +1,7 @@
 # Validation report — October 5, 2026
 
+This records the first platform implementation. The subsequent owner-dashboard implementation and its additional checks are documented in `DIGIVATED-ADMIN-VALIDATION.md` and supersede the earlier CLI-only management limitations below.
+
 Baseline: `e5d1aa39a70e505b4946eda3413a14b1122045cf` on the existing `lanqston/UIPromptPackage` repository. No production merge or deployment was performed during implementation.
 
 ## Passed

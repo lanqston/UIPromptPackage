@@ -1,5 +1,7 @@
 # Digivated platform maintenance
 
+**Update: owner dashboard added.** Use `/admin` to review submissions, publish articles, and manage additional products. Read [the current dashboard guide](DIGIVATED-ADMIN.md) for setup and daily management. Dashboard publication updates the database-backed public pages immediately; the export/deploy and JSON editing instructions below describe the earlier implementation and are retained only as historical context.
+
 The existing Astro/Vercel architecture and payment infrastructure are preserved. Only the original homepage and About source are replaced. Exact copies remain at `/ui-ux-prompt-packet` and `/about-langston`. The existing product Shell, product styles, license activation, paid content, and all old product/tool URLs remain intact. New pages share the isolated Platform layout and footer.
 
 ## Submission setup (required before accepting real submissions)
