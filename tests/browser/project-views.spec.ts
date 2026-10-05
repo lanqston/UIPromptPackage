@@ -1,0 +1,32 @@
+import { test, expect } from '@playwright/test';
+import { testRedis } from '../helpers/redis.mjs';
+import { makePublicHandler } from '../../server/public-community.mjs';
+import { makeProjectViewHandler } from '../../server/project-views.mjs';
+const base='http://127.0.0.1:4321';
+test.describe.configure({mode:'serial'});
+test.skip(!process.env.DIGIVATED_TEST_REDIS_PORT,'Requires isolated local Redis.');
+for(const width of [375,768,1440])test(`visible card counts persist safely at ${width}px`,async({page})=>{
+ const redis=testRedis(11);await redis(['FLUSHDB']);
+ const project={id:'view-fixture',name:'View fixture',creator:'Test creator',category:'Apps',description:'A test project used only by the local browser verification.',url:'https://example.com',status:'featured',pick:true};
+ await redis(['SET','digivated:public:submission:view-fixture',JSON.stringify(project)]);await redis(['ZADD','digivated:public:submissions',1,project.id]);
+ const handlers={'/api/projects':makePublicHandler('projects',{redis}),'/api/project-views':makeProjectViewHandler({redis,env:{SUBMISSIONS_ORIGIN:base}})};
+ let writes=0;const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route('**/api/**',async route=>{
+  const url=new URL(route.request().url());const handler=handlers[url.pathname];
+  if(!handler)return route.fulfill({json:{items:[],next:null}});
+  if(url.pathname==='/api/project-views')writes++;
+  let status=200,body='';const headers:Record<string,string>={};
+  await handler({method:route.request().method(),url:url.pathname+url.search,headers:{...await route.request().allHeaders(),'user-agent':'Mozilla/5.0','x-real-ip':'192.0.2.10'}},{set statusCode(v:number){status=v;},setHeader(k:string,v:string){headers[k]=v;},end(v:string){body=v;}});
+  await route.fulfill({status,headers,body});
+ });
+ await page.setViewportSize({width,height:900});await page.goto(base+'/discover');
+ const card=page.locator('[data-project-id]');await expect(card).toHaveCount(1);
+ await page.getByLabel('Search projects').fill('no matches');await page.waitForTimeout(1200);expect(writes).toBe(0);
+ await page.getByLabel('Search projects').fill('View fixture');await card.scrollIntoViewIfNeeded();await expect(card.locator('[data-project-views]')).toHaveText('1 view');
+ await page.reload();await card.scrollIntoViewIfNeeded();await expect.poll(()=>writes).toBe(2);await expect(card.locator('[data-project-views]')).toHaveText('1 view');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.screenshot({path:test.info().outputPath(`project-views-${width}.png`),fullPage:true});
+ await page.goto(base);await expect(page.locator('[data-project-id]')).toHaveCount(3);await page.locator('[data-project-id]').first().scrollIntoViewIfNeeded();await expect.poll(()=>writes).toBe(3);await expect(page.locator('[data-project-views]')).toHaveText(['1 view','1 view','1 view']);
+ await page.route('**/api/project-views?*',r=>r.fulfill({status:503,json:{error:'offline'}}));await page.goto(base+'/discover');await card.scrollIntoViewIfNeeded();await card.getByRole('link',{name:'Visit Project →'}).click({trial:true});
+ expect(errors).toEqual([]);await redis(['FLUSHDB']);
+});
