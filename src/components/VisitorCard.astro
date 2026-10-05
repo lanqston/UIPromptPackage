@@ -2,7 +2,7 @@
   <h2 id="visitors-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m3 17 6-6 4 4 8-10M15 5h6v6"/></svg>Monthly visitors</h2>
   <p class="visitor-count" data-visitor-count>—</p>
   <p class="visitor-period">Last 30 complete days</p>
-  <div class="visitor-chart"><svg data-visitor-chart viewBox="0 0 600 100" preserveAspectRatio="none" role="img" aria-label="Daily visitor trend" hidden><polyline fill="none" stroke="#7e8745" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+  <div class="visitor-chart" hidden><svg data-visitor-chart viewBox="0 0 600 100" preserveAspectRatio="none" role="img" aria-label="Daily visitor trend" hidden><polyline fill="none" stroke="#7e8745" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
   <p class="visitor-source" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-visitor-check hidden><path d="m5 12 4 4L19 6"/></svg><span data-visitor-status>Loading visitor data…</span></p>
 </section>
 <script>
@@ -19,6 +19,7 @@
       const max = Math.max(1, ...data.daily.map(point => point.visitors));
       chart.querySelector('polyline').setAttribute('points', data.daily.map((point, index) => `${4 + index * 592 / 29},${92 - point.visitors / max * 80}`).join(' '));
       chart.removeAttribute('hidden');
+      card.querySelector('.visitor-chart').removeAttribute('hidden');
       card.querySelector('[data-visitor-check]').removeAttribute('hidden');
       status.textContent = 'Measured by Google Analytics';
       status.title = `Unique visitors · ${data.startDate} to ${data.endDate} · Updated ${new Date(data.updatedAt).toLocaleString()}`;
