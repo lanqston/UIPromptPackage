@@ -100,7 +100,7 @@ export function makeXConnectHandler(deps = {}) {
         const raw = await redis(['GET', CONNECTION]);
         const record = raw ? unseal(raw, cfg.encryption) : null;
         return send(200, { connected: Boolean(record), username: record?.username || null,
-          accessTokenExpired: record ? record.expiresAt <= Date.now() : null, postingEnabled: false });
+          accessTokenExpired: record ? record.expiresAt <= Date.now() : null, postingEnabled: env.X_AUTO_REPLY_ENABLED === 'true' && await redis(['GET', 'digivated:private:x-publish:paused']) !== '1' });
       }
       if (req.method !== 'POST' || url.search) throw new AdminError(400, 'Invalid connection request.');
       if (req.headers['x-admin-csrf'] !== session.csrf) throw new AdminError(403, 'Refresh the page before connecting.');

@@ -1,6 +1,6 @@
 # Owner X connection
 
-This change adds account authorization only. It does not publish posts, run Grok agents or refresh tokens in the background.
+This module provides account authorization and private token storage. Separate research and publisher workers use the connection; see x-publisher.md.
 
 ## X developer console
 
@@ -23,8 +23,8 @@ After deployment and configuration, sign into `/admin`, open `/connect-x.html`, 
 
 OAuth uses PKCE S256, 10-minute one-time state, a browser-binding HttpOnly Secure cookie, owner session validation, same-origin POST/CSRF checks, and AES-256-GCM token encryption. Read/write and offline scopes prepare the connection for future authorized account operations; no publishing endpoint is included.
 
-Revocation: remove this app through X's connected-app settings. The local connection status reflects stored credentials, not a live token check; reconnect after revocation or expiry. Automated refresh and revocation synchronization are future work before any unattended worker uses this connection.
+Revocation: remove this app through X's connected-app settings. The local connection status reflects stored credentials, not a live token check; reconnect after revocation or expiry. The publisher refreshes expired access tokens and halts on API/token failures.
 
-An X connection does not confer approval for AI reply automation or establish recipient opt-in. The existing research prototype is not wired to this record.
+An X connection does not confer approval for AI reply automation or establish recipient opt-in. The research worker does not use this record; the separately enabled publisher does.
 
 Validation: `node --test tests/x-connect.test.mjs`. Tests use mock Redis and mock X responses; real OAuth still requires the owner's client credentials and browser authorization. Never put credentials, authorization codes or token responses into source, monitoring events or screenshots.

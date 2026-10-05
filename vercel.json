@@ -2,11 +2,14 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
   "installCommand": "npm ci",
-  "buildCommand": "npm run build && npm run monitoring:deploy && node scripts/verify-sentry.mjs && node scripts/verify-grok.mjs",
+  "buildCommand": "npm run build && npm run monitoring:deploy && node scripts/verify-sentry.mjs && node scripts/verify-grok.mjs && node scripts/verify-x-publisher.mjs",
   "outputDirectory": "dist",
   "functions": {
     "api/x-research.js": {
       "maxDuration": 300
+    },
+    "api/x-publish.js": {
+      "maxDuration": 120
     },
     "api/*.js": {
       "includeFiles": "server/edition.enc.json",
@@ -56,7 +59,11 @@
   "crons": [
     {
       "path": "/api/x-research",
-      "schedule": "0 9 * * *"
+      "schedule": "1 * * * *"
+    },
+    {
+      "path": "/api/x-publish",
+      "schedule": "0,9,18,27,36,45,54 * * * *"
     }
   ]
 }
