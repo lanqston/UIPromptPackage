@@ -94,7 +94,7 @@ export async function runResearch(redis, agent, clock = Date.now) {
   } catch (error) {
     report.status = 'failed';
     // Only allow known internal error labels into storage/logs.
-    report.error = /^(Grok HTTP \d{3}|Grok key missing|Research paused|Incomplete Grok response|Invalid scout output|Invalid verifier output|Invalid writer output|Invalid reviewer output)$/.test(error.message || '') ? error.message : 'Research failed; no automatic retry. Check provider access or output.';
+    report.error = error.name === 'TimeoutError' || error.name === 'AbortError' ? 'Grok request timed out' : error instanceof SyntaxError ? 'Grok returned invalid JSON' : /^(Grok HTTP \d{3}|Grok key missing|Research paused|Incomplete Grok response|Invalid scout output|Invalid verifier output|Invalid writer output|Invalid reviewer output)$/.test(error.message || '') ? error.message : 'Research failed; no automatic retry. Check provider access or output.';
   }
   console.info(JSON.stringify({event:'x_research_result',status:report.status,added:report.added,error:report.error || null}));
   report.finishedAt = new Date(clock()).toISOString();
