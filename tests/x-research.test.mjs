@@ -83,8 +83,8 @@ test('Grok requests never access X publishing API', async () => {
   const s=storage();const usage=[];
   const agent=makeAgent({XAI_API_KEY:'fake'},s.redis,async(url,options)=>{
     assert.equal(url,'https://api.x.ai/v1/responses');assert.equal(options.redirect,'error');
-    const body=JSON.parse(options.body);assert.deepEqual(body.tools.map(t=>t.type),['x_search']);
+    const body=JSON.parse(options.body);assert.equal(body.tools,undefined);
     return {ok:true,json:async()=>({status:'completed',output:[{type:'message',content:[{type:'output_text',text:'[]'}]}],usage:{}})};
   });
-  assert.deepEqual(await agent('scout','research',true,usage),[]);assert.equal(usage.length,1);
+  assert.deepEqual(await agent('writer','draft',false,usage),[]);assert.equal(usage.length,1);
 });

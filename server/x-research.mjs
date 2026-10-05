@@ -1,3 +1,4 @@
+import { searchX, verifyX } from './x-search.mjs';
 import { timingSafeEqual } from 'node:crypto';
 import { AdminError, adminConfig, requireSession, jsonBody } from './admin-auth.mjs';
 import { redisClient } from './submissions.mjs';
@@ -36,6 +37,8 @@ function decode(response) {
 export function makeAgent(env, redis, fetcher = fetch) {
   return async (role, prompt, search, usage) => {
     if (await redis(['GET', `${PREFIX}paused`]) === '1') throw new Error('Research paused');
+    if (role === 'scout') return searchX(env, redis, fetcher);
+    if (role === 'verifier') return verifyX(env, redis, JSON.parse(prompt.split('Candidate data: ')[1]), fetcher);
     if (!env.XAI_API_KEY) throw new Error('Grok key missing');
     const today = new Date().toISOString().slice(0,10);
     const body = { model: env.XAI_MODEL || MODEL, store: false, max_output_tokens: 5000,
@@ -94,7 +97,7 @@ export async function runResearch(redis, agent, clock = Date.now) {
   } catch (error) {
     report.status = 'failed';
     // Only allow known internal error labels into storage/logs.
-    report.error = error.name === 'TimeoutError' || error.name === 'AbortError' ? 'Grok request timed out' : error instanceof SyntaxError ? 'Grok returned invalid JSON' : /^(Grok HTTP \d{3}|Grok key missing|Research paused|Incomplete Grok response|Invalid scout output|Invalid verifier output|Invalid writer output|Invalid reviewer output)$/.test(error.message || '') ? error.message : 'Research failed; no automatic retry. Check provider access or output.';
+    report.error = error.name === 'TimeoutError' || error.name === 'AbortError' ? 'Grok request timed out' : error instanceof SyntaxError ? 'Grok returned invalid JSON' : /^(Grok HTTP \d{3}|X search HTTP \d{3}|X connection busy|Grok key missing|Research paused|Incomplete Grok response|Invalid scout output|Invalid verifier output|Invalid writer output|Invalid reviewer output)$/.test(error.message || '') ? error.message : 'Research failed; no automatic retry. Check provider access or output.';
   }
   console.info(JSON.stringify({event:'x_research_result',status:report.status,added:report.added,error:report.error || null}));
   report.finishedAt = new Date(clock()).toISOString();
