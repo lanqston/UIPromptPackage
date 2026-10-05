@@ -26,4 +26,4 @@ jobs:
       - run: node --test tests/admin.test.mjs tests/project-views.test.mjs
       - run: npm run build
       - run: npx playwright install --with-deps chromium
-      - run: npx playwright test tests/browser/admin.spec.ts tests/browser/project-views.spec.ts
+      - run: npx playwright test tests/browser/admin.spec.ts tests/browser/project-views.spec.ts tests/browser/refinement.spec.ts

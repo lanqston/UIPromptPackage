@@ -1,4 +1,8 @@
 ---
 const { title, description, href, label, compact = false } = Astro.props;
 ---
-<div class:list={['community-empty', { compact }]}><span class="empty-mark" aria-hidden="true">＋</span><h3>{title}</h3><p>{description}</p>{href&&<a class="text-link" href={href}>{label} →</a>}</div>
+<div class:list={['community-empty', { compact }]}>
+  <span class="empty-mark" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="5" y="5" width="24" height="28" rx="5" transform="rotate(-8 17 19)"/><rect x="12" y="10" width="24" height="27" rx="5" fill="var(--paper)"/><path d="M18 18h12M18 24h9M18 30h5"/></svg></span>
+  <h3>{title}</h3><p>{description}</p>
+  {href&&<a class="button" href={href}>{label}</a>}
+</div>

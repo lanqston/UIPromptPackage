@@ -8,15 +8,15 @@ function projectCard(project){
  const image=el('div',undefined,'project-image');image.append(project.image?thumbnail(project.image,`${project.name} project preview`):el('span',project.category,'tiny'));
  const copy=el('div',undefined,'project-copy');copy.append(el('span',project.category,'tag'),el('h3',project.name),el('p',`By ${project.creator}`,'quiet'),el('p',project.description));
  const views=el('p',viewLabel(project.views),'quiet');views.dataset.projectViews=project.id;views.title='Approximate project card views on Digivated. Repeat views from the same network count once every 24 hours.';copy.append(views);
- const actions=el('div',undefined,'card-links');actions.append(link('Visit Project →',project.url));if(project.socialUrl)actions.append(link('Creator →',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
+ const actions=el('div',undefined,'card-links');const visit=link('Visit Project',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
 }
 function resourceCard(resource){
  const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.category=resource.category;card.dataset.search=`${resource.title} ${resource.description} ${resource.category}`.toLowerCase();
- if(resource.coverImage)card.append(thumbnail(resource.coverImage,''));card.append(el('span',resource.category,'tag'));const title=el('h3');title.append(link(resource.title,resource.url));card.append(title,el('p',resource.description),el('p',`${resource.date} · ${resource.readingTime} min read`,'quiet'));return card;
+ if(resource.coverImage)card.append(thumbnail(resource.coverImage,''));card.append(el('span',resource.category,'tag'));const title=el('h3');title.append(link(resource.title,resource.url));card.append(title,el('p',resource.description),el('p',`${resource.date} · ${resource.readingTime} min read`,'quiet'));const read=link('Read Resource',resource.url);read.className='button';card.append(read);return card;
 }
 function productCard(product){
  const card=el('article',undefined,'product-feature');const art=el('div',undefined,'product-art');art.append(product.image?thumbnail(product.image,product.name):el('span','Made by Digivated','tiny'));
- const copy=el('div',undefined,'product-copy');copy.append(el('p','Made by Digivated','eyebrow'),el('h2',product.name),el('p',product.description,'lede'),el('p',product.label,'quiet'));const button=link(`View ${product.name} →`,product.url);button.className='button primary';copy.append(button);card.append(art,copy);return card;
+ const copy=el('div',undefined,'product-copy');copy.append(el('p','Made by Digivated','eyebrow'),el('h2',product.name),el('p',product.description,'lede'),el('p',product.label,'quiet'));const button=link(`View ${product.name}`,product.url);button.className='button primary';copy.append(button);card.append(art,copy);return card;
 }
 async function collection(url){
  const items=[];let offset=0;
