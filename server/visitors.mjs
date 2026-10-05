@@ -23,7 +23,10 @@ export async function getVisitorReport({ env = process.env, fetcher = fetch, now
   const unsigned = `${encode({ alg: 'RS256', typ: 'JWT' })}.${encode({ iss: env.GA4_CLIENT_EMAIL, scope: 'https://www.googleapis.com/auth/analytics.readonly', aud: 'https://oauth2.googleapis.com/token', iat: issuedAt, exp: issuedAt + 3600 })}`;
   let signature;
   try {
-    signature = createSign('RSA-SHA256').update(unsigned).sign(env.GA4_PRIVATE_KEY.replace(/\\n/g, '\n').trim(), 'base64url');
+    let key = env.GA4_PRIVATE_KEY.trim();
+    // Accept the JSON string value as well as an unquoted PEM value.
+    if (key.startsWith('"') && key.endsWith('"')) key = JSON.parse(key);
+    signature = createSign('RSA-SHA256').update(unsigned).sign(key.replace(/\\r/g, '\r').replace(/\\n/g, '\n'), 'base64url');
   } catch {
     throw reportingError('PRIVATE_KEY_FORMAT');
   }

@@ -7,6 +7,14 @@ const env = { GA4_PROPERTY_ID: '123', GA4_CLIENT_EMAIL: 'viewer@example.test', G
 test('missing credentials never return a fabricated visitor count', async () => {
   assert.deepEqual(await getVisitorReport({ env: {}, fetcher: () => { throw new Error('Should not fetch'); } }), { status: 'unconfigured' });
 });
+test('accepts the quoted private_key value copied from Google JSON', async () => {
+  let called = false;
+  await assert.rejects(getVisitorReport({ env: { ...env, GA4_PRIVATE_KEY: JSON.stringify(env.GA4_PRIVATE_KEY) }, fetcher: async () => {
+    called = true;
+    return { ok: false, status: 400, json: async () => ({ error: 'invalid_grant' }) };
+  } }), error => error.reportingCode === 'AUTH_invalid_grant');
+  assert.equal(called, true);
+});
 test('uses deduplicated period total and fills daily gaps in property timezone', async () => {
   const requests = [];
   const fetcher = async (url, options) => {
