@@ -1,0 +1,5 @@
+---
+import EmptyState from './EmptyState.astro';
+const { mode='all', title, description, href, label, compact=false, limit=0, directory=false }=Astro.props;
+---
+<div data-live-projects={mode} data-limit={limit}><div class:list={[mode==='all'?'project-grid':'']} data-live-list hidden></div><div data-live-empty id={directory?'directory-empty':undefined}><EmptyState title={title} description={description} href={href} label={label} compact={compact}/></div><p class="quiet" data-live-status role="status"></p><noscript><p class="quiet">Enable JavaScript to load reviewed community projects.</p></noscript></div>

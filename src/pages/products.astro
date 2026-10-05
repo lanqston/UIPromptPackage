@@ -1,0 +1,6 @@
+---
+import Platform from '../layouts/Platform.astro';
+import ProductCard from '../components/ProductCard.astro';
+import products from '../data/products.json';
+---
+<Platform title="Made by Digivated"><header class="page-intro"><p class="eyebrow">Our own little corner</p><h1>Made by Digivated</h1><p class="lede">Thoughtful digital products to help you move from an idea to something you can build.</p></header><div class="stack">{products.map(product=><ProductCard product={product}/>)}</div><div class="stack additional-products" data-live-products></div><p class="quiet" id="products-status" role="status"></p><script>import '../scripts/live-content.js';</script></Platform>

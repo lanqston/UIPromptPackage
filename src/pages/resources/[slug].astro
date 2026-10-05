@@ -1,0 +1,9 @@
+---
+import Platform from '../../layouts/Platform.astro';
+import ResourceCard from '../../components/ResourceCard.astro';
+import resources from '../../data/resources.json';
+export function getStaticPaths() { return resources.filter(r=>r.status==='published').map(resource=>({params:{slug:resource.slug},props:{resource}})); }
+const {resource}=Astro.props;
+const related=resources.filter(r=>r.status==='published' && resource.related?.includes(r.slug));
+---
+<Platform title={resource.title} description={resource.description}><header class="page-intro"><a href="/resources">← All resources</a><p class="eyebrow">{resource.category}</p><h1>{resource.title}</h1><p class="lede">{resource.description}</p><p class="quiet"><time datetime={resource.date}>{resource.date}</time> · {resource.readingTime} min read</p></header><article class="article-body">{resource.coverImage&&<img class="article-cover" src={resource.coverImage} alt={resource.coverAlt||''} width="1000" height="600"/>}{resource.content.map(block=>block.type==='heading'?<h2>{block.text}</h2>:<p>{block.text}</p>)}</article>{related.length>0&&<section class="platform-section"><h2>Keep exploring</h2><div class="resource-grid">{related.map(resource=><ResourceCard resource={resource}/>)}</div></section>}</Platform>

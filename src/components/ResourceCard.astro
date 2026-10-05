@@ -1,0 +1,4 @@
+---
+const { resource } = Astro.props;
+---
+<article class="resource-card" data-resource data-category={resource.category} data-search={`${resource.title} ${resource.description} ${resource.category}`.toLowerCase()}>{resource.coverImage&&<img src={resource.coverImage} alt="" width="640" height="360" loading="lazy"/>}<span class="tag">{resource.category}</span><h3><a href={`/resources/${resource.slug}`}>{resource.title}</a></h3><p>{resource.description}</p><p class="quiet"><time datetime={resource.date}>{resource.date}</time> · {resource.readingTime} min read</p></article>
