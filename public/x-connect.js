@@ -12,7 +12,7 @@ async function init() {
     const session = await json('/api/admin');
     csrf = session.csrf;
     const connection = await json('/api/x-connect');
-    status.textContent = connection.connected ? `Connected to @${connection.username}. Posting is off.${connection.accessTokenExpired ? ' Access token expired; reconnect before use.' : ''}` : 'Ready to connect @digivatedx.';
+    status.textContent = connection.connected ? `Connected to @${connection.username}. Automatic replies ${connection.postingEnabled ? 'enabled' : 'off or paused'}.${connection.accessTokenExpired ? ' The worker will refresh the access token before use.' : ''}` : 'Ready to connect @digivatedx.';
     button.textContent = connection.connected ? 'Reconnect with X' : 'Connect with X';
     button.disabled = false;
   } catch (error) { status.textContent = error.message; }

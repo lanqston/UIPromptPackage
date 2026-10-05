@@ -52,15 +52,16 @@ export function makeAgent(env, redis, fetcher = fetch) {
 
 export async function runResearch(redis, agent, clock = Date.now) {
   const day = new Date(clock()).toISOString().slice(0,10);
+  const period = new Date(clock()).toISOString().slice(0,13);
   if (await redis(['GET', `${PREFIX}paused`]) === '1') return { status: 'paused', postingEnabled: false };
-  // Reserve the entire daily run atomically. Errors consume the run; no paid retries.
-  if (await redis(['SET', `${PREFIX}run:${day}`, 'started', 'NX', 'EX', 172800]) !== 'OK') return { status: 'already_ran_today', postingEnabled: false };
-  const report = { day, status: 'running', added: 0, startedAt: new Date(clock()).toISOString(), postingEnabled: false, usage: [] };
+  // Reserve the entire hourly run atomically. Errors consume the run; no paid retries.
+  if (await redis(['SET', `${PREFIX}run:${period}`, 'started', 'NX', 'EX', 172800]) !== 'OK') return { status: 'already_ran_this_hour', postingEnabled: false };
+  const report = { day, period, status: 'running', added: 0, startedAt: new Date(clock()).toISOString(), postingEnabled: false, usage: [] };
   await redis(['SET', `${PREFIX}latest`, JSON.stringify(report)]);
   try {
-    let candidates = await agent('scout', `Find up to five actual posts from the last seven days (prefer 48 hours) explicitly inviting professional connections in these niches: ${JSON.stringify(NICHES)}. Exclude bios-only invitations, giveaways, sales pitches, token promotions and engagement exchanges. Read each post. Return a JSON array with url, author, text (exact full text), created_at (ISO timestamp with timezone), invitation_excerpt (exact substring), niche (exactly one supplied niche). Exclude inaccessible or undated posts. Current UTC time: ${new Date(clock()).toISOString()}.`, true, report.usage);
+    let candidates = await agent('scout', `Find up to seven actual posts from the last seven days (prefer 48 hours) explicitly inviting professional connections in these niches: ${JSON.stringify(NICHES)}. Exclude bios-only invitations, giveaways, sales pitches, token promotions and engagement exchanges. Read each post. Return a JSON array with url, author, text (exact full text), created_at (ISO timestamp with timezone), invitation_excerpt (exact substring), niche (exactly one supplied niche). Exclude inaccessible or undated posts. Current UTC time: ${new Date(clock()).toISOString()}.`, true, report.usage);
     if (!Array.isArray(candidates)) throw new Error('Invalid scout output');
-    candidates = candidates.slice(0,5).filter(c => validCandidate(c, clock()));
+    candidates = candidates.slice(0,7).filter(c => validCandidate(c, clock()));
     const unique = [];
     for (const c of candidates) {
       const author = c.author.replace(/^@/,'').toLowerCase();
@@ -76,7 +77,7 @@ export async function runResearch(redis, agent, clock = Date.now) {
       candidates = candidates.filter(c => checks.some(v => v.url === c.url && v.verified === true));
     }
     if (candidates.length) {
-      const drafts = await agent('writer', `Return an array of {url, reply} for these posts. Preferred reply is “Let’s connect 🤝”. Optionally add one short specific observation when supported by the post. Stay under 200 characters. No invented familiarity, links, promotional claims or engagement bait. Candidate data: ${JSON.stringify(candidates)}`, false, report.usage);
+      const drafts = await agent('writer', `Return an array of {url, reply} for these posts. Use one concise observation specific to the actual post, followed by a natural invitation to connect. Never rotate generic wording merely to evade detection. Do not claim experiences or interests that are not established. Stay under 200 characters. No invented familiarity, links, promotional claims or engagement bait. Candidate data: ${JSON.stringify(candidates)}`, false, report.usage);
       if (!Array.isArray(drafts)) throw new Error('Invalid writer output');
       const proposed = candidates.map(c => ({ ...c, reply: drafts.find(d => d.url === c.url)?.reply })).filter(c => typeof c.reply === 'string' && c.reply.trim() && c.reply.length <= 240);
       if (proposed.length) {

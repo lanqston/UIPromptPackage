@@ -38,7 +38,7 @@ test('four stages save only private drafts and a repeat run spends no calls', as
   assert.equal(result.status,'completed');assert.equal(result.added,1);
   assert.deepEqual(a.roles,['scout','verifier','writer','reviewer']);
   assert.equal(JSON.parse(s.rows[0]).automatedReplyConsent,'not_established');
-  assert.equal((await runResearch(s.redis,a.agent,clock)).status,'already_ran_today');
+  assert.equal((await runResearch(s.redis,a.agent,clock)).status,'already_ran_this_hour');
   assert.equal(a.roles.length,4);
 });
 test('unverified posts never reach the writer', async () => {
@@ -48,7 +48,7 @@ test('unverified posts never reach the writer', async () => {
 test('concurrent daily runs invoke the pipeline once', async () => {
   const s=storage(),a=agents();
   const values=await Promise.all([runResearch(s.redis,a.agent,clock),runResearch(s.redis,a.agent,clock)]);
-  assert.deepEqual(values.map(v=>v.status).sort(),['already_ran_today','completed']);assert.equal(a.roles.length,4);
+  assert.deepEqual(values.map(v=>v.status).sort(),['already_ran_this_hour','completed']);assert.equal(a.roles.length,4);
 });
 test('pause prevents paid calls', async () => {
   const s=storage(),a=agents();s.data.set('digivated:private:x-research:paused','1');

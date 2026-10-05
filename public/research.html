@@ -4,8 +4,9 @@
 <body><main>
 <h1>Connection research</h1>
 <p>Sign into the <a href="/admin">owner dashboard</a> first. Scout → Verifier → Writer → Reviewer.</p>
-<p>Up to five candidates per day. Drafts only; nothing posts automatically. Read each original post before using a draft.</p>
+<p>Up to seven candidates per hour. Matching posts can receive automatic replies when the publisher is enabled. The publisher rechecks each original post and skips repeated contacts.</p>
 <p id="status" role="status">Checking owner access…</p>
-<button id="run" disabled>Run today's research</button> <button id="pause" disabled>Pause</button>
+<button id="run" disabled>Run this hour’s research</button> <button id="pause" disabled>Pause</button>
+<p id="publisher-status" role="status">Checking publisher…</p><button id="publisher-pause" disabled>Pause replies</button>
 <section id="results" aria-label="Reply drafts"></section>
 </main><script src="/research.js" defer></script></body></html>
