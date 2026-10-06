@@ -73,7 +73,9 @@ export async function runResearch(redis, agent, clock = Date.now) {
   try {
     let candidates = await agent('scout', `Find up to seven actual posts from the last seven days (prefer 48 hours) explicitly inviting professional connections. Target posts like: "I want more builders on my timeline. If you are working on AI/ML, SaaS, AI agents, dev tools or startups, tell me what you are building. Let us connect." Search multiple combinations of builder, indie hacker, SaaS, AI agents, designers and developers with "let\'s connect", "looking to connect", "more builders on my timeline" or "who wants to connect". Invitations to introduce a project are eligible; exclude requests to exchange likes, follows or reposts. Map SaaS, AI agents and dev tools to the closest supplied niche. Niches: ${JSON.stringify(NICHES)}. Exclude bios-only invitations, giveaways, sales pitches, token promotions and engagement exchanges. Read each post. Return a JSON array with url, author, text (exact full text), created_at (ISO timestamp with timezone), invitation_excerpt (exact substring), niche (exactly one supplied niche). Exclude inaccessible or undated posts. Current UTC time: ${new Date(clock()).toISOString()}.`, true, report.usage);
     if (!Array.isArray(candidates)) throw new Error('Invalid scout output');
+    report.scouted = candidates.length;
     candidates = candidates.slice(0,7).filter(c => validCandidate(c, clock()));
+    report.valid = candidates.length;
     const unique = [];
     for (const c of candidates) {
       const author = c.author.replace(/^@/,'').toLowerCase();
@@ -83,18 +85,23 @@ export async function runResearch(redis, agent, clock = Date.now) {
       unique.push(c);
     }
     candidates = unique;
+    report.unique = candidates.length;
     if (candidates.length) {
       const checks = await agent('verifier', `Independently fetch each supplied X post. Confirm the exact text, author, date, niche and a clear invitation in the post itself to professional connections. If inaccessible or uncertain reject it. Return an array of {url, verified: boolean}. Candidate data: ${JSON.stringify(candidates)}`, true, report.usage);
       if (!Array.isArray(checks)) throw new Error('Invalid verifier output');
       candidates = candidates.filter(c => checks.some(v => v.url === c.url && v.verified === true));
+      report.verified = candidates.length;
     }
     if (candidates.length) {
       const drafts = await agent('writer', `Return an array of {url, reply} for these posts. Keep replies short and friendly, usually 5–20 words, ending naturally with "Let’s connect 🤝". Where useful acknowledge the niche, for example "Always up for connecting with fellow builders. Let’s connect 🤝". Never invent what Digivated is building or claim an unsupported identity or expertise. Never rotate generic wording merely to evade detection. Do not claim experiences or interests that are not established. Stay under 200 characters. No invented familiarity, links, promotional claims or engagement bait. Candidate data: ${JSON.stringify(candidates)}`, false, report.usage);
       if (!Array.isArray(drafts)) throw new Error('Invalid writer output');
       const proposed = candidates.map(c => ({ ...c, reply: drafts.find(d => d.url === c.url)?.reply })).filter(c => typeof c.reply === 'string' && c.reply.trim() && c.reply.length <= 240);
+      report.drafted = proposed.length;
       if (proposed.length) {
-        const reviews = await agent('reviewer', `Review each proposed reply for relevance, truthfulness and natural professional connection intent. Reject promotional, unrelated or manipulative replies. A connection invitation does not establish consent to automation. You cannot authorize publication. Return array of {url, acceptable: boolean}. Data: ${JSON.stringify(proposed)}`, false, report.usage);
+        const reviews = await agent('reviewer', `Review each proposed reply for relevance, truthfulness and natural professional connection intent. Reject promotional, unrelated or manipulative replies. A connection invitation does not establish consent to automation. You cannot authorize publication. Return array of {url, acceptable: boolean, reason: string}. A brief genuine reply to an explicit connection invitation is acceptable; assess the text, not automation permission. Data: ${JSON.stringify(proposed)}`, false, report.usage);
         if (!Array.isArray(reviews)) throw new Error('Invalid reviewer output');
+        report.accepted = reviews.filter(r=>r.acceptable===true).length;
+        report.reviewReasons = reviews.filter(r=>r.acceptable!==true).map(r=>String(r.reason || 'No reason supplied').slice(0,180));
         for (const c of proposed.filter(c => reviews.some(r => r.url === c.url && r.acceptable === true))) {
           if (await redis(['GET', `${PREFIX}paused`]) === '1') throw new Error('Research paused');
           const entry = { ...c, status: 'draft_only', automatedReplyConsent: 'not_established', verification: 'model_mediated', history: 'this_queue_only', researchedAt: new Date(clock()).toISOString() };
@@ -108,7 +115,7 @@ export async function runResearch(redis, agent, clock = Date.now) {
     // Only allow known internal error labels into storage/logs.
     report.error = error.name === 'TimeoutError' || error.name === 'AbortError' ? 'Grok request timed out' : error instanceof SyntaxError ? 'Grok returned invalid JSON' : /^(Grok HTTP \d{3}|X search HTTP \d{3}|X connection busy|Grok key missing|Research paused|Incomplete Grok response|Invalid scout output|Invalid verifier output|Invalid writer output|Invalid reviewer output)$/.test(error.message || '') ? error.message : 'Research failed; no automatic retry. Check provider access or output.';
   }
-  console.info(JSON.stringify({event:'x_research_result',status:report.status,added:report.added,error:report.error || null}));
+  console.info(JSON.stringify({event:'x_research_result',status:report.status,added:report.added,error:report.error || null,scouted:report.scouted,valid:report.valid,unique:report.unique,verified:report.verified,drafted:report.drafted,accepted:report.accepted,reviewReasons:report.reviewReasons}));
   report.finishedAt = new Date(clock()).toISOString();
   await redis(['SET', `${PREFIX}latest`, JSON.stringify(report)]);
   return report;
