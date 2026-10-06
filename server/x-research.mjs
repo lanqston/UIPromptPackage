@@ -35,16 +35,25 @@ function decode(response) {
 }
 
 export function makeAgent(env, redis, fetcher = fetch) {
+  let selectedModel = env.XAI_MODEL || null;
   return async (role, prompt, search, usage) => {
     if (await redis(['GET', `${PREFIX}paused`]) === '1') throw new Error('Research paused');
     if (role === 'scout') return searchX(env, redis, fetcher);
     if (role === 'verifier') return verifyX(env, redis, JSON.parse(prompt.split('Candidate data: ')[1]), fetcher);
     if (!env.XAI_API_KEY) throw new Error('Grok key missing');
+    if (!selectedModel) {
+      const modelsResponse=await fetcher('https://api.x.ai/v1/models',{headers:{Authorization:`Bearer ${env.XAI_API_KEY}`},redirect:'error',signal:AbortSignal.timeout(15000)});
+      if(!modelsResponse.ok) throw new Error(`Grok HTTP ${modelsResponse.status}`);
+      const models=await modelsResponse.json();
+      const available=new Set((models.data || []).flatMap(m=>[m.id,...(m.aliases || [])]));
+      selectedModel=['grok-4.1-fast-non-reasoning','grok-4-fast-non-reasoning','grok-4.1-fast'].find(m=>available.has(m)) || MODEL;
+      console.info(JSON.stringify({event:'x_writer_model',model:selectedModel}));
+    }
     const today = new Date().toISOString().slice(0,10);
-    const body = { model: env.XAI_MODEL || MODEL, store: false, max_output_tokens: 5000,
+    const body = { model: selectedModel, store: false, max_output_tokens: 2000,
       input: [{ role: 'system', content: SYSTEM }, { role: 'user', content: prompt }] };
     if (search) { body.tools = [{ type: 'x_search', from_date: new Date(Date.now()-7*86400000).toISOString().slice(0,10), to_date: today }]; body.max_tool_calls = 2; }
-    const response = await fetcher('https://api.x.ai/v1/responses', { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(search ? 120000 : 45000),
+    const response = await fetcher('https://api.x.ai/v1/responses', { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(120000),
       headers: { Authorization: `Bearer ${env.XAI_API_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!response.ok) throw new Error(`Grok HTTP ${response.status}`);
     const result = await response.json();
