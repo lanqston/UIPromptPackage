@@ -23,15 +23,46 @@ async function collection(url){
  do{const response=await fetch(`${url}${url.includes('?')?'&':'?'}offset=${offset}`,{cache:'no-store',credentials:'omit',signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error('unavailable');const data=await response.json();items.push(...data.items);offset=data.next;}while(offset!==null);
  return items;
 }
-function renderShelf(node,items,renderer){const target=node.querySelector('[data-live-list]');const limit=Number(node.dataset.limit)||items.length;target.replaceChildren(...items.slice(0,limit).map(renderer));const empty=node.querySelector('[data-live-empty]');if(empty)empty.hidden=items.length>0;target.hidden=items.length===0;}
+function renderShelf(node,items,renderer){const target=node.querySelector('[data-live-list]');const limit=Number(node.dataset.limit)||items.length;target.replaceChildren(...(node.hasAttribute('data-project-filters') ? items : items.slice(0,limit)).map(renderer));const empty=node.querySelector('[data-live-empty]');if(empty)empty.hidden=items.length>0;target.hidden=items.length===0;}
+function setupProjectFilters(shelf) {
+ const buttons = [...shelf.querySelectorAll('[data-project-filter]')];
+ const cards = [...shelf.querySelectorAll('[data-project]')];
+ const list = shelf.querySelector('[data-live-list]');
+ const empty = shelf.querySelector('[data-live-empty]');
+ const status = shelf.querySelector('[data-live-status]');
+ const title = empty.querySelector('h3');
+ const description = empty.querySelector('p');
+ const original = { title: title.textContent, description: description.textContent };
+ const limit = Number(shelf.dataset.limit) || cards.length;
+ const update = mode => {
+  let total = 0;
+  for (const card of cards) {
+   const matches = mode === 'all' || (mode === 'featured' && card.dataset.featured === 'true') || (mode === 'picks' && card.dataset.pick === 'true');
+   card.hidden = !matches || total >= limit;
+   if (matches) total++;
+  }
+  buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.projectFilter === mode)));
+  list.hidden = total === 0;
+  empty.hidden = total > 0;
+  title.textContent = mode === 'all' ? original.title : mode === 'featured' ? 'Featured builds are on their way.' : 'The first picks are on their way.';
+  description.textContent = mode === 'all' ? original.description : 'Check back as more community projects are reviewed, or explore all builds.';
+  status.textContent = total ? `Showing ${Math.min(total, limit)} of ${total} ${mode === 'all' ? '' : mode === 'featured' ? 'featured ' : 'Digivated Picks '}project${total === 1 ? '' : 's'}.` : 'No projects in this collection yet.';
+ };
+ for (const button of buttons) {
+  button.disabled = false;
+  button.addEventListener('click', () => update(button.dataset.projectFilter));
+ }
+ update('all');
+ shelf.setAttribute('aria-busy', 'false');
+}
 async function loadProjects(){
  const shelves=[...document.querySelectorAll('[data-live-projects]')];if(!shelves.length)return;
  try{
   const projects=await collection('/api/projects');
-  for(const shelf of shelves){const mode=shelf.dataset.liveProjects;let selected=projects;if(mode==='featured')selected=projects.filter(p=>p.status==='featured');if(mode==='picks')selected=projects.filter(p=>p.pick);renderShelf(shelf,selected,projectCard);}
+  for(const shelf of shelves){const mode=shelf.dataset.liveProjects;let selected=projects;if(mode==='featured')selected=projects.filter(p=>p.status==='featured');if(mode==='picks')selected=projects.filter(p=>p.pick);renderShelf(shelf,selected,projectCard);if(shelf.hasAttribute('data-project-filters'))setupProjectFilters(shelf);}
   document.dispatchEvent(new Event('digivated:collection-updated'));
   observeProjectViews();
- }catch{for(const shelf of shelves){const status=shelf.querySelector('[data-live-status]');if(status)status.textContent='Projects are temporarily unavailable. Please try again shortly.';}}
+ }catch{for(const shelf of shelves){shelf.removeAttribute('aria-busy');const status=shelf.querySelector('[data-live-status]');if(status)status.textContent='Projects are temporarily unavailable. Please try again shortly.';}}
 }
 async function loadResources(){
  const shelves=[...document.querySelectorAll('[data-live-resources]')];if(!shelves.length)return;
@@ -53,3 +84,4 @@ async function loadArticle(){
  }catch{status.textContent='This article is temporarily unavailable. Please try again shortly.';}
 }
 loadProjects();loadResources();loadProducts();loadArticle();
+

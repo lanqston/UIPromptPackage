@@ -28,7 +28,7 @@ for(const width of [375,768,1440]){
 test('mobile navigation, directory filters, and preserved product link',async({page})=>{
  await page.setViewportSize({width:375,height:812});await page.goto(base);
  await page.locator('.mobile-menu summary').click();
- await page.getByRole('navigation',{name:'Mobile navigation',exact:true}).getByRole('link',{name:'Discover',exact:true}).click();
+ await page.getByRole('navigation',{name:'Mobile navigation',exact:true}).getByRole('link',{name:'Explore',exact:true}).click();
  await expect(page).toHaveURL(/\/discover/);await page.getByLabel('Search projects').fill('nonexistent');await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('AI');await page.getByRole('combobox',{name:'Browse',exact:true}).selectOption('picks');await expect(page.locator('#directory-empty')).toBeVisible();
  await page.goto(base+'/products');await page.getByRole('link',{name:/View UI\/UX Prompt Packet/}).click();await expect(page).toHaveURL(/ui-ux-prompt-packet/);
  await page.route('https://mccovery.gumroad.com/l/ui-prompt-package',r=>r.fulfill({contentType:'text/html',body:'<h1>Checkout destination fixture</h1>'}));
@@ -53,3 +53,4 @@ test('storage unavailable retains entered details and does not claim success',as
  await page.goto(base+'/submit-project');
  await page.getByLabel('Creator Name').fill('Browser fixture');await page.getByLabel('Email',{exact:false}).fill('fixture@example.com');await page.getByLabel('Project Name',{exact:true}).fill('Retain my project');await page.getByLabel('Project URL').fill('https://example.com');await page.getByLabel('Project Description').fill('A test-only description for the unavailable storage response.');await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('Apps');await page.getByRole('checkbox').check();await page.getByRole('button',{name:/Submit Your Project/}).click();await expect(page.locator('#submission-status')).toContainText('not open yet');await expect(page.getByLabel('Project Name',{exact:true})).toHaveValue('Retain my project');
 });
+

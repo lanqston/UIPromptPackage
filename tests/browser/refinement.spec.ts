@@ -6,12 +6,12 @@ for(const width of [390,430,1280])test(`refined controls and layouts at ${width}
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/api/**',async route=>{const url=new URL(route.request().url());if(url.pathname==='/api/projects')return route.fulfill({json:{items:projects,next:null}});if(url.pathname==='/api/project-views')return route.fulfill({json:{views:12}});if(url.pathname==='/api/content')return route.fulfill({json:url.searchParams.has('id')?{item:resources.find(r=>r.id===url.searchParams.get('id'))}:{items:resources,next:null}});return route.fulfill({json:{status:'unconfigured'}});});
  await page.setViewportSize({width,height:900});await page.goto(base);
- const submit=page.locator('.hero-copy').getByRole('link',{name:'Submit Your Project',exact:true});await expect(submit).toHaveAttribute('href','/submit-project');await submit.click({trial:true});
+ const submit=page.locator('.hero-copy').getByRole('link',{name:'Submit Your Project (Free)',exact:true});await expect(submit).toHaveAttribute('href','/submit-project');await submit.click({trial:true});
  await expect(page.locator('[data-live-projects=featured] .card-links .button')).toHaveAttribute('href','https://example.com/');
  await page.screenshot({path:test.info().outputPath(`home-${width}.png`),fullPage:true});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:test.info().outputPath(`hero-${width}.png`)});
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- if(width<781){const menu=page.locator('.mobile-menu');const trigger=menu.locator('summary');await trigger.click();await expect(menu).toHaveAttribute('open','');await page.keyboard.press('Escape');await expect(menu).not.toHaveAttribute('open','');await expect(trigger).toBeFocused();await trigger.click();await page.mouse.click(5,200);await expect(menu).not.toHaveAttribute('open','');await trigger.click();await menu.getByRole('link',{name:'Discover',exact:true}).click();}
- else await page.getByRole('navigation',{name:'Main navigation',exact:true}).getByRole('link',{name:'Discover',exact:true}).click();
+ if(width<781){const menu=page.locator('.mobile-menu');const trigger=menu.locator('summary');await trigger.click();await expect(menu).toHaveAttribute('open','');await page.keyboard.press('Escape');await expect(menu).not.toHaveAttribute('open','');await expect(trigger).toBeFocused();await trigger.click();await page.mouse.click(5,200);await expect(menu).not.toHaveAttribute('open','');await trigger.click();await menu.getByRole('link',{name:'Explore',exact:true}).click();}
+ else await page.getByRole('navigation',{name:'Main navigation',exact:true}).getByRole('link',{name:'Explore',exact:true}).click();
  await expect(page).toHaveURL(/\/discover/);await page.getByLabel('Search projects').fill('Useful');await expect(page.locator('[data-project]:visible')).toHaveCount(1);await expect(page.locator('#directory-status')).toHaveText('1 project found');
  await page.getByLabel('Search projects').fill('');await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('Design');await expect(page.locator('[data-project]:visible')).toHaveCount(1);
  await page.goto(base+'/resources?category=UI%2FUX');await expect(page.getByRole('button',{name:'UI/UX',exact:true})).toHaveAttribute('aria-pressed','true');await expect(page.locator('[data-resource]:visible')).toHaveCount(1);
@@ -26,3 +26,4 @@ for(const width of [390,430,1280])test(`refined controls and layouts at ${width}
  await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.button.primary').first().evaluate(el=>getComputedStyle(el).transitionDuration)).toBe('0s');
  expect(errors).toEqual([]);
 });
+
