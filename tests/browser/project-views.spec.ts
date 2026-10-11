@@ -8,6 +8,7 @@ test.skip(!process.env.DIGIVATED_TEST_REDIS_PORT,'Requires isolated local Redis.
 for(const width of [375,768,1440])test(`visible card counts persist safely at ${width}px`,async({page})=>{
  const redis=testRedis(11);await redis(['FLUSHDB']);
  const project={id:'view-fixture',name:'View fixture',creator:'Test creator',category:'Apps',description:'A test project used only by the local browser verification.',url:'https://example.com',status:'featured',pick:true};
+ await redis(['SET','digivated:submission:view-fixture',JSON.stringify({...project,consent:true})]);
  await redis(['SET','digivated:public:submission:view-fixture',JSON.stringify(project)]);await redis(['ZADD','digivated:public:submissions',1,project.id]);
  const handlers={'/api/projects':makePublicHandler('projects',{redis}),'/api/project-views':makeProjectViewHandler({redis,env:{SUBMISSIONS_ORIGIN:base}})};
  let writes=0;const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
