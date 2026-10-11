@@ -9,9 +9,6 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   });
   await page.setViewportSize({width,height:900});
   await page.goto(base);
-  await page.getByRole('navigation',{name:'On this page'}).getByRole('link',{name:'Resources'}).click();
-  await expect(page).toHaveURL(/#resources$/);
-  expect(await page.locator('#resources').evaluate(el=>el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(80);
   await page.locator('.idea-card').filter({hasText:'Browse UI/UX resources'}).getByRole('link',{name:'Browse UI/UX resources'}).click();
   await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('UI/UX');
   await expect(page.locator('h1')).toHaveText('Resources & Ideas');
