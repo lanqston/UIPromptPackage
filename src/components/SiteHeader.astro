@@ -1,7 +1,7 @@
 ---
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const links = [['/', 'Home'], ['/discover', 'Projects'], ['/resources', 'Resources'], ['/ui-ux-prompt-packet', 'Prompt Packet'], ['/saved', 'Saved'], ['/about', 'About']];
-const active = (href: string) => path === href || (href !== '/' && path.startsWith(href + '/'));
+const active = (href: string) => (href === '/discover' && (path.startsWith('/projects/') || path === '/launch-template')) || path === href || (href !== '/' && path.startsWith(href + '/'));
 ---
 <header class="platform-header fixed inset-x-0 top-0 z-50 border-b border-brand-line bg-brand-bg">
   <div class="header-inner mx-auto flex items-center justify-between gap-6 px-6">

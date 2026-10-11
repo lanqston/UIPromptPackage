@@ -13,11 +13,12 @@ import LiveProjects from '../components/LiveProjects.astro';
         <h1 class="discovery-headline">Discover independent projects. <em>Get ideas for your next build.</em></h1>
         <p class="lede">Explore what independent creators are building, find useful resources, and share your own project.</p>
         <div class="actions flex flex-col sm:flex-row gap-3"><a class="button primary" href="/discover">Explore Projects <span aria-hidden="true">→</span></a><a class="button hero-explore" href="/submit-project">Submit Your Project <span aria-hidden="true">→</span></a></div>
-        <p class="hero-note">Browse first. Find an idea. Make it your own.</p>
+        <p class="hero-note">Reviewed projects. Useful resources. A place for your next idea.</p>
       </div>
       <div class="hero-visual w-full md:w-1/2 min-w-0"><HeroCarousel/></div>
     </section>
     <nav class="home-wayfinding" aria-label="On this page"><span>Find your next step</span><a href="#projects">Projects <span aria-hidden="true">↓</span></a><a href="#resources">Resources <span aria-hidden="true">↓</span></a><a href="#prompt-packet">Prompt Packet <span aria-hidden="true">↓</span></a></nav>
+    <section class="discovery-guide" aria-label="Get started with Digivated"><a href="/discover"><span class="guide-number" aria-hidden="true">01</span><span><strong>Find your next idea</strong><small>Explore work from independent creators.</small></span><span aria-hidden="true">→</span></a><a href="/saved"><span class="guide-number" aria-hidden="true">02</span><span><strong>Keep what inspires you</strong><small>Choose Save to start your own collection.</small></span><span aria-hidden="true">→</span></a><a href="/submit-project"><span class="guide-number" aria-hidden="true">03</span><span><strong>Share something you made</strong><small>Submit your project for review, for free.</small></span><span aria-hidden="true">→</span></a></section>
     <section id="projects" class="home-section community-builds" aria-labelledby="community-heading">
       <div class="home-section-heading flex flex-wrap items-end justify-between gap-5"><div><p class="section-kicker">01 / DISCOVER</p><h2 id="community-heading">What People Are Building</h2><p>Explore a few projects, then browse the full directory by topic.</p></div><a class="section-link" href="/discover">View all projects <span aria-hidden="true">↗</span></a></div>
       <LiveProjects limit={4} filterable compact title="The community is taking shape." description="No projects have been published yet. Share your work to help start the community." href="/submit-project" label="Share what you’re building"/>
