@@ -58,3 +58,16 @@ Before production:
 6. If needed, roll back the application to the previous production commit. Leave extra record fields and slug reservations intact. Collections remain in browser storage and can be exported when this version is restored.
 
 No production deployment, production migration, paid service or experimentation platform is part of this branch.
+
+## Validation recorded for this branch
+
+- Production build: passed; 24 Astro pages generated, including an internal launch shell removed from public output after copying into the server bundle.
+- Node tests: **72 passed, 0 failed, 0 skipped**, including isolated real-Redis permissions, revision conflicts, explicit publication, duplicate names/stable URLs, rejected/draft denial, asset withdrawal, deletion, private-field exclusion, literal content escaping, private-preview script removal, storage failures and import deduplication.
+- Browser scenarios: **14 passed** across the relevant owner, homepage and new-feature suites. The launch-editor scenario was additionally extended and rerun with real screenshot upload/WebP compression, primary/gallery access, and screenshots at 375px and 1440px.
+- Homepage checks: 320, 375, 768, 820, 1024 and 1440px; mobile/desktop screenshots inspected. One H1, exact copy, action destinations, existing carousel/filter behavior and no horizontal overflow passed.
+- Collections: project/resource save, keyboard picker, multi-folder membership, remove from one folder, rename/delete, reload, search, export/import, malformed imports, unavailable items, disabled/quota storage and native-share stub passed. No card navigation on Save. Native OS share-sheet UI itself was not tested on physical devices.
+- Syntax checks and `git diff --check`: passed. Encrypted paid-content verification was not run because its private edition key was not accessed; payment code is unchanged.
+- Hosted preview HTTP: homepage and `/saved` 200; nonexistent project route and screenshot 404; built-in saved resource 200; `/api/projects` empty; unconfigured admin preview 503, containing only a setup error. No database writes were made against the hosted application.
+- Hosted browser automation hit the execution environment's TLS certificate trust error. TLS verification was not disabled. Rendered visual evidence is from the local build with isolated test data; hosted HTTP evidence was collected through authenticated Vercel tools.
+
+Changed files are listed in the pull request's Files changed tab; the implementation spans homepage/layout/styles, launch renderer/API/admin publishing, browser collections/resolver, build/Vercel routing, and test fixtures. Production remains on its existing `main` deployment.

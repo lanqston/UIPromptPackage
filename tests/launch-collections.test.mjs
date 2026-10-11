@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { saveRecord } from '../server/admin-store.mjs';
-import { launchPublic, makeLaunchHandler } from '../server/launch-pages.mjs';
+import { launchPublic, makeLaunchHandler, renderLaunch } from '../server/launch-pages.mjs';
 import { makeSavedItemHandler } from '../server/saved-items.mjs';
 import { makePublicHandler } from '../server/public-community.mjs';
 import { createCollectionStore, initialCollections, mergeCollections, validateCollections } from '../src/lib/collections.mjs';
@@ -50,4 +50,11 @@ test('collections: multi-folder membership, persistence, duplicate import, valid
  assert.throws(()=>validateCollections({version:1,collections:[{id:'bad',name:'Okay',items:[{type:'script',id:'one'}]}]}));
  assert.throws(()=>createCollectionStore({getItem(){throw new Error('blocked');}}),/unavailable/);
  assert.deepEqual(mergeCollections(initialCollections(),initialCollections()),initialCollections());
+});
+
+test('launch rendering preserves literal content and removes scripts from private previews',async()=>{
+ const item=launchPublic({...record('literal'),name:'LAUNCH_DESCRIPTION $& <script>',page},true);
+ const html=await renderLaunch(item,{draft:true,template:template.replace('</body>','<script src="/analytics.js"></script></body>')});
+ assert.ok(html.includes('<h1>LAUNCH_DESCRIPTION $&amp; &lt;script&gt;</h1>'));
+ assert.doesNotMatch(html,/<script\b/);assert.match(html,/noindex,nofollow/);assert.doesNotMatch(html,/SECRET_EMAIL|SECRET_NOTES/);
 });

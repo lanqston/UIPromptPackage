@@ -32,7 +32,11 @@ test('storage failure, invalid import, unavailable item and native sharing',asyn
  await page.addInitScript(()=>{Storage.prototype.getItem=function(){throw new Error('disabled');};});await page.goto(base+'/saved');await expect(page.locator('#saved-status')).toContainText('Browser storage is unavailable');
 });
 test('authenticated launch editor saves a draft, previews privately, publishes and unpublishes',async({page,request})=>{
+ await page.goto(base);const fixtureImage={name:'fixture.png',mimeType:'image/png',buffer:await page.locator('.hero-copy').screenshot()};
  await page.goto(base+'/admin');await page.getByLabel('Owner password').fill('Local fixture password only!');await page.getByRole('button',{name:'Sign in',exact:true}).click();await page.getByRole('button',{name:'Review project',exact:true}).click();
+ await page.getByLabel('Replace primary screenshot (optional)',{exact:false}).setInputFiles(fixtureImage);
+ await page.getByLabel('Primary screenshot description',{exact:true}).fill('A fixture screenshot of the existing project preview artwork.');
+ await page.getByLabel('Gallery screenshot 1 (optional)',{exact:false}).setInputFiles(fixtureImage);await page.getByLabel('Gallery screenshot 1 description',{exact:true}).fill('A second fixture view of the project.');
  await page.getByLabel('Creator bio (optional)',{exact:false}).fill('A biography explicitly approved for this fixture page.');await page.getByRole('button',{name:'Save launch draft',exact:true}).click();await expect(page.locator('#owner-editor-status')).toContainText('Launch page is private');
  expect((await request.get(base+'/projects/fieldnotes-fixture-project')).status()).toBe(404);
  const href=await page.getByRole('link',{name:'Preview saved draft'}).getAttribute('href');expect((await request.get(base+href)).status()).toBe(401);
@@ -41,4 +45,5 @@ test('authenticated launch editor saves a draft, previews privately, publishes a
  const published=await request.get(base+'/projects/fieldnotes-fixture-project');expect(published.status()).toBe(200);expect(await published.text()).toContain('A biography explicitly approved');
  await page.getByRole('button',{name:'Unpublish launch page',exact:true}).click();await expect(page.locator('#owner-editor-status')).toContainText('Launch page is private');expect((await request.get(base+'/projects/fieldnotes-fixture-project')).status()).toBe(404);
  await page.getByRole('button',{name:'Publish launch page',exact:true}).click();await expect(page.locator('#owner-editor-status')).toContainText('Launch page is published');
+ for(const width of [375,1440]){await page.setViewportSize({width,height:900});await page.goto(base+'/projects/fieldnotes-fixture-project');await expect(page.locator('.launch-shot img')).toHaveCount(2);expect(await page.locator('.launch-shot img').evaluateAll(images=>images.every(image=>image.complete&&image.naturalWidth>0))).toBe(true);await page.screenshot({path:test.info().outputPath(`launch-gallery-${width}.png`),fullPage:true});}
 });
