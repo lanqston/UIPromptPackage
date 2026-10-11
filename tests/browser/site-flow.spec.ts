@@ -25,7 +25,14 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page.locator('.desktop-nav a[href="/ui-ux-prompt-packet"]')).toHaveAttribute('aria-current','page');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(3, 7, 18)');
   await page.getByRole('link',{name:'Try 3 free prompts'}).click();
-  await expect(page).toHaveURL(/\/library\?sample=1/);
+  // The library normalizes the sample entry URL after initializing its filters.
+  await expect(page).toHaveURL(/\/library\?show=available$/);
+  await expect(page.locator('#availability')).toHaveValue('available');
+  await expect(page.locator('#prompt-list .prompt-row')).toHaveCount(3);
+  await page.locator('[data-open="1"]').click();
+  await expect(page.locator('#prompt-dialog')).toBeVisible();
+  await expect(page.locator('#prompt-dialog .prompt-text')).not.toBeEmpty();
+  await page.locator('#close-dialog').click();
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(3, 7, 18)');
   await expect(page.locator('.packet-context')).toContainText('UI/UX Prompt Packet');
   await expect(page.locator('.brand-logo-wrap')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
