@@ -5,25 +5,27 @@ import OfferBanner from '../components/OfferBanner.astro';
 import ResourcesLibrary from '../components/ResourcesLibrary.astro';
 import LiveProjects from '../components/LiveProjects.astro';
 ---
-<Platform description="A curated space to showcase your projects, discover useful ideas, and connect with makers building the future.">
+<Platform description="Discover independent projects, find practical resources, and share what you’re building.">
   <div class="home-container mx-auto px-6">
     <section class="revamp-hero min-h-[60vh] pt-32 pb-10 flex flex-col md:flex-row items-center justify-between relative overflow-hidden gap-10 md:gap-8">
       <div class="hero-copy min-w-0 w-full md:w-1/2">
         <p class="section-kicker hero-kicker"><span aria-hidden="true"></span> FOR THE PEOPLE MAKING THINGS</p>
         <h1 class="text-5xl md:text-7xl font-extrabold">Build. Share.<br/><em>Connect.</em></h1>
-        <p class="lede">A curated space to showcase your projects, discover useful ideas, and connect with makers building the future.</p>
-        <div class="actions flex flex-col sm:flex-row gap-3"><a class="button primary" href="/submit-project">Submit Your Project (Free) <span aria-hidden="true">↗</span></a><a class="button hero-explore" href="/discover">Explore Builds <span aria-hidden="true">→</span></a></div>
-        <p class="hero-note">Big ideas start with a small first step.</p>
+        <p class="lede">Discover independent projects, find practical resources, and share what you’re building.</p>
+        <div class="actions flex flex-col sm:flex-row gap-3"><a class="button primary" href="/discover">Explore Projects <span aria-hidden="true">→</span></a><a class="button hero-explore" href="/submit-project">Submit Your Project (Free) <span aria-hidden="true">→</span></a></div>
+        <p class="hero-note">Browse first. Find an idea. Make it your own.</p>
       </div>
-      <div class="w-full md:w-1/2 min-w-0"><HeroCarousel/></div>
+      <div class="hero-visual w-full md:w-1/2 min-w-0"><HeroCarousel/></div>
     </section>
-    <OfferBanner/>
-    <section class="home-section community-builds" aria-labelledby="community-heading">
-      <div class="home-section-heading flex flex-wrap items-end justify-between gap-5"><div><p class="section-kicker">MADE BY CURIOUS MINDS</p><h2 id="community-heading">What People Are Building</h2><p>Small experiments. Ambitious launches. Your next discovery.</p></div><a class="section-link" href="/discover">Explore all builds <span aria-hidden="true">↗</span></a></div>
-      <LiveProjects limit={8} filterable demoFill compact title="The community is taking shape." description="Loading reviewed projects and illustrative demo cards." href="/submit-project" label="Share what you’re building"/>
+    <nav class="home-wayfinding" aria-label="On this page"><span>Find your next step</span><a href="#projects">Projects <span aria-hidden="true">↓</span></a><a href="#resources">Resources <span aria-hidden="true">↓</span></a><a href="#prompt-packet">Prompt Packet <span aria-hidden="true">↓</span></a></nav>
+    <section id="projects" class="home-section community-builds" aria-labelledby="community-heading">
+      <div class="home-section-heading flex flex-wrap items-end justify-between gap-5"><div><p class="section-kicker">01 / DISCOVER</p><h2 id="community-heading">What People Are Building</h2><p>Explore a few projects, then browse the full directory by topic.</p></div><a class="section-link" href="/discover">View all projects <span aria-hidden="true">↗</span></a></div>
+      <LiveProjects limit={4} filterable demoFill compact title="The community is taking shape." description="Loading reviewed projects and illustrative demo cards." href="/submit-project" label="Share what you’re building"/>
       <p class="demo-explainer">Cards marked “Demo” are illustrative concepts with sample likes. Live projects keep their real view counts.</p>
     </section>
     <ResourcesLibrary/>
+    <div id="prompt-packet" class="home-offer"><OfferBanner/></div>
+    <section class="share-next" aria-labelledby="share-heading"><div><h2 id="share-heading">Have something to share?</h2><p>Add your project to the community. Submissions are free and reviewed before publishing.</p></div><a class="button primary" href="/submit-project">Submit Project <span aria-hidden="true">→</span></a></section>
   </div>
   <script>import '../scripts/live-content.js';</script>
 </Platform>

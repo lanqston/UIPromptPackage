@@ -20,22 +20,24 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await page.goto(base);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Build. Share.');
     await expect(page.locator('.hero-copy').getByRole('link', { name: 'Submit Your Project (Free)' })).toHaveAttribute('href', '/submit-project');
-    await expect(page.locator('.hero-copy').getByRole('link', { name: 'Explore Builds' })).toHaveAttribute('href', '/discover');
+    await expect(page.locator('.hero-copy').getByRole('link', { name: 'Explore Projects' })).toHaveAttribute('href', '/discover');
     await expect(page.locator('.platform-header')).toHaveCSS('position', 'fixed');
     await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(3, 7, 18)');
     await expect(page.locator('.hero-copy .primary')).toHaveCSS('background-color', 'rgb(37, 99, 235)');
     const carousel = page.locator('[data-hero-carousel]');
+    if (width >= 768) {
     await carousel.getByRole('button', { name: 'Next card' }).click();
-    await expect(carousel.locator('[data-position="0"]')).toContainText('A clearer creative process.');
+    await expect(carousel.locator('[data-position="0"]')).toContainText('Find practical design prompts.');
     await expect(carousel.locator('[data-position="1"]')).toHaveAttribute('inert', '');
     await carousel.getByRole('button', { name: 'Previous card' }).focus();
     await page.keyboard.press('Enter');
-    await expect(carousel.locator('[data-position="0"]')).toContainText('Your next idea starts here.');
+    await expect(carousel.locator('[data-position="0"]')).toContainText('Discover independent projects.');
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await expect(carousel.locator('[data-position="0"]')).toHaveCSS('transition-duration', '0s');
+    } else { await expect(carousel).toBeHidden(); }
     const shelf = page.locator('[data-project-filters]');
     const cards = shelf.locator('[data-project]:visible');
-    await expect(cards).toHaveCount(8);
+    await expect(cards).toHaveCount(4);
     await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(0);
     await shelf.getByRole('button', { name: 'Featured', exact: true }).click();
     await expect(cards).toHaveCount(1);
@@ -46,7 +48,7 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await expect(cards).toHaveCount(1);
     await expect(cards).toContainText('Community build 9');
     await shelf.getByRole('button', { name: 'All', exact: true }).click();
-    await expect(cards).toHaveCount(8);
+    await expect(cards).toHaveCount(4);
     await expect(page.locator('.idea-card')).toHaveCount(4);
     await expect(page.getByRole('navigation', { name: 'Legal footer links' }).getByRole('link', { name: 'Privacy & Data' })).toHaveAttribute('href', '/privacy');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -60,7 +62,7 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
   });
 }
 
-test('eight demo cards fill an empty directory and demo likes never call the API', async ({ page }) => {
+test('four demo cards preview an empty directory and demo likes never call the API', async ({ page }) => {
   const writes: string[] = [];
   await page.route('**/api/**', route => {
     if (route.request().method() === 'POST') writes.push(route.request().url());
@@ -68,7 +70,7 @@ test('eight demo cards fill an empty directory and demo likes never call the API
   });
   await page.goto(base);
   const shelf = page.locator('[data-project-filters]');
-  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(8);
+  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(4);
   await expect(shelf.locator('[data-project-id]')).toHaveCount(0);
   const like = shelf.getByRole('button', { name: 'Like Project Pramo demo — 12 sample likes' });
   await like.click();
@@ -81,6 +83,6 @@ test('eight demo cards fill an empty directory and demo likes never call the API
   await page.route('**/api/projects*', route => route.fulfill({ status: 503, json: { error: 'Unavailable' } }));
   await page.reload();
   await expect(shelf.locator('[data-live-status]')).toContainText('Live projects are temporarily unavailable');
-  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(8);
+  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(4);
   await expect(shelf).not.toHaveAttribute('aria-busy', 'true');
 });
