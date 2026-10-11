@@ -20,8 +20,7 @@ import LiveProjects from '../components/LiveProjects.astro';
     <nav class="home-wayfinding" aria-label="On this page"><span>Find your next step</span><a href="#projects">Projects <span aria-hidden="true">↓</span></a><a href="#resources">Resources <span aria-hidden="true">↓</span></a><a href="#prompt-packet">Prompt Packet <span aria-hidden="true">↓</span></a></nav>
     <section id="projects" class="home-section community-builds" aria-labelledby="community-heading">
       <div class="home-section-heading flex flex-wrap items-end justify-between gap-5"><div><p class="section-kicker">01 / DISCOVER</p><h2 id="community-heading">What People Are Building</h2><p>Explore a few projects, then browse the full directory by topic.</p></div><a class="section-link" href="/discover">View all projects <span aria-hidden="true">↗</span></a></div>
-      <LiveProjects limit={4} filterable demoFill compact title="The community is taking shape." description="Loading reviewed projects and illustrative demo cards." href="/submit-project" label="Share what you’re building"/>
-      <p class="demo-explainer">Cards marked “Demo” are illustrative concepts with sample likes. Live projects keep their real view counts.</p>
+      <LiveProjects limit={4} filterable compact title="The community is taking shape." description="No projects have been published yet. Share your work to help start the community." href="/submit-project" label="Share what you’re building"/>
     </section>
     <ResourcesLibrary/>
     <div id="prompt-packet" class="home-offer"><OfferBanner/></div>

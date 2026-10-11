@@ -62,27 +62,20 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
   });
 }
 
-test('four demo cards preview an empty directory and demo likes never call the API', async ({ page }) => {
-  const writes: string[] = [];
-  await page.route('**/api/**', route => {
-    if (route.request().method() === 'POST') writes.push(route.request().url());
-    return route.fulfill({ json: { items: [], next: null } });
-  });
+test('empty and unavailable project feeds never display demo projects', async ({ page }) => {
+  await page.route('**/api/**', route => route.fulfill({ json: { items: [], next: null } }));
   await page.goto(base);
   const shelf = page.locator('[data-project-filters]');
-  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(4);
-  await expect(shelf.locator('[data-project-id]')).toHaveCount(0);
-  const like = shelf.getByRole('button', { name: 'Like Project Pramo demo — 12 sample likes' });
-  await like.click();
-  await expect(shelf.getByRole('button', { name: 'Unlike Project Pramo demo — 13 sample likes' })).toHaveAttribute('aria-pressed', 'true');
-  await shelf.getByRole('button', { name: 'Unlike Project Pramo demo — 13 sample likes' }).click();
-  await expect(like).toHaveAttribute('aria-pressed', 'false');
+  await expect(shelf).toHaveAttribute('aria-busy', 'false');
+  await expect(shelf.locator('[data-project-id], [data-demo-project]')).toHaveCount(0);
+  await expect(shelf.locator('[data-live-empty]')).toContainText('No projects have been published yet.');
+  await expect(shelf.getByRole('link', { name: 'Share what you’re building' })).toHaveAttribute('href', '/submit-project');
   await shelf.getByRole('button', { name: 'Featured', exact: true }).click();
-  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(3);
-  expect(writes).toEqual([]);
+  await expect(shelf.locator('[data-live-status]')).toHaveText('No projects in this collection yet.');
   await page.route('**/api/projects*', route => route.fulfill({ status: 503, json: { error: 'Unavailable' } }));
   await page.reload();
-  await expect(shelf.locator('[data-live-status]')).toContainText('Live projects are temporarily unavailable');
-  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(4);
+  await expect(shelf.locator('[data-live-status]')).toContainText('Projects are temporarily unavailable');
+  await expect(shelf.locator('[data-project-id], [data-demo-project]')).toHaveCount(0);
+  await expect(shelf.locator('[data-live-empty]')).toBeHidden();
   await expect(shelf).not.toHaveAttribute('aria-busy', 'true');
 });
