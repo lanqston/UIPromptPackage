@@ -9,7 +9,7 @@ for(const width of [320,768,1440])test(`beginner collection navigation at ${widt
  await page.getByRole('button',{name:'Rename collection'}).click();await expect(page.getByRole('heading',{name:'Rename collection',exact:true})).toBeVisible();await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Rename collection'})).toBeFocused();
  await page.getByText('Back up your collections',{exact:true}).focus();await page.keyboard.press('Enter');await expect(page.getByRole('button',{name:'Download backup'})).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:test.info().outputPath(`saved-empty-${width}.png`),fullPage:true});
- await page.goto(base);await expect(page.getByRole('region',{name:'Get started with Digivated'}).getByRole('link')).toHaveCount(3);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:test.info().outputPath(`home-polish-${width}.png`),fullPage:true});
+ await page.goto(base);await expect(page.locator('footer').getByRole('link',{name:'Saved collections'})).toHaveAttribute('href','/saved');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:test.info().outputPath(`home-polish-${width}.png`),fullPage:true});
 });
 test('saving waits for storage and refreshes an already-open Saved tab',async({page,context})=>{
  await context.route('**/api/saved-item?*',r=>r.fulfill({json:{item:{title:'UI/UX Prompt Packet',description:'Useful design prompts.',url:'/ui-ux-prompt-packet'}}}));

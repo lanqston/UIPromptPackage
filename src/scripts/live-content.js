@@ -55,7 +55,8 @@ function setupProjectFilters(shelf) {
   empty.hidden = total > 0;
   title.textContent = mode === 'all' ? original.title : mode === 'featured' ? 'Featured builds are on their way.' : 'The first picks are on their way.';
   description.textContent = mode === 'all' ? original.description : 'Check back as more community projects are reviewed, or explore all builds.';
-  status.textContent = total ? `Showing ${Math.min(total, limit)} of ${total} ${mode === 'all' ? '' : mode === 'featured' ? 'featured ' : 'Digivated Picks '}project${total === 1 ? '' : 's'}.` : 'No projects in this collection yet.';
+  shelf.querySelector('[data-filter-description]').textContent = mode === 'all' ? 'Browse the latest projects from independent creators.' : mode === 'featured' ? 'Projects in the community spotlight.' : 'A selection chosen by Digivated.';
+  status.textContent = total ? (total > limit ? `Showing ${limit} of ${total} projects` : `${total} project${total === 1 ? '' : 's'}`) : 'No projects in this collection yet.';
  };
  for (const button of buttons) {
   button.disabled = false;

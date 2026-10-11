@@ -106,3 +106,24 @@
 .platform .sponsored-tag { color:#93c5fd; border:1px solid #3b82f64d; }
 #project-form { scroll-margin-top:105px; }
 @media(max-width:767px) { .platform .promo-callout,.platform .submission-promo-note,.platform .promo-ready { align-items:flex-start; flex-direction:column; padding:24px; gap:20px; } .promo-steps,.promo-details { grid-template-columns:1fr; gap:24px; } .promo-steps { padding:28px 0; } .promo-steps li { gap:14px; } }
+
+/* One compact browsing control, followed immediately by the project results. */
+.platform .community-builds { border-top:1px solid var(--line); padding-top:40px; }
+.platform .community-builds .home-section-heading { margin-bottom:24px; }
+.platform .project-browse-header { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:14px 24px; margin-bottom:24px; }
+.platform .build-filters { display:inline-flex; justify-self:start; flex-wrap:nowrap; gap:4px; padding:5px; margin:0; border:1px solid var(--line); border-radius:12px; background:#0b1220; }
+.platform .build-filters button { min-height:44px; padding:10px 18px; border:1px solid transparent; border-radius:8px; font-size:.8125rem; font-weight:600; line-height:1.35; white-space:nowrap; color:var(--muted); background:transparent; transition:background-color .15s,color .15s; }
+.platform .build-filters button:hover:not(:disabled) { color:#f8fafc; background:#172235; }
+.platform .build-filters button[aria-pressed=true] { color:#fff; border-color:#34435a; background:#243249; box-shadow:0 1px 3px #0003; }
+.platform .build-filters button:focus-visible { outline:2px solid #60a5fa; outline-offset:3px; }
+.platform .project-result-count { margin:0; font-size:.75rem; text-align:right; }
+.platform .project-filter-description { grid-column:1/-1; margin:0; font-size:.8125rem; line-height:1.6; color:var(--muted); }
+@media(max-width:600px) {
+ .platform .community-builds { padding-top:28px; }
+ .platform .project-browse-header { grid-template-columns:1fr; gap:12px; margin-bottom:20px; }
+ .platform .build-filters { width:100%; display:grid; grid-template-columns:.65fr 1fr 1.5fr; gap:2px; }
+ .platform .build-filters button { padding:10px 6px; font-size:.75rem; }
+ .platform .project-filter-description { grid-row:2; }
+ .platform .project-result-count { text-align:left; font-size:.6875rem; }
+}
+@media(prefers-reduced-motion:reduce) { .platform .build-filters button { transition:none; } }
