@@ -37,6 +37,8 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     } else { await expect(carousel).toBeHidden(); }
     const shelf = page.locator('[data-project-filters]');
     const cards = shelf.locator('[data-project]:visible');
+    await expect(shelf.locator('[data-project-filter]')).toHaveText(['Featured', 'All', 'Digivated Picks']);
+    await expect(page.locator('.platform-header .logo-crop')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
     await expect(cards).toHaveCount(4);
     await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(0);
     await shelf.getByRole('button', { name: 'Featured', exact: true }).click();

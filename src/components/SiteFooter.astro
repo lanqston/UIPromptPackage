@@ -8,7 +8,7 @@ const groups = [
 ---
 <footer class="platform-footer">
   <div class="footer-inner mx-auto px-6"><div class="footer-columns grid grid-cols-2 md:grid-cols-4 lg:grid-cols-[2fr_repeat(4,1fr)] gap-8">
-    <div class="footer-intro col-span-2 md:col-span-4 lg:col-span-1"><a class="platform-brand" href="/"><span class="logo-crop"><img src="/digivated-logo-site.jpg" width="32" height="32" alt=""/></span>DIGIVATED</a><p>Build. Share. Connect.</p><p class="quiet">A space for curious minds, useful ideas, and people making something of their own.</p></div>
+    <div class="footer-intro col-span-2 md:col-span-4 lg:col-span-1"><a class="platform-brand" href="/"><span class="logo-crop"><img src="/digivated-logo-transparent.png" width="32" height="32" alt=""/></span>DIGIVATED</a><p>Build. Share. Connect.</p><p class="quiet">A space for curious minds, useful ideas, and people making something of their own.</p></div>
     {groups.map(group => <nav aria-label={`${group.title} footer links`}><h2>{group.title}</h2>{group.links.map(([label, href]) => <a href={href} target={href.startsWith('https:') ? '_blank' : undefined} rel={href.startsWith('https:') ? 'noopener noreferrer' : undefined}>{label}</a>)}</nav>)}
   </div><div class="footer-bottom flex flex-wrap items-center justify-between gap-4"><span>© {new Date().getFullYear()} Digivated. Build something worth sharing.</span><span>Independent ideas. Shared possibilities.</span></div></div>
 </footer>
