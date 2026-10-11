@@ -17,6 +17,7 @@ const breadcrumb = sectionNames[path] || title;
 <SiteHeader/>
 <main id="main" tabindex="-1">{path !== '/' && <nav class="site-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>{(path.startsWith('/projects/') || path === '/launch-template') && <><a href="/discover">Projects</a><span aria-hidden="true">/</span></>}{path.startsWith('/resources/') && <><a href="/resources">Resources</a><span aria-hidden="true">/</span></>}<span aria-current="page">{breadcrumb}</span></nav>}<slot/></main>
 <SiteFooter/>
-<script is:inline src="/analytics.js"></script><script>import '../scripts/monitoring.js'; import '../scripts/platform-ui.js'; import '../scripts/collections.js';</script>
+<script is:inline src="/analytics.js"></script>
+<script is:inline defer src="/_vercel/insights/script.js"></script><script>import '../scripts/monitoring.js'; import '../scripts/platform-ui.js'; import '../scripts/collections.js';</script>
 </body></html>
 
