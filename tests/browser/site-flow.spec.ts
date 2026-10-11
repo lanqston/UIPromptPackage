@@ -28,6 +28,9 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page).toHaveURL(/\/library\?sample=1/);
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(3, 7, 18)');
   await expect(page.locator('.packet-context')).toContainText('UI/UX Prompt Packet');
+  await expect(page.locator('.brand-logo-wrap')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
+  await expect(page.locator('.footer-logo-wrap')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
+  await expect(page.locator('.brand-logo')).toHaveAttribute('src','/digivated-logo-transparent.png');
   if(width<=850){await page.locator('#menu-toggle').click();await expect(page.locator('#site-navigation')).toBeVisible();}
   await page.getByRole('navigation',{name:'Packet tools'}).getByRole('link',{name:'Start Here',exact:true}).click();
   await expect(page).toHaveURL(/\/start$/);

@@ -6,7 +6,8 @@ body.packet-workspace { --accent:#3b82f6; --muted:#9ca3af; --line:#374151; --pap
 .packet-context a { display:inline-flex; align-items:center; min-height:32px; text-decoration:none; }
 .packet-context a:hover { text-decoration:underline; }
 .packet-workspace .topbar { max-width:1520px; min-height:88px; }
-.packet-workspace .brand-logo,.packet-workspace .footer-logo { transform:none; }
+.packet-workspace .brand-logo-wrap,.packet-workspace .footer-logo-wrap { background:transparent; border-radius:0; }
+.packet-workspace .brand-logo,.packet-workspace .footer-logo { object-fit:contain; transform:scale(1.35); }
 .packet-workspace .brand-caption { color:var(--muted); }
 body.packet-workspace .shell { background:#030712; border-color:var(--line); box-shadow:none; }
 body.packet-workspace aside,body.packet-workspace[data-surface=editorial] aside.is-open { background:#111827; border-color:var(--line); }

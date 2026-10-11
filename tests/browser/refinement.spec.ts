@@ -14,16 +14,39 @@ for(const width of [390,430,1280])test(`refined controls and layouts at ${width}
  else await page.getByRole('navigation',{name:'Main navigation',exact:true}).getByRole('link',{name:'Projects',exact:true}).click();
  await expect(page).toHaveURL(/\/discover/);await page.getByLabel('Search projects').fill('Useful');await expect(page.locator('[data-project]:visible')).toHaveCount(1);await expect(page.locator('#directory-status')).toHaveText('1 project found');
  await page.getByLabel('Search projects').fill('');await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('Design');await expect(page.locator('[data-project]:visible')).toHaveCount(1);
- await page.goto(base+'/resources?category=UI%2FUX');await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('UI/UX');await expect(page.locator('[data-resource]:visible')).toHaveCount(1);
+ await page.goto(base+'/resources?category=UI%2FUX');await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('UI/UX');await expect(page.locator('[data-resource]:visible')).toHaveCount(2);await expect(page.locator('[data-builtin-resource]')).toBeVisible();
  await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('Useful Tools');await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('Useful Tools');await expect(page.locator('[data-resource]:visible')).toContainText('Tools for a thoughtful workflow');
- await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('');await expect(page.locator('[data-resource]:visible')).toHaveCount(2);
+ await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('');await expect(page.locator('[data-resource]:visible')).toHaveCount(3);
  await page.screenshot({path:test.info().outputPath(`resources-${width}.png`),fullPage:true});
- await page.locator('[data-resource]').first().getByRole('link',{name:'Read Resource'}).click();await expect(page.locator('#article-body')).toContainText('Begin with the user');
+ await page.locator('[data-resource]').filter({hasText:'A clearer starting point'}).getByRole('link',{name:'Read Resource'}).click();await expect(page.locator('#article-body')).toContainText('Begin with the user');
  await expect(page.locator('.desktop-nav a[href="/resources"]')).toHaveAttribute('aria-current','page');
  await page.goto(base+'/submit-project');await expect(page.getByRole('group',{name:'01 About you'})).toBeVisible();await expect(page.getByRole('group',{name:'02 Your project'})).toBeVisible();
  await page.screenshot({path:test.info().outputPath(`submit-${width}.png`),fullPage:true});
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.button.primary').first().evaluate(el=>getComputedStyle(el).transitionDuration)).toBe('0s');
  expect(errors).toEqual([]);
+});
+
+test('Prompt Packet stays searchable in UI/UX when the resource feed fails', async({page})=>{
+ await page.route('**/api/content*',route=>route.fulfill({status:503,json:{error:'Unavailable'}}));
+ await page.goto(base+'/resources?category=UI%2FUX');
+ await expect(page.locator('[data-live-status]')).toContainText('Additional resources are temporarily unavailable');
+ await expect(page.locator('[data-resource]:visible')).toHaveCount(1);
+ await page.getByLabel('Search resources').fill('promptpackage');
+ await expect(page.locator('#directory-status')).toHaveText('1 resource found');
+ await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('AI');
+ await expect(page.locator('[data-resource]:visible')).toHaveCount(0);
+ await expect(page.locator('#directory-empty')).toBeVisible();
+ await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('UI/UX');
+ await page.getByRole('link',{name:'Explore the packet'}).click();
+ await expect(page).toHaveURL(/\/ui-ux-prompt-packet/);
+ await expect(page.getByRole('heading',{name:'UI/UX Prompt Packet',exact:true})).toBeVisible();
+});
+
+test('published Prompt Packet links do not duplicate the built-in resource', async({page})=>{
+ await page.route('**/api/content*',route=>route.fulfill({json:{items:[{...resources[0],url:'/ui-ux-prompt-packet',title:'UI/UX Prompt Packet'}],next:null}}));
+ await page.goto(base+'/resources');
+ await expect(page.locator('#directory-status')).toHaveText('1 resource found');
+ await expect(page.locator('[data-resource]')).toHaveCount(1);
 });
 

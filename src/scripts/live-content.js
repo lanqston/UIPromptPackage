@@ -73,8 +73,19 @@ async function loadProjects(){
 }
 async function loadResources(){
  const shelves=[...document.querySelectorAll('[data-live-resources]')];if(!shelves.length)return;
- try{const resources=await collection('/api/content?type=resource');for(const shelf of shelves)renderShelf(shelf,resources,resourceCard);document.dispatchEvent(new Event('digivated:collection-updated'));}
- catch{for(const shelf of shelves){const status=shelf.querySelector('[data-live-status]');if(status)status.textContent='Resources are temporarily unavailable. Please try again shortly.';}}
+ try{
+  const resources=await collection('/api/content?type=resource');
+  for(const shelf of shelves){
+   const list=shelf.querySelector('[data-live-list]');
+   const builtins=[...list.querySelectorAll('[data-builtin-resource]')];
+   const builtinUrls=new Set(builtins.map(card=>new URL(card.dataset.resourceUrl,location.origin).href));
+   const published=resources.filter(resource=>{try{return !builtinUrls.has(new URL(resource.url,location.origin).href);}catch{return true;}});
+   list.replaceChildren(...builtins,...published.map(resourceCard));
+   list.hidden=list.children.length===0;
+   shelf.querySelector('[data-live-empty]').hidden=list.children.length>0;
+  }
+ }catch{for(const shelf of shelves){const status=shelf.querySelector('[data-live-status]');if(status)status.textContent=shelf.querySelector('[data-builtin-resource]')?'Additional resources are temporarily unavailable. You can still explore the Prompt Packet.':'Resources are temporarily unavailable. Please try again shortly.';}}
+ document.dispatchEvent(new Event('digivated:collection-updated'));
 }
 async function loadProducts(){const target=document.querySelector('[data-live-products]');if(!target)return;try{const products=await collection('/api/content?type=product');target.replaceChildren(...products.map(productCard));}catch{document.getElementById('products-status').textContent='Additional products are temporarily unavailable. The UI/UX Prompt Packet is available above.';}}
 async function loadArticle(){

@@ -23,8 +23,8 @@
 .platform .platform-header { position:fixed; inset:0 0 auto; z-index:50; display:block; max-width:none; margin:0; padding:0; background:var(--color-brand-bg); color:var(--color-brand-text); border-bottom:1px solid var(--color-brand-card); }
 .header-inner { max-width:1328px; min-height:80px; }
 .platform-header .platform-brand { gap:10px; font-size:.95rem; letter-spacing:.08em; }
-.platform-header .logo-crop,.platform-footer .logo-crop { width:32px; height:32px; border-radius:6px; }
-.platform-header .logo-crop img,.platform-footer .logo-crop img { width:32px; height:32px; transform:none; }
+.platform-header .logo-crop,.platform-footer .logo-crop { width:32px; height:32px; border-radius:0; background:transparent; }
+.platform-header .logo-crop img,.platform-footer .logo-crop img { width:32px; height:32px; object-fit:contain; transform:scale(1.35); }
 .platform .platform-header .desktop-nav { display:flex; gap:24px; }
 .platform .platform-header .desktop-nav a { position:relative; padding:12px 0; color:var(--color-brand-muted); font-size:.8125rem; font-weight:500; white-space:nowrap; }
 .platform .platform-header .desktop-nav a:hover,.platform .platform-header .desktop-nav a[aria-current=page] { color:var(--color-brand-text); }
