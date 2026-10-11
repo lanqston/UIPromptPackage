@@ -9,5 +9,6 @@ if (menu) {
   document.addEventListener('click', event => { if (menu.open && !menu.contains(event.target)) close(); });
   document.addEventListener('focusin', event => { if (menu.open && !menu.contains(event.target)) close(); });
   menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => close()));
-  matchMedia('(min-width: 781px)').addEventListener('change', event => { if (event.matches) close(); });
+  matchMedia('(min-width: 1024px)').addEventListener('change', event => { if (event.matches) close(); });
 }
+

@@ -1,0 +1,41 @@
+---
+import InterfacePreview from './InterfacePreview.astro';
+const slides = [
+  { title:'Your next idea starts here.', category:'BUILD SOMETHING', kind:'dashboard', href:'/discover', link:'Explore community builds' },
+  { title:'A clearer creative process.', category:'MAKE IT YOURS', kind:'layout', href:'/ui-ux-prompt-packet', link:'Explore the Prompt Packet' },
+  { title:'Keep the good ideas close.', category:'STAY CURIOUS', kind:'notes', href:'/resources', link:'Browse the resource library' },
+];
+---
+<section class="hero-carousel relative w-full min-w-0" aria-label="Explore Digivated" aria-roledescription="carousel" data-hero-carousel>
+  <div class="carousel-stage relative" id="hero-carousel-slides">
+    {slides.map((slide, index) => <article class="carousel-card" data-carousel-card data-position={index} aria-roledescription="slide" aria-label={`${index + 1} of ${slides.length}`} aria-hidden={index !== 0 ? 'true' : 'false'} inert={index !== 0}>
+      <div class="carousel-card-top"><span>{slide.category}</span><span aria-hidden="true">↗</span></div>
+      <InterfacePreview kind={slide.kind} label="DIGIVATED / IDEAS IN MOTION"/>
+      <div class="carousel-card-copy"><h2>{slide.title}</h2><a href={slide.href}>{slide.link} <span aria-hidden="true">→</span></a></div>
+    </article>)}
+  </div>
+  <div class="carousel-controls flex items-center justify-center gap-5">
+    <button type="button" data-carousel-step="-1" aria-label="Previous card" aria-controls="hero-carousel-slides">←</button>
+    <p class="carousel-counter" data-carousel-status role="status" aria-live="polite">01 <span>/ 03</span></p>
+    <button type="button" data-carousel-step="1" aria-label="Next card" aria-controls="hero-carousel-slides">→</button>
+  </div>
+</section>
+<script>
+const root = document.querySelector<HTMLElement>('[data-hero-carousel]');
+if (root) {
+  const cards = [...root.querySelectorAll<HTMLElement>('[data-carousel-card]')];
+  const status = root.querySelector<HTMLElement>('[data-carousel-status]');
+  let active = 0;
+  const move = (step: number) => {
+    active = (active + step + cards.length) % cards.length;
+    cards.forEach((card, index) => {
+      const position = (index - active + cards.length) % cards.length;
+      card.dataset.position = String(position);
+      card.inert = position !== 0;
+      card.setAttribute('aria-hidden', String(position !== 0));
+    });
+    if (status) status.textContent = `${String(active + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
+  };
+  root.querySelectorAll<HTMLButtonElement>('[data-carousel-step]').forEach(button => button.addEventListener('click', () => move(Number(button.dataset.carouselStep))));
+}
+</script>

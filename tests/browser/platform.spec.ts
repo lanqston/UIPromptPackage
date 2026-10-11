@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { makeSubmissionHandler } from '../../server/submissions.mjs';
 const base='http://127.0.0.1:4321';
-const routes=['/','/discover','/resources','/products','/submit-project','/about','/ui-ux-prompt-packet','/access','/library'];
+const routes=['/','/discover','/resources','/products','/submit-project','/about','/ui-ux-prompt-packet','/access','/library','/privacy','/terms'];
 for(const width of [375,768,1440]){
  test(`platform and protected purchase pages fit ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:900});
