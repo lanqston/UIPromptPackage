@@ -45,6 +45,17 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "digitalpromptpackage.vercel.app"
+        }
+      ],
+      "destination": "https://digivated.vercel.app/library?show=available",
+      "permanent": false
+    },
+    {
       "source": "/:path*",
       "has": [
         {

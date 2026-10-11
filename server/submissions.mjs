@@ -13,6 +13,13 @@ export function validateSubmission(body) {
   if (description.length<20) fail('Describe your project in at least 20 characters.');
   if (!projectCategories.includes(category)) fail('Choose a listed category.');
   if (body.consent!==true) fail('Please confirm you have permission to submit this project.');
+  const submissionType = body.submissionType || 'directory';
+  if (!['directory','promotion'].includes(submissionType)) fail('Choose a valid submission type.');
+  let promotion;
+  if (submissionType === 'promotion') {
+    if (body.promotionPurchased !== true) fail('Purchase the Digivated promo on Gumroad before submitting a promotion request.');
+    promotion = { requested:true, receiptReference:text('promotionReceipt',120), verified:false };
+  }
   let image='';
   if (body.image) {
     if (typeof body.image!=='string') fail('Invalid image.');
@@ -24,7 +31,7 @@ export function validateSubmission(body) {
     image=body.image;
   }
   // Never accept caller-supplied status, ID, approval, picks, or timestamps.
-  return {creator,email,name,url:safeUrl(url),description,category,social,notes,image,consent:true,consentVersion:1,status:'pending',pick:false};
+  return {...(promotion ? {promotion} : {}),creator,email,name,url:safeUrl(url),description,category,social,notes,image,consent:true,consentVersion:1,status:'pending',pick:false};
 }
 export function redisClient(env=process.env,fetcher=fetch) {
   const endpoint=env.SUBMISSIONS_REDIS_REST_URL, token=env.SUBMISSIONS_REDIS_REST_TOKEN;

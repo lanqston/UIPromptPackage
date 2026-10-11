@@ -32,7 +32,7 @@ export function makePublicHandler(type, deps = {}) {
         }
         const privateRaw = await redis(['GET', storageKey(kind, id)]);
         const record = privateRaw ? JSON.parse(privateRaw) : null;
-        const published = kind === 'submission' ? record?.consent === true && ['approved', 'featured'].includes(record.status) : record?.status === 'published';
+        const published = kind === 'submission' ? !!record && !!projectPublic(record) : record?.status === 'published';
         const match = published && record.image?.match(/^data:(image\/(?:png|jpeg|webp));base64,([A-Za-z0-9+/]+={0,2})$/);
         if (!match) return send(404, { error: 'Not found.' });
         res.setHeader('Content-Type', match[1]); res.setHeader('Content-Disposition', 'inline');
