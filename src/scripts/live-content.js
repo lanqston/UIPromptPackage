@@ -5,10 +5,17 @@ function link(text,url){const node=el('a',text);node.href=url.startsWith('/')?ur
 function thumbnail(url,alt){const img=el('img');img.src=url;img.alt=alt;img.width=640;img.height=400;img.loading='lazy';return img;}
 function projectCard(project){
  const card=el('article',undefined,'project-card');card.dataset.project='';card.dataset.projectId=project.id;card.dataset.category=project.category;card.dataset.featured=String(project.status==='featured');card.dataset.pick=String(project.pick===true);card.dataset.search=`${project.name} ${project.creator} ${project.description} ${project.category}`.toLowerCase();
- const image=el('div',undefined,'project-image');image.append(project.image?thumbnail(project.image,`${project.name} project preview`):el('span',project.category,'tiny'));
- const copy=el('div',undefined,'project-copy');copy.append(el('span',project.category,'tag'),el('h3',project.name),el('p',`By ${project.creator}`,'quiet'),el('p',project.description));
- const views=el('p',viewLabel(project.views),'quiet');views.dataset.projectViews=project.id;views.title='Approximate project card views on Digivated. Repeat views from the same network count once every 24 hours.';copy.append(views);
- const actions=el('div',undefined,'card-links');const visit=link('Visit Project',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
+ const image=el('div',undefined,'project-image');
+ const fallback=()=>{image.replaceChildren(el('span',project.name.slice(0,2).toUpperCase(),'project-monogram'));image.setAttribute('role','img');image.setAttribute('aria-label',`${project.name} — no preview available`);};
+ if(project.image){const preview=thumbnail(project.image,`${project.name} project preview`);preview.decoding='async';preview.addEventListener('error',fallback,{once:true});image.append(preview);}else fallback();
+ const copy=el('div',undefined,'project-copy');
+ const heading=el('h3');heading.append(link(project.name,project.url));
+ const meta=el('div',undefined,'project-meta');meta.append(el('span',project.category,'tag'),el('span',`By ${project.creator}`,'quiet'));
+ const description=el('p',project.description,'project-description');
+ copy.append(heading,meta,description);
+ if(project.description.length>100){const details=el('details',undefined,'project-details');details.append(el('summary','Read full description'),el('p',project.description));copy.append(details);}
+ const views=el('p',viewLabel(project.views),'quiet');views.dataset.projectViews=project.id;views.title='Approximate project card views on Digivated. Repeat views from the same network count once every 24 hours.';
+ const actions=el('div',undefined,'card-links');actions.append(views);const visit=link('Visit Project',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
 }
 function resourceCard(resource){
  const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.category=resource.category;card.dataset.search=`${resource.title} ${resource.description} ${resource.category}`.toLowerCase();
