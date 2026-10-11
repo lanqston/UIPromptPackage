@@ -70,11 +70,11 @@
   "crons": [
     {
       "path": "/api/x-research",
-      "schedule": "1 * * * *"
+      "schedule": "0 12 * * *"
     },
     {
       "path": "/api/x-publish",
-      "schedule": "0,9,18,27,36,45,54 * * * *"
+      "schedule": "0 13 * * *"
     }
   ],
   "rewrites": [
