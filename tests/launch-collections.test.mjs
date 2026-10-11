@@ -1,0 +1,60 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { saveRecord } from '../server/admin-store.mjs';
+import { launchPublic, makeLaunchHandler, renderLaunch } from '../server/launch-pages.mjs';
+import { makeSavedItemHandler } from '../server/saved-items.mjs';
+import { makePublicHandler } from '../server/public-community.mjs';
+import { createCollectionStore, initialCollections, mergeCollections, validateCollections } from '../src/lib/collections.mjs';
+import { testRedis } from './helpers/redis.mjs';
+const template='<html><head><title>LAUNCH_TITLE</title><meta name="description" content="LAUNCH_DESCRIPTION"><link rel="canonical" href="https://digivated.vercel.app/launch-template"></head><body><!--LAUNCH_BODY--></body></html>';
+const png='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aFJkAAAAASUVORK5CYII=';
+const record=id=>({id,name:'Same name',creator:'Creator',email:'SECRET_EMAIL',notes:'SECRET_NOTES',description:'An independent project to help creators build.',url:'https://example.com',category:'Apps',status:'pending',consent:true,date:new Date().toISOString(),image:png});
+const page={bio:'An approved bio.',alt:'Project dashboard',ctaLabel:'Try the app',ctaUrl:'https://example.com/app',consent:true,gallery:[{image:png,alt:'Settings screen'}]};
+async function call(handler,url){let body;const headers={};const res={statusCode:200,setHeader:(k,v)=>headers[k]=v,end:x=>body=x};await handler({method:'GET',url,headers:{}},res);return {status:res.statusCode,body:Buffer.isBuffer(body)?body:String(body),headers};}
+test('Redis: explicit page publication, collision-safe stable URLs, private fields, withdrawal and deletion',{skip:!process.env.DIGIVATED_TEST_REDIS_PORT},async()=>{
+ const redis=testRedis(11);await redis(['FLUSHDB']);
+ const handler=makeLaunchHandler({redis,template});
+ const saved=makeSavedItemHandler({redis});const publicApi=makePublicHandler('projects',{redis});
+ for(const id of ['project-one','project-two'])await redis(['SET',`digivated:submission:${id}`,JSON.stringify(record(id))]);
+ let first=await saveRecord(redis,'submission',{...record('project-one'),revision:0,status:'approved'});
+ assert.equal(launchPublic(first),null,'old approval is not consent for page');
+ first=await saveRecord(redis,'submission',{...first,page,pageAction:'draft'});
+ const slug=first.slug;
+ assert.equal((await call(handler,`/projects/${slug}`)).status,404);
+ assert.equal((await call(handler,`/api/project-page?slug=${slug}&asset=0`)).status,404);
+ await assert.rejects(saveRecord(redis,'submission',{...first,page:{...page,consent:false},pageAction:'publish'}),e=>e.status===400);
+ await assert.rejects(saveRecord(redis,'submission',{...first,page:{...page,ctaUrl:'javascript:alert(1)'},pageAction:'publish'}),e=>e.status===400);
+ await assert.rejects(saveRecord(redis,'submission',{...first,status:'rejected',page,pageAction:'publish'}),e=>e.status===400);
+ first=await saveRecord(redis,'submission',{...first,name:'Renamed <script>alert(1)</script>',page,pageAction:'publish'});
+ assert.equal(first.slug,slug);
+ let response=await call(handler,`/projects/${slug}`);assert.equal(response.status,200);assert.match(response.body,/&lt;script&gt;/);assert.match(response.body,/An approved bio/);assert.match(response.body,/<h1>/);assert.doesNotMatch(response.body,/SECRET_EMAIL|SECRET_NOTES|reviewedAt|consentedAt|pagePublished/);assert.match(response.headers['Cache-Control'],/no-store/);
+ assert.equal((await call(handler,`/api/project-page?slug=${slug}&asset=0`)).status,200);
+ const second=await saveRecord(redis,'submission',{...record('project-two'),revision:0,status:'approved',page,pageAction:'publish'});assert.notEqual(second.slug,slug);
+ assert.equal((await call(saved,'/api/saved-item?type=project&id=project-one')).status,200);
+ first=await saveRecord(redis,'submission',{...first,page,pageAction:'unpublish'});assert.equal((await call(handler,`/projects/${slug}`)).status,404);assert.equal((await call(handler,`/api/project-page?slug=${slug}&asset=primary`)).status,404);
+ first=await saveRecord(redis,'submission',{...first,page:{...page,bio:'',gallery:[]},removeImage:true,pageAction:'publish'});response=await call(handler,`/projects/${slug}`);assert.equal(response.status,200);assert.match(response.body,/closer look/);
+ first=await saveRecord(redis,'submission',{...first,status:'archived'});assert.equal((await call(saved,'/api/saved-item?type=project&id=project-one')).status,404);assert.equal((await call(handler,`/projects/${slug}`)).status,404);
+ await redis(['DEL','digivated:submission:project-two']);assert.equal((await call(handler,`/projects/${second.slug}`)).status,404);assert.equal((await call(publicApi,'/api/projects?id=project-two')).status,404);
+ await redis(['FLUSHDB']);
+});
+test('collections: multi-folder membership, persistence, duplicate import, validation and atomic storage failure',()=>{
+ let raw=null;let fail=false;const storage={getItem:()=>raw,setItem:(_,value)=>{if(fail)throw new Error('quota');raw=value;}};
+ const store=createCollectionStore(storage);const item={type:'project',id:'project-one'};
+ store.update(data=>{data.collections[0].items.push(item);data.collections.push({id:'ideas',name:'Ideas',items:[item,{type:'resource',id:'resource-one'}]});});
+ assert.equal(createCollectionStore(storage).get().collections[1].items.length,2);
+ store.update(data=>{data.collections[0].items=[];data.collections[1].name='New name';});assert.equal(store.get().collections[1].items.length,2);
+ const merged=mergeCollections(store.get(),store.get());assert.equal(merged.collections.length,2);assert.equal(merged.collections[1].items.length,2);
+ const before=raw;fail=true;assert.throws(()=>store.update(data=>data.collections=[]),/previous collections are unchanged/);assert.equal(raw,before);assert.equal(store.get().collections.length,2);
+ assert.throws(()=>validateCollections({version:2,collections:[]}),/not supported/);
+ assert.throws(()=>validateCollections({version:1,collections:[{id:'bad',name:'',items:[]}]}));
+ assert.throws(()=>validateCollections({version:1,collections:[{id:'bad',name:'Okay',items:[{type:'script',id:'one'}]}]}));
+ assert.throws(()=>createCollectionStore({getItem(){throw new Error('blocked');}}),/unavailable/);
+ assert.deepEqual(mergeCollections(initialCollections(),initialCollections()),initialCollections());
+});
+
+test('launch rendering preserves literal content and removes scripts from private previews',async()=>{
+ const item=launchPublic({...record('literal'),name:'LAUNCH_DESCRIPTION $& <script>',page},true);
+ const html=await renderLaunch(item,{draft:true,template:template.replace('</body>','<script src="/analytics.js"></script></body>')});
+ assert.ok(html.includes('<h1>LAUNCH_DESCRIPTION $&amp; &lt;script&gt;</h1>'));
+ assert.doesNotMatch(html,/<script\b/);assert.match(html,/noindex,nofollow/);assert.doesNotMatch(html,/SECRET_EMAIL|SECRET_NOTES/);
+});

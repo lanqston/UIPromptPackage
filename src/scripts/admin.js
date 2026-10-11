@@ -80,6 +80,20 @@ function renderEditor(record) {
     const link=element('a','Visit submitted project →');link.href=record.url;link.target='_blank';link.rel='noopener noreferrer';details.append(link);$('owner-private-details').append(details);
     field('name','Project name',record.name,{max:120});field('creator','Creator name',record.creator,{max:100});field('url','Project URL',record.url,{type:'url',max:500});field('description','Public description',record.description,{rows:4,max:600});field('category','Category',record.category,{choices:projectCategories});field('socialUrl','Creator profile URL',record.socialUrl,{type:'url',max:500,required:false,help:'Use the complete profile link after verifying the submitted handle.'});
     field('pick','Digivated Pick',record.pick,{type:'checkbox'});
+    $('owner-fields').append(element('h2','Launch page'));
+    $('owner-fields').append(element('p',record.pagePublished?'Launch page is published. Saving page edits creates a private draft and unpublishes the current page.':'Launch page is private. Directory approval alone does not publish a page.','quiet'));
+    field('pageBio','Creator bio (optional)',record.page?.bio||'',{rows:3,max:600,required:false,help:'Only use a bio supplied or approved by the creator.'});
+    field('upload','Replace primary screenshot (optional)','',{type:'file',required:false,help:'JPG, PNG or WebP up to 500 KB. Published only after approval.'});
+    field('pageAlt','Primary screenshot description',record.page?.alt||'',{max:240,required:false});
+    field('pageCtaLabel','Page call to action',record.page?.ctaLabel||'Visit project',{choices:['Visit project','Try the app','Join the waitlist']});
+    field('pageCtaUrl','Call to action destination',record.page?.ctaUrl||record.url,{type:'url',max:500});
+    field('pageConsent','I verified permission to publish this launch page, including its creator bio, links and screenshots',record.page?.consent===true,{type:'checkbox'});
+    for(let index=0;index<3;index++){
+      field(`gallery${index}`,`Gallery screenshot ${index+1} (optional)`,'',{type:'file',required:false,help:'Resized to 1600 px and compressed before saving. JPG, PNG or WebP.'});
+      field(`galleryAlt${index}`,`Gallery screenshot ${index+1} description`,record.page?.gallery?.[index]?.alt||'',{max:240,required:false});
+    }
+    field('clearGallery','Remove existing gallery',false,{type:'checkbox'});
+
   }else{
     field('id',state.kind==='resource'?'Article URL slug':'Product identifier',record.id,{max:100,readonly:!!record.revision,help:'Lowercase letters, numbers and hyphens. This stays fixed after the first save.'});
     field(state.kind==='resource'?'title':'name',state.kind==='resource'?'Article title':'Product name',record.title||record.name,{max:160});field('description','Short description',record.description,{rows:3,max:600});
@@ -95,6 +109,10 @@ function renderEditor(record) {
     const button=element('button',label,'button');button.type='submit';button.value=status;button.disabled=status==='featured'&&!['approved','featured'].includes(record.status);$('owner-editor-actions').append(button);
   }
   else {const button=element('button','Publish','button');button.type='submit';button.value='published';$('owner-editor-actions').append(button);}
+  if(state.kind==='submission'){
+    for(const [value,label] of [['draft','Save launch draft'],['publish','Publish launch page'],['unpublish','Unpublish launch page']]){const button=element('button',label,'button');button.type='submit';button.value='page-'+value;$('owner-editor-actions').append(button);}
+    if(record.page){const preview=element('a','Preview saved draft','button');preview.href=`/api/admin?action=preview&kind=submission&id=${record.id}`;preview.target='_blank';preview.rel='noopener';$('owner-editor-actions').append(preview);}
+  }
   $('owner-editor-actions').append(element('p','Saving an approved or published item updates the public site. Drafts, pending, rejected, and archived items stay private.','quiet'));
 }
 async function openRecord(id){const kind=state.kind;const request=++state.editorRequest;message('Opening item…');try{const data=await api(`?action=detail&kind=${kind}&id=${encodeURIComponent(id)}`);if(kind!==state.kind||request!==state.editorRequest||!state.csrf)return;renderEditor(data.record);$('owner-editor').showModal();message('');}catch(error){message(errorText(error));}}
@@ -108,10 +126,30 @@ $('owner-editor-form').addEventListener('submit',async event=>{
   try{
     const formData=new FormData(event.currentTarget);const record=Object.fromEntries([...formData].filter(([name])=>name!=='upload'));
     record.id=state.kind==='submission'?state.record.id:record.id;record.revision=state.record.revision||0;record.pick=formData.get('pick')==='on';record.removeImage=formData.get('removeImage')==='on';
-    if(event.submitter?.value&&event.submitter.value!=='save')record.status=event.submitter.value;
+    if(event.submitter?.value?.startsWith('page-'))record.pageAction=event.submitter.value.slice(5);
+    else if(event.submitter?.value&&event.submitter.value!=='save')record.status=event.submitter.value;
+    if(state.kind==='submission'){
+      const gallery=formData.get('clearGallery')==='on'?[]:[...(state.record.page?.gallery||[])];
+      for(let index=0;index<3;index++){
+        const file=formData.get(`gallery${index}`);const alt=formData.get(`galleryAlt${index}`)||'';
+        if(file?.size)gallery[index]={image:await optimizedImage(file),alt};
+        else if(gallery[index])gallery[index]={...gallery[index],alt};
+      }
+      record.page={bio:formData.get('pageBio'),alt:formData.get('pageAlt'),ctaLabel:formData.get('pageCtaLabel'),ctaUrl:formData.get('pageCtaUrl'),consent:formData.get('pageConsent')==='on',gallery:gallery.filter(Boolean)};
+    }
     const file=formData.get('upload');if(file?.size){if(file.size>500*1024||!['image/jpeg','image/png','image/webp'].includes(file.type))throw new Error('Use a JPG, PNG, or WebP image up to 500 KB.');record.image=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Could not read image.'));reader.readAsDataURL(file);});}
-    const data=await api('',{action:'save',kind:state.kind,record});renderEditor(data.record);state.dirty=false;message(['approved','featured','published'].includes(data.record.status)?'Saved. This item is now public.':'Saved. This item is not public.',true);await load();
+    const data=await api('',{action:'save',kind:state.kind,record});renderEditor(data.record);state.dirty=false;message(record.pageAction ? (data.record.pagePublished?'Saved. Launch page is published.':'Saved. Launch page is private.') : ['approved','featured','published'].includes(data.record.status)?'Saved. This item is now public.':'Saved. This item is not public.',true);await load();
   }catch(error){message(errorText(error),true);if(!state.csrf)message(errorText(error));}
   finally{state.busy=false;$('owner-editor-actions').querySelectorAll('button').forEach(button=>button.disabled=button.value==='featured'&&!['approved','featured'].includes(state.record?.status));}
 });
 api().then(data=>signedIn(data.csrf)).catch(error=>{signedOut();message(error.message.includes('Sign in')?'':errorText(error));});
+
+async function optimizedImage(file){
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>8*1024*1024)throw new Error('Choose a JPG, PNG or WebP up to 8 MB.');
+  const bitmap=await createImageBitmap(file);const scale=Math.min(1,1600/Math.max(bitmap.width,bitmap.height));
+  const canvas=document.createElement('canvas');canvas.width=Math.round(bitmap.width*scale);canvas.height=Math.round(bitmap.height*scale);canvas.getContext('2d').drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();
+  let result=canvas.toDataURL('image/webp',.82);
+  if(result.length>680000)result=canvas.toDataURL('image/webp',.55);
+  if(result.length>680000)throw new Error('Screenshot is too detailed. Resize it before uploading.');
+  return result;
+}
