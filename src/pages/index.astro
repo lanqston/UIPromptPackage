@@ -1,18 +1,29 @@
 ---
-import SectionHeader from '../components/SectionHeader.astro';
 import Platform from '../layouts/Platform.astro';
-import EmptyState from '../components/EmptyState.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
+import OfferBanner from '../components/OfferBanner.astro';
+import ResourcesLibrary from '../components/ResourcesLibrary.astro';
 import LiveProjects from '../components/LiveProjects.astro';
-import ProductCard from '../components/ProductCard.astro';
-import products from '../data/products.json';
-import { resourceCategories } from '../data/community.mjs';
 ---
-<Platform>
-<section class="platform-hero"><div class="hero-copy"><h1>Build. Share. <br class="hero-mobile-break"/><em>Connect.</em></h1><p class="lede">A curated space to showcase your projects, discover useful ideas, and connect with makers building the future.</p><div class="actions"><a class="button primary" href="/submit-project">Submit Your Project (Free)</a><a class="button" href="/discover">Explore Builds</a></div></div></section>
-<section class="platform-section community-builds" aria-labelledby="community-heading"><h2 id="community-heading">What People Are Building</h2><LiveProjects limit={4} filterable compact title="Good things start somewhere." description="The directory is open for submissions. Reviewed projects will appear here as the community grows." href="/submit-project" label="Share what you’re building"/><a class="text-link" href="/discover">Explore all projects →</a></section>
-<section class="platform-section"><SectionHeader eyebrow="In the spotlight" title="Featured Build" href="/discover?view=featured" label="Explore featured projects"/><LiveProjects mode="featured" limit={1} title="A little space for your big idea." description="Our first Featured Build is still to come. Share what you’re making for a chance to be featured here." href="/submit-project" label="Submit Your Project"/><p class="feature-invitation">Want to be featured? Share your project for review.</p></section>
-<section class="platform-section picks-section"><div><p class="eyebrow">Digivated Picks</p><h2>Projects worth checking out.</h2><p>A personal selection of projects that catch my eye — useful ideas, thoughtful design, and people making things happen.</p><p class="quiet">Selected projects may also be featured across Digivated socials.</p><a class="button" href="/discover?view=picks">Explore Digivated Picks</a></div><div><LiveProjects mode="picks" limit={1} compact title="The first picks are on their way." description="A considered collection takes time. Check back as new projects are reviewed."/></div></section>
-<section class="platform-section"><ProductCard product={products[0]}/></section>
-<section class="platform-section"><SectionHeader eyebrow="Ideas to keep close" title="Latest from Digivated" href="/resources" label="Visit the resource library"/><div data-live-resources data-limit="3"><div class="resource-grid" data-live-list hidden></div><div data-live-empty><EmptyState compact title="A useful little library, in the making." description="Practical notes, tools, and ideas for building online. Our first resources will appear here when they’re ready."/></div><p class="quiet" data-live-status role="status"></p></div><div class="category-note">{resourceCategories.map(category=><a href={`/resources?category=${encodeURIComponent(category)}`}>{category}</a>)}</div></section>
-<script>import '../scripts/live-content.js';</script></Platform>
-
+<Platform description="A curated space to showcase your projects, discover useful ideas, and connect with makers building the future.">
+  <div class="home-container mx-auto px-6">
+    <section class="revamp-hero min-h-[60vh] pt-32 pb-10 flex flex-col md:flex-row items-center justify-between relative overflow-hidden gap-10 md:gap-8">
+      <div class="hero-copy min-w-0 w-full md:w-1/2">
+        <p class="section-kicker hero-kicker"><span aria-hidden="true"></span> FOR THE PEOPLE MAKING THINGS</p>
+        <h1 class="text-5xl md:text-7xl font-extrabold">Build. Share.<br/><em>Connect.</em></h1>
+        <p class="lede">A curated space to showcase your projects, discover useful ideas, and connect with makers building the future.</p>
+        <div class="actions flex flex-col sm:flex-row gap-3"><a class="button primary" href="/submit-project">Submit Your Project (Free) <span aria-hidden="true">↗</span></a><a class="button hero-explore" href="/discover">Explore Builds <span aria-hidden="true">→</span></a></div>
+        <p class="hero-note">Big ideas start with a small first step.</p>
+      </div>
+      <div class="w-full md:w-1/2 min-w-0"><HeroCarousel/></div>
+    </section>
+    <OfferBanner/>
+    <section class="home-section community-builds" aria-labelledby="community-heading">
+      <div class="home-section-heading flex flex-wrap items-end justify-between gap-5"><div><p class="section-kicker">MADE BY CURIOUS MINDS</p><h2 id="community-heading">What People Are Building</h2><p>Small experiments. Ambitious launches. Your next discovery.</p></div><a class="section-link" href="/discover">Explore all builds <span aria-hidden="true">↗</span></a></div>
+      <LiveProjects limit={8} filterable demoFill compact title="The community is taking shape." description="Loading reviewed projects and illustrative demo cards." href="/submit-project" label="Share what you’re building"/>
+      <p class="demo-explainer">Cards marked “Demo” are illustrative concepts with sample likes. Live projects keep their real view counts.</p>
+    </section>
+    <ResourcesLibrary/>
+  </div>
+  <script>import '../scripts/live-content.js';</script>
+</Platform>

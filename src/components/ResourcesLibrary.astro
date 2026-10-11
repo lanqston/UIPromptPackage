@@ -1,0 +1,12 @@
+---
+import InterfacePreview from './InterfacePreview.astro';
+import { resourceGuides } from '../data/home-content.mjs';
+import { resourceCategories } from '../data/community.mjs';
+---
+<section class="home-section resource-library" aria-labelledby="resources-heading">
+  <div class="home-section-heading flex flex-wrap items-end justify-between gap-5"><div><p class="section-kicker">A LITTLE INSPIRATION GOES A LONG WAY</p><h2 id="resources-heading">Digivated Resources &amp; Ideas</h2><p>Useful starting points for whatever you’re building next.</p></div><a class="section-link" href="/resources">Visit the library <span aria-hidden="true">↗</span></a></div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {resourceGuides.map(guide => <article class="idea-card rounded-xl border border-brand-line bg-brand-card overflow-hidden"><a class="idea-image" href={guide.href} tabindex="-1" aria-hidden="true"><InterfacePreview kind={guide.artwork} label={guide.category}/></a><div class="idea-copy p-6"><span class="tag">{guide.category}</span><h3><a href={guide.href}>{guide.title}</a></h3><p>{guide.description}</p><a class="idea-link" href={guide.href}>{guide.label} <span aria-hidden="true">→</span></a></div></article>)}
+  </div>
+  <nav class="topic-strip flex gap-3 overflow-x-auto" aria-label="Browse resource topics">{resourceCategories.map(category => <a class="shrink-0 rounded-full border border-brand-line" href={`/resources?category=${encodeURIComponent(category)}`}>{category}</a>)}</nav>
+</section>

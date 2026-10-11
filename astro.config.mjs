@@ -1,8 +1,10 @@
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   output: 'static',
   vite: {
+    plugins: [tailwindcss()],
     // Keep bundled scripts external so the existing self-only CSP can run them.
     build: { assetsInlineLimit: 0 },
     define: {
@@ -11,3 +13,4 @@ export default defineConfig({
     },
   },
 });
+

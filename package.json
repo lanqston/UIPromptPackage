@@ -24,6 +24,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
-    "checkly": "^9.5.0"
+    "@tailwindcss/vite": "4.3.3",
+    "checkly": "^9.5.0",
+    "tailwindcss": "4.3.3"
   }
 }

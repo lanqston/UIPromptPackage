@@ -1,15 +1,13 @@
 import { test, expect } from '@playwright/test';
-
 const base = 'http://127.0.0.1:4321';
-const projects = Array.from({ length: 6 }, (_, index) => ({
+const projects = Array.from({ length: 10 }, (_, index) => ({
   id: `home-${index}`, name: `Community build ${index}`, creator: 'Fixture maker',
   description: 'A reviewed community project.', category: 'Apps',
-  url: `https://example.com/build-${index}`, status: index === 4 ? 'featured' : 'approved',
-  pick: index === 5, views: index + 10,
+  url: `https://example.com/build-${index}`, status: index === 8 ? 'featured' : 'approved',
+  pick: index === 9, views: index + 10,
 }));
-
 for (const width of [320, 375, 768, 820, 1024, 1440]) {
-  test(`home navigation and live collection filters at ${width}px`, async ({ page }) => {
+  test(`redesigned home, carousel, and live filters at ${width}px`, async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.route('**/api/**', route => {
@@ -20,49 +18,69 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     });
     await page.setViewportSize({ width, height: 900 });
     await page.goto(base);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Build. Share. Connect.');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Build. Share.');
     await expect(page.locator('.hero-copy').getByRole('link', { name: 'Submit Your Project (Free)' })).toHaveAttribute('href', '/submit-project');
     await expect(page.locator('.hero-copy').getByRole('link', { name: 'Explore Builds' })).toHaveAttribute('href', '/discover');
+    await expect(page.locator('.platform-header')).toHaveCSS('position', 'fixed');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(3, 7, 18)');
+    await expect(page.locator('.hero-copy .primary')).toHaveCSS('background-color', 'rgb(37, 99, 235)');
+    const carousel = page.locator('[data-hero-carousel]');
+    await carousel.getByRole('button', { name: 'Next card' }).click();
+    await expect(carousel.locator('[data-position="0"]')).toContainText('A clearer creative process.');
+    await expect(carousel.locator('[data-position="1"]')).toHaveAttribute('inert', '');
+    await carousel.getByRole('button', { name: 'Previous card' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(carousel.locator('[data-position="0"]')).toContainText('Your next idea starts here.');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(carousel.locator('[data-position="0"]')).toHaveCSS('transition-duration', '0s');
     const shelf = page.locator('[data-project-filters]');
     const cards = shelf.locator('[data-project]:visible');
-    await expect(cards).toHaveCount(4);
+    await expect(cards).toHaveCount(8);
+    await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(0);
     await shelf.getByRole('button', { name: 'Featured', exact: true }).click();
     await expect(cards).toHaveCount(1);
-    await expect(cards).toContainText('Community build 4'); // Filter before the four-card limit.
-    await expect(shelf.getByRole('button', { name: 'Featured', exact: true })).toHaveAttribute('aria-pressed', 'true');
-    await expect(cards.getByRole('link', { name: 'Visit Project' })).toHaveAttribute('href', 'https://example.com/build-4');
+    await expect(cards).toContainText('Community build 8');
+    await expect(cards.getByRole('link', { name: 'Visit Project' })).toHaveAttribute('href', 'https://example.com/build-8');
     await shelf.getByRole('button', { name: 'Digivated Picks', exact: true }).focus();
     await page.keyboard.press('Enter');
     await expect(cards).toHaveCount(1);
-    await expect(cards).toContainText('Community build 5');
+    await expect(cards).toContainText('Community build 9');
     await shelf.getByRole('button', { name: 'All', exact: true }).click();
-    await expect(cards).toHaveCount(4);
-    await expect(shelf.locator('[data-live-status]')).toContainText('Showing 4 of 6 projects');
+    await expect(cards).toHaveCount(8);
+    await expect(page.locator('.idea-card')).toHaveCount(4);
+    await expect(page.getByRole('navigation', { name: 'Legal footer links' }).getByRole('link', { name: 'Privacy & Data' })).toHaveAttribute('href', '/privacy');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.evaluate(() => scrollTo(0, 0));
     await page.locator('.header-submit').click({ trial: true });
-    const navigation = page.getByRole('navigation', { name: width <= 780 ? 'Mobile navigation' : 'Main navigation', exact: true });
-    if (width <= 780) await page.locator('.mobile-menu summary').click();
+    const navigation = page.getByRole('navigation', { name: width < 1024 ? 'Mobile navigation' : 'Main navigation', exact: true });
+    if (width < 1024) await page.locator('.mobile-menu summary').click();
+    await navigation.getByRole('link', { name: 'About', exact: true }).click({ trial: true });
     await navigation.getByRole('link', { name: 'Prompt Packet', exact: true }).click({ trial: true });
-    if (width <= 780) await expect(navigation.getByRole('link', { name: 'Sign In', exact: true })).toHaveAttribute('href', '/access');
-    else await expect(page.locator('.header-sign-in')).toHaveAttribute('href', '/access');
     expect(errors).toEqual([]);
   });
 }
 
-test('empty filters stay usable and failed loading is announced', async ({ page }) => {
-  await page.route('**/api/**', route => route.fulfill({ json: { items: [], next: null } }));
+test('eight demo cards fill an empty directory and demo likes never call the API', async ({ page }) => {
+  const writes: string[] = [];
+  await page.route('**/api/**', route => {
+    if (route.request().method() === 'POST') writes.push(route.request().url());
+    return route.fulfill({ json: { items: [], next: null } });
+  });
   await page.goto(base);
   const shelf = page.locator('[data-project-filters]');
-  await expect(shelf.locator('[data-live-empty]')).toBeVisible();
+  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(8);
+  await expect(shelf.locator('[data-project-id]')).toHaveCount(0);
+  const like = shelf.getByRole('button', { name: 'Like Project Pramo demo — 12 sample likes' });
+  await like.click();
+  await expect(shelf.getByRole('button', { name: 'Unlike Project Pramo demo — 13 sample likes' })).toHaveAttribute('aria-pressed', 'true');
+  await shelf.getByRole('button', { name: 'Unlike Project Pramo demo — 13 sample likes' }).click();
+  await expect(like).toHaveAttribute('aria-pressed', 'false');
   await shelf.getByRole('button', { name: 'Featured', exact: true }).click();
-  await expect(shelf.locator('[data-live-empty]')).toContainText('Featured builds are on their way.');
-  await shelf.getByRole('button', { name: 'All', exact: true }).click();
-  await expect(shelf.locator('[data-live-empty]')).toContainText('Good things start somewhere.');
+  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(3);
+  expect(writes).toEqual([]);
   await page.route('**/api/projects*', route => route.fulfill({ status: 503, json: { error: 'Unavailable' } }));
   await page.reload();
-  await expect(shelf.locator('[data-live-status]')).toContainText('Projects are temporarily unavailable');
+  await expect(shelf.locator('[data-live-status]')).toContainText('Live projects are temporarily unavailable');
+  await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(8);
   await expect(shelf).not.toHaveAttribute('aria-busy', 'true');
-  await expect(shelf.getByRole('button', { name: 'All', exact: true })).toBeDisabled();
-  await expect(shelf.getByRole('link', { name: 'Share what you’re building' })).toHaveAttribute('href', '/submit-project');
 });

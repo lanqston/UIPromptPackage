@@ -1,0 +1,10 @@
+---
+const { kind = 'dashboard', label = 'Interface concept' } = Astro.props;
+---
+<div class:list={['interface-preview', `preview-${kind}`]} aria-hidden="true">
+  <div class="preview-chrome"><span></span><span></span><span></span><i>{label}</i></div>
+  <div class="preview-canvas">
+    <div class="preview-rail"><b></b><span></span><span></span><span></span><span></span></div>
+    <div class="preview-workspace"><div class="preview-title"></div><div class="preview-subtitle"></div><div class="preview-widgets"><div></div><div></div><div></div></div><div class="preview-chart"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="preview-lines"><span></span><span></span><span></span></div></div>
+  </div>
+</div>
