@@ -4,7 +4,10 @@ import { redisClient } from './submissions.mjs';
 export const viewKey = id => `digivated:project-views:${id}`;
 // Check publication and deduplicate/increment atomically, including concurrent tabs.
 export const RECORD_VIEW = `
-if redis.call('EXISTS',KEYS[1])==0 then return -1 end
+local raw = redis.call('GET',KEYS[1])
+if not raw then return -1 end
+local ok, record = pcall(cjson.decode,raw)
+if not ok or type(record) ~= 'table' or record.consent ~= true or (record.status ~= 'approved' and record.status ~= 'featured') then return -1 end
 if redis.call('SET',KEYS[3],'1','NX','EX',86400) then
  return redis.call('INCR',KEYS[2])
 end
@@ -40,7 +43,7 @@ export function makeProjectViewHandler(deps = {}) {
       // A project-scoped hash; raw network addresses are never stored.
       const visitor = createHmac('sha256', env.SUBMISSIONS_REDIS_REST_TOKEN || 'test-only').update(`${id}:${ip || 'fixture'}`).digest('hex');
       const redis = deps.redis || redisClient(env);
-      const views = await redis(['EVAL', RECORD_VIEW, 3, `digivated:public:submission:${id}`, viewKey(id), `digivated:project-view-seen:${visitor}`]);
+      const views = await redis(['EVAL', RECORD_VIEW, 3, `digivated:submission:${id}`, viewKey(id), `digivated:project-view-seen:${visitor}`]);
       if (views === -1) return send(404, { error: 'Project not found.' });
       return send(200, { views });
     } catch { return send(503, { error: 'Views temporarily unavailable.' }); }
