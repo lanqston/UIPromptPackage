@@ -12,7 +12,7 @@
       "maxDuration": 120
     },
     "api/*.js": {
-      "includeFiles": "server/edition.enc.json",
+      "includeFiles": "server/**",
       "maxDuration": 15
     }
   },
@@ -64,6 +64,12 @@
     {
       "path": "/api/x-publish",
       "schedule": "0,9,18,27,36,45,54 * * * *"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/projects/:slug",
+      "destination": "/api/project-page?slug=:slug"
     }
   ]
 }

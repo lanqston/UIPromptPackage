@@ -3,23 +3,24 @@ import { safeUrl } from '../data/community.mjs';
 const el=(tag,text,className)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;};
 function link(text,url){const node=el('a',text);node.href=url.startsWith('/')?url:safeUrl(url);if(!url.startsWith('/')){node.target='_blank';node.rel='noopener noreferrer';}return node;}
 function thumbnail(url,alt){const img=el('img');img.src=url;img.alt=alt;img.width=640;img.height=400;img.loading='lazy';return img;}
+function saveButton(type,id){const button=el('button','Save','button');button.type='button';button.dataset.saveType=type;button.dataset.saveId=id;return button;}
 function projectCard(project){
  const card=el('article',undefined,'project-card');card.dataset.project='';card.dataset.projectId=project.id;card.dataset.category=project.category;card.dataset.featured=String(project.status==='featured');card.dataset.pick=String(project.pick===true);card.dataset.search=`${project.name} ${project.creator} ${project.description} ${project.category}`.toLowerCase();
  const image=el('div',undefined,'project-image');
  const fallback=()=>{image.replaceChildren(el('span',project.name.slice(0,2).toUpperCase(),'project-monogram'));image.setAttribute('role','img');image.setAttribute('aria-label',`${project.name} — no preview available`);};
  if(project.image){const preview=thumbnail(project.image,`${project.name} project preview`);preview.decoding='async';preview.addEventListener('error',fallback,{once:true});image.append(preview);}else fallback();
  const copy=el('div',undefined,'project-copy');
- const heading=el('h3');heading.append(link(project.name,project.url));
+ const heading=el('h3');heading.append(link(project.name,project.pageUrl||project.url));
  const meta=el('div',undefined,'project-meta');meta.append(el('span',project.category,'tag'),el('span',`By ${project.creator}`,'quiet'));
  const description=el('p',project.description,'project-description');
  copy.append(heading,meta,description);
  if(project.description.length>100){const details=el('details',undefined,'project-details');details.append(el('summary','Read full description'),el('p',project.description));copy.append(details);}
  const views=el('p',viewLabel(project.views),'quiet');views.dataset.projectViews=project.id;views.title='Approximate project card views on Digivated. Repeat views from the same network count once every 24 hours.';
- const actions=el('div',undefined,'card-links');actions.append(views);const visit=link('Visit Project',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
+ const actions=el('div',undefined,'card-links');actions.append(views);if(project.pageUrl){const detail=link('View project',project.pageUrl);detail.className='button';actions.append(detail);}actions.append(saveButton('project',project.id));const visit=link('Visit Project',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
 }
 function resourceCard(resource){
  const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.category=resource.category;card.dataset.search=`${resource.title} ${resource.description} ${resource.category}`.toLowerCase();
- if(resource.coverImage)card.append(thumbnail(resource.coverImage,''));card.append(el('span',resource.category,'tag'));const title=el('h3');title.append(link(resource.title,resource.url));card.append(title,el('p',resource.description),el('p',`${resource.date} · ${resource.readingTime} min read`,'quiet'));const read=link('Read Resource',resource.url);read.className='button';card.append(read);return card;
+ if(resource.coverImage)card.append(thumbnail(resource.coverImage,''));card.append(el('span',resource.category,'tag'));const title=el('h3');title.append(link(resource.title,resource.url));card.append(title,el('p',resource.description),el('p',`${resource.date} · ${resource.readingTime} min read`,'quiet'));const read=link('Read Resource',resource.url);read.className='button';card.append(read,saveButton('resource',resource.id));return card;
 }
 function productCard(product){
  const card=el('article',undefined,'product-feature');const art=el('div',undefined,'product-art');art.append(product.image?thumbnail(product.image,product.name):el('span','Made by Digivated','tiny'));
@@ -97,7 +98,7 @@ async function loadArticle(){
   if(!response.ok){status.textContent=response.status===404?'This article is not available.':'This article is temporarily unavailable. Please try again shortly.';return;}
   const {item}=await response.json();document.title=`${item.title} · Digivated`;document.querySelector('link[rel="canonical"]').href=new URL(item.url,'https://digivated.vercel.app').href;document.querySelector('meta[name="description"]').content=item.description;document.getElementById('article-title').textContent=item.title;document.getElementById('article-category').textContent=item.category;document.getElementById('article-description').textContent=item.description;document.getElementById('article-meta').textContent=`${item.date} · ${item.readingTime} min read`;
   const body=document.getElementById('article-body');if(item.coverImage){const image=thumbnail(item.coverImage,'');image.className='article-cover';body.append(image);}
-  item.content.split(/\n\s*\n/).filter(Boolean).forEach(block=>{const heading=block.startsWith('## ');body.append(el(heading?'h2':'p',heading?block.slice(3):block));});root.hidden=false;status.textContent='';
+  item.content.split(/\n\s*\n/).filter(Boolean).forEach(block=>{const heading=block.startsWith('## ');body.append(el(heading?'h2':'p',heading?block.slice(3):block));});body.prepend(saveButton('resource',item.id));root.hidden=false;status.textContent='';
   if(item.related?.length){const all=await collection('/api/content?type=resource');const related=all.filter(r=>item.related.includes(r.id)&&r.id!==item.id);const section=document.getElementById('article-related');section.querySelector('.resource-grid').replaceChildren(...related.map(resourceCard));section.hidden=related.length===0;}
  }catch{status.textContent='This article is temporarily unavailable. Please try again shortly.';}
 }

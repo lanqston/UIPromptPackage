@@ -371,3 +371,9 @@
 }
 
 .platform [data-live-projects] .project-copy:not(:has(.project-details)) .project-description { display:block; overflow:visible; -webkit-line-clamp:unset; }
+
+/* Discovery copy variant; no experiment assignment or tracking. */
+.home-refresh .hero-copy h1.discovery-headline { font-size:clamp(2.15rem,3.5vw,3.25rem); line-height:1.13; letter-spacing:-.035em; text-wrap:balance; max-width:19ch; }
+.home-refresh .discovery-headline em { display:block; margin-top:.15em; }
+.home-refresh .hero-copy .actions { flex-wrap:wrap; }
+@media (max-width:767px) { .home-refresh .hero-copy h1.discovery-headline { font-size:clamp(2rem,7.8vw,3rem); max-width:23ch; } }

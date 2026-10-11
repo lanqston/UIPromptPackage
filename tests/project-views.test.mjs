@@ -24,8 +24,9 @@ test('real Redis: atomic counts, expiry, private projects and public API',{skip:
  try {
  const handler=makeProjectViewHandler({redis,env:{SUBMISSIONS_ORIGIN:origin}});
  assert.equal((await invoke(handler)).status,404);assert.equal(await redis(['DBSIZE']),0);
- const record={id:'test-project',name:'Fixture',status:'approved'};
+ const record={id:'test-project',name:'Fixture',status:'approved',consent:true,url:'https://example.com'};
  await redis(['SET','digivated:public:submission:test-project',JSON.stringify(record)]);
+ await redis(['SET','digivated:submission:test-project',JSON.stringify(record)]);
  await redis(['ZADD','digivated:public:submissions',1,'test-project']);
  const results=await Promise.all(Array.from({length:15},()=>invoke(handler)));
  assert.ok(results.every(r=>r.status===200&&r.body.views===1));

@@ -1,3 +1,4 @@
+import { launchFields, pageSlug } from './launch-pages.mjs';
 import { AdminError } from './admin-auth.mjs';
 import { projectCategories, resourceCategories, safeUrl, statuses } from '../src/data/community.mjs';
 import { validateSubmission } from './submissions.mjs';
@@ -29,7 +30,11 @@ export function validateEdit(kind, input, previous) {
     const socialUrl = text(input.socialUrl, 'creator profile URL', 500, false);
     record = { ...previous, name: text(input.name, 'project name', 120), creator: text(input.creator, 'creator', 100), description: text(input.description, 'description', 600), category: input.category, status: input.status, pick: input.pick === true && ['approved', 'featured'].includes(input.status), socialUrl: socialUrl ? safeUrl(socialUrl) : '', url: safeUrl(text(input.url, 'project URL', 500)) };
     if (!record.url || (socialUrl && !record.socialUrl) || record.description.length < 20) throw new AdminError(400, 'Check the project description and links.');
+    if (input.image) record.image = imageValue(input.image);
     if (input.removeImage === true) record.image = '';
+    Object.assign(record, launchFields(input, previous));
+    if (record.page) record.slug = previous.slug || pageSlug(record);
+    if (!['approved','featured'].includes(record.status)) record.pagePublished = false;
   } else {
     if (!['draft', 'published', 'archived'].includes(input.status)) throw new AdminError(400, 'Choose a valid publishing status.');
     record = { id: input.id, status: input.status, description: text(input.description, 'description', 600), date: previous?.date || now, image: input.removeImage === true ? '' : input.image ? imageValue(input.image) : previous?.image || '' };
@@ -54,7 +59,7 @@ export function validateEdit(kind, input, previous) {
 }
 export function projectPublic(record) {
   if (!['approved', 'featured'].includes(record.status) || record.consent !== true) return null;
-  return { id: record.id, name: record.name, creator: record.creator, description: record.description, category: record.category, url: safeUrl(record.url), socialUrl: safeUrl(record.socialUrl), date: record.date, status: record.status, pick: record.pick === true, image: record.image ? `/api/projects?image=${record.id}` : '' };
+  return { ...(record.pagePublished && record.page?.consent ? { pageUrl: `/projects/${record.slug}` } : {}), id: record.id, name: record.name, creator: record.creator, description: record.description, category: record.category, url: safeUrl(record.url), socialUrl: safeUrl(record.socialUrl), date: record.date, status: record.status, pick: record.pick === true, image: record.image ? `/api/projects?image=${record.id}` : '' };
 }
 export function contentPublic(kind, record) {
   if (record.status !== 'published') return null;
@@ -69,6 +74,11 @@ local old=redis.call('GET',KEYS[1]); local revision=0
 if old then revision=cjson.decode(old).revision or 0 end
 if revision~=tonumber(ARGV[1]) then return 0 end
 local record=cjson.decode(ARGV[2]); local id=record.id
+if ARGV[5]=='submission' and record.slug then
+ local key='digivated:launch-slug:'..record.slug; local owner=redis.call('GET',key)
+ if owner and owner~=id then return -1 end
+ redis.call('SET',key,id)
+end
 if ARGV[5]=='submission' then
  local featured=redis.call('GET',KEYS[5])
  if record.status=='featured' then
@@ -106,5 +116,6 @@ export async function listRecords(redis, kind, offset = 0) {
 export async function publicRecords(redis, kind, offset = 0, limit = 100) {
   const ids = await redis(['ZREVRANGE', `digivated:public:${kind}s`, offset, offset + limit - 1]);
   if (!ids.length) return [];
-  return (await redis(['MGET', ...ids.map(id => `digivated:public:${kind}:${id}`)])).filter(Boolean).map(JSON.parse);
+  const projections=await redis(['MGET', ...ids.map(id => `digivated:public:${kind}:${id}`)]);
+  return (await redis(['MGET', ...ids.map(id => storageKey(kind,id))])).filter((raw,index)=>raw && projections[index]).map(JSON.parse).map(record => kind === 'submission' ? projectPublic(record) : contentPublic(kind,record)).filter(Boolean);
 }

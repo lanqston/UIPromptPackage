@@ -1,6 +1,6 @@
 import { withProjectViews } from './project-views.mjs';
 import { redisClient } from './submissions.mjs';
-import { publicRecords, validId, storageKey } from './admin-store.mjs';
+import { publicRecords, validId, storageKey, projectPublic, contentPublic } from './admin-store.mjs';
 export function makePublicHandler(type, deps = {}) {
   return async (req, res) => {
     res.setHeader('Cache-Control', 'no-store');
@@ -24,7 +24,10 @@ export function makePublicHandler(type, deps = {}) {
         const raw = await redis(['GET', `digivated:public:${kind}:${id}`]);
         if (!raw) return send(404, { error: 'Not found.' });
         if (!url.searchParams.has('image')) {
-          const item = JSON.parse(raw);
+          const source = await redis(['GET', storageKey(kind,id)]);
+          const record = source ? JSON.parse(source) : null;
+          const item = record ? (kind === 'submission' ? projectPublic(record) : contentPublic(kind,record)) : null;
+          if (!item) return send(404, { error:'Not found.' });
           return send(200, { item: kind === 'submission' ? (await withProjectViews(redis, [item]))[0] : item });
         }
         const privateRaw = await redis(['GET', storageKey(kind, id)]);
@@ -38,7 +41,9 @@ export function makePublicHandler(type, deps = {}) {
       if (type === 'projects' && url.searchParams.get('view') === 'featured') {
         const featuredId = await redis(['GET', 'digivated:featured']);
         const raw = featuredId ? await redis(['GET', `digivated:public:submission:${featuredId}`]) : null;
-        return send(200, { items: await withProjectViews(redis, raw ? [JSON.parse(raw)] : []), next: null });
+        const source=featuredId?await redis(['GET',storageKey('submission',featuredId)]):null;
+        const item=source?projectPublic(JSON.parse(source)):null;
+        return send(200, { items: await withProjectViews(redis, item ? [item] : []), next: null });
       }
       const offset = Number(url.searchParams.get('offset') || 0);
       if (!Number.isInteger(offset) || offset < 0 || offset > 100000) return send(400, { error: 'Invalid page.' });

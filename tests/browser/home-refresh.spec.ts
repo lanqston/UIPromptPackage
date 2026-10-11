@@ -18,8 +18,8 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     });
     await page.setViewportSize({ width, height: 900 });
     await page.goto(base);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Build. Share.');
-    await expect(page.locator('.hero-copy').getByRole('link', { name: 'Submit Your Project (Free)' })).toHaveAttribute('href', '/submit-project');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Discover independent projects. Get ideas for your next build.');
+    await expect(page.locator('.hero-copy').getByRole('link', { name: 'Submit Your Project' })).toHaveAttribute('href', '/submit-project');
     await expect(page.locator('.hero-copy').getByRole('link', { name: 'Explore Projects' })).toHaveAttribute('href', '/discover');
     await expect(page.locator('.platform-header')).toHaveCSS('position', 'fixed');
     await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(3, 7, 18)');

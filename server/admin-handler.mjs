@@ -1,3 +1,4 @@
+import { renderLaunch, launchPublic } from './launch-pages.mjs';
 import { createHmac } from 'node:crypto';
 import { redisClient } from './submissions.mjs';
 import { AdminError, adminConfig, verifyPassword, createSession, requireSession, jsonBody, cookie, tokenFrom, digest } from './admin-auth.mjs';
@@ -19,7 +20,7 @@ export function makeAdminHandler(deps = {}) {
       const redis = deps.redis || redisClient(env);
       if (req.method === 'POST') {
         if (String(req.url).includes('?')) throw new AdminError(400, 'Use the dashboard form.');
-        const body = await jsonBody(req);
+        const body = await jsonBody(req, 2900000);
         if (body.action === 'login') {
           const ip = req.headers['x-real-ip'];
           if (!deps.redis && (env.VERCEL !== '1' || typeof ip !== 'string' || !ip)) throw new AdminError(503, 'Owner sign-in is temporarily unavailable.');
@@ -54,11 +55,12 @@ export function makeAdminHandler(deps = {}) {
         if (!Number.isInteger(offset) || offset < 0 || offset > 100000) throw new AdminError(400, 'Invalid page.');
         return send(200, await listRecords(redis, kind, offset));
       }
-      if (action === 'detail') {
+      if (action === 'detail' || (action === 'preview' && kind === 'submission')) {
         const id = url.searchParams.get('id');
         if (!validId(id)) throw new AdminError(400, 'Invalid identifier.');
         const raw = await redis(['GET', storageKey(kind, id)]);
         if (!raw) throw new AdminError(404, 'This item could not be found.');
+        if (action === 'preview') { res.setHeader('Content-Type','text/html; charset=utf-8'); res.setHeader('X-Robots-Tag','noindex, nofollow'); res.statusCode=200; return res.end(await renderLaunch(launchPublic(JSON.parse(raw),true),{draft:true})); }
         return send(200, { record: JSON.parse(raw) });
       }
       throw new AdminError(400, 'Invalid dashboard action.');
