@@ -1,5 +1,4 @@
 import { observeProjectViews, viewLabel } from './project-views.js';
-import { seedProjects } from '../data/home-content.mjs';
 import { safeUrl } from '../data/community.mjs';
 const el=(tag,text,className)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;};
 function link(text,url){const node=el('a',text);node.href=url.startsWith('/')?url:safeUrl(url);if(!url.startsWith('/')){node.target='_blank';node.rel='noopener noreferrer';}return node;}
@@ -10,28 +9,6 @@ function projectCard(project){
  const copy=el('div',undefined,'project-copy');copy.append(el('span',project.category,'tag'),el('h3',project.name),el('p',`By ${project.creator}`,'quiet'),el('p',project.description));
  const views=el('p',viewLabel(project.views),'quiet');views.dataset.projectViews=project.id;views.title='Approximate project card views on Digivated. Repeat views from the same network count once every 24 hours.';copy.append(views);
  const actions=el('div',undefined,'card-links');const visit=link('Visit Project',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
-}
-function demoCard(project) {
- const card = el('article', undefined, 'project-card demo-project');
- card.dataset.demoProject = project.id;
- card.dataset.featured = String(project.status === 'featured');
- card.dataset.pick = String(project.pick);
- const image = el('div', undefined, 'project-image');
- const art = el('div', undefined, 'demo-art'); art.dataset.artwork = project.artwork; art.setAttribute('aria-hidden', 'true');
- const mockup = el('div', undefined, 'demo-window');
- for (let index = 0; index < 4; index++) mockup.append(el('span'));
- art.append(mockup, el('span', 'Demo', 'demo-label')); image.append(art);
- const copy = el('div', undefined, 'project-copy');
- copy.append(el('h3', project.name), el('p', 'Illustrative project concept', 'quiet'), el('p', project.description));
- const footer = el('div', undefined, 'demo-card-footer'); footer.append(el('span', project.category, 'tag'));
- const like = el('button', `♡ ${project.likes}`, 'demo-like'); like.type = 'button'; like.setAttribute('aria-pressed', 'false');
- like.setAttribute('aria-label', `Like ${project.name} demo — ${project.likes} sample likes`);
- like.addEventListener('click', () => {
-  const liked = like.getAttribute('aria-pressed') !== 'true'; const count = project.likes + Number(liked);
-  like.setAttribute('aria-pressed', String(liked)); like.textContent = `${liked ? '♥' : '♡'} ${count}`;
-  like.setAttribute('aria-label', `${liked ? 'Unlike' : 'Like'} ${project.name} demo — ${count} sample likes`);
- });
- footer.append(like); copy.append(footer); card.append(image, copy); return card;
 }
 function resourceCard(resource){
  const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.category=resource.category;card.dataset.search=`${resource.title} ${resource.description} ${resource.category}`.toLowerCase();
@@ -49,7 +26,7 @@ async function collection(url){
 function renderShelf(node,items,renderer){const target=node.querySelector('[data-live-list]');const limit=Number(node.dataset.limit)||items.length;target.replaceChildren(...(node.hasAttribute('data-project-filters') ? items : items.slice(0,limit)).map(renderer));const empty=node.querySelector('[data-live-empty]');if(empty)empty.hidden=items.length>0;target.hidden=items.length===0;}
 function setupProjectFilters(shelf) {
  const buttons = [...shelf.querySelectorAll('[data-project-filter]')];
- const cards = [...shelf.querySelectorAll('[data-project], [data-demo-project]')];
+ const cards = [...shelf.querySelectorAll('[data-project]')];
  const list = shelf.querySelector('[data-live-list]');
  const empty = shelf.querySelector('[data-live-empty]');
  const status = shelf.querySelector('[data-live-status]');
@@ -82,10 +59,10 @@ async function loadProjects(){
  const shelves=[...document.querySelectorAll('[data-live-projects]')];if(!shelves.length)return;
  try{
   const projects=await collection('/api/projects');
-  for(const shelf of shelves){const mode=shelf.dataset.liveProjects;let selected=projects;if(mode==='featured')selected=projects.filter(p=>p.status==='featured');if(mode==='picks')selected=projects.filter(p=>p.pick);renderShelf(shelf,selected,projectCard);if(shelf.hasAttribute('data-demo-fill'))shelf.querySelector('[data-live-list]').append(...seedProjects.map(demoCard));if(shelf.hasAttribute('data-project-filters'))setupProjectFilters(shelf);}
+  for(const shelf of shelves){const mode=shelf.dataset.liveProjects;let selected=projects;if(mode==='featured')selected=projects.filter(p=>p.status==='featured');if(mode==='picks')selected=projects.filter(p=>p.pick);renderShelf(shelf,selected,projectCard);if(shelf.hasAttribute('data-project-filters'))setupProjectFilters(shelf);}
   document.dispatchEvent(new Event('digivated:collection-updated'));
   observeProjectViews();
- }catch{for(const shelf of shelves){if(shelf.hasAttribute('data-demo-fill')){shelf.querySelector('[data-live-list]').replaceChildren(...seedProjects.map(demoCard));setupProjectFilters(shelf);}shelf.removeAttribute('aria-busy');const status=shelf.querySelector('[data-live-status]');if(status)status.textContent=shelf.hasAttribute('data-demo-fill')?'Live projects are temporarily unavailable. Showing illustrative demos.':'Projects are temporarily unavailable. Please try again shortly.';}}
+ }catch{for(const shelf of shelves){shelf.removeAttribute('aria-busy');const empty=shelf.querySelector('[data-live-empty]');empty.hidden=true;const status=shelf.querySelector('[data-live-status]');if(status)status.textContent='Projects are temporarily unavailable. Please try again shortly.';}}
 }
 async function loadResources(){
  const shelves=[...document.querySelectorAll('[data-live-resources]')];if(!shelves.length)return;
