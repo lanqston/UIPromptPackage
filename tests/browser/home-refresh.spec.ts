@@ -35,9 +35,10 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await expect(carousel.locator('[data-position="0"]')).toHaveCSS('transition-duration', '0s');
     } else { await expect(carousel).toBeHidden(); }
+    await expect(page.locator('.home-wayfinding, .discovery-guide')).toHaveCount(0);
     const shelf = page.locator('[data-project-filters]');
     const cards = shelf.locator('[data-project]:visible');
-    await expect(shelf.locator('[data-project-filter]')).toHaveText(['Featured', 'All', 'Digivated Picks']);
+    await expect(shelf.locator('[data-project-filter]')).toHaveText(['All', 'Featured', 'Digivated Picks']);
     await expect(page.locator('.platform-header .logo-crop')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
     await expect(cards).toHaveCount(4);
     await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(0);
@@ -49,9 +50,13 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await page.keyboard.press('Enter');
     await expect(cards).toHaveCount(1);
     await expect(cards).toContainText('Community build 9');
+    await expect(shelf.locator('[data-filter-description]')).toHaveText('A selection chosen by Digivated.');
+    await expect(shelf.getByRole('button', { name: 'Digivated Picks', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await shelf.getByRole('button', { name: 'All', exact: true }).click();
     await expect(cards).toHaveCount(4);
     await expect(page.locator('.idea-card')).toHaveCount(4);
+    await page.locator('#projects').evaluate(el => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 100));
+    await page.screenshot({path:test.info().outputPath(`project-browse-${width}.png`),fullPage:false});
     await expect(page.getByRole('navigation', { name: 'Legal footer links' }).getByRole('link', { name: 'Privacy & Data' })).toHaveAttribute('href', '/privacy');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.evaluate(() => scrollTo(0, 0));
