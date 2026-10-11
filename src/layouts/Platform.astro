@@ -3,6 +3,7 @@ import '../styles/global.css';
 import '../styles/platform.css';
 import '../styles/launch-collections.css';
 import '../styles/community-refresh.css';
+import '../styles/experience-polish.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 const { title = 'Build. Share. Connect.', description = 'A space to discover useful ideas, share what you’re building, and connect with people creating something of their own.' } = Astro.props;
@@ -14,7 +15,7 @@ const breadcrumb = sectionNames[path] || title;
 <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><title>{title} · Digivated</title><meta name="description" content={description}/><meta name="theme-color" content="#030712"/><link rel="icon" href="/favicon.svg"/><link rel="canonical" href={new URL(path, 'https://digivated.vercel.app')}/><meta property="og:title" content={`${title} · Digivated`}/><meta property="og:description" content={description}/><meta property="og:image" content="https://digivated.vercel.app/digivated-logo-site.jpg"/></head>
 <body class:list={['platform', { 'home-refresh': path === '/' }]}><a class="skip" href="#main">Skip to content</a>
 <SiteHeader/>
-<main id="main" tabindex="-1">{path !== '/' && <nav class="site-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>{path.startsWith('/resources/') && <><a href="/resources">Resources</a><span aria-hidden="true">/</span></>}<span aria-current="page">{breadcrumb}</span></nav>}<slot/></main>
+<main id="main" tabindex="-1">{path !== '/' && <nav class="site-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>{path.startsWith('/projects/') && <><a href="/discover">Projects</a><span aria-hidden="true">/</span></>}{path.startsWith('/resources/') && <><a href="/resources">Resources</a><span aria-hidden="true">/</span></>}<span aria-current="page">{breadcrumb}</span></nav>}<slot/></main>
 <SiteFooter/>
 <script is:inline src="/analytics.js"></script><script>import '../scripts/monitoring.js'; import '../scripts/platform-ui.js'; import '../scripts/collections.js';</script>
 </body></html>
