@@ -48,7 +48,7 @@ The Playwright configuration starts the local fixture harness on 4322 when Redis
 
 This branch has no isolated preview Redis credentials. The hosted preview safely shows the updated homepage, browser collections and built-in resource, but database-backed content is empty and the admin API fails closed until a separate staging connection is configured. Shared `KV_*` integration variables are deliberately not reused: they also target production. Local integration coverage is not a claim of hosted writable-backend validation.
 
-Before production:
+Rollout procedure (the user subsequently authorized production release):
 
 1. Connect a **separate staging Redis database** using branch-scoped preview `SUBMISSIONS_REDIS_REST_URL` and `SUBMISSIONS_REDIS_REST_TOKEN`. Configure independent `DIGIVATED_ADMIN_PASSWORD_HASH` and `DIGIVATED_ADMIN_SESSION_SECRET`, and exact preview origins in `DIGIVATED_ADMIN_ORIGIN` and `SUBMISSIONS_ORIGIN`. Do not copy production storage credentials. Rebuild the preview.
 2. Submit dummy staging content; approve its directory listing; save/preview/publish its launch page; test direct anonymous page/API/image access before and after unpublishing. Verify resource and project saves, export/import and responsive layout on the hosted preview. Delete/archive staging fixtures afterward.
@@ -57,7 +57,7 @@ Before production:
 5. Check homepage copy, `/saved`, anonymous admin denial and a nonexistent project 404. In the existing owner dashboard, review a specifically consented project, save its draft, and explicitly publish. Verify initial HTML metadata and screenshots; unpublish and confirm page/assets return 404. Do not automatically publish legacy submissions.
 6. If needed, roll back the application to the previous production commit. Leave extra record fields and slug reservations intact. Collections remain in browser storage and can be exported when this version is restored.
 
-No production deployment, production migration, paid service or experimentation platform is part of this branch.
+Production release was subsequently authorized by the user. No bulk production migration, paid service or experimentation platform is required. Hosted staging writes remain unverified; lifecycle coverage uses isolated local Redis.
 
 ## Validation recorded for this branch
 
@@ -66,8 +66,9 @@ No production deployment, production migration, paid service or experimentation 
 - Browser scenarios: **14 passed** across the relevant owner, homepage and new-feature suites. The launch-editor scenario was additionally extended and rerun with real screenshot upload/WebP compression, primary/gallery access, and screenshots at 375px and 1440px.
 - Homepage checks: 320, 375, 768, 820, 1024 and 1440px; mobile/desktop screenshots inspected. One H1, exact copy, action destinations, existing carousel/filter behavior and no horizontal overflow passed.
 - Collections: project/resource save, keyboard picker, multi-folder membership, remove from one folder, rename/delete, reload, search, export/import, malformed imports, unavailable items, disabled/quota storage and native-share stub passed. No card navigation on Save. Native OS share-sheet UI itself was not tested on physical devices.
+- Updated legacy refinement selectors: **5 passed** at 390px, 430px and 1280px. Redis CI now includes launch publication and collection coverage.
 - Syntax checks and `git diff --check`: passed. Encrypted paid-content verification was not run because its private edition key was not accessed; payment code is unchanged.
 - Hosted preview HTTP: homepage and `/saved` 200; nonexistent project route and screenshot 404; built-in saved resource 200; `/api/projects` empty; unconfigured admin preview 503, containing only a setup error. No database writes were made against the hosted application.
 - Hosted browser automation hit the execution environment's TLS certificate trust error. TLS verification was not disabled. Rendered visual evidence is from the local build with isolated test data; hosted HTTP evidence was collected through authenticated Vercel tools.
 
-Changed files are listed in the pull request's Files changed tab; the implementation spans homepage/layout/styles, launch renderer/API/admin publishing, browser collections/resolver, build/Vercel routing, and test fixtures. Production remains on its existing `main` deployment.
+Changed files are listed in the pull request's Files changed tab; the implementation spans homepage/layout/styles, launch renderer/API/admin publishing, browser collections/resolver, build/Vercel routing, and test fixtures. Release uses the existing `main` Git integration and production configuration.
