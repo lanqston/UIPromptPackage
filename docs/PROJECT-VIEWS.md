@@ -1,38 +1,11 @@
-# Project views
+# Project view tracking
 
-Approved projects display a public view count on their cards on Home and Discover.
-Creators can search for their project on Discover to see its count without an account.
-A view means at least half of the card was in the viewport for one continuous second
-while the tab was visible. It does not measure visits to the external project website.
+A view is a directory/homepage project card at least 50% visible for one second in an active tab. Counts are approximate impressions, not unique people: repeat views from the same network are deduplicated per project for 24 hours. Bots are excluded. Raw network addresses are not stored; deduplication uses project-scoped HMAC keys with 24-hour expiry. Existing totals and Redis keys are preserved.
 
-The server counts a project once per network address per rolling 24 hours. Multiple
-cards, refreshes, tabs, and concurrent requests cannot add repeat counts during that
-window. Known bot user agents are ignored. These are approximate views, not unique
-people: shared networks can undercount, changed networks and automated clients can
-overcount. No historical views are reconstructed; existing projects begin at zero.
+Visible counts refresh every minute through the same atomic, deduplicated endpoint. Temporary failures retain the displayed count and retry after 2 and 4 seconds, then at most once per minute. Hidden/filtered cards stop scheduling requests. Returning to the tab or going online resumes tracking. Observers and timers are cleaned up on navigation and restored for browser back/forward-cache pages.
 
-Uses the existing SUBMISSIONS Redis REST settings and SUBMISSIONS_ORIGIN; no new
-service, credentials, dependencies, migrations, or buyer configuration are required.
-Deploy the updated site and API together to enable counting.
+The Redis transaction validates the current source record's approval/featured status and public consent before deduplication and increment. A stale public snapshot cannot allow pending, rejected, deleted or private content to accrue counts. Concurrent tabs increment at most once per network per project in the deduplication window. Existing totals survive unpublishing and reapproval.
 
-Storage is separate from submission records: `digivated:project-views:<id>` holds the
-total and `digivated:project-view-seen:<project-scoped HMAC>` expires after 24 hours.
-Raw IP addresses are not stored. No cookies or browser storage are added. Moderation
-does not reset counts. Pending/rejected/archived projects cannot receive views or
-expose counts through public endpoints. Republished projects retain their totals.
-Optional metric read failures display “Views unavailable” without hiding projects;
-write failures leave links usable. Metrics never call payment or buyer session code.
+Validation uses isolated Redis: concurrent requests, distinct networks, expiry, missing records, pending status, consent withdrawal, public count responses and outage handling. Browser tests cover mobile/tablet/desktop visibility, filtered cards, repeat loads, transient retry and automatic refresh. The existing production Checkly scenario now checks current discovery copy, numeric public counts, and a bot-excluded endpoint probe without adding fake views. Its existing deployment script attaches the account's configured alert channels; no new service is introduced.
 
-## Verification (2026-10-05)
-
-- 40 Node tests passed, zero skipped, using isolated local Redis 7.4.2.
-- 12 browser tests passed at 375, 768, and 1440 px: view visibility, filtering,
-  persistence on refresh, duplicate homepage cards, unavailable metrics, submissions,
-  owner moderation, articles/products, navigation, and protected purchase links.
-- Astro build, existing syntax checks, and diff whitespace checks passed.
-- Payment/provider/session files and preserved product page match the production
-  baseline byte for byte. No actual charge was made; browser checkout navigation
-  used an intercepted Gumroad destination and buyer tests used provider fixtures.
-- `verify:content` could not run because `.private/owner-key.txt` is unavailable.
-- Browser tests connect the actual handlers to local Redis through intercepted API
-  requests; they do not establish production deployment or Upstash transport success.
+Release through the existing main/Vercel pipeline; no schema migration or environment change. Verify `/api/projects` returns numeric counts and the bot probe returns `views: null`. Check Checkly deployment logs for the scheduled monitor and alert attachment. These checks reduce regressions; they do not guarantee uninterrupted availability. Detail-page visits are not counted as separate impressions in this release.

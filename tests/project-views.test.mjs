@@ -39,8 +39,11 @@ test('real Redis: atomic counts, expiry, private projects and public API',{skip:
  assert.equal((await read('/api/projects')).items[0].views,3);
  assert.equal((await read('/api/projects?id=test-project')).item.views,3);
  await redis(['SET','digivated:featured','test-project']);assert.equal((await read('/api/projects?view=featured')).items[0].views,3);
- await redis(['DEL','digivated:public:submission:test-project']);assert.equal((await invoke(handler)).status,404);
+ await redis(['SET','digivated:submission:test-project',JSON.stringify({...record,status:'pending'})]);assert.equal((await invoke(handler)).status,404);
+ await redis(['SET','digivated:submission:test-project',JSON.stringify({...record,consent:false})]);assert.equal((await invoke(handler)).status,404);
+ await redis(['DEL','digivated:submission:test-project']);assert.equal((await invoke(handler)).status,404);
+ await redis(['DEL','digivated:public:submission:test-project']);
  assert.equal((await read('/api/projects')).items.length,0);assert.equal(await redis(['GET',viewKey('test-project')]),'3');
- await redis(['SET','digivated:public:submission:test-project',JSON.stringify({...record,status:'featured'})]);assert.equal((await read('/api/projects')).items[0].views,3);
+ await redis(['SET','digivated:submission:test-project',JSON.stringify(record)]);await redis(['SET','digivated:public:submission:test-project',JSON.stringify({...record,status:'featured'})]);assert.equal((await read('/api/projects')).items[0].views,3);
  } finally {await redis(['FLUSHDB']);}
 });

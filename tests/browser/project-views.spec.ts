@@ -32,3 +32,13 @@ for(const width of [375,768,1440])test(`visible card counts persist safely at ${
  expect(errors).toEqual([]);await redis(['FLUSHDB']);
 });
 
+test('view counts recover from failure and refresh without reloading',async({page})=>{
+ let requests=0;await page.clock.install();
+ await page.route('**/api/projects?*',r=>r.fulfill({json:{items:[{id:'retry-fixture',name:'Retry fixture',creator:'Test creator',category:'Apps',description:'A fixture for resilient view tracking.',url:'https://example.com',status:'approved',views:5}],next:null}}));
+ await page.route('**/api/project-views?*',r=>{requests++;return requests===1?r.fulfill({status:503,json:{error:'offline'}}):r.fulfill({json:{views:requests+5}});});
+ await page.goto(base+'/discover');const card=page.locator('[data-project-id]');await card.scrollIntoViewIfNeeded();await expect(card.locator('[data-project-views]')).toHaveText('5 views');
+ await page.clock.fastForward(1100);await expect.poll(()=>requests).toBe(1);await expect(card.locator('[data-project-views]')).toHaveText('5 views');
+ await page.clock.fastForward(2500);await expect(card.locator('[data-project-views]')).toHaveText('7 views');
+ await page.clock.fastForward(61000);await expect(card.locator('[data-project-views]')).toHaveText('8 views');
+ await page.getByLabel('Search projects').fill('no match');await expect(card).toBeHidden();await page.clock.fastForward(120000);expect(requests).toBe(3);
+});
