@@ -26,7 +26,7 @@ function renderList() {
   const list = $('owner-list'); list.replaceChildren();
   for (const record of items) {
     const row = element('article', undefined, 'owner-row'); const copy = element('div');
-    copy.append(element('span', record.status, 'tag')); if (record.pick) copy.append(element('span','Digivated Pick','tag'));
+    copy.append(element('span', record.status, 'tag')); if (record.promotion?.requested) copy.append(element('span',record.promotion.verified?'Promo purchase verified':'Promo — verify purchase','tag')); if (record.pick) copy.append(element('span','Digivated Pick','tag'));
     copy.append(element('h2', record.title || record.name)); copy.append(element('p', [record.creator,record.category,record.date?.slice(0,10)].filter(Boolean).join(' · '),'quiet'));
     const edit = element('button', state.kind === 'submission' ? 'Review project' : 'Edit', 'button'); edit.type = 'button'; edit.addEventListener('click', () => openRecord(record.id));
     row.append(copy,edit); list.append(row);
@@ -76,9 +76,14 @@ function renderEditor(record) {
   $('owner-editor-title').textContent=state.kind==='submission'?'Review project':record.revision?`Edit ${state.kind==='resource'?'article':'product'}`:`New ${state.kind==='resource'?'article':'product'}`;
   if(state.kind==='submission'){
     const details=element('section',undefined,'owner-private');details.append(element('p','Private review details','eyebrow'));
-    for(const [label,value] of [['Email',record.email],['Social handle',record.social],['Notes',record.notes],['Permission',record.consent?'Confirmed':'Not confirmed'],['Submitted',record.date]])if(value)details.append(element('p',`${label}: ${value}`));
+    for(const [label,value] of [['Email',record.email],['Social handle',record.social],['Notes',record.notes],['Promo order reference',record.promotion?.receiptReference],['Permission',record.consent?'Confirmed':'Not confirmed'],['Submitted',record.date]])if(value)details.append(element('p',`${label}: ${value}`));
     const link=element('a','Visit submitted project →');link.href=record.url;link.target='_blank';link.rel='noopener noreferrer';details.append(link);$('owner-private-details').append(details);
     field('name','Project name',record.name,{max:120});field('creator','Creator name',record.creator,{max:100});field('url','Project URL',record.url,{type:'url',max:500});field('description','Public description',record.description,{rows:4,max:600});field('category','Category',record.category,{choices:projectCategories});field('socialUrl','Creator profile URL',record.socialUrl,{type:'url',max:500,required:false,help:'Use the complete profile link after verifying the submitted handle.'});
+    if(record.promotion?.requested){
+      $('owner-fields').append(element('h2','Paid promotion review'));
+      $('owner-fields').append(element('p','In Gumroad, match this submission email and order reference to a completed Digivated promo purchase. Confirm it is not refunded or disputed and has not been used for another promotion. This checkbox records your manual verification; it does not contact Gumroad.','quiet'));
+      field('promotionVerified','I verified the Digivated promo purchase in Gumroad',record.promotion.verified,{type:'checkbox'});
+    }
     field('pick','Digivated Pick',record.pick,{type:'checkbox'});
     $('owner-fields').append(element('h2','Launch page'));
     $('owner-fields').append(element('p',record.pagePublished?'Launch page is published. Saving page edits creates a private draft and unpublishes the current page.':'Launch page is private. Directory approval alone does not publish a page.','quiet'));
@@ -129,6 +134,7 @@ $('owner-editor-form').addEventListener('submit',async event=>{
     if(event.submitter?.value?.startsWith('page-'))record.pageAction=event.submitter.value.slice(5);
     else if(event.submitter?.value&&event.submitter.value!=='save')record.status=event.submitter.value;
     if(state.kind==='submission'){
+      if(state.record.promotion?.requested)record.promotionVerified=formData.get('promotionVerified')==='on';
       const gallery=formData.get('clearGallery')==='on'?[]:[...(state.record.page?.gallery||[])];
       for(let index=0;index<3;index++){
         const file=formData.get(`gallery${index}`);const alt=formData.get(`galleryAlt${index}`)||'';

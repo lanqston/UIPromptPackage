@@ -29,6 +29,13 @@ export function validateEdit(kind, input, previous) {
     if (input.status === 'featured' && !['approved', 'featured'].includes(previous.status)) throw new AdminError(400, 'Approve this project before featuring it.');
     const socialUrl = text(input.socialUrl, 'creator profile URL', 500, false);
     record = { ...previous, name: text(input.name, 'project name', 120), creator: text(input.creator, 'creator', 100), description: text(input.description, 'description', 600), category: input.category, status: input.status, pick: input.pick === true && ['approved', 'featured'].includes(input.status), socialUrl: socialUrl ? safeUrl(socialUrl) : '', url: safeUrl(text(input.url, 'project URL', 500)) };
+    if (previous.promotion?.requested) {
+      const verified = input.promotionVerified === undefined ? previous.promotion.verified === true : input.promotionVerified === true;
+      record.promotion = {...previous.promotion, verified};
+      if (verified && !previous.promotion.verified) record.promotion.verifiedAt = now;
+      if (!verified) delete record.promotion.verifiedAt;
+      if (['approved','featured'].includes(record.status) && !verified) throw new AdminError(400,'Verify this Digivated promo purchase in Gumroad before publishing. Match the checkout email and order reference; confirm the payment is valid and not refunded.');
+    }
     if (!record.url || (socialUrl && !record.socialUrl) || record.description.length < 20) throw new AdminError(400, 'Check the project description and links.');
     if (input.image) record.image = imageValue(input.image);
     if (input.removeImage === true) record.image = '';
@@ -58,8 +65,8 @@ export function validateEdit(kind, input, previous) {
   return { ...record, revision: revision + 1, reviewedAt: now };
 }
 export function projectPublic(record) {
-  if (!['approved', 'featured'].includes(record.status) || record.consent !== true) return null;
-  return { ...(record.pagePublished && record.page?.consent ? { pageUrl: `/projects/${record.slug}` } : {}), id: record.id, name: record.name, creator: record.creator, description: record.description, category: record.category, url: safeUrl(record.url), socialUrl: safeUrl(record.socialUrl), date: record.date, status: record.status, pick: record.pick === true, image: record.image ? `/api/projects?image=${record.id}` : '' };
+  if (!['approved', 'featured'].includes(record.status) || record.consent !== true || (record.promotion?.requested && !record.promotion.verified)) return null;
+  return { ...(record.promotion?.verified ? {sponsored:true} : {}), ...(record.pagePublished && record.page?.consent ? { pageUrl: `/projects/${record.slug}` } : {}), id: record.id, name: record.name, creator: record.creator, description: record.description, category: record.category, url: safeUrl(record.url), socialUrl: safeUrl(record.socialUrl), date: record.date, status: record.status, pick: record.pick === true, image: record.image ? `/api/projects?image=${record.id}` : '' };
 }
 export function contentPublic(kind, record) {
   if (record.status !== 'published') return null;
@@ -107,7 +114,7 @@ export async function saveRecord(redis, kind, input) {
   if (result !== 1) throw new AdminError(409, 'This item changed elsewhere. Reload it before saving.');
   return record;
 }
-export const LIST = `local ids=redis.call('ZREVRANGE',KEYS[1],ARGV[1],ARGV[2]); local rows={}; for _,id in ipairs(ids) do local raw=redis.call('GET',ARGV[3]..id); if raw then local r=cjson.decode(raw); r.hasImage=(r.image and r.image~='') and true or false; r.image=nil; r.content=nil; r.notes=nil; r.email=nil; r.consentedAt=nil; r.consentVersion=nil; table.insert(rows,cjson.encode(r)) end end; return rows`;
+export const LIST = `local ids=redis.call('ZREVRANGE',KEYS[1],ARGV[1],ARGV[2]); local rows={}; for _,id in ipairs(ids) do local raw=redis.call('GET',ARGV[3]..id); if raw then local r=cjson.decode(raw); r.hasImage=(r.image and r.image~='') and true or false; r.image=nil; r.content=nil; r.notes=nil; r.email=nil; if r.promotion then r.promotion.receiptReference=nil end; r.consentedAt=nil; r.consentVersion=nil; table.insert(rows,cjson.encode(r)) end end; return rows`;
 export async function listRecords(redis, kind, offset = 0) {
   const prefix = kind === 'submission' ? 'digivated:submission:' : `digivated:${kind}:`;
   const rows = await redis(['EVAL', LIST, 1, indexKey(kind), offset, offset + 24, prefix]);

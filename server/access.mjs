@@ -36,12 +36,13 @@ export function isOwnerKey(value) {
 }
 // Live verification is the source of truth, not a local grant or a notification.
 export async function verifyLicense(license, cfg, fetcher = fetch) {
+  const normalized = normalizeLicense(license);
   let response;
   try {
     response = await fetcher('https://api.gumroad.com/v2/licenses/verify', {
       method: 'POST', redirect: 'error', cache: 'no-store', signal: AbortSignal.timeout(8000),
       headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
-      body: new URLSearchParams({ product_id: cfg.productId, license_key: normalizeLicense(license), increment_uses_count: 'false' })
+      body: new URLSearchParams({ product_id: cfg.productId, license_key: normalized, increment_uses_count: 'false' })
     });
   } catch { throw unavailable(); }
   if (response.status === 404) throw invalid();

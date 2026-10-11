@@ -8,6 +8,7 @@ local raw = redis.call('GET',KEYS[1])
 if not raw then return -1 end
 local ok, record = pcall(cjson.decode,raw)
 if not ok or type(record) ~= 'table' or record.consent ~= true or (record.status ~= 'approved' and record.status ~= 'featured') then return -1 end
+if type(record.promotion) == 'table' and record.promotion.requested == true and record.promotion.verified ~= true then return -1 end
 if redis.call('SET',KEYS[3],'1','NX','EX',86400) then
  return redis.call('INCR',KEYS[2])
 end

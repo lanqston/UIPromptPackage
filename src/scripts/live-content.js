@@ -12,6 +12,7 @@ function projectCard(project){
  const copy=el('div',undefined,'project-copy');
  const heading=el('h3');heading.append(link(project.name,project.pageUrl||project.url));
  const meta=el('div',undefined,'project-meta');meta.append(el('span',project.category,'tag'),el('span',`By ${project.creator}`,'quiet'));
+ if(project.sponsored)meta.append(el('span','Sponsored','tag sponsored-tag'));
  const description=el('p',project.description,'project-description');
  copy.append(heading,meta,description);
  if(project.description.length>100){const details=el('details',undefined,'project-details');details.append(el('summary','Read full description'),el('p',project.description));copy.append(details);}

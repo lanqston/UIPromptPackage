@@ -107,3 +107,8 @@ test('audit contains neither raw credentials nor customer details',async()=>{
  const events=[];await invoke('activate',{body:{license}},{audit:event=>events.push(event)});
  const text=JSON.stringify(events);assert(!text.includes(license));assert(!text.includes('email'));assert(!text.includes('sale-fixture'));
 });
+test('malformed licenses are invalid input, not a Gumroad outage',async()=>{
+ let calls=0;
+ await assert.rejects(()=>verifyLicense('not-a-valid-license',cfg,async()=>{calls++;throw Error('must not fetch');}),e=>e.status===401&&e.code==='invalid_access');
+ assert.equal(calls,0);
+});
