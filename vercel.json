@@ -5,12 +5,6 @@
   "buildCommand": "npm run build && npm run monitoring:deploy && node scripts/verify-sentry.mjs && node scripts/verify-x-publisher.mjs",
   "outputDirectory": "dist",
   "functions": {
-    "api/x-research.js": {
-      "maxDuration": 300
-    },
-    "api/x-publish.js": {
-      "maxDuration": 120
-    },
     "api/*.js": {
       "includeFiles": "server/**",
       "maxDuration": 15
