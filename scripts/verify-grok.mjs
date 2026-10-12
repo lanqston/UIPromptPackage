@@ -1,7 +1,11 @@
 // Read-only provider validation during production build. Never print credentials.
 if (process.env.VERCEL_ENV === 'production') {
-  if (!process.env.XAI_API_KEY) throw new Error('Missing production XAI_API_KEY');
-  const response = await fetch('https://api.x.ai/v1/models', { headers: { Authorization: `Bearer ${process.env.XAI_API_KEY}` }, signal: AbortSignal.timeout(15000), redirect: 'error' });
+  const key = process.env.XAI_API_KEY;
+  if (!key) throw new Error('Missing production XAI_API_KEY');
+  if (!key.startsWith('xai-') || key.length < 40 || /\s/.test(key) || key.includes('...')) {
+    throw new Error('Production XAI_API_KEY format is invalid. Use the full secret shown when the inference API key was created, without spaces or a redacted key preview.');
+  }
+  const response = await fetch('https://api.x.ai/v1/models', { headers: { Authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(15000), redirect: 'error' });
   if (!response.ok) {
     let code = '';
     try {
@@ -9,7 +13,7 @@ if (process.env.VERCEL_ENV === 'production') {
       const candidate = body?.code || body?.error?.code;
       if (typeof candidate === 'string' && /^[a-z0-9_-]{1,80}$/i.test(candidate)) code = ` (${candidate})`;
     } catch {}
-    throw new Error(`Grok model access check failed: HTTP ${response.status}${code}`);
+    throw new Error(`Grok model access check failed: HTTP ${response.status}${code}; full key format verified, but xAI rejected access.`);
   }
   const data = await response.json();
   const names = data.data.flatMap(m => [m.id, ...(m.aliases || [])]);
