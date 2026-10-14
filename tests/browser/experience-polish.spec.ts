@@ -15,9 +15,10 @@ test('saving waits for storage and refreshes an already-open Saved tab',async({p
  await context.route('**/api/saved-item?*',r=>r.fulfill({json:{item:{title:'UI/UX Prompt Packet',description:'Useful design prompts.',url:'/ui-ux-prompt-packet'}}}));
  const saved=await context.newPage();await saved.goto(base+'/saved');await page.goto(base+'/resources');
  await page.evaluate(()=>{(window as any).lockReady=new Promise<void>(resolve=>{navigator.locks.request('digivated-collections',()=>new Promise<void>(release=>{(window as any).releaseSave=release;resolve();}));});});await page.evaluate(()=>(window as any).lockReady);
- await page.locator('[data-builtin-resource]').getByRole('button',{name:'Save to collection'}).click();await page.getByRole('checkbox',{name:'Saved items (0)'}).check();
+ await page.locator('[data-builtin-resource]').filter({hasText:'UI/UX Prompt Packet'}).getByRole('button',{name:'Save to collection'}).click();await page.getByRole('checkbox',{name:'Saved items (0)'}).check();
  await expect(page.getByRole('button',{name:'Done',exact:true})).toBeDisabled();await expect(page.getByRole('dialog')).toHaveAttribute('aria-busy','true');await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toBeVisible();
  await page.evaluate(()=>(window as any).releaseSave());await expect(page.getByRole('dialog').getByRole('status')).toHaveText('Saved in this browser.');await expect(page.getByRole('checkbox',{name:'Saved items (1)'})).toBeChecked();
  await page.getByRole('button',{name:'Done',exact:true}).click();await expect(saved.locator('#saved-items')).toContainText('UI/UX Prompt Packet');await expect(saved.locator('#saved-count')).toHaveText('1 saved item');
  await saved.getByLabel('Search saved items').fill('missing');await expect(saved.locator('#saved-empty-title')).toHaveText('No matches this time.');await saved.getByRole('button',{name:'Clear filters'}).click();await expect(saved.locator('#saved-items .saved-card')).toHaveCount(1);
 });
+
