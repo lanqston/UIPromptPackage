@@ -1,8 +1,8 @@
 import { projectCategories, resourceCategories, normalizeResourceCategory } from '../data/community.mjs';
 const $ = id => document.getElementById(id);
 const state = { csrf: '', kind: 'submission', items: [], next: null, record: null, dirty: false, busy: false, request: 0, editorRequest: 0 };
-const labels = { submission: 'Submissions', resource: 'Articles', product: 'Products' };
-const statusOptions = { submission: ['pending','approved','featured','rejected','archived'], resource: ['draft','published','archived'], product: ['draft','published','archived'] };
+const labels = { submission: 'Submissions', resource: 'Articles', product: 'Products', comments: 'Comments' };
+const statusOptions = { submission: ['pending','approved','featured','rejected','archived'], resource: ['draft','published','archived'], product: ['draft','published','archived'], comments: ['pending','approved','rejected'] };
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 function message(text, editor = false) { const node = $(editor ? 'owner-editor-status' : 'owner-status'); node.textContent = text; }
 function signedOut() { state.csrf = ''; state.items = []; state.record = null; state.dirty = false; $('owner-editor').close(); $('owner-fields').replaceChildren(); $('owner-private-details').replaceChildren(); $('owner-list').replaceChildren(); $('owner-dashboard').hidden = true; $('owner-login').hidden = false; $('owner-logout').hidden = true; }
@@ -16,16 +16,22 @@ function errorText(error) { return error.name === 'TimeoutError' ? 'The request 
 function filters() {
   const select = $('owner-filter'); select.replaceChildren(new Option('All statuses',''));
   statusOptions[state.kind].forEach(status => select.add(new Option(status[0].toUpperCase()+status.slice(1),status)));
-  $('owner-create').hidden = state.kind === 'submission';
+  $('owner-create').hidden = state.kind === 'submission' || state.kind === 'comments';
   $('owner-create').textContent = state.kind === 'resource' ? 'New article' : 'New product';
   $('owner-protected').hidden = state.kind !== 'product';
 }
 function renderList() {
   const query = $('owner-search').value.trim().toLowerCase(); const status = $('owner-filter').value;
-  const items = state.items.filter(r => (!status || r.status === status) && `${r.title || r.name} ${r.creator || ''}`.toLowerCase().includes(query));
+  const items = state.items.filter(r => (!status || r.status === status) && `${r.title || r.name || ''} ${r.creator || ''} ${r.body || ''} ${r.itemId || ''}`.toLowerCase().includes(query));
   const list = $('owner-list'); list.replaceChildren();
   for (const record of items) {
     const row = element('article', undefined, 'owner-row'); const copy = element('div');
+    if(state.kind==='comments'){
+      copy.append(element('span',record.status,'tag'),element('h2',`${record.type==='project'?'Project':'Resource'} comment`),element('p',`${record.name} · ${record.itemId} · ${record.date?.slice(0,10)}`,'quiet'),element('p',record.body));
+      const actions=element('div',undefined,'actions');
+      if(record.status==='pending')for(const [value,label] of [['approved','Approve'],['rejected','Reject']]){const button=element('button',label,'button');button.type='button';button.addEventListener('click',async()=>{button.disabled=true;try{await api('',{action:'moderate-comment',id:record.id,status:value});message(value==='approved'?'Comment published.':'Comment rejected.');await load();}catch(error){button.disabled=false;message(errorText(error));}});actions.append(button);}
+      row.append(copy,actions);list.append(row);continue;
+    }
     copy.append(element('span', record.status, 'tag')); if (record.promotion?.requested) copy.append(element('span',record.promotion.verified?'Promo purchase verified':'Promo — verify purchase','tag')); if (record.pick) copy.append(element('span','Digivated Pick','tag'));
     copy.append(element('h2', record.title || record.name)); copy.append(element('p', [record.creator,record.category,record.date?.slice(0,10)].filter(Boolean).join(' · '),'quiet'));
     const edit = element('button', state.kind === 'submission' ? 'Review project' : 'Edit', 'button'); edit.type = 'button'; edit.addEventListener('click', () => openRecord(record.id));
@@ -38,7 +44,7 @@ async function load(more = false) {
   const request = ++state.request; const kind = state.kind;
   message('Loading your content…'); $('owner-more').disabled = true;
   try {
-    const data = await api(`?action=list&kind=${kind}&offset=${more ? state.next : 0}`);
+    const data = await api(kind==='comments'?`?action=comments&offset=${more ? state.next : 0}`:`?action=list&kind=${kind}&offset=${more ? state.next : 0}`);
     if (request !== state.request) return;
     state.items = more ? [...state.items,...data.items] : data.items; state.next = data.next; renderList(); message('');
   } catch (error) { message(errorText(error)); }

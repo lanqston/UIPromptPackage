@@ -1,12 +1,14 @@
 import { makePublicHandler } from './public-community.mjs';
 import { makeSavedItemHandler } from './saved-items.mjs';
 import { makeProjectViewHandler } from './project-views.mjs';
+import { makeCardInteractionHandler } from './card-interactions.mjs';
 
 // Share one deployment entry point; each handler retains its validation and response.
 export function makePublicRouter(handlers = {
   content: makePublicHandler('content'),
   'saved-item': makeSavedItemHandler(),
   'project-views': makeProjectViewHandler(),
+  'card-interactions': makeCardInteractionHandler(),
 }) {
   return (req, res) => {
     const path = new URL(req.url, 'https://digivated.invalid').pathname;

@@ -3,6 +3,7 @@ import { createHmac } from 'node:crypto';
 import { redisClient } from './submissions.mjs';
 import { AdminError, adminConfig, verifyPassword, createSession, requireSession, jsonBody, cookie, tokenFrom, digest } from './admin-auth.mjs';
 import { listRecords, saveRecord, storageKey, validId } from './admin-store.mjs';
+import { listPendingComments, moderateComment } from './card-interactions.mjs';
 const LIMIT = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],900) end; return n`;
 export function makeAdminHandler(deps = {}) {
   return async (req, res) => {
@@ -40,6 +41,11 @@ export function makeAdminHandler(deps = {}) {
           await redis(['DEL', `digivated:admin:session:${digest(tokenFrom(req))}`]);
           res.setHeader('Set-Cookie', cookie('', true)); return send(200, { ok: true });
         }
+        if (body.action === 'moderate-comment') {
+          const result=await moderateComment(redis,body.id,body.status);
+          if(result!==1)throw new AdminError(result===-2?400:404,result===-2?'This item is no longer published.':'This comment is no longer pending. Refresh the list.');
+          return send(200,{ok:true});
+        }
         if (body.action !== 'save' || !['submission', 'resource', 'product'].includes(body.kind) || !body.record || typeof body.record !== 'object') throw new AdminError(400, 'Invalid dashboard action.');
         const record = await saveRecord(redis, body.kind, body.record);
         return send(200, { ok: true, record });
@@ -48,6 +54,11 @@ export function makeAdminHandler(deps = {}) {
       const url = new URL(req.url, cfg.origin);
       const action = url.searchParams.get('action') || 'session';
       if (action === 'session') return send(200, { authenticated: true, csrf: session.csrf });
+      if (action === 'comments') {
+        const offset=Number(url.searchParams.get('offset')||0);
+        if(!Number.isInteger(offset)||offset<0||offset>100000)throw new AdminError(400,'Invalid page.');
+        return send(200,await listPendingComments(redis,offset));
+      }
       const kind = url.searchParams.get('kind');
       if (!['submission', 'resource', 'product'].includes(kind)) throw new AdminError(400, 'Invalid content type.');
       if (action === 'list') {
