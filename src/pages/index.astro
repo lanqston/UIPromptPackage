@@ -1,31 +1,36 @@
 ---
 import PromoCallout from '../components/PromoCallout.astro';
 import Platform from '../layouts/Platform.astro';
-import HeroCarousel from '../components/HeroCarousel.astro';
 import OfferBanner from '../components/OfferBanner.astro';
 import ResourcesLibrary from '../components/ResourcesLibrary.astro';
 import LiveProjects from '../components/LiveProjects.astro';
 ---
-<Platform description="Explore what independent creators are building, find useful resources, and share your own project.">
+<Platform title="Tech, AI, markets & what's next" description="Digivated is a clear place to explore technology, AI, markets, useful tools, and the independent projects shaping what comes next.">
   <div class="home-container mx-auto px-6">
-    <section class="revamp-hero min-h-[60vh] pt-32 pb-10 flex flex-col md:flex-row items-center justify-between relative overflow-hidden gap-10 md:gap-8">
-      <div class="hero-copy min-w-0 w-full md:w-1/2">
-        <p class="section-kicker hero-kicker"><span aria-hidden="true"></span> Build. Share. Connect.</p>
-        <h1 class="discovery-headline">Discover independent projects. <em>Get ideas for your next build.</em></h1>
-        <p class="lede">Explore what independent creators are building, find useful resources, and share your own project.</p>
-        <div class="actions flex flex-col sm:flex-row gap-3"><a class="button primary" href="/discover">Explore Projects <span aria-hidden="true">→</span></a><a class="button hero-explore" href="/submit-project">Submit Your Project <span aria-hidden="true">→</span></a></div>
-        <p class="hero-note">Reviewed projects. Useful resources. A place for your next idea.</p>
+    <section class="revamp-hero" aria-labelledby="home-heading">
+      <div class="hero-copy">
+        <p class="section-kicker hero-kicker">DIGIVATED <span aria-hidden="true">/</span> SMARTER DIGITAL</p>
+        <h1 class="discovery-headline" id="home-heading">The digital world moves fast. <em>Stay curious.</em></h1>
+        <p class="lede">A place to explore tech, AI, markets, and tools worth knowing about. Find useful ideas, discover independent projects, and share what you’re building.</p>
+        <div class="actions"><a class="button primary" href="/resources">Explore Resources <span aria-hidden="true">↗</span></a><a class="button hero-explore" href="/submit-project">Submit Your Project <span aria-hidden="true">→</span></a></div>
       </div>
-      <div class="hero-visual w-full md:w-1/2 min-w-0"><HeroCarousel/></div>
+      <div class="hero-brand"><img src="/digivated-tech-markets-banner.png" alt="Digivated. Tech. AI. Markets. What’s next." width="2048" height="683" fetchpriority="high"/></div>
+      <nav class="home-topics" aria-label="Explore Digivated topics">
+        <a href="/resources?category=Tech"><span>01</span> Technology <span aria-hidden="true">↗</span></a>
+        <a href="/resources?category=AI"><span>02</span> Artificial intelligence <span aria-hidden="true">↗</span></a>
+        <a href="/resources?category=Markets%20%26%20Investing"><span>03</span> Markets &amp; investing <span aria-hidden="true">↗</span></a>
+        <a href="/resources?category=Useful%20Tools"><span>04</span> Useful tools <span aria-hidden="true">↗</span></a>
+      </nav>
     </section>
+    <ResourcesLibrary/>
     <section id="projects" class="home-section community-builds" aria-labelledby="community-heading">
-      <div class="home-section-heading flex flex-wrap items-end justify-between gap-5"><div><p class="section-kicker">01 / DISCOVER</p><h2 id="community-heading">Explore community projects</h2><p>Independent ideas, useful tools, and projects worth exploring.</p></div><a class="section-link" href="/discover">View all projects <span aria-hidden="true">↗</span></a></div>
-      <LiveProjects limit={4} filterable compact title="The community is taking shape." description="No projects have been published yet. Share your work to help start the community." href="/submit-project" label="Share what you’re building"/>
+      <div class="home-section-heading"><div><p class="section-kicker">02 / THE COMMUNITY</p><h2 id="community-heading">Ideas being built right now.</h2><p>Explore work from independent creators, founders, and curious people making things of their own.</p></div><a class="section-link" href="/discover">Explore projects <span aria-hidden="true">↗</span></a></div>
+      <LiveProjects limit={4} filterable compact title="Be among the first to share." description="Reviewed community projects will appear here. Have something you’re building? Send it in for free." href="/submit-project" label="Submit your project"/>
     </section>
     <PromoCallout/>
-    <ResourcesLibrary/>
     <div id="prompt-packet" class="home-offer"><OfferBanner/></div>
-    <section class="share-next" aria-labelledby="share-heading"><div><h2 id="share-heading">Have something to share?</h2><p>Add your project to the community. Submissions are free and reviewed before publishing.</p></div><a class="button primary" href="/submit-project">Submit Project <span aria-hidden="true">→</span></a></section>
+    <section class="share-next" aria-labelledby="share-heading"><div><p class="section-kicker">YOUR TURN</p><h2 id="share-heading">Building something worth sharing?</h2><p>Put your project in front of the Digivated community. Every submission is reviewed before it appears.</p></div><a class="button primary" href="/submit-project">Submit Project <span aria-hidden="true">↗</span></a></section>
   </div>
   <script>import '../scripts/live-content.js';</script>
 </Platform>
+

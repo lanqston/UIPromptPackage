@@ -9,18 +9,18 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   });
   await page.setViewportSize({width,height:900});
   await page.goto(base);
-  await page.locator('.idea-card').filter({hasText:'Browse UI/UX resources'}).getByRole('link',{name:'Browse UI/UX resources'}).click();
-  await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('UI/UX');
-  await expect(page.locator('h1')).toHaveText('Resources & Ideas');
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 17, 17)');
+  await page.locator('.idea-card').filter({hasText:'Explore AI'}).getByRole('link',{name:'Explore AI'}).click();
+  await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('AI');
+  await expect(page.locator('h1')).toHaveText('Explore what’s useful.');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 247, 245)');
   await page.getByRole('navigation',{name:'Breadcrumb'}).getByRole('link',{name:'Home'}).click();
   await expect(page).toHaveURL(base+'/');
   const nav=page.getByRole('navigation',{name:width<=1100?'Mobile navigation':'Main navigation',exact:true});
   if(width<=1100) await page.locator('.mobile-menu summary').click();
-  await nav.getByRole('link',{name:'Prompt Packet',exact:true}).click();
+  await nav.getByRole('link',{name:'Products',exact:true}).click();
+  await page.getByRole('link',{name:'View UI/UX Prompt Packet'}).click();
   await expect(page.locator('h1')).toHaveText('UI/UX Prompt Packet');
-  await expect(page.locator('.desktop-nav a[href="/ui-ux-prompt-packet"]')).toHaveAttribute('aria-current','page');
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 17, 17)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 247, 245)');
   await page.getByRole('link',{name:'Try 3 free prompts'}).click();
   // The library normalizes the sample entry URL after initializing its filters.
   await expect(page).toHaveURL(/\/library\?show=available$/);
@@ -42,7 +42,7 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page).toHaveURL(base+'/');
   for(const path of ['/discover','/submit-project','/products','/about','/access']){
     await page.goto(base+path);
-    await expect(page.locator('body')).toHaveCSS('background-color',path === '/access' ? 'rgb(3, 7, 18)' : 'rgb(17, 17, 17)');
+    await expect(page.locator('body')).toHaveCSS('background-color',path === '/access' ? 'rgb(3, 7, 18)' : 'rgb(247, 247, 245)');
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),path).toBe(true);
   }
   expect(errors).toEqual([]);
