@@ -6,7 +6,7 @@ for(const width of [390,430,1280])test(`refined controls and layouts at ${width}
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/api/**',async route=>{const url=new URL(route.request().url());if(url.pathname==='/api/projects')return route.fulfill({json:{items:projects,next:null}});if(url.pathname==='/api/project-views')return route.fulfill({json:{views:12}});if(url.pathname==='/api/content')return route.fulfill({json:url.searchParams.has('id')?{item:resources.find(r=>r.id===url.searchParams.get('id'))}:{items:resources,next:null}});return route.fulfill({json:{status:'unconfigured'}});});
  await page.setViewportSize({width,height:900});await page.goto(base);
- const submit=page.locator('.hero-copy').getByRole('link',{name:'Submit Your Project',exact:true});await expect(submit).toHaveAttribute('href','/submit-project');await submit.click({trial:true});
+ const submit=page.locator('.journey-steps').getByRole('link',{name:'Submit a project',exact:true});await expect(submit).toHaveAttribute('href','/submit-project');await submit.click({trial:true});
  await expect(page.locator('[data-project-filters] [data-project-id=design-fixture] .card-links a.button')).toHaveAttribute('href','https://example.com/');
  await page.screenshot({path:test.info().outputPath(`home-${width}.png`),fullPage:true});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:test.info().outputPath(`hero-${width}.png`)});
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
@@ -14,9 +14,9 @@ for(const width of [390,430,1280])test(`refined controls and layouts at ${width}
  else await page.getByRole('navigation',{name:'Main navigation',exact:true}).getByRole('link',{name:'Projects',exact:true}).click();
  await expect(page).toHaveURL(/\/discover/);await page.getByLabel('Search projects').fill('Useful');await expect(page.locator('[data-project]:visible')).toHaveCount(1);await expect(page.locator('#directory-status')).toHaveText('1 project found');
  await page.getByLabel('Search projects').fill('');await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('Design');await expect(page.locator('[data-project]:visible')).toHaveCount(1);
- await page.goto(base+'/resources?category=UI%2FUX');await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('UI/UX');await expect(page.locator('[data-resource]:visible')).toHaveCount(2);await expect(page.locator('[data-builtin-resource]')).toBeVisible();
- await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('Useful Tools');await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('Useful Tools');await expect(page.locator('[data-resource]:visible')).toContainText('Tools for a thoughtful workflow');
- await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('');await expect(page.locator('[data-resource]:visible')).toHaveCount(3);
+ await page.goto(base+'/resources?category=UI%2FUX');await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('UI/UX');await expect(page.locator('[data-resource]:visible')).toHaveCount(2);await expect(page.locator('[data-builtin-resource]').filter({hasText:'UI/UX Prompt Packet'})).toBeVisible();
+ await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('Useful Tools');await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('Useful Tools');await expect(page.locator('[data-resource]:visible').filter({hasText:'Tools for a thoughtful workflow'})).toBeVisible();
+ await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('');await expect(page.locator('[data-resource]:visible')).toHaveCount(7);
  await page.screenshot({path:test.info().outputPath(`resources-${width}.png`),fullPage:true});
  await page.locator('[data-resource]').filter({hasText:'A clearer starting point'}).getByRole('link',{name:'Read Resource'}).click();await expect(page.locator('#article-body')).toContainText('Begin with the user');
  await expect(page.locator('.desktop-nav a[href="/resources"]')).toHaveAttribute('aria-current','page');
@@ -46,7 +46,8 @@ test('Prompt Packet stays searchable in UI/UX when the resource feed fails', asy
 test('published Prompt Packet links do not duplicate the built-in resource', async({page})=>{
  await page.route('**/api/content*',route=>route.fulfill({json:{items:[{...resources[0],url:'/ui-ux-prompt-packet',title:'UI/UX Prompt Packet'}],next:null}}));
  await page.goto(base+'/resources');
- await expect(page.locator('#directory-status')).toHaveText('1 resource found');
- await expect(page.locator('[data-resource]')).toHaveCount(1);
+ await expect(page.locator('#directory-status')).toHaveText('5 resources found');
+ await expect(page.locator('[data-resource]')).toHaveCount(5);
 });
+
 

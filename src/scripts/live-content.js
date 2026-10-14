@@ -87,7 +87,7 @@ async function loadResources(){
    list.hidden=list.children.length===0;
    shelf.querySelector('[data-live-empty]').hidden=list.children.length>0;
   }
- }catch{for(const shelf of shelves){const status=shelf.querySelector('[data-live-status]');if(status)status.textContent=shelf.querySelector('[data-builtin-resource]')?'Additional resources are temporarily unavailable. You can still explore the Prompt Packet.':'Resources are temporarily unavailable. Please try again shortly.';}}
+ }catch{for(const shelf of shelves){const status=shelf.querySelector('[data-live-status]');if(status)status.textContent=shelf.querySelector('[data-builtin-resource]')?'Additional resources are temporarily unavailable. The published guides above are still available.':'Resources are temporarily unavailable. Please try again shortly.';}}
  document.dispatchEvent(new Event('digivated:collection-updated'));
 }
 async function loadProducts(){const target=document.querySelector('[data-live-products]');if(!target)return;try{const products=await collection('/api/content?type=product');target.replaceChildren(...products.map(productCard));}catch{document.getElementById('products-status').textContent='Additional products are temporarily unavailable. The UI/UX Prompt Packet is available above.';}}
@@ -105,4 +105,5 @@ async function loadArticle(){
  }catch{status.textContent='This article is temporarily unavailable. Please try again shortly.';}
 }
 loadProjects();loadResources();loadProducts();loadArticle();
+
 

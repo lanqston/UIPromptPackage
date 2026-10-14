@@ -1,1 +1,68 @@
-[]
+[
+  {
+    "slug": "make-sense-of-new-tech",
+    "status": "published",
+    "title": "A simple way to make sense of new tech",
+    "description": "Four questions that help you look past a launch announcement and find what a product actually changes.",
+    "category": "Tech",
+    "date": "2026-10-14",
+    "readingTime": 2,
+    "content": [
+      {"type": "paragraph", "text": "A new product can sound important before it is clear who it helps. Start with the job it does, then look for a real example of someone using it."},
+      {"type": "heading", "text": "Ask four useful questions"},
+      {"type": "paragraph", "text": "What problem does it solve? Who has that problem? What does the product replace or improve? What tradeoff comes with using it? Those questions are more useful than a list of features by itself."},
+      {"type": "heading", "text": "Try the smallest real task"},
+      {"type": "paragraph", "text": "If you can test the tool, give it one ordinary task you already understand. Notice the setup time, the quality of the result, and what still needs your attention. A useful product should make that task clearer or easier."}
+    ]
+  },
+  {
+    "slug": "use-ai-with-better-judgment",
+    "status": "published",
+    "title": "Use AI with better judgment",
+    "description": "A practical starting point for choosing an AI task, checking the result, and protecting sensitive details.",
+    "category": "AI",
+    "date": "2026-10-14",
+    "readingTime": 2,
+    "content": [
+      {"type": "paragraph", "text": "AI is most useful when you know what you want it to help with. Begin with a narrow task: organize notes, compare possible approaches, or draft a first version you can review."},
+      {"type": "heading", "text": "Keep the review in your hands"},
+      {"type": "paragraph", "text": "Give context and ask for a clear format. Then check any names, figures, links, and claims against the original source. A confident answer is not evidence that an answer is right."},
+      {"type": "heading", "text": "Think before sharing information"},
+      {"type": "paragraph", "text": "Leave private account details, customer information, and secrets out of prompts unless you understand the tool's settings and have permission to use that data. You can often describe the problem with a made-up example instead."}
+    ]
+  },
+  {
+    "slug": "read-market-claims-clearly",
+    "status": "published",
+    "title": "Read market claims more clearly",
+    "description": "A short checklist for separating a headline, a claim, and the evidence behind it.",
+    "category": "Markets & Investing",
+    "date": "2026-10-14",
+    "readingTime": 2,
+    "source": {"label": "Investor.gov: Red Flags of Investment Fraud", "url": "https://www.investor.gov/protect-your-investments/fraud/how-avoid-fraud/red-flags-investment-fraud-checklist"},
+    "content": [
+      {"type": "paragraph", "text": "A market headline may tell you what happened today, but it cannot tell you whether an investment fits your goals. Before acting on a claim, pause long enough to identify what is being promised and what evidence is actually shown."},
+      {"type": "heading", "text": "Look for what is missing"},
+      {"type": "paragraph", "text": "Who made the claim, and what do they stand to gain? Does it show the underlying data and time period? Does it discuss downside risk as clearly as possible gains? Investor.gov advises researching opportunities and treating risk-free promises as a warning sign."},
+      {"type": "heading", "text": "Keep the decision separate"},
+      {"type": "paragraph", "text": "Use a headline as a reason to learn more, not as an instruction to trade. This guide is general education, not a recommendation to buy or sell a security."}
+    ]
+  },
+  {
+    "slug": "choose-tools-that-earn-their-place",
+    "status": "published",
+    "title": "Choose tools that earn their place",
+    "description": "A small framework for deciding whether an app genuinely improves your workflow.",
+    "category": "Useful Tools",
+    "date": "2026-10-14",
+    "readingTime": 2,
+    "content": [
+      {"type": "paragraph", "text": "The best tool for you is the one that improves a task you already need to do. Start with the task, not the app store page."},
+      {"type": "heading", "text": "Compare the full cost"},
+      {"type": "paragraph", "text": "Price matters, but so do setup time, learning curve, privacy, export options, and how easily you can stop using the tool. A free app can still cost too much attention."},
+      {"type": "heading", "text": "Run a one-week test"},
+      {"type": "paragraph", "text": "Pick one repeatable task and use the tool for it. At the end of the week, ask whether it saved effort, reduced mistakes, or helped you understand the work better. If it did not, you can keep your simpler process."}
+    ]
+  }
+]
+
