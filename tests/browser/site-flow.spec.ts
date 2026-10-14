@@ -12,7 +12,7 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page.locator('.signal-watermark')).toHaveCSS('mask-image',/digivated-mark\.svg/);
   await expect(page.locator('.home-topics')).not.toContainText(/\b0[1-4]\b/);
   await page.locator('.home-topics').getByRole('link',{name:'Technology & AI'}).click();
-  await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('AI');
+  await expect(page.getByRole('combobox',{name:'Topic',exact:true})).toHaveValue('Technology & AI');
   await expect(page.locator('h1')).toHaveText('Explore what’s useful.');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 18, 19)');
   await page.getByRole('navigation',{name:'Breadcrumb'}).getByRole('link',{name:'Home'}).click();
