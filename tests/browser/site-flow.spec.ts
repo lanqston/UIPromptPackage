@@ -9,6 +9,8 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   });
   await page.setViewportSize({width,height:900});
   await page.goto(base);
+  await expect(page.locator('.signal-watermark')).toHaveCSS('mask-image',/digivated-mark\.svg/);
+  await expect(page.locator('.home-topics')).not.toContainText(/\b0[1-4]\b/);
   await page.locator('.idea-card').filter({hasText:'Explore AI'}).getByRole('link',{name:'Explore AI'}).click();
   await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('AI');
   await expect(page.locator('h1')).toHaveText('Explore what’s useful.');
@@ -18,6 +20,7 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   const nav=page.getByRole('navigation',{name:width<=1100?'Mobile navigation':'Main navigation',exact:true});
   if(width<=1100) await page.locator('.mobile-menu summary').click();
   await nav.getByRole('link',{name:'Products',exact:true}).click();
+  await expect(page.locator('.product-art-cover img')).toHaveAttribute('src','/digivated-mark.svg');
   await page.getByRole('link',{name:'View UI/UX Prompt Packet'}).click();
   await expect(page.locator('h1')).toHaveText('UI/UX Prompt Packet');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 18, 19)');
@@ -34,7 +37,7 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page.locator('.packet-context')).toContainText('UI/UX Prompt Packet');
   await expect(page.locator('.brand-logo-wrap')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
   await expect(page.locator('.footer-logo-wrap')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
-  await expect(page.locator('.brand-logo')).toHaveAttribute('src','/digivated-logo-transparent.png');
+  await expect(page.locator('.brand-logo')).toHaveAttribute('src','/digivated-mark.svg');
   if(width<=850){await page.locator('#menu-toggle').click();await expect(page.locator('#site-navigation')).toBeVisible();}
   await page.getByRole('navigation',{name:'Packet tools'}).getByRole('link',{name:'Start Here',exact:true}).click();
   await expect(page).toHaveURL(/\/start$/);

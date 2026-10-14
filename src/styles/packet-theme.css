@@ -1,5 +1,5 @@
 /* The packet is a focused workspace within the same Digivated brand. */
-body.packet-workspace { --accent:#3b82f6; --muted:#9ca3af; --line:#374151; --paper:#111827; --tint:#1f2937; color-scheme:dark; color:#fff; background:#030712; }
+body.packet-workspace { --accent:#8de5c7; --muted:#9ca3af; --line:#374151; --paper:#111827; --tint:#1f2937; color-scheme:dark; color:#fff; background:#030712; }
 .packet-workspace a { color:#d1d5db; }
 .packet-workspace p,.packet-workspace .lede,.packet-workspace .quiet { color:var(--muted); }
 .packet-context { display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between; padding:10px max(24px,calc((100vw - 1440px)/2)); border-bottom:1px solid var(--line); font-size:.8125rem; }
@@ -13,19 +13,19 @@ body.packet-workspace .shell { background:#030712; border-color:var(--line); box
 body.packet-workspace aside,body.packet-workspace[data-surface=editorial] aside.is-open { background:#111827; border-color:var(--line); }
 body.packet-workspace nav a { color:#d1d5db; }
 body.packet-workspace nav a:hover:not([aria-current=page]) { background:#1f2937; }
-body.packet-workspace nav a[aria-current=page] { background:#2563eb; color:#fff; box-shadow:none; }
+body.packet-workspace nav a[aria-current=page] { background:#295545; color:#fff; box-shadow:none; }
 body.packet-workspace .panel,body.packet-workspace .prompt-row,body.packet-workspace .filters,body.packet-workspace .stats,.packet-workspace dialog,.packet-workspace .dialog-header { background:#111827; border-color:var(--line); box-shadow:none; }
 body.packet-workspace input,body.packet-workspace select,body.packet-workspace textarea { background:#030712; border-color:var(--line); color:#fff; }
 .packet-workspace .builder-output textarea { background:#030712!important; }
 .packet-workspace .button { background:transparent; border-color:var(--line); color:#fff; }
 .packet-workspace .button:hover { background:#1f2937; border-color:#9ca3af; }
-.packet-workspace .button.primary { background:#2563eb; border-color:#2563eb; color:#fff; }
-.packet-workspace .button.primary:hover { background:#3b82f6; }
+.packet-workspace .button.primary { background:#8de5c7; border-color:#8de5c7; color:#10251e; }
+.packet-workspace .button.primary:hover { background:#b0f0d9; color:#10251e; }
 .packet-workspace .pill,.packet-workspace .pill.locked,.packet-workspace .example,.packet-workspace .prompt-text,.packet-workspace .about-cta { color:#d1d5db; background:#1f2937; border-color:var(--line); }
-body.packet-workspace .prompt-id,.packet-workspace .eyebrow,.packet-workspace .card-action { color:#60a5fa; }
-body.packet-workspace .fix-choice:hover { background:#1f2937; border-color:#60a5fa; }
+body.packet-workspace .prompt-id,.packet-workspace .eyebrow,.packet-workspace .card-action { color:#8de5c7; }
+body.packet-workspace .fix-choice:hover { background:#1f2937; border-color:#8de5c7; }
 .packet-workspace .check-item { border-color:var(--line); }
-.packet-workspace :focus-visible { outline-color:#60a5fa; }
+.packet-workspace :focus-visible { outline-color:#a8f0d7; }
 .packet-workspace .skip { color:#030712; }
 body.packet-workspace footer { background:#111827; border-color:var(--line); }
 .packet-workspace .toast { background:#1f2937; color:#fff; }
@@ -34,3 +34,4 @@ body.packet-workspace footer { background:#111827; border-color:var(--line); }
   .packet-workspace .topbar .purchase-link { grid-row:2; }
   .packet-workspace .topbar { gap:12px; }
 }
+
