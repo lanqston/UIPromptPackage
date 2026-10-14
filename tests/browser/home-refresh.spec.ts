@@ -26,7 +26,7 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await expect(page.locator('.hero-copy .primary')).toHaveCSS('background-color', 'rgb(243, 243, 241)');
     await expect(page.locator('.signal-display')).toBeVisible();
     await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link')).toHaveCount(4);
-    await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link', { name: /Markets & investing/ })).toHaveAttribute('href', '/resources?category=Markets%20%26%20Investing');
+    await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link', { name: /Markets & Investing/ })).toHaveAttribute('href', '/resources?category=Markets%20%26%20Investing');
     await expect(page.locator('.home-wayfinding, .discovery-guide')).toHaveCount(0);
     const shelf = page.locator('[data-project-filters]');
     const cards = shelf.locator('[data-project]:visible');
