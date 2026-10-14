@@ -42,7 +42,7 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page).toHaveURL(base+'/');
   for(const path of ['/discover','/submit-project','/products','/about','/access']){
     await page.goto(base+path);
-    await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 17, 17)');
+    await expect(page.locator('body')).toHaveCSS('background-color',path === '/access' ? 'rgb(3, 7, 18)' : 'rgb(17, 17, 17)');
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),path).toBe(true);
   }
   expect(errors).toEqual([]);
