@@ -65,7 +65,11 @@
 .home-refresh .hero-copy h1 em { color:#f4f4f2; font-style:italic; }
 .home-refresh .hero-copy .lede { max-width:650px; font-size:clamp(1.04rem,1.7vw,1.25rem); line-height:1.6; margin:0 0 28px; }
 .home-refresh .hero-copy .actions { display:flex; gap:10px; flex-wrap:wrap; margin:0; }
-.signal-display { position:relative; min-height:440px; margin:75px 0 0; border:1px solid #456d5e; border-radius:14px; overflow:hidden; background:radial-gradient(ellipse at 51% 42%,#335e4e 0,#1b342c 30%,#131e1b 62%,#101413 100%); color:#f0f0ed; box-shadow:inset 0 1px #a9ffdc40,0 28px 76px #0009; }
+.signal-stage { position:relative; margin:88px 18px 24px; perspective:1800px; isolation:isolate; }
+.signal-stage::before { content:""; position:absolute; inset:14px -13px -18px 18px; border:1px solid #70c5a68c; border-radius:17px; background:linear-gradient(145deg,#315d4c 0%,#152c23 38%,#08140f 74%); box-shadow:12px 22px 0 #080f0ccc,24px 42px 54px #000b,inset -12px -16px 22px #0009; transform:rotateY(-5deg) rotateX(3deg) translateZ(-16px); }
+.signal-stage::after { content:""; position:absolute; right:3%; bottom:-22px; width:31%; height:3px; border-radius:50%; background:linear-gradient(90deg,transparent,#91ecc8aa,transparent); box-shadow:0 0 24px #91ecc895; transform:skewX(-25deg); pointer-events:none; }
+.signal-display { position:relative; min-height:440px; margin:0; border:1px solid #79c5a59c; border-radius:16px; overflow:hidden; background:radial-gradient(ellipse at 51% 42%,#335e4e 0,#1b342c 30%,#131e1b 62%,#101413 100%); color:#f0f0ed; box-shadow:inset 0 2px #cbffdf80,inset 2px 0 #aaffd348,inset -12px -20px 38px #0008,0 22px 46px #000a; transform:rotateY(-5deg) rotateX(3deg); transform-origin:50% 50%; transition:transform .35s ease,box-shadow .35s ease; }
+.signal-stage:hover .signal-display { transform:rotateY(-2deg) rotateX(1deg) translateY(-5px); box-shadow:inset 0 2px #cbffdf80,inset 2px 0 #aaffd348,inset -12px -20px 38px #0008,0 32px 54px #000c; }
 .signal-display::before { content:""; position:absolute; inset:0; opacity:.28; background-image:linear-gradient(#5555 1px,transparent 1px),linear-gradient(90deg,#5555 1px,transparent 1px); background-size:48px 48px; mask-image:linear-gradient(90deg,transparent,#000 17%,#000 83%,transparent); }
 .signal-display::after { content:""; position:absolute; inset:-25% 28%; border:1px solid #ffffff10; border-radius:50%; transform:rotate(-25deg); pointer-events:none; }
 .signal-top,.signal-bottom { position:absolute; z-index:2; left:28px; right:28px; display:flex; justify-content:space-between; gap:12px; color:#a7a7a9; font-size:.64rem; letter-spacing:.15em; font-weight:600; }
@@ -143,7 +147,10 @@
   .platform .header-inner { padding-inline:14px; min-height:60px; }
   .home-refresh .revamp-hero { padding-top:132px; }
   .home-refresh .hero-copy h1.discovery-headline { font-size:clamp(3.5rem,11vw,5.5rem); max-width:14ch; }
-  .signal-display { min-height:345px; margin-top:52px; }
+  .signal-stage { margin:62px 10px 20px; }
+  .signal-stage::before { inset:10px -7px -11px 11px; }
+  .signal-display { min-height:345px; transform:rotateY(-3deg) rotateX(2deg); }
+  .signal-stage:hover .signal-display { transform:rotateY(-3deg) rotateX(2deg); }
   .signal-orbit { width:min(58vw,300px); }
   .signal-emblem { transform:perspective(750px) scale(.82) rotateY(-13deg) rotateX(7deg) rotateZ(-4deg); }
   .home-refresh .home-topics { grid-template-columns:repeat(2,minmax(0,1fr)); }
@@ -159,6 +166,8 @@
   .platform .header-actions .header-sign-in,.platform .header-actions .header-submit { display:none; }
   .home-refresh .hero-copy h1.discovery-headline { font-size:clamp(3.3rem,13vw,4.3rem); }
   .home-refresh .hero-copy .actions a { width:100%; }
+  .signal-stage { margin:54px 6px 18px; }
+  .signal-stage::before { inset:7px -5px -8px 8px; }
   .signal-display { min-height:295px; }
   .signal-top,.signal-bottom { left:14px; right:14px; font-size:.5rem; }
   .signal-orbit { width:190px; }
@@ -169,7 +178,7 @@
   .journey-steps li { grid-template-columns:36px 1fr 32px; gap:8px; }
   .packet-display { min-height:260px; }
 }
-@media(prefers-reduced-motion:reduce) { .home-refresh .idea-card { transition:none; } }
+@media(prefers-reduced-motion:reduce) { .home-refresh .idea-card,.signal-display { transition:none; } .signal-stage:hover .signal-display { transform:rotateY(-5deg) rotateX(3deg); } }
 
 /* Vector brand asset and a dimensional packet cover remain sharp at any density. */
 .platform .product-art { isolation:isolate; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:23px; min-height:480px; padding:34px; background:radial-gradient(circle at 51% 45%,#2b5947,#192e27 46%,#151b19 78%); }
