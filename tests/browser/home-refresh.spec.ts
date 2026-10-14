@@ -31,7 +31,7 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     const shelf = page.locator('[data-project-filters]');
     const cards = shelf.locator('[data-project]:visible');
     await expect(shelf.locator('[data-project-filter]')).toHaveText(['All', 'Featured', 'Digivated Picks']);
-    await expect(page.locator('.platform-header .brand-mark')).toBeVisible();
+    await expect(page.locator('.platform-header .x-brand-mark')).toBeVisible();
     await expect(cards).toHaveCount(4);
     await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(0);
     await shelf.getByRole('button', { name: 'Featured', exact: true }).click();
