@@ -1,15 +1,15 @@
 ---
 const groups = [
-  { title:'Explore', links:[['Technology','/resources?category=Tech'],['AI','/resources?category=AI'],['Markets & Investing','/resources?category=Markets%20%26%20Investing'],['Useful Tools','/resources?category=Useful%20Tools'],['All Resources','/resources']] },
-  { title:'Community', links:[['Projects','/discover'],['Saved collections','/saved'],['Submit a Project','/submit-project'],['Promote your project','/promote']] },
-  { title:'Digivated', links:[['About','/about'],['Digital Products','/products'],['Prompt Packet','/ui-ux-prompt-packet'],['Packet Access','/access']] },
+  { title:'Explore', links:[['All Resources','/resources'],['Tech','/resources?category=Tech'],['AI','/resources?category=AI'],['Markets','/resources?category=Markets%20%26%20Investing'],['Useful Tools','/resources?category=Useful%20Tools']] },
+  { title:'Community', links:[['Browse Projects','/discover'],['Submit a Project','/submit-project'],['Saved Collections','/saved'],['Paid Promotion','/promote']] },
+  { title:'Digivated', links:[['About','/about'],['Products','/products'],['Prompt Packet','/ui-ux-prompt-packet'],['Packet Access','/access']] },
   { title:'Connect', links:[['X / Twitter','https://x.com/digivatedx'],['Threads','https://www.threads.com/@digivated'],['Instagram','https://www.instagram.com/digivated/'],['Pinterest','https://www.pinterest.com/digivated/']] },
   { title:'Legal', links:[['Privacy & Data','/privacy'],['Terms of Use','/terms']] },
 ];
 ---
 <footer class="platform-footer">
   <div class="footer-inner mx-auto px-6"><div class="footer-columns grid grid-cols-2 md:grid-cols-4 lg:grid-cols-[2fr_repeat(4,1fr)] gap-8">
-    <div class="footer-intro col-span-2 md:col-span-4 lg:col-span-1"><a class="platform-brand" href="/"><span class="brand-mark" aria-hidden="true">d<span class="brand-mark-line"></span></span>Digivated</a><p>Tech. AI. Markets. What’s next.</p><p class="quiet">Explore ideas, discover useful tools, and share what you’re building.</p></div>
+    <div class="footer-intro col-span-2 md:col-span-4 lg:col-span-1"><a class="platform-brand" href="/"><span class="brand-mark" aria-hidden="true">d<span class="brand-mark-line"></span></span>Digivated</a><p>Tech. AI. Markets. What’s next.</p><p class="quiet">A clearer place to explore ideas and share what you’re building.</p></div>
     {groups.map(group => <nav aria-label={`${group.title} footer links`}><h2>{group.title}</h2>{group.links.map(([label, href]) => <a href={href} target={href.startsWith('https:') ? '_blank' : undefined} rel={href.startsWith('https:') ? 'noopener noreferrer' : undefined}>{label}</a>)}</nav>)}
   </div><div class="footer-bottom flex flex-wrap items-center justify-between gap-4"><span>© {new Date().getFullYear()} Digivated.</span><span>Keep looking forward.</span></div></div>
 </footer>

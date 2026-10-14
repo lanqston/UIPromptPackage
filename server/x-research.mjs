@@ -27,6 +27,11 @@ export function cronAuthorized(header, secret) {
   return actual.length === expected.length && timingSafeEqual(actual, expected);
 }
 
+export function grokConfigured(env) {
+  const key = env.XAI_API_KEY;
+  return typeof key === 'string' && key.startsWith('xai-') && key.length >= 40 && !/\s|\.\.\./.test(key);
+}
+
 function decode(response) {
   if (response.status !== 'completed') throw new Error('Incomplete Grok response');
   let text = (response.output || []).filter(x => x.type === 'message').flatMap(x => x.content || []).filter(x => x.type === 'output_text').map(x => x.text).join('\n').trim();
@@ -133,6 +138,7 @@ export function makeResearchHandler(deps = {}) {
       const redis = deps.redis || redisClient(env);
       const isCron = req.method === 'GET' && cronAuthorized(req.headers.authorization, env.CRON_SECRET);
       if (isCron) {
+        if (!grokConfigured(env)) return send(200, { status: 'unconfigured', added: 0, postingEnabled: false });
         const report = await runResearch(redis, deps.agent || makeAgent(env, redis));
         console.info(JSON.stringify({ event: 'x_research', status: report.status, added: report.added || 0, error: report.error || null, postingEnabled: false }));
         return send(report.status === 'failed' ? 502 : 200, report);
@@ -153,6 +159,7 @@ export function makeResearchHandler(deps = {}) {
         return send(200, { ok: true });
       }
       if (body.action !== 'run') throw new AdminError(400, 'Invalid research action.');
+      if (!grokConfigured(env)) return send(200, { status: 'unconfigured', added: 0, postingEnabled: false });
       const report = await runResearch(redis, deps.agent || makeAgent(env, redis));
       return send(report.status === 'failed' ? 502 : 200, report);
     } catch (error) {
@@ -160,3 +167,4 @@ export function makeResearchHandler(deps = {}) {
     }
   };
 }
+

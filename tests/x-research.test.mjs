@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { runResearch, validCandidate, cronAuthorized, makeResearchHandler, makeAgent } from '../server/x-research.mjs';
+import { runResearch, validCandidate, cronAuthorized, makeResearchHandler, makeAgent, grokConfigured } from '../server/x-research.mjs';
 import { adminConfig, digest, ADMIN_COOKIE } from '../server/admin-auth.mjs';
 
 const clock = () => Date.parse('2026-10-05T12:00:00Z');
@@ -64,6 +64,17 @@ test('cron requires a long configured secret and exact bearer header', () => {
   assert.equal(cronAuthorized('Bearer '+ 'a'.repeat(32),'a'.repeat(32)),true);
   assert.equal(cronAuthorized('Bearer '+ 'b'.repeat(32),'a'.repeat(32)),false);
 });
+test('obsolete Grok key does not run research or block the scheduled endpoint', async () => {
+  const s=storage();let called=false;
+  const env={CRON_SECRET:'a'.repeat(32),XAI_API_KEY:'redacted'};
+  assert.equal(grokConfigured(env),false);
+  const handler=makeResearchHandler({env,redis:s.redis,agent:async()=>{called=true;}});
+  const res={setHeader(){},end(value){this.body=JSON.parse(value);}};
+  await handler({method:'GET',headers:{authorization:'Bearer '+env.CRON_SECRET}},res);
+  assert.equal(res.statusCode,200);
+  assert.equal(res.body.status,'unconfigured');
+  assert.equal(called,false);
+});
 test('public visitors cannot view or run research', async () => {
   const s=storage();let called=false;
   const env={DIGIVATED_ADMIN_PASSWORD_HASH:`scrypt:${'a'.repeat(32)}:${'b'.repeat(128)}`,DIGIVATED_ADMIN_SESSION_SECRET:'c'.repeat(64)};
@@ -88,3 +99,4 @@ test('Grok requests never access X publishing API', async () => {
   });
   assert.deepEqual(await agent('writer','draft',false,usage),[]);assert.equal(usage.length,1);
 });
+
