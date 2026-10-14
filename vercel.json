@@ -45,6 +45,11 @@
   ],
   "redirects": [
     {
+      "source": "/about-langston",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
       "source": "/",
       "has": [
         {
