@@ -14,7 +14,7 @@ function fixtureRedis(){
   if(command==='ZREVRANGE')return [...members(args[0])].sort((a,b)=>b[1]-a[1]).slice(Number(args[1]),Number(args[2])+1).map(([id])=>id);
   if(command==='EVAL'){
    const [script,n,...rest]=args,keys=rest.slice(0,Number(n)),argv=rest.slice(Number(n));
-   if(script.includes("'NX','EX'")){if(!values.has(keys[0])){values.set(keys[0],'1');values.set(keys[1],String(Number(values.get(keys[1])||0)+1));}return Number(values.get(keys[1])||0);}
+   if(script.includes("ARGV[1]=='like'")){let count=Number(values.get(keys[1])||0),liked=values.has(keys[0]);if(argv[0]==='like'&&!liked){values.set(keys[0],'1');count++;values.set(keys[1],String(count));liked=true;}else if(argv[0]==='unlike'&&liked){values.delete(keys[0]);count=Math.max(0,count-1);values.set(keys[1],String(count));liked=false;}return [count,liked?1:0];}
    if(script.includes('comment-limit')){throw Error('unexpected script');}
    if(script.includes('local n=redis.call')){const count=Number(values.get(keys[0])||0)+1;values.set(keys[0],String(count));if(count>3)return 0;values.set(keys[1],argv[0]);const set=members(keys[2]);set.set(argv[2],Number(argv[1]));sorted.set(keys[2],set);return 1;}
    const record=JSON.parse(values.get(keys[0]));if(record.status!=='pending')return 0;record.status=argv[0];values.set(keys[0],JSON.stringify(record));if(argv[0]==='approved'){const set=members(keys[1]);set.set(record.id,Number(argv[1]));sorted.set(keys[1],set);}return 1;
@@ -34,8 +34,11 @@ test('project interactions require a published project and moderate comments wit
  const project={id:'project-one',name:'Original',status:'approved',consent:true,image:'original-image',views:52};
  const record=JSON.stringify(project);values.set('digivated:submission:project-one',record);
  assert.deepEqual((await call(handler,'GET','project-one')).data,{likes:0,comments:[],commentCount:0});
- assert.equal((await call(handler,'POST','project-one',{action:'like'})).data.likes,1);
- assert.equal((await call(handler,'POST','project-one',{action:'like'})).data.likes,1);
+ assert.deepEqual((await call(handler,'POST','project-one',{action:'like'})).data,{liked:true,likes:1});
+ assert.deepEqual((await call(handler,'POST','project-one',{action:'like'})).data,{liked:true,likes:1});
+ assert.deepEqual((await call(handler,'POST','project-one',{action:'unlike'})).data,{liked:false,likes:0});
+ assert.deepEqual((await call(handler,'POST','project-one',{action:'unlike'})).data,{liked:false,likes:0});
+ assert.deepEqual((await call(handler,'POST','project-one',{action:'like'})).data,{liked:true,likes:1});
  assert.equal((await call(handler,'POST','project-one',{action:'comment',name:'Sam',comment:'A thoughtful idea'})).status,201);
  assert.equal((await call(handler,'GET','project-one')).data.commentCount,0);
  const pending=(await listPendingComments(redis)).items;
