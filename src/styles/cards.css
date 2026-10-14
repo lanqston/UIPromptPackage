@@ -30,7 +30,6 @@
 .platform [data-live-projects] .project-image.card-visual::before,.platform [data-live-projects] .project-image.card-visual::after { content:none; }
 .platform [data-live-projects] .project-image img { position:relative; z-index:1; display:block; width:100%; height:100%; max-width:100%; max-height:100%; object-fit:contain; object-position:center; border-radius:0; box-shadow:none; }
 .platform [data-live-projects] .project-monogram { position:relative; z-index:1; color:#f3f3f1; font-size:2.1rem; font-weight:600; letter-spacing:-.06em; }
-.platform .project-visual-top { position:absolute; z-index:2; inset:auto 11px 11px; display:flex; justify-content:flex-end; }
 .platform .creator-chip { display:none; }
 .platform [data-live-projects] .project-copy h3 { margin:9px 0 7px; }
 .platform [data-live-projects] .project-meta { order:-1; margin:0 0 8px; }
@@ -38,6 +37,7 @@
 .platform [data-live-projects] .project-details summary { color:#b8f1dc; }
 .platform [data-live-projects] .project-copy .card-links { display:flex; flex-wrap:wrap; gap:7px; align-items:center; margin-top:12px; padding-top:11px; border-top:1px solid #303233; }
 .platform [data-live-projects] .project-copy .card-links .card-social { display:contents; }
+.platform [data-live-projects] .project-copy .card-links .card-save { margin-left:0; }
 .platform [data-live-projects] .card-links [data-project-views] { margin:0 auto 0 0; color:#989b9d; font-size:.73rem; white-space:nowrap; }
 .platform [data-live-projects] .project-copy .card-links .button { min-height:34px; padding:8px 11px; border:0; border-radius:9px; background:#252728; color:#f1f2f2; font-size:.75rem; }
 .platform [data-live-projects] .project-copy .card-links .button.primary { background:#f3f4f4; color:#111213; }

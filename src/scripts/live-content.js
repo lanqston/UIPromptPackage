@@ -22,7 +22,6 @@ function projectCard(project){
  const image=el('div',undefined,'project-image card-visual');
  const fallback=()=>{image.querySelector('img')?.remove();image.prepend(el('span',project.name.slice(0,2).toUpperCase(),'project-monogram'));};
  if(project.image){const preview=thumbnail(project.image,`${project.name} project preview`);preview.decoding='async';preview.addEventListener('error',fallback,{once:true});image.append(preview);}else fallback();
- const visualTop=el('div',undefined,'project-visual-top');visualTop.append(cardSave('project',project.id));image.append(visualTop);
  const copy=el('div',undefined,'project-copy');
  const heading=el('h3');heading.append(link(project.name,project.pageUrl||project.url));
  const meta=el('div',undefined,'project-meta');meta.append(el('span',project.category,'tag'),el('span',`By ${project.creator}`,'quiet'));
@@ -31,7 +30,7 @@ function projectCard(project){
  copy.append(heading,meta,description);
  if(project.description.length>100){const details=el('details',undefined,'project-details');details.append(el('summary','Read full description'),el('p',project.description));copy.append(details);}
  const views=el('p',viewLabel(project.views),'quiet');views.dataset.projectViews=project.id;views.title='Approximate project card views on Digivated. Repeat views from the same network count once every 24 hours.';
- const actions=el('div',undefined,'card-links');actions.append(views,cardSocial('project',project.id,project.pageUrl||`/discover#project-${project.id}`));if(project.pageUrl){const detail=link('View project',project.pageUrl);detail.className='button';actions.append(detail);}const visit=link('Visit project ↗',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
+ const actions=el('div',undefined,'card-links');actions.append(views,cardSocial('project',project.id,project.pageUrl||`/discover#project-${project.id}`),cardSave('project',project.id));if(project.pageUrl){const detail=link('View project',project.pageUrl);detail.className='button';actions.append(detail);}const visit=link('Visit project ↗',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
 }
 function resourceCard(resource){
  const category=normalizeResourceCategory(resource.category);const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.resourceViewId=resource.id;card.dataset.category=category;card.dataset.search=`${resource.title} ${resource.description} ${category}`.toLowerCase();
