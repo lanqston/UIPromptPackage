@@ -7,6 +7,7 @@ import '../styles/experience-polish.css';
 import '../styles/clean-ui.css';
 import '../styles/brand-relaunch.css';
 import '../styles/signal-theme.css';
+import '../styles/cards.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 const { title = 'Tech. AI. Markets. What’s next.', description = 'Digivated explores technology, AI, markets, useful tools, and independent projects.' } = Astro.props;
@@ -22,6 +23,7 @@ const breadcrumb = sectionNames[path] || title;
 <SiteFooter/>
 <script is:inline src="/analytics.js"></script>
 <script is:inline defer src="/_vercel/insights/script.js"></script><script>import '../scripts/monitoring.js'; import '../scripts/platform-ui.js'; import '../scripts/collections.js';</script>
+<script>import '../scripts/card-actions.js';</script>
 </body></html>
 
 

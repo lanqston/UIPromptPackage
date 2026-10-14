@@ -105,7 +105,7 @@
   .owner main { padding:28px 20px 60px; }
   .owner-intro { padding:24px 0 22px; }
   .owner-intro h1 { font-size:clamp(2.5rem,10vw,3.5rem); }
-  .owner-tabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin-bottom:22px; }
+  .owner-tabs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; margin-bottom:22px; }
   .owner .owner-tabs .button { min-width:0; padding:11px 7px; font-size:.82rem; }
   .owner-toolbar { grid-template-columns:1fr; gap:12px; }
   .owner-toolbar button { width:100%; }
