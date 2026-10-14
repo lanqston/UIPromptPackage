@@ -15,6 +15,9 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('AI');
   await expect(page.locator('h1')).toHaveText('Explore what’s useful.');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 18, 19)');
+  await expect(page.locator('.shell')).toHaveCSS('background-color','rgb(23, 24, 26)');
+  await expect(page.locator('.brand')).toContainText('Digivated');
+  await expect(page.locator('#site-navigation')).toHaveCSS('background-color','rgb(27, 28, 30)');
   await page.getByRole('navigation',{name:'Breadcrumb'}).getByRole('link',{name:'Home'}).click();
   await expect(page).toHaveURL(base+'/');
   const nav=page.getByRole('navigation',{name:width<=1100?'Mobile navigation':'Main navigation',exact:true});
@@ -33,7 +36,7 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page.locator('#prompt-dialog')).toBeVisible();
   await expect(page.locator('#prompt-dialog .prompt-text')).not.toBeEmpty();
   await page.locator('#close-dialog').click();
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(3, 7, 18)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 18, 19)');
   await expect(page.locator('.packet-context')).toContainText('UI/UX Prompt Packet');
   await expect(page.locator('.brand-logo-wrap')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
   await expect(page.locator('.footer-logo-wrap')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
@@ -45,7 +48,7 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page).toHaveURL(base+'/');
   for(const path of ['/discover','/submit-project','/products','/about','/access']){
     await page.goto(base+path);
-    await expect(page.locator('body')).toHaveCSS('background-color',path === '/access' ? 'rgb(3, 7, 18)' : 'rgb(17, 18, 19)');
+    await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 18, 19)');
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),path).toBe(true);
   }
   expect(errors).toEqual([]);
