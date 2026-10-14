@@ -128,6 +128,7 @@ body.packet-workspace footer { background:#0b0c0d; border-color:#353638; padding
   body.packet-workspace[data-surface=editorial] main { padding-inline:8px; }
   body.packet-workspace[data-surface=workspace] main { padding:28px 18px 42px; }
   .packet-workspace .brand { min-width:0; }
+  .packet-workspace .brand-caption { display:block; font-size:.625rem; line-height:1.2; }
   .packet-workspace .brand-logo-wrap,.packet-workspace .brand-logo { width:30px; height:36px; }
   .packet-workspace .topbar .purchase-link { grid-row:2; }
 }

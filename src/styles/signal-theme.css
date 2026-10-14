@@ -180,6 +180,13 @@
 }
 @media(prefers-reduced-motion:reduce) { .home-refresh .idea-card,.signal-display { transition:none; } .signal-stage:hover .signal-display { transform:rotateY(-5deg) rotateX(3deg); } }
 
+/* Keep the packet's desktop action hierarchy legible on small phones. */
+@media(max-width:600px) {
+  .platform .packet-intro .actions { display:grid; grid-template-columns:minmax(0,1fr); gap:10px; }
+  .platform .packet-intro .actions>.button { width:100%; justify-content:center; text-align:center; }
+  .platform .packet-intro .actions>[data-save-type] { order:3; }
+}
+
 /* Vector brand asset and a dimensional packet cover remain sharp at any density. */
 .platform .product-art { isolation:isolate; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:23px; min-height:480px; padding:34px; background:radial-gradient(circle at 51% 45%,#2b5947,#192e27 46%,#151b19 78%); }
 .platform .product-art::before { content:""; position:absolute; inset:-18%; opacity:.34; background:repeating-linear-gradient(150deg,transparent 0 35px,#9de7c91b 36px 37px); transform:rotate(-8deg); pointer-events:none; }

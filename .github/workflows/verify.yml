@@ -48,3 +48,11 @@ jobs:
 
       - name: Verify browser reporting and privacy
         run: npx playwright test
+
+      - name: Upload mobile visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-visual-review
+          path: test-results/mobile/
+          if-no-files-found: ignore

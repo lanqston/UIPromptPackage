@@ -18,7 +18,7 @@ for(const width of [375,768,1440]){
    }
    if(route==='/ui-ux-prompt-packet'){
     const buy=page.locator('.purchase-link');await expect(buy).toBeVisible();
-    await expect(buy).toHaveAttribute('href','https://mccovery.gumroad.com/l/ui-prompt-package');
+    await expect(buy).toHaveAttribute('href','https://digivated.gumroad.com/l/ui-prompt-package');
     await buy.click({trial:true}); // Visibility, position, and overlay hit-testing.
    }
   }
@@ -31,8 +31,8 @@ test('mobile navigation, directory filters, and preserved product link',async({p
  await page.getByRole('navigation',{name:'Mobile navigation',exact:true}).getByRole('link',{name:'Projects',exact:true}).click();
  await expect(page).toHaveURL(/\/discover/);await page.getByLabel('Search projects').fill('nonexistent');await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('AI');await page.getByRole('combobox',{name:'Browse',exact:true}).selectOption('picks');await expect(page.locator('#directory-empty')).toBeVisible();
  await page.goto(base+'/products');await page.getByRole('link',{name:/View UI\/UX Prompt Packet/}).click();await expect(page).toHaveURL(/ui-ux-prompt-packet/);
- await page.route('https://mccovery.gumroad.com/l/ui-prompt-package',r=>r.fulfill({contentType:'text/html',body:'<h1>Checkout destination fixture</h1>'}));
- await page.locator('.purchase-link').click();await expect(page).toHaveURL('https://mccovery.gumroad.com/l/ui-prompt-package');
+ await page.route('https://digivated.gumroad.com/l/ui-prompt-package',r=>r.fulfill({contentType:'text/html',body:'<h1>Checkout destination fixture</h1>'}));
+ await page.locator('.purchase-link').click();await expect(page).toHaveURL('https://digivated.gumroad.com/l/ui-prompt-package');
 });
 test('submission UI reaches real validation handler and only confirms a stored pending record',async({page})=>{
  let saved:any;

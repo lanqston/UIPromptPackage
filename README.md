@@ -2,7 +2,7 @@
 
 Have an idea for a website or app, but can’t quite get it to look the way you imagined? PromptCove helps you figure out what to change, what to expect, and what to ask AI next.
 
-**[Explore the package and try 3 prompts free](https://mccovery.gumroad.com/l/ui-prompt-package?utm_source=github&utm_medium=referral&utm_campaign=readme)** · Full package: **$7.99, one-time**.
+**[Explore the package and try 3 prompts free](https://digivated.gumroad.com/l/ui-prompt-package?utm_source=github&utm_medium=referral&utm_campaign=readme)** · See the current price on Gumroad.
 
 - 75 prompts for website and app UI design, with customization and follow-up guidance.
 - 8 step-by-step workflows, 8 review checklists, and a prompt builder.
