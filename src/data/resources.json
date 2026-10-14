@@ -8,11 +8,26 @@
     "date": "2026-10-14",
     "readingTime": 2,
     "content": [
-      {"type": "paragraph", "text": "A new product can sound important before it is clear who it helps. Start with the job it does, then look for a real example of someone using it."},
-      {"type": "heading", "text": "Ask four useful questions"},
-      {"type": "paragraph", "text": "What problem does it solve? Who has that problem? What does the product replace or improve? What tradeoff comes with using it? Those questions are more useful than a list of features by itself."},
-      {"type": "heading", "text": "Try the smallest real task"},
-      {"type": "paragraph", "text": "If you can test the tool, give it one ordinary task you already understand. Notice the setup time, the quality of the result, and what still needs your attention. A useful product should make that task clearer or easier."}
+      {
+        "type": "paragraph",
+        "text": "A new product can sound important before it is clear who it helps. Start with the job it does, then look for a real example of someone using it."
+      },
+      {
+        "type": "heading",
+        "text": "Ask four useful questions"
+      },
+      {
+        "type": "paragraph",
+        "text": "What problem does it solve? Who has that problem? What does the product replace or improve? What tradeoff comes with using it? Those questions are more useful than a list of features by itself."
+      },
+      {
+        "type": "heading",
+        "text": "Try the smallest real task"
+      },
+      {
+        "type": "paragraph",
+        "text": "If you can test the tool, give it one ordinary task you already understand. Notice the setup time, the quality of the result, and what still needs your attention. A useful product should make that task clearer or easier."
+      }
     ]
   },
   {
@@ -24,11 +39,26 @@
     "date": "2026-10-14",
     "readingTime": 2,
     "content": [
-      {"type": "paragraph", "text": "AI is most useful when you know what you want it to help with. Begin with a narrow task: organize notes, compare possible approaches, or draft a first version you can review."},
-      {"type": "heading", "text": "Keep the review in your hands"},
-      {"type": "paragraph", "text": "Give context and ask for a clear format. Then check any names, figures, links, and claims against the original source. A confident answer is not evidence that an answer is right."},
-      {"type": "heading", "text": "Think before sharing information"},
-      {"type": "paragraph", "text": "Leave private account details, customer information, and secrets out of prompts unless you understand the tool's settings and have permission to use that data. You can often describe the problem with a made-up example instead."}
+      {
+        "type": "paragraph",
+        "text": "AI is most useful when you know what you want it to help with. Begin with a narrow task: organize notes, compare possible approaches, or draft a first version you can review."
+      },
+      {
+        "type": "heading",
+        "text": "Keep the review in your hands"
+      },
+      {
+        "type": "paragraph",
+        "text": "Give context and ask for a clear format. Then check any names, figures, links, and claims against the original source. A confident answer is not evidence that an answer is right."
+      },
+      {
+        "type": "heading",
+        "text": "Think before sharing information"
+      },
+      {
+        "type": "paragraph",
+        "text": "Leave private account details, customer information, and secrets out of prompts unless you understand the tool's settings and have permission to use that data. You can often describe the problem with a made-up example instead."
+      }
     ]
   },
   {
@@ -39,13 +69,31 @@
     "category": "Markets & Investing",
     "date": "2026-10-14",
     "readingTime": 2,
-    "source": {"label": "Investor.gov: Red Flags of Investment Fraud", "url": "https://www.investor.gov/protect-your-investments/fraud/how-avoid-fraud/red-flags-investment-fraud-checklist"},
+    "source": {
+      "label": "Investor.gov: Red Flags of Investment Fraud",
+      "url": "https://www.investor.gov/protect-your-investments/fraud/how-avoid-fraud/red-flags-investment-fraud-checklist"
+    },
     "content": [
-      {"type": "paragraph", "text": "A market headline may tell you what happened today, but it cannot tell you whether an investment fits your goals. Before acting on a claim, pause long enough to identify what is being promised and what evidence is actually shown."},
-      {"type": "heading", "text": "Look for what is missing"},
-      {"type": "paragraph", "text": "Who made the claim, and what do they stand to gain? Does it show the underlying data and time period? Does it discuss downside risk as clearly as possible gains? Investor.gov advises researching opportunities and treating risk-free promises as a warning sign."},
-      {"type": "heading", "text": "Keep the decision separate"},
-      {"type": "paragraph", "text": "Use a headline as a reason to learn more, not as an instruction to trade. This guide is general education, not a recommendation to buy or sell a security."}
+      {
+        "type": "paragraph",
+        "text": "A market headline may tell you what happened today, but it cannot tell you whether an investment fits your goals. Before acting on a claim, pause long enough to identify what is being promised and what evidence is actually shown."
+      },
+      {
+        "type": "heading",
+        "text": "Look for what is missing"
+      },
+      {
+        "type": "paragraph",
+        "text": "Who made the claim, and what do they stand to gain? Does it show the underlying data and time period? Does it discuss downside risk as clearly as possible gains? Investor.gov advises researching opportunities and treating risk-free promises as a warning sign."
+      },
+      {
+        "type": "heading",
+        "text": "Keep the decision separate"
+      },
+      {
+        "type": "paragraph",
+        "text": "Use a headline as a reason to learn more, not as an instruction to trade. This guide is general education, not a recommendation to buy or sell a security."
+      }
     ]
   },
   {
@@ -57,12 +105,414 @@
     "date": "2026-10-14",
     "readingTime": 2,
     "content": [
-      {"type": "paragraph", "text": "The best tool for you is the one that improves a task you already need to do. Start with the task, not the app store page."},
-      {"type": "heading", "text": "Compare the full cost"},
-      {"type": "paragraph", "text": "Price matters, but so do setup time, learning curve, privacy, export options, and how easily you can stop using the tool. A free app can still cost too much attention."},
-      {"type": "heading", "text": "Run a one-week test"},
-      {"type": "paragraph", "text": "Pick one repeatable task and use the tool for it. At the end of the week, ask whether it saved effort, reduced mistakes, or helped you understand the work better. If it did not, you can keep your simpler process."}
+      {
+        "type": "paragraph",
+        "text": "The best tool for you is the one that improves a task you already need to do. Start with the task, not the app store page."
+      },
+      {
+        "type": "heading",
+        "text": "Compare the full cost"
+      },
+      {
+        "type": "paragraph",
+        "text": "Price matters, but so do setup time, learning curve, privacy, export options, and how easily you can stop using the tool. A free app can still cost too much attention."
+      },
+      {
+        "type": "heading",
+        "text": "Run a one-week test"
+      },
+      {
+        "type": "paragraph",
+        "text": "Pick one repeatable task and use the tool for it. At the end of the week, ask whether it saved effort, reduced mistakes, or helped you understand the work better. If it did not, you can keep your simpler process."
+      }
+    ]
+  },
+  {
+    "slug": "give-ai-agents-clear-boundaries",
+    "status": "published",
+    "title": "Give AI agents clear boundaries",
+    "description": "A friendly starting point for deciding what an AI agent can do on its own and where you should stay in the loop.",
+    "category": "AI",
+    "date": "2026-10-14",
+    "readingTime": 4,
+    "source": {
+      "label": "OWASP AI Agent Security Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+    },
+    "related": [
+      "check-an-ai-answer-before-you-use-it",
+      "design-one-small-flow-at-a-time"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "A recent Digivated carousel raised a question worth asking before you connect an AI agent to your tools. What would you actually let it do? The safest answer usually starts with one useful, well-defined job."
+      },
+      {
+        "type": "heading",
+        "text": "Give it the room it needs"
+      },
+      {
+        "type": "paragraph",
+        "text": "An agent that summarizes a folder may need permission to read those files. It probably does not need permission to delete them, share them, or see every folder in your account. Match access to the task and keep the first experiment somewhere separate from important work."
+      },
+      {
+        "type": "heading",
+        "text": "Choose where you stay involved"
+      },
+      {
+        "type": "paragraph",
+        "text": "Let the agent prepare a draft or suggest a change. Pause for your review before it sends a message, publishes something, changes account settings, spends money, or removes data. A useful approval shows you exactly what will happen so you can make a real choice."
+      },
+      {
+        "type": "heading",
+        "text": "Make a safe first test"
+      },
+      {
+        "type": "paragraph",
+        "text": "Use sample information and one low-risk task. Notice whether the agent follows the limits you set, explains when it is unsure, and gives you a clear way to stop. Keep a record of what it changed. Expand its access only when the smaller setup works and you can explain why the extra access is needed."
+      },
+      {
+        "type": "paragraph",
+        "text": "Good automation should leave you with more confidence and less cleanup. If you cannot easily review, undo, or stop an action, keep that step in your hands for now."
+      }
+    ]
+  },
+  {
+    "slug": "check-an-ai-answer-before-you-use-it",
+    "status": "published",
+    "title": "Check an AI answer before you build on it",
+    "description": "A simple review habit for facts, links, summaries, and ideas that sound more certain than they are.",
+    "category": "AI",
+    "date": "2026-10-14",
+    "readingTime": 4,
+    "source": {
+      "label": "Google DeepMind model cards and limitations",
+      "url": "https://deepmind.google/models/model-cards/"
+    },
+    "related": [
+      "give-ai-agents-clear-boundaries",
+      "make-sense-of-new-tech"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "AI can give you a useful first draft, a quick summary, or a fresh angle. Before you rely on the result, take a moment to check the parts that could change your decision."
+      },
+      {
+        "type": "heading",
+        "text": "Start with the details that matter"
+      },
+      {
+        "type": "paragraph",
+        "text": "Check names, dates, prices, quotes, links, and numbers against the original source. Open the link rather than trusting a citation at face value. For a summary, compare it with the source and make sure the important caveats did not disappear."
+      },
+      {
+        "type": "heading",
+        "text": "Ask for the evidence"
+      },
+      {
+        "type": "paragraph",
+        "text": "Ask which part is directly supported and which part is an interpretation. Request the source for each important factual claim. If the answer relies on a recent change, look for a current first-party announcement or documentation."
+      },
+      {
+        "type": "heading",
+        "text": "Try a small reality check"
+      },
+      {
+        "type": "paragraph",
+        "text": "Give the answer a second test. Check it with a simple calculation, a working example, or a person who knows the subject. If you cannot verify a key point, leave it out or label it as something you still need to confirm."
+      },
+      {
+        "type": "paragraph",
+        "text": "You do not need to fact-check every brainstorming idea. Spend your attention where a mistake would matter, and treat fluent writing as a starting point rather than proof."
+      }
+    ]
+  },
+  {
+    "slug": "read-a-tech-launch-with-a-clear-head",
+    "status": "published",
+    "title": "Read a tech launch with a clear head",
+    "description": "Separate what a company announced from what the announcement might mean for your everyday work.",
+    "category": "Tech",
+    "date": "2026-10-14",
+    "readingTime": 4,
+    "related": [
+      "make-sense-of-new-tech",
+      "choose-tools-that-earn-their-place"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "A launch can be exciting and still leave you with a basic question. Will this make anything meaningfully easier for me? A few calm checks help you get past the noise."
+      },
+      {
+        "type": "heading",
+        "text": "Keep the announcement and the takeaway apart"
+      },
+      {
+        "type": "paragraph",
+        "text": "Write down what is confirmed in the announcement, what the company hopes it will do, and what you think it could mean. Those are three different things. Keep them separate until you have enough evidence to connect them."
+      },
+      {
+        "type": "heading",
+        "text": "Look for the real-world version"
+      },
+      {
+        "type": "paragraph",
+        "text": "Who can use the product today? What does it cost? Which region, device, or account type does it support? Is there a demo of the whole task, or only a polished feature preview? The small details often decide whether a launch is useful to you."
+      },
+      {
+        "type": "heading",
+        "text": "Try it against your own work"
+      },
+      {
+        "type": "paragraph",
+        "text": "Choose a task you already know how to do. Compare the time and effort with your current approach, including setup and the time needed to check the result. Ask what still needs a person and what happens if the tool gets it wrong."
+      },
+      {
+        "type": "paragraph",
+        "text": "You can enjoy a clever launch without changing your workflow right away. Save the announcement, wait for real examples, and come back when it meets a need you actually have."
+      }
+    ]
+  },
+  {
+    "slug": "design-one-small-flow-at-a-time",
+    "status": "published",
+    "title": "Design one small flow at a time",
+    "description": "A comfortable way into UI and UX work, starting with one clear task and one real person.",
+    "category": "UI/UX",
+    "date": "2026-10-14",
+    "readingTime": 4,
+    "related": [
+      "read-a-tech-launch-with-a-clear-head",
+      "make-a-carousel-people-can-follow"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "A whole app is a big place to begin. Pick one person and one thing they are trying to do. Then design only the steps that help them finish it."
+      },
+      {
+        "type": "heading",
+        "text": "Start with the moment that matters"
+      },
+      {
+        "type": "paragraph",
+        "text": "Maybe someone needs to find an event, create an account, or submit a project. Write down what they need to know before they start and what a successful finish looks like. This gives every screen a reason to exist."
+      },
+      {
+        "type": "heading",
+        "text": "Build the flow in small pieces"
+      },
+      {
+        "type": "paragraph",
+        "text": "Sketch the button, then the form, then the screen around it. Use plain language for labels and show what happens after someone takes an action. Make the next step easy to spot, and make mistakes easy to recover from."
+      },
+      {
+        "type": "heading",
+        "text": "Watch someone use it"
+      },
+      {
+        "type": "paragraph",
+        "text": "Ask a person who has not seen the design to complete the task. Stay quiet while they try. Notice where they pause, what they expect a control to do, and what they miss. Fix the biggest point of confusion and try again."
+      },
+      {
+        "type": "paragraph",
+        "text": "Small, tested improvements add up to a much stronger product. You do not need perfect screens before you learn whether the flow makes sense."
+      }
+    ]
+  },
+  {
+    "slug": "make-a-carousel-people-can-follow",
+    "status": "published",
+    "title": "Make a carousel people can follow",
+    "description": "Turn a useful idea into a clear sequence that earns the next swipe and leaves people with something to remember.",
+    "category": "Creator Tips",
+    "date": "2026-10-14",
+    "readingTime": 4,
+    "related": [
+      "design-one-small-flow-at-a-time",
+      "grow-a-small-account-with-real-conversations"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "A good carousel feels like someone walking you through an idea. Each slide gives you one new reason to keep going, and the last one helps the whole story land."
+      },
+      {
+        "type": "heading",
+        "text": "Give the story a simple shape"
+      },
+      {
+        "type": "paragraph",
+        "text": "Open with the question or surprise. Use the middle slides to explain what happened and why it matters. End with the practical takeaway or a thoughtful question. If you can describe the point of each slide in one sentence, the sequence is probably clear."
+      },
+      {
+        "type": "heading",
+        "text": "Make each slide easy to scan"
+      },
+      {
+        "type": "paragraph",
+        "text": "Keep one main idea on a slide. Use a clear heading, comfortable type, and enough space around the words. A short example or number can help, as long as it earns its place and comes from a source you trust."
+      },
+      {
+        "type": "heading",
+        "text": "Check the details before you share"
+      },
+      {
+        "type": "paragraph",
+        "text": "Verify names, figures, screenshots, and claims. If a source is important to the story, make it easy to find. Read the carousel from beginning to end on a phone, where text can feel much smaller than it did while you were designing."
+      },
+      {
+        "type": "paragraph",
+        "text": "A small visual idea can carry a serious topic. Keep the design recognizably yours and let the information stay in the spotlight."
+      }
+    ]
+  },
+  {
+    "slug": "grow-a-small-account-with-real-conversations",
+    "status": "published",
+    "title": "Grow a small account with real conversations",
+    "description": "A steady approach to sharing useful work and getting to know the people who find it.",
+    "category": "Marketing",
+    "date": "2026-10-14",
+    "readingTime": 4,
+    "related": [
+      "make-a-carousel-people-can-follow",
+      "make-a-digital-product-easier-to-understand"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "It is easy to post something and hope the right people notice. A more grounded approach is to share useful ideas regularly and make time for the people who respond."
+      },
+      {
+        "type": "heading",
+        "text": "Choose one promise you can keep"
+      },
+      {
+        "type": "paragraph",
+        "text": "Pick a subject you can help with and a pace that fits your week. One thoughtful lesson, example, or answer can be more valuable than several rushed posts. Consistency should feel possible, not like a second full-time job."
+      },
+      {
+        "type": "heading",
+        "text": "Make your posts easy to act on"
+      },
+      {
+        "type": "paragraph",
+        "text": "Give people one useful point they can understand without already knowing you. Explain the context, share a concrete example, and leave them with a next step. If a post comes from a source, make that source easy to check."
+      },
+      {
+        "type": "heading",
+        "text": "Treat replies as part of the work"
+      },
+      {
+        "type": "paragraph",
+        "text": "Answer genuine questions, ask follow-ups, and learn what people are trying to solve. Do not turn every conversation into a pitch. Over time, these exchanges can show you which ideas deserve a deeper guide or a better example."
+      },
+      {
+        "type": "paragraph",
+        "text": "Look at what helped someone, not only what received the most attention. Keep the rhythm that feels sustainable and adjust as you learn."
+      }
+    ]
+  },
+  {
+    "slug": "a-gentle-security-reset-for-your-accounts",
+    "status": "published",
+    "title": "A gentle security reset for your accounts",
+    "description": "A short, manageable routine for keeping the apps and accounts you rely on in better shape.",
+    "category": "Useful Tools",
+    "date": "2026-10-14",
+    "readingTime": 4,
+    "source": {
+      "label": "CISA Secure Our World",
+      "url": "https://www.cisa.gov/secure-our-world"
+    },
+    "related": [
+      "choose-tools-that-earn-their-place",
+      "give-ai-agents-clear-boundaries"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Security can feel like one more thing on a long list. Start with the accounts you use most and make a few small improvements you can keep up."
+      },
+      {
+        "type": "heading",
+        "text": "Update what you rely on"
+      },
+      {
+        "type": "paragraph",
+        "text": "Turn on automatic updates where that works for you, and install updates from the official app or device settings. Remove apps and browser extensions you no longer use so there is less to maintain."
+      },
+      {
+        "type": "heading",
+        "text": "Add another layer to sign-in"
+      },
+      {
+        "type": "paragraph",
+        "text": "Use a password manager to create a different password for each important account. Turn on multifactor authentication wherever it is offered, especially for email, financial accounts, and cloud storage."
+      },
+      {
+        "type": "heading",
+        "text": "Know how you would get back in"
+      },
+      {
+        "type": "paragraph",
+        "text": "Review recovery email addresses and phone numbers. Keep backup codes somewhere private and separate from the account they protect. Make sure your important files have a backup you can actually restore."
+      },
+      {
+        "type": "paragraph",
+        "text": "You do not have to fix everything today. Pick one account, make one improvement, and return to the rest when you have a little time."
+      }
+    ]
+  },
+  {
+    "slug": "make-a-digital-product-easier-to-understand",
+    "status": "published",
+    "title": "Make a digital product easier to understand",
+    "description": "A clear way to explain who your product helps, what they can do with it, and what to expect next.",
+    "category": "Digital Products",
+    "date": "2026-10-14",
+    "readingTime": 4,
+    "related": [
+      "grow-a-small-account-with-real-conversations",
+      "choose-tools-that-earn-their-place"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "People should not have to study a product page to figure out whether it is for them. A clear promise, a real example, and an honest next step can make the decision feel easier."
+      },
+      {
+        "type": "heading",
+        "text": "Describe the person and the problem"
+      },
+      {
+        "type": "paragraph",
+        "text": "Say who the product is for and name the moment when it becomes useful. Specific language helps people recognize themselves. If it is for someone designing a first website, say that instead of calling it a toolkit for everyone."
+      },
+      {
+        "type": "heading",
+        "text": "Show what is inside"
+      },
+      {
+        "type": "paragraph",
+        "text": "Use a short walkthrough, a sample, or a few genuine screenshots to show what buyers receive and how they might use it. Explain any prerequisites, formats, and limits. Let people see enough to make a comfortable choice."
+      },
+      {
+        "type": "heading",
+        "text": "Make the next step feel clear"
+      },
+      {
+        "type": "paragraph",
+        "text": "Use one main action and label it plainly. Tell people what happens after they click, when access arrives, and where they can get help if something is unclear."
+      },
+      {
+        "type": "paragraph",
+        "text": "Good product writing respects the reader. Make the value easy to picture, answer the practical questions, and let the work speak for itself."
+      }
     ]
   }
 ]
-
