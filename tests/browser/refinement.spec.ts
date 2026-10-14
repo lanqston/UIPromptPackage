@@ -20,7 +20,7 @@ for(const width of [390,430,1280])test(`refined controls and layouts at ${width}
  await page.screenshot({path:test.info().outputPath(`resources-${width}.png`),fullPage:true});
  await page.locator('[data-resource]').filter({hasText:'A clearer starting point'}).getByRole('link',{name:'Read Resource'}).click();await expect(page.locator('#article-body')).toContainText('Begin with the user');
  await expect(page.locator('.desktop-nav a[href="/resources"]')).toHaveAttribute('aria-current','page');
- await page.goto(base+'/submit-project');await expect(page.getByRole('group',{name:'01 About you'})).toBeVisible();await expect(page.getByRole('group',{name:'02 Your project'})).toBeVisible();
+ await page.goto(base+'/submit-project');await expect(page.getByRole('group',{name:'About you'})).toBeVisible();await expect(page.getByRole('group',{name:'Your project'})).toBeVisible();
  await page.screenshot({path:test.info().outputPath(`submit-${width}.png`),fullPage:true});
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.button.primary').first().evaluate(el=>getComputedStyle(el).transitionDuration)).toBe('0s');
