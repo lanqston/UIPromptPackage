@@ -10,7 +10,7 @@
 }
 .platform p,.platform .lede,.platform .quiet { color:#aaa9ad; }
 .platform .eyebrow,.home-refresh .section-kicker { color:#a7a8ab; }
-.signal-star { color:#8de5c7; font-size:1.2em; margin-right:7px; }
+.signal-star { display:inline-block; width:14px; height:14px; margin-right:7px; vertical-align:-.12em; font-size:0; background:#8de5c7; -webkit-mask:url('/signal-spark.svg') center/contain no-repeat; mask:url('/signal-spark.svg') center/contain no-repeat; }
 .platform h1,.platform h2,.platform h3 { color:#f4f4f2; }
 .platform h1 em,.platform h2 em { font-family:Georgia,serif; font-weight:400; }
 .platform a { color:inherit; }
@@ -79,7 +79,7 @@
 .signal-orbit { position:relative; width:min(66vw,420px); aspect-ratio:1; max-height:360px; border:1px solid #a8f0d742; border-radius:50%; display:grid; place-items:center; box-shadow:0 0 0 54px #a8f0d70a,0 0 0 110px #a8f0d708,inset 0 0 52px #79dcb71a,0 0 50px #79dcb71a; }
 .signal-orbit::before { content:""; position:absolute; width:60%; height:60%; border:1px dashed #ffffff38; border-radius:50%; }
 .signal-orbit::after { content:""; position:absolute; width:10px; height:10px; border-radius:50%; background:#8de5c7; top:15%; right:14%; box-shadow:0 0 24px #8de5c7; }
-.signal-emblem { position:relative; width:198px; height:236px; transform:perspective(750px) rotateY(-13deg) rotateX(7deg) rotateZ(-4deg); transform-style:preserve-3d; filter:drop-shadow(18px 28px 22px #0009); }
+.signal-emblem { position:absolute; top:50%; left:50%; width:198px; height:236px; transform:translate(-50%,-50%) perspective(750px) rotateY(-13deg) rotateX(7deg) rotateZ(-4deg); transform-style:preserve-3d; -webkit-transform-style:preserve-3d; filter:drop-shadow(18px 28px 22px #0009); }
 .signal-emblem-back,.signal-emblem-face { position:absolute; inset:0; border-radius:32px; }
 .signal-emblem-back { transform:translate(12px,13px) translateZ(-22px); background:linear-gradient(125deg,#8de5c7,#24483b 42%,#0d1714); box-shadow:inset -8px -8px 16px #0008; }
 .signal-emblem-face { display:grid; place-items:center; background:linear-gradient(145deg,#2e5c4b 0,#162e26 34%,#0f1a17 100%); border:1px solid #b2f8da92; box-shadow:inset 2px 2px 1px #d5ffe564,inset -14px -18px 24px #0008,0 0 0 1px #112920; }
@@ -112,7 +112,8 @@
 .journey-intro p:not(.section-kicker) { max-width:380px; line-height:1.65; }
 .journey-steps { list-style:none; padding:0; margin:0; border-top:1px solid #414246; }
 .journey-steps li { display:grid; grid-template-columns:48px 1fr 42px; gap:15px; padding:28px 0; border-bottom:1px solid #414246; align-items:start; }
-.journey-icon { display:grid; place-items:center; width:31px; height:31px; background:#8de5c7; color:#10251e; border-radius:6px; font-size:1.2rem; }
+.journey-icon { display:grid; place-items:center; width:31px; height:31px; background:#f3f3f1; border:1px solid #dcece4; border-radius:6px; font-size:0; box-shadow:0 0 12px #8de5c732; }
+.journey-icon::before { content:""; display:block; width:16px; height:16px; background:#52ba94; -webkit-mask:url('/signal-spark.svg') center/contain no-repeat; mask:url('/signal-spark.svg') center/contain no-repeat; }
 .journey-steps h3 { font-size:1.35rem; font-weight:500; margin:0 0 6px; }
 .journey-steps p { font-size:.91rem; margin:0; line-height:1.5; }
 .journey-steps a { display:grid; place-items:center; width:36px; height:36px; border:1px solid #4b4c4f; border-radius:6px; text-decoration:none; }
@@ -152,7 +153,7 @@
   .signal-display { min-height:345px; transform:rotateY(-3deg) rotateX(2deg); }
   .signal-stage:hover .signal-display { transform:rotateY(-3deg) rotateX(2deg); }
   .signal-orbit { width:min(58vw,300px); }
-  .signal-emblem { transform:perspective(750px) scale(.82) rotateY(-13deg) rotateX(7deg) rotateZ(-4deg); }
+  .signal-emblem { transform:translate(-50%,-50%) perspective(750px) scale(.82) rotateY(-13deg) rotateX(7deg) rotateZ(-4deg); }
   .home-refresh .home-topics { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .home-refresh .home-topics a { min-height:74px; border-bottom:1px solid #38393c; font-size:.83rem; }
   .home-refresh .home-topics a:nth-child(2) { border-right:0; }
@@ -171,7 +172,7 @@
   .signal-display { min-height:295px; }
   .signal-top,.signal-bottom { left:14px; right:14px; font-size:.5rem; }
   .signal-orbit { width:190px; }
-  .signal-emblem { transform:perspective(750px) scale(.62) rotateY(-13deg) rotateX(7deg) rotateZ(-4deg); }
+  .signal-emblem { transform:translate(-50%,-50%) perspective(750px) scale(.62) rotateY(-13deg) rotateX(7deg) rotateZ(-4deg); }
   .orbit-label { font-size:.47rem; }
   .home-refresh .home-topics a { padding:13px 10px; }
   .home-refresh .home-section-heading h2,.home-refresh .journey-section h2,.home-refresh .home-product h2,.home-refresh .home-faq h2,.home-refresh .share-next h2 { font-size:2.45rem; }
