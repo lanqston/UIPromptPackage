@@ -11,6 +11,7 @@ const pages = [
 for (const width of [320, 390, 768]) {
   test(`mobile presentation at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
+    await page.route('**/api/edition', route => route.fulfill({ status: 401, json: { code: 'invalid_access' } }));
     for (const [name, path] of pages) {
       await page.goto(`http://127.0.0.1:4321${path}`);
       await page.locator('h1').waitFor();
