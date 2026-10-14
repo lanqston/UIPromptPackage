@@ -149,6 +149,12 @@
         "text": "A recent Digivated carousel raised a question worth asking before you connect an AI agent to your tools. What would you actually let it do? The safest answer usually starts with one useful, well-defined job."
       },
       {
+        "type": "visual",
+        "kind": "agent-boundaries",
+        "title": "Give an AI agent useful room to work",
+        "summary": "A focused task, limited access, and a clear point for you to review."
+      },
+      {
         "type": "heading",
         "text": "Give it the room it needs"
       },
@@ -200,6 +206,12 @@
         "text": "AI can give you a useful first draft, a quick summary, or a fresh angle. Before you rely on the result, take a moment to check the parts that could change your decision."
       },
       {
+        "type": "visual",
+        "kind": "answer-check",
+        "title": "A calm check before you rely on an answer",
+        "summary": "Trace important claims to the original source, check the details, then decide what belongs in your work."
+      },
+      {
         "type": "heading",
         "text": "Start with the details that matter"
       },
@@ -245,6 +257,12 @@
       {
         "type": "paragraph",
         "text": "A launch can be exciting and still leave you with a basic question. Will this make anything meaningfully easier for me? A few calm checks help you get past the noise."
+      },
+      {
+        "type": "visual",
+        "kind": "launch-check",
+        "title": "A launch, with three useful questions",
+        "summary": "Separate what is available today from what is promised and what you still want to try."
       },
       {
         "type": "heading",
@@ -294,6 +312,12 @@
         "text": "A whole app is a big place to begin. Pick one person and one thing they are trying to do. Then design only the steps that help them finish it."
       },
       {
+        "type": "visual",
+        "kind": "design-flow",
+        "title": "Make one small flow easier to use",
+        "summary": "Start with one task, watch someone try it, and let that feedback guide the next version."
+      },
+      {
         "type": "heading",
         "text": "Start with the moment that matters"
       },
@@ -339,6 +363,12 @@
       {
         "type": "paragraph",
         "text": "A good carousel feels like someone walking you through an idea. Each slide gives you one new reason to keep going, and the last one helps the whole story land."
+      },
+      {
+        "type": "visual",
+        "kind": "carousel-story",
+        "title": "Help each slide carry the story forward",
+        "summary": "Give people a reason to stay, show what happened, explain why it matters, and leave them with one clear thought."
       },
       {
         "type": "heading",
@@ -439,6 +469,12 @@
         "text": "Security can feel like one more thing on a long list. Start with the accounts you use most and make a few small improvements you can keep up."
       },
       {
+        "type": "visual",
+        "kind": "account-reset",
+        "title": "A few small steps toward calmer security",
+        "summary": "Update the apps you use, add another sign-in layer, and check that account recovery still works."
+      },
+      {
         "type": "heading",
         "text": "Update what you rely on"
       },
@@ -484,6 +520,12 @@
       {
         "type": "paragraph",
         "text": "People should not have to study a product page to figure out whether it is for them. A clear promise, a real example, and an honest next step can make the decision feel easier."
+      },
+      {
+        "type": "visual",
+        "kind": "product-promise",
+        "title": "Make the path through your product easy to see",
+        "summary": "Show who it helps, what changes for them, a real example, and a clear next step."
       },
       {
         "type": "heading",
