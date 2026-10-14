@@ -1,6 +1,6 @@
 # Digivated promotion and Gumroad
 
-The public `/promote` page follows the instructions published at https://mccovery.gumroad.com/l/digivated-promo: purchase, submit project details, then await review. Ordinary directory submissions remain free; paid promotion is a separate submission option. Prices and purchase terms stay on Gumroad.
+The public `/promote` page follows the instructions published at https://digivated.gumroad.com/l/digivated-promo: purchase, submit project details, then await review. Ordinary directory submissions remain free; paid promotion is a separate submission option. Prices and purchase terms stay on Gumroad.
 
 ## Owner workflow
 
