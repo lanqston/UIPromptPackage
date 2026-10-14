@@ -30,7 +30,7 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await expect(page.locator('#prompt-dialog')).toBeVisible();
   await expect(page.locator('#prompt-dialog .prompt-text')).not.toBeEmpty();
   await page.locator('#close-dialog').click();
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 17, 17)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(3, 7, 18)');
   await expect(page.locator('.packet-context')).toContainText('UI/UX Prompt Packet');
   await expect(page.locator('.brand-logo-wrap')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
   await expect(page.locator('.footer-logo-wrap')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');

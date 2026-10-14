@@ -21,7 +21,7 @@
 .platform nav a[aria-current=page] { background:#292929; color:#fff; }
 .platform .home-container,.platform .footer-inner { max-width:1120px; }
 .home-refresh .revamp-hero { min-height:550px; padding-top:148px; padding-bottom:72px; gap:64px; }
-.home-refresh .hero-copy h1.discovery-headline { font-size:clamp(2.4rem,4.6vw,3.9rem); line-height:1.08; font-weight:600; letter-spacing:-.045em; max-width:17ch; }
+.home-refresh .hero-copy h1.discovery-headline { font-size:clamp(2.3rem,3.8vw,3.1rem); line-height:1.08; font-weight:600; letter-spacing:-.045em; max-width:17ch; }
 .home-refresh .hero-copy h1 em { color:#b8b8b8; }
 .home-refresh .hero-copy .lede { font-size:1rem; line-height:1.7; max-width:440px; }
 .home-refresh .hero-kicker { font-size:.75rem; letter-spacing:.06em; margin-bottom:22px; }
