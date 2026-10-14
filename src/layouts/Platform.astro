@@ -5,15 +5,16 @@ import '../styles/launch-collections.css';
 import '../styles/community-refresh.css';
 import '../styles/experience-polish.css';
 import '../styles/clean-ui.css';
+import '../styles/brand-relaunch.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-const { title = 'Build. Share. Connect.', description = 'A space to discover useful ideas, share what you’re building, and connect with people creating something of their own.' } = Astro.props;
+const { title = 'Tech. AI. Markets. What’s next.', description = 'Digivated explores technology, AI, markets, useful tools, and independent projects.' } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const sectionNames: Record<string,string> = { '/discover':'Projects', '/resources':'Resources', '/products':'Digital Products', '/ui-ux-prompt-packet':'Prompt Packet', '/submit-project':'Submit Project', '/promote':'Promote your project', '/about':'About', '/privacy':'Privacy & Data', '/terms':'Terms of Use' };
 const breadcrumb = sectionNames[path] || title;
 ---
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><title>{title} · Digivated</title><meta name="description" content={description}/><meta name="theme-color" content="#030712"/><link rel="icon" href="/favicon.svg"/><link rel="canonical" href={new URL(path, 'https://digivated.vercel.app')}/><meta property="og:title" content={`${title} · Digivated`}/><meta property="og:description" content={description}/><meta property="og:image" content="https://digivated.vercel.app/digivated-logo-site.jpg"/></head>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><title>{title} · Digivated</title><meta name="description" content={description}/><meta name="theme-color" content="#f7f7f5"/><link rel="icon" href="/favicon.svg"/><link rel="canonical" href={new URL(path, 'https://digivated.vercel.app')}/><meta property="og:title" content={`${title} · Digivated`}/><meta property="og:description" content={description}/><meta property="og:image" content="https://digivated.vercel.app/digivated-tech-markets-banner.png"/></head>
 <body class:list={['platform', { 'home-refresh': path === '/' }]}><a class="skip" href="#main">Skip to content</a>
 <SiteHeader/>
 <main id="main" tabindex="-1">{path !== '/' && <nav class="site-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>{(path.startsWith('/projects/') || path === '/launch-template') && <><a href="/discover">Projects</a><span aria-hidden="true">/</span></>}{path.startsWith('/resources/') && <><a href="/resources">Resources</a><span aria-hidden="true">/</span></>}<span aria-current="page">{breadcrumb}</span></nav>}<slot/></main>

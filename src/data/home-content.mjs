@@ -1,6 +1,7 @@
 export const resourceGuides = [
-  { title:'AI', description:'Tools and ideas for working with artificial intelligence.', category:'RESOURCE TOPIC', href:'/resources?category=AI', label:'Browse AI resources' },
-  { title:'UI/UX', description:'Practical ways to make digital experiences easier to use.', category:'RESOURCE TOPIC', href:'/resources?category=UI%2FUX', label:'Browse UI/UX resources' },
-  { title:'Productivity', description:'Useful approaches to organizing work and making progress.', category:'RESOURCE TOPIC', href:'/resources?category=Productivity', label:'Browse productivity' },
-  { title:'Digital Products', description:'Resources for turning your knowledge into something useful.', category:'RESOURCE TOPIC', href:'/resources?category=Digital%20Products', label:'Browse digital products' },
+  { title:'Technology', description:'Useful ideas about the systems and products changing how we work.', category:'01 / TECH', href:'/resources?category=Tech', label:'Explore technology' },
+  { title:'Artificial intelligence', description:'AI tools, practical workflows, and what they mean in everyday use.', category:'02 / AI', href:'/resources?category=AI', label:'Explore AI' },
+  { title:'Markets & investing', description:'A clearer way to follow market ideas and build your own understanding.', category:'03 / MARKETS', href:'/resources?category=Markets%20%26%20Investing', label:'Explore markets' },
+  { title:'Useful tools', description:'Apps and resources that help you make better things with less noise.', category:'04 / TOOLS', href:'/resources?category=Useful%20Tools', label:'Explore tools' },
 ];
+
