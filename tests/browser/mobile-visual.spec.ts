@@ -40,6 +40,16 @@ for (const width of [320, 390, 768]) {
       await page.screenshot({ path: `test-results/mobile/${name}-${width}.png`, fullPage: false });
       if (name === 'home') {
         await page.locator('.signal-stage').scrollIntoViewIfNeeded();
+        const stage = await page.locator('.signal-display').boundingBox();
+        const emblem = await page.locator('.signal-emblem').boundingBox();
+        expect(stage && emblem, 'hero card and logo are visible').toBeTruthy();
+        expect(Math.abs((emblem!.x + emblem!.width / 2) - (stage!.x + stage!.width / 2)), 'hero logo stays centered').toBeLessThan(18);
+        const iconStyle = await page.locator('.journey-icon').first().evaluate(element => ({
+          fontSize: getComputedStyle(element).fontSize,
+          mask: getComputedStyle(element, '::before').maskImage,
+        }));
+        expect(iconStyle.fontSize).toBe('0px');
+        expect(iconStyle.mask).toContain('signal-spark.svg');
         await page.screenshot({ path: `test-results/mobile/hero-card-${width}.png`, fullPage: false });
       }
     }
