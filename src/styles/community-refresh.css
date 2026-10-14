@@ -5,17 +5,17 @@
 @theme {
   --color-*: initial;
   /* Exact colors from the existing Digivated dark theme. */
-  --color-brand-bg: #030712;
-  --color-brand-surface: #111827;
-  --color-brand-card: #1f2937;
-  --color-brand-raised: #374151;
-  --color-brand-line: #374151;
+  --color-brand-bg: #111213;
+  --color-brand-surface: #171819;
+  --color-brand-card: #202123;
+  --color-brand-raised: #383a3c;
+  --color-brand-line: #383a3c;
   --color-brand-muted: #9ca3af;
   --color-brand-copy: #d1d5db;
   --color-brand-text: #fff;
-  --color-brand-primary: #2563eb;
-  --color-brand-accent: #3b82f6;
-  --color-brand-focus: #60a5fa;
+  --color-brand-primary: #252728;
+  --color-brand-accent: #a8f0d7;
+  --color-brand-focus: #a8f0d7;
 }
 
 /* Fixed, shared navigation. Native details keeps mobile navigation usable without JS. */

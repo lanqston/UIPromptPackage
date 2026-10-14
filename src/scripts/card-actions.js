@@ -10,8 +10,8 @@ const toast=el('p',undefined,'card-toast');toast.hidden=true;toast.setAttribute(
 let toastTimer;
 function notice(message){toast.textContent=message;toast.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.hidden=true,3500);}
 function localLiked(type,id){try{return localStorage.getItem(likedKey(type,id))==='1';}catch{return false;}}
-function markLiked(type,id){try{localStorage.setItem(likedKey(type,id),'1');}catch{/* The server still records the like. */}}
-function refreshLikes(type,id,count){likeCounts.set(key(type,id),count);document.querySelectorAll('[data-like-id]').forEach(button=>{if(button.dataset.likeType!==type||button.dataset.likeId!==id)return;button.setAttribute('aria-pressed',String(localLiked(type,id)));button.querySelector('[data-like-count]').textContent=count>0?String(count):'';});}
+function markLiked(type,id,liked){try{if(liked)localStorage.setItem(likedKey(type,id),'1');else localStorage.removeItem(likedKey(type,id));}catch{/* The server still records the preference. */}}
+function refreshLikes(type,id,count,liked=localLiked(type,id)){likeCounts.set(key(type,id),count);document.querySelectorAll('[data-like-id]').forEach(button=>{if(button.dataset.likeType!==type||button.dataset.likeId!==id)return;button.setAttribute('aria-pressed',String(liked));button.querySelector('[data-like-count]').textContent=count>0?String(count):'';});}
 async function request(type,id,body){const url=`/api/card-interactions?type=${encodeURIComponent(type)}&id=${encodeURIComponent(id)}`;const response=await fetch(body?'/api/card-interactions':url,{method:body?'POST':'GET',cache:'no-store',credentials:'omit',headers:body?{'Content-Type':'application/json'}:{},...(body?{body:JSON.stringify({type,id,...body})}:{}),signal:AbortSignal.timeout(12000)});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Try again in a moment.');return data;}
 function loadCount(button){const type=button.dataset.likeType,id=button.dataset.likeId,item=key(type,id);if(loaded.has(item))return;loaded.add(item);request(type,id).then(data=>refreshLikes(type,id,data.likes)).catch(()=>{});}
 const observer=typeof IntersectionObserver==='function'?new IntersectionObserver(entries=>{for(const entry of entries){if(!entry.isIntersecting)continue;observer.unobserve(entry.target);loadCount(entry.target);}}, {rootMargin:'160px'}):null;
@@ -42,7 +42,7 @@ document.addEventListener('click',async event=>{
   try{if(navigator.share)await navigator.share({url});else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);notice('Link copied.');}else notice('Share this link: '+url);}catch(error){if(error.name!=='AbortError')notice('Could not share this link. Try again.');}return;
  }
  if(target.matches('[data-like-id]')){
-  const type=target.dataset.likeType,id=target.dataset.likeId;if(localLiked(type,id)){notice('You already liked this.');return;}
-  target.disabled=true;try{const data=await request(type,id,{action:'like'});markLiked(type,id);refreshLikes(type,id,data.likes);}catch(error){notice(error.message);}finally{target.disabled=false;}
+  const type=target.dataset.likeType,id=target.dataset.likeId;const action=localLiked(type,id)?'unlike':'like';
+  target.disabled=true;try{const data=await request(type,id,{action});markLiked(type,id,data.liked);refreshLikes(type,id,data.likes,data.liked);}catch(error){notice(error.message);}finally{target.disabled=false;}
  }
 });

@@ -7,16 +7,11 @@ const url = `/resources/${resource.slug}`;
 const topic = category.toLowerCase().replace(/[^a-z0-9]+/g,'-');
 ---
 <article class="resource-card" data-resource data-builtin-resource data-resource-url={url} data-category={category} data-search={`${resource.title} ${resource.description} ${category}`.toLowerCase()}>
-  <div class="card-visual resource-visual" data-topic={topic}>
-    {resource.coverImage&&<img class="resource-cover" src={resource.coverImage} alt={`${resource.title} cover`} width="640" height="360" loading="lazy"/>}
-    <span class="visual-brand">DIGIVATED / FIELD NOTES</span><span class="visual-orbit" aria-hidden="true"></span><span class="visual-watermark" aria-hidden="true"></span><span class="visual-topic">{category}</span>
-    <button class="card-icon card-save" type="button" data-save-type="resource" data-save-id={resource.slug} aria-label="Save to collection" title="Save to collections"><span set:html={cardIconMarkup('save')}/><span class="sr-only" data-save-label>Save</span></button>
-    <div class="card-social">
+  <div class="resource-copy"><span class="tag">{category}</span><h3><a href={url}>{resource.title}</a></h3><p class="resource-description">{resource.description}</p><p class="resource-meta"><time datetime={resource.date}>{resource.date}</time> · {resource.readingTime} min read</p><a class="card-open" href={url}>Read the guide <span aria-hidden="true">↗</span></a><div class="card-actions">
       <button class="card-icon" type="button" data-comment-type="resource" data-comment-id={resource.slug} aria-label={`Read or leave a comment on ${resource.title}`} title="Comments"><span set:html={cardIconMarkup('comment')}/><span class="sr-only">Comments</span></button>
       <button class="card-icon" type="button" data-share-url={url} aria-label={`Share ${resource.title}`} title="Share"><span set:html={cardIconMarkup('share')}/><span class="sr-only">Share</span></button>
       <button class="card-icon" type="button" data-like-type="resource" data-like-id={resource.slug} aria-label={`Like ${resource.title}`} title="Like"><span set:html={cardIconMarkup('like')}/><span class="card-count" data-like-count></span></button>
-    </div>
-  </div>
-  <div class="resource-copy"><span class="tag">{category}</span><h3><a href={url}>{resource.title}</a></h3><p class="resource-description">{resource.description}</p><p class="resource-meta"><time datetime={resource.date}>{resource.date}</time> · {resource.readingTime} min read</p><a class="card-open" href={url}>Read the guide <span aria-hidden="true">↗</span></a></div>
+      <button class="card-icon card-save" type="button" data-save-type="resource" data-save-id={resource.slug} aria-label="Save to collection" title="Save to collections"><span set:html={cardIconMarkup('save')}/><span class="sr-only" data-save-label>Save</span></button>
+    </div></div>
 </article>
 
