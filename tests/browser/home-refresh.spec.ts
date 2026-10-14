@@ -22,8 +22,8 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await expect(page.locator('.hero-copy').getByRole('link', { name: 'Submit Your Project' })).toHaveAttribute('href', '/submit-project');
     await expect(page.locator('.hero-copy').getByRole('link', { name: 'Explore Projects' })).toHaveAttribute('href', '/discover');
     await expect(page.locator('.platform-header')).toHaveCSS('position', 'fixed');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(3, 7, 18)');
-    await expect(page.locator('.hero-copy .primary')).toHaveCSS('background-color', 'rgb(37, 99, 235)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(17, 17, 17)');
+    await expect(page.locator('.hero-copy .primary')).toHaveCSS('background-color', 'rgb(237, 237, 237)');
     const carousel = page.locator('[data-hero-carousel]');
     if (width >= 768) {
     await carousel.getByRole('button', { name: 'Next card' }).click();
@@ -61,8 +61,8 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.evaluate(() => scrollTo(0, 0));
     await page.locator('.header-submit').click({ trial: true });
-    const navigation = page.getByRole('navigation', { name: width < 1024 ? 'Mobile navigation' : 'Main navigation', exact: true });
-    if (width < 1024) await page.locator('.mobile-menu summary').click();
+    const navigation = page.getByRole('navigation', { name: width <= 1100 ? 'Mobile navigation' : 'Main navigation', exact: true });
+    if (width <= 1100) await page.locator('.mobile-menu summary').click();
     await navigation.getByRole('link', { name: 'About', exact: true }).click({ trial: true });
     await navigation.getByRole('link', { name: 'Prompt Packet', exact: true }).click({ trial: true });
     expect(errors).toEqual([]);
@@ -86,3 +86,4 @@ test('empty and unavailable project feeds never display demo projects', async ({
   await expect(shelf.locator('[data-live-empty]')).toBeHidden();
   await expect(shelf).not.toHaveAttribute('aria-busy', 'true');
 });
+

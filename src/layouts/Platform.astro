@@ -4,6 +4,7 @@ import '../styles/platform.css';
 import '../styles/launch-collections.css';
 import '../styles/community-refresh.css';
 import '../styles/experience-polish.css';
+import '../styles/clean-ui.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 const { title = 'Build. Share. Connect.', description = 'A space to discover useful ideas, share what you’re building, and connect with people creating something of their own.' } = Astro.props;
@@ -20,4 +21,5 @@ const breadcrumb = sectionNames[path] || title;
 <script is:inline src="/analytics.js"></script>
 <script is:inline defer src="/_vercel/insights/script.js"></script><script>import '../scripts/monitoring.js'; import '../scripts/platform-ui.js'; import '../scripts/collections.js';</script>
 </body></html>
+
 
