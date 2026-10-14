@@ -1,6 +1,6 @@
 import { launchFields, pageSlug } from './launch-pages.mjs';
 import { AdminError } from './admin-auth.mjs';
-import { projectCategories, resourceCategories, safeUrl, statuses } from '../src/data/community.mjs';
+import { projectCategories, resourceCategories, normalizeResourceCategory, safeUrl, statuses } from '../src/data/community.mjs';
 import { validateSubmission } from './submissions.mjs';
 export const packetId = 'ui-ux-prompt-packet';
 export const validId = id => typeof id === 'string' && /^[a-z0-9][a-z0-9-]{0,99}$/.test(id);
@@ -46,14 +46,15 @@ export function validateEdit(kind, input, previous) {
     if (!['draft', 'published', 'archived'].includes(input.status)) throw new AdminError(400, 'Choose a valid publishing status.');
     record = { id: input.id, status: input.status, description: text(input.description, 'description', 600), date: previous?.date || now, image: input.removeImage === true ? '' : input.image ? imageValue(input.image) : previous?.image || '' };
     if (kind === 'resource') {
-      if (!resourceCategories.includes(input.category)) throw new AdminError(400, 'Choose an article category.');
+      const category = normalizeResourceCategory(input.category);
+      if (!resourceCategories.includes(category)) throw new AdminError(400, 'Choose an article topic.');
       const date = text(input.publishedDate, 'publication date', 10);
       if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(Date.parse(date)) || new Date(date).toISOString().slice(0,10) !== date) throw new AdminError(400, 'Use a valid publication date.');
       const readingTime = Number(input.readingTime);
       if (!Number.isInteger(readingTime) || readingTime < 1 || readingTime > 180) throw new AdminError(400, 'Reading time must be 1–180 minutes.');
       const related = text(input.related || '', 'related articles', 1200, false).split(',').map(s => s.trim()).filter(Boolean);
       if (related.length > 10 || related.some(s => !validId(s))) throw new AdminError(400, 'Use up to 10 related article slugs, separated by commas.');
-      record = { ...record, title: text(input.title, 'title', 160), category: input.category, publishedDate: date, readingTime, content: text(input.content, 'article content', 50000), related };
+      record = { ...record, title: text(input.title, 'title', 160), category, publishedDate: date, readingTime, content: text(input.content, 'article content', 50000), related };
     } else {
       const url = text(input.url, 'product URL', 500);
       const destination = safeUrl(url) ? new URL(url) : null;
@@ -71,7 +72,7 @@ export function projectPublic(record) {
 export function contentPublic(kind, record) {
   if (record.status !== 'published') return null;
   const image = record.image ? `/api/content?type=${kind}&image=${record.id}` : '';
-  if (kind === 'resource') return { id: record.id, slug: record.id, title: record.title, description: record.description, category: record.category, date: record.publishedDate, readingTime: record.readingTime, content: record.content, related: record.related, coverImage: image, url: `/resources/read?slug=${record.id}` };
+  if (kind === 'resource') return { id: record.id, slug: record.id, title: record.title, description: record.description, category: normalizeResourceCategory(record.category), date: record.publishedDate, readingTime: record.readingTime, content: record.content, related: record.related, coverImage: image, url: `/resources/read?slug=${record.id}` };
   return { id: record.id, name: record.name, description: record.description, label: record.label, url: record.url, image };
 }
 // Compare-and-save, public index update, and exclusive Featured Build selection
@@ -126,3 +127,4 @@ export async function publicRecords(redis, kind, offset = 0, limit = 100) {
   const projections=await redis(['MGET', ...ids.map(id => `digivated:public:${kind}:${id}`)]);
   return (await redis(['MGET', ...ids.map(id => storageKey(kind,id))])).filter((raw,index)=>raw && projections[index]).map(JSON.parse).map(record => kind === 'submission' ? projectPublic(record) : contentPublic(kind,record)).filter(Boolean);
 }
+
