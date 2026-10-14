@@ -1,4 +1,5 @@
 import { withProjectViews } from './project-views.mjs';
+import { withResourceViews } from './resource-views.mjs';
 import { redisClient } from './submissions.mjs';
 import { publicRecords, validId, storageKey, projectPublic, contentPublic } from './admin-store.mjs';
 export function makePublicHandler(type, deps = {}) {
@@ -28,7 +29,7 @@ export function makePublicHandler(type, deps = {}) {
           const record = source ? JSON.parse(source) : null;
           const item = record ? (kind === 'submission' ? projectPublic(record) : contentPublic(kind,record)) : null;
           if (!item) return send(404, { error:'Not found.' });
-          return send(200, { item: kind === 'submission' ? (await withProjectViews(redis, [item]))[0] : item });
+          return send(200, { item: kind === 'submission' ? (await withProjectViews(redis, [item]))[0] : kind === 'resource' ? (await withResourceViews(redis, [item]))[0] : item });
         }
         const privateRaw = await redis(['GET', storageKey(kind, id)]);
         const record = privateRaw ? JSON.parse(privateRaw) : null;
@@ -49,6 +50,7 @@ export function makePublicHandler(type, deps = {}) {
       if (!Number.isInteger(offset) || offset < 0 || offset > 100000) return send(400, { error: 'Invalid page.' });
       let items = await publicRecords(redis, kind, offset);
       if (kind === 'submission') items = await withProjectViews(redis, items);
+      if (kind === 'resource') items = await withResourceViews(redis, items);
       // Article bodies are fetched only on the detail page.
       return send(200, { items: items.map(({ content, ...item }) => item), next: items.length === 100 ? offset + 100 : null });
     } catch { return send(503, { error: 'This collection is temporarily unavailable. Please try again shortly.' }); }
