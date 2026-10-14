@@ -15,6 +15,7 @@
 .platform .platform-header .desktop-nav a { font-size:.8125rem; }
 .platform .button.primary,.platform .platform-header .header-submit { background:#ededed; color:#161616; border-color:#ededed; }
 .platform .button.primary:hover,.platform .platform-header .header-submit:hover { background:#d4d4d4; color:#111; border-color:#d4d4d4; }
+.platform .icon-link { background:#ededed; color:#161616; border-color:#ededed; }
 .platform .button { border-radius:8px; box-shadow:none; }
 .platform .platform-header .mobile-menu nav { left:0; right:0; background:#191919; }
 .platform nav a[aria-current=page] { background:#292929; color:#fff; }
