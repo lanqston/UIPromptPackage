@@ -46,7 +46,7 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await expect(shelf.getByRole('button', { name: 'Digivated Picks', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await shelf.getByRole('button', { name: 'All', exact: true }).click();
     await expect(cards).toHaveCount(4);
-    await expect(page.locator('.idea-card')).toHaveCount(4);
+    await expect(page.locator('.idea-card')).toHaveCount(6);
     await expect(page.locator('.journey-steps li')).toHaveCount(3);
     await page.getByRole('heading', { name: 'Good to know.' }).scrollIntoViewIfNeeded();
     await page.getByText('Can I submit my project for free?').click();
