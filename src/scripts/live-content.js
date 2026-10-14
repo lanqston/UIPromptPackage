@@ -21,7 +21,7 @@ function projectCard(project){
 }
 function resourceCard(resource){
  const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.category=resource.category;card.dataset.search=`${resource.title} ${resource.description} ${resource.category}`.toLowerCase();
- if(resource.coverImage)card.append(thumbnail(resource.coverImage,''));card.append(el('span',resource.category,'tag'));const title=el('h3');title.append(link(resource.title,resource.url));card.append(title,el('p',resource.description),el('p',`${resource.date} · ${resource.readingTime} min read`,'quiet'));const read=link('Read Resource',resource.url);read.className='button';card.append(read,saveButton('resource',resource.id));return card;
+ if(resource.coverImage)card.append(thumbnail(resource.coverImage,''));card.append(el('span',resource.category,'tag'));const title=el('h3');title.append(link(resource.title,resource.url));card.append(title,el('p',resource.description),el('p',`${resource.date} · ${resource.readingTime} min read`,'quiet'));const read=link('Read the guide',resource.url);read.className='button';card.append(read,saveButton('resource',resource.id));return card;
 }
 function productCard(product){
  const card=el('article',undefined,'product-feature');const art=el('div',undefined,'product-art');art.append(product.image?thumbnail(product.image,product.name):el('span','Made by Digivated','tiny'));
