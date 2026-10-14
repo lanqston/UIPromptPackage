@@ -19,7 +19,7 @@ function resourceArt(resource,category){
 function projectCard(project){
  const card=el('article',undefined,'project-card');card.id=`project-${project.id}`;card.dataset.project='';card.dataset.projectId=project.id;card.dataset.category=project.category;card.dataset.featured=String(project.status==='featured');card.dataset.pick=String(project.pick===true);card.dataset.search=`${project.name} ${project.creator} ${project.description} ${project.category}`.toLowerCase();
  const image=el('div',undefined,'project-image card-visual');
- const fallback=()=>{image.querySelector('img')?.remove();};
+ const fallback=()=>{image.querySelector('img')?.remove();image.prepend(el('span',project.name.slice(0,2).toUpperCase(),'project-monogram'));};
  if(project.image){const preview=thumbnail(project.image,`${project.name} project preview`);preview.decoding='async';preview.addEventListener('error',fallback,{once:true});image.append(preview);}else fallback();
  const visualTop=el('div',undefined,'project-visual-top');visualTop.append(cardSave('project',project.id));image.append(visualTop);
  const copy=el('div',undefined,'project-copy');
