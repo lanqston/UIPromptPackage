@@ -1,4 +1,4 @@
-import { projectCategories, resourceCategories } from '../data/community.mjs';
+import { projectCategories, resourceCategories, normalizeResourceCategory } from '../data/community.mjs';
 const $ = id => document.getElementById(id);
 const state = { csrf: '', kind: 'submission', items: [], next: null, record: null, dirty: false, busy: false, request: 0, editorRequest: 0 };
 const labels = { submission: 'Submissions', resource: 'Articles', product: 'Products' };
@@ -103,7 +103,7 @@ function renderEditor(record) {
     field('id',state.kind==='resource'?'Article URL slug':'Product identifier',record.id,{max:100,readonly:!!record.revision,help:'Lowercase letters, numbers and hyphens. This stays fixed after the first save.'});
     field(state.kind==='resource'?'title':'name',state.kind==='resource'?'Article title':'Product name',record.title||record.name,{max:160});field('description','Short description',record.description,{rows:3,max:600});
     if(state.kind==='resource'){
-      field('category','Category',record.category||'Tech',{choices:resourceCategories});field('publishedDate','Publication date',record.publishedDate||new Date().toISOString().slice(0,10),{type:'date'});field('readingTime','Reading time (minutes)',record.readingTime||3,{type:'number',min:1,maxNumber:180});field('content','Article content',record.content,{rows:14,max:50000,help:'Use blank lines between paragraphs. Start a line with ## for a section heading. HTML is displayed as text.'});field('related','Related article slugs',(record.related||[]).join(', '),{required:false,max:1200,help:'Optional, comma-separated slugs of published articles.'});
+      field('category','Topic',normalizeResourceCategory(record.category||'Technology & AI'),{choices:resourceCategories});field('publishedDate','Publication date',record.publishedDate||new Date().toISOString().slice(0,10),{type:'date'});field('readingTime','Reading time (minutes)',record.readingTime||3,{type:'number',min:1,maxNumber:180});field('content','Article content',record.content,{rows:14,max:50000,help:'Use blank lines between paragraphs. Start a line with ## for a section heading. HTML is displayed as text.'});field('related','Related article slugs',(record.related||[]).join(', '),{required:false,max:1200,help:'Optional, comma-separated slugs of published articles.'});
     }else{field('url','Existing product page URL',record.url,{type:'url',max:500,help:'Link to the product’s existing page. This does not create or change a checkout.'});field('label','Short product label',record.label,{required:false,max:160});}
     field('upload','Cover image (optional)','',{type:'file',required:false,help:'JPG, PNG, or WebP, up to 500 KB.'});
   }
@@ -159,3 +159,4 @@ async function optimizedImage(file){
   if(result.length>680000)throw new Error('Screenshot is too detailed. Resize it before uploading.');
   return result;
 }
+
