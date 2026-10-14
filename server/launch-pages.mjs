@@ -44,9 +44,9 @@ export async function renderLaunch(item, { draft = false, origin = 'https://digi
   const substitutions = {
     LAUNCH_TITLE:e(item.name), LAUNCH_DESCRIPTION:e(item.description),
     'https://digivated.vercel.app/launch-template':e(canonical),
-    'https://digivated.vercel.app/digivated-logo-site.jpg':e(item.image && !draft ? new URL(item.image,origin).href : `${origin}/digivated-logo-site.jpg`)
+    'https://digivated.vercel.app/digivated-tech-markets-banner.png':e(item.image && !draft ? new URL(item.image,origin).href : `${origin}/digivated-tech-markets-banner.png`)
   };
-  return shell.replace(/LAUNCH_TITLE|LAUNCH_DESCRIPTION|https:\/\/digivated\.vercel\.app\/(?:launch-template|digivated-logo-site\.jpg)/g,match=>substitutions[match])
+  return shell.replace(/LAUNCH_TITLE|LAUNCH_DESCRIPTION|https:\/\/digivated\.vercel\.app\/(?:launch-template|digivated-tech-markets-banner\.png)/g,match=>substitutions[match])
     .replace('</head>',()=>`<meta property="og:url" content="${e(canonical)}"><meta name="twitter:card" content="summary_large_image">${draft?'<meta name="robots" content="noindex,nofollow">':''}</head>`)
     .replace('<!--LAUNCH_BODY-->',()=>body);
 }
@@ -78,3 +78,4 @@ export function makeLaunchHandler(deps = {}) {
     }catch {return fail(503,'This project is temporarily unavailable. Please try again.');}
   };
 }
+

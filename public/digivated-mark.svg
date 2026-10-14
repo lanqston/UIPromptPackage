@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 290" role="img" aria-label="Digivated mark">
+  <defs><mask id="circuit-cut"><rect width="220" height="290" fill="white"/><path fill="none" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" d="M139 152c18-7 29-24 29-48V38m0 67-18-18V63m18 24 18-17V53"/><circle cx="168" cy="37" r="8" fill="black"/><circle cx="150" cy="62" r="8" fill="black"/><circle cx="186" cy="52" r="8" fill="black"/></mask></defs>
+  <path fill="currentColor" mask="url(#circuit-cut)" d="M214 1c-39-5-75 19-75 65v63c-13-10-29-16-48-16C39 113 2 149 2 201c0 50 35 85 82 85 29 0 48-11 62-34 1 22 12 34 44 34h24c-19-7-22-22-22-47V65c0-30 3-55 22-64ZM86 265c-37 0-62-27-62-64 0-39 27-67 66-67 19 0 35 6 49 17v42c0 42-18 72-53 72Z"/>
+  <g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+    <path fill="currentColor" d="M47 209h17v28H47zM108 168h17v43h-17z"/>
+    <path fill="none" d="M78 190h17v37H78zM55.5 209v-13m31 31v12m0-49v-12m30 33v13m0-56v-12" stroke-linecap="round"/>
+  </g>
+</svg>
