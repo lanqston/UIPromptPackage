@@ -53,6 +53,6 @@ I’m the grad student behind PromptCove. I made the UI Prompt Package for peopl
 
 The package includes 75 beginner-friendly UI prompts with guidance on what to customize, what to expect, and what to ask next, plus 8 workflows, 8 review checklists, and a prompt builder.
 
-[Explore the package and try 3 prompts free](https://mccovery.gumroad.com/l/ui-prompt-package?utm_source=github&utm_medium=referral&utm_campaign=beginner_guide). The full package is $7.99, one-time.
+[Explore the package and try 3 prompts free](https://digivated.gumroad.com/l/ui-prompt-package?utm_source=github&utm_medium=referral&utm_campaign=beginner_guide). See the current price on Gumroad.
 
 The exercises above were written for this guide; they are not presented as the package’s three official free samples.
