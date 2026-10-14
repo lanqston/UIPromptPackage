@@ -6,7 +6,7 @@ try{store=createCollectionStore(localStorage);}catch(error){problem=error.messag
 const snapshot=()=>store?.get()||initialCollections();
 const saved=item=>snapshot().collections.some(c=>c.items.some(i=>itemKey(i)===itemKey(item)));
 const buttonItem=button=>({type:button.dataset.saveType,id:button.dataset.saveId});
-function refreshButtons(){document.querySelectorAll('[data-save-id]').forEach(button=>{const yes=saved(buttonItem(button));const label=button.querySelector('[data-save-label]');if(label){label.textContent=yes?'Saved':'Save';button.classList.toggle('is-saved',yes);}else if(button.textContent!==(yes?'Saved':'Save'))button.textContent=yes?'Saved':'Save';button.setAttribute('aria-label',yes?'Saved — choose collections':'Save to collection');button.setAttribute('aria-haspopup','dialog');});}
+function refreshButtons(){document.querySelectorAll('[data-save-id]').forEach(button=>{const yes=saved(buttonItem(button));const label=button.querySelector('[data-save-label]');if(label){if(label.textContent!==(yes?'Saved':'Save'))label.textContent=yes?'Saved':'Save';button.classList.toggle('is-saved',yes);}else if(button.textContent!==(yes?'Saved':'Save'))button.textContent=yes?'Saved':'Save';button.setAttribute('aria-label',yes?'Saved — choose collections':'Save to collection');button.setAttribute('aria-haspopup','dialog');});}
 function updateButtons(){refreshButtons();}
 const additions=new MutationObserver(updateButtons);additions.observe(document.body,{childList:true,subtree:true});
 // Labels only change when necessary, so observer callbacks settle immediately.
