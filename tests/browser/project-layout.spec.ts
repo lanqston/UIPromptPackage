@@ -21,6 +21,9 @@ for(const width of [320,375,768,1440])test(`compact projects and resilient image
   await expect(page.locator('[data-project-id="broken"] img')).toHaveCount(0);
   await expect(page.locator('[data-project-id="none"] .project-monogram')).toHaveText('NO');
   const card=cards.first();await card.locator('summary').click();await expect(card.locator('.project-details')).toHaveAttribute('open','');
+  await expect(card.locator('.project-image .card-save')).toHaveCount(0);
+  await expect(card.locator('.card-links > .card-save')).toHaveCount(1);
+  await expect(card.locator('.card-links [data-like-type]')).toHaveCount(1);
   await expect(card.locator('.project-details p')).toHaveText(description.trim());
   await card.locator('summary').click();await expect(card.locator('.project-details')).not.toHaveAttribute('open','');
   await expect(card.getByRole('link',{name:'Visit Project'})).toHaveAttribute('href','https://example.com/');
