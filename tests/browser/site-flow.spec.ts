@@ -11,7 +11,7 @@ for (const width of [375, 768, 1440]) test(`connected public navigation and pack
   await page.goto(base);
   await expect(page.locator('.signal-watermark')).toHaveCSS('mask-image',/digivated-mark\.svg/);
   await expect(page.locator('.home-topics')).not.toContainText(/\b0[1-4]\b/);
-  await page.locator('.idea-card').filter({hasText:'Explore AI'}).getByRole('link',{name:'Explore AI'}).click();
+  await page.locator('.home-topics').getByRole('link',{name:'Technology & AI'}).click();
   await expect(page.getByRole('combobox',{name:'Category',exact:true})).toHaveValue('AI');
   await expect(page.locator('h1')).toHaveText('Explore what’s useful.');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(17, 18, 19)');
