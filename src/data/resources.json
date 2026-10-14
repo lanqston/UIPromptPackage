@@ -4,7 +4,7 @@
     "status": "published",
     "title": "A simple way to make sense of new tech",
     "description": "Four questions that help you look past a launch announcement and find what a product actually changes.",
-    "category": "Tech",
+    "category": "Technology & AI",
     "date": "2026-10-14",
     "readingTime": 2,
     "content": [
@@ -35,7 +35,7 @@
     "status": "published",
     "title": "Use AI with better judgment",
     "description": "A practical starting point for choosing an AI task, checking the result, and protecting sensitive details.",
-    "category": "AI",
+    "category": "Technology & AI",
     "date": "2026-10-14",
     "readingTime": 2,
     "content": [
@@ -101,7 +101,7 @@
     "status": "published",
     "title": "Choose tools that earn their place",
     "description": "A small framework for deciding whether an app genuinely improves your workflow.",
-    "category": "Useful Tools",
+    "category": "Tools & Security",
     "date": "2026-10-14",
     "readingTime": 2,
     "content": [
@@ -132,7 +132,7 @@
     "status": "published",
     "title": "Give AI agents clear boundaries",
     "description": "A friendly starting point for deciding what an AI agent can do on its own and where you should stay in the loop.",
-    "category": "AI",
+    "category": "Technology & AI",
     "date": "2026-10-14",
     "readingTime": 4,
     "source": {
@@ -189,7 +189,7 @@
     "status": "published",
     "title": "Check an AI answer before you build on it",
     "description": "A simple review habit for facts, links, summaries, and ideas that sound more certain than they are.",
-    "category": "AI",
+    "category": "Technology & AI",
     "date": "2026-10-14",
     "readingTime": 4,
     "source": {
@@ -246,7 +246,7 @@
     "status": "published",
     "title": "Read a tech launch with a clear head",
     "description": "Separate what a company announced from what the announcement might mean for your everyday work.",
-    "category": "Tech",
+    "category": "Technology & AI",
     "date": "2026-10-14",
     "readingTime": 4,
     "related": [
@@ -299,7 +299,7 @@
     "status": "published",
     "title": "Design one small flow at a time",
     "description": "A comfortable way into UI and UX work, starting with one clear task and one real person.",
-    "category": "UI/UX",
+    "category": "Design & UX",
     "date": "2026-10-14",
     "readingTime": 4,
     "related": [
@@ -352,7 +352,7 @@
     "status": "published",
     "title": "Make a carousel people can follow",
     "description": "Turn a useful idea into a clear sequence that earns the next swipe and leaves people with something to remember.",
-    "category": "Creator Tips",
+    "category": "Creator Growth",
     "date": "2026-10-14",
     "readingTime": 4,
     "related": [
@@ -405,7 +405,7 @@
     "status": "published",
     "title": "Grow a small account with real conversations",
     "description": "A steady approach to sharing useful work and getting to know the people who find it.",
-    "category": "Marketing",
+    "category": "Creator Growth",
     "date": "2026-10-14",
     "readingTime": 4,
     "related": [
@@ -452,7 +452,7 @@
     "status": "published",
     "title": "A gentle security reset for your accounts",
     "description": "A short, manageable routine for keeping the apps and accounts you rely on in better shape.",
-    "category": "Useful Tools",
+    "category": "Tools & Security",
     "date": "2026-10-14",
     "readingTime": 4,
     "source": {
