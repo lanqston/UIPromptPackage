@@ -61,7 +61,7 @@ body.packet-workspace,body.packet-workspace[data-surface=workspace] {
 .packet-workspace .public-nav a:hover { color:#fff; }
 .packet-workspace .edition { color:#a5a6a9; font-size:.75rem; white-space:nowrap; }
 .packet-context { width:calc(100% - 48px); max-width:1160px; margin:16px auto 0; padding:0 2px;
-  display:flex; gap:10px; align-items:center; border:0; color:#a7a7a9; font-size:.78rem; }
+  display:flex; gap:10px; align-items:center; justify-content:flex-start; border:0; color:#a7a7a9; font-size:.78rem; }
 .packet-context a { display:inline-flex; align-items:center; min-height:32px; color:#a7a7a9; text-decoration:none; }
 .packet-context a:hover { color:#fff; text-decoration:underline; }
 
