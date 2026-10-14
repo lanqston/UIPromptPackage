@@ -5,7 +5,7 @@ const active = (href: string) => (href === '/discover' && (path.startsWith('/pro
 ---
 <header class="platform-header fixed inset-x-0 top-0 z-50 border-b border-brand-line bg-brand-bg">
   <div class="header-inner mx-auto flex items-center justify-between gap-6 px-6">
-    <a class="platform-brand shrink-0" href="/" aria-label="Digivated home"><span class="brand-mark" aria-hidden="true">d<span class="brand-mark-line"></span></span><span>Digivated</span></a>
+    <a class="platform-brand shrink-0" href="/" aria-label="Digivated home"><span class="x-brand-mark" aria-hidden="true"></span><span>Digivated</span></a>
     <nav class="desktop-nav" aria-label="Main navigation">{links.map(([href,label]) => <a href={href} aria-current={active(href)?'page':undefined}>{label}</a>)}</nav>
     <div class="header-actions"><a class="header-sign-in" href="/saved">Saved</a><a class="button primary header-submit" href="/submit-project">Submit a project <span aria-hidden="true">↗</span></a></div>
     <details class="mobile-menu"><summary aria-controls="platform-mobile-navigation"><span>Menu</span><span class="menu-glyph" aria-hidden="true"></span></summary><nav id="platform-mobile-navigation" aria-label="Mobile navigation">{links.map(([href,label]) => <a href={href} aria-current={active(href)?'page':undefined}>{label}</a>)}<a href="/submit-project" aria-current={active('/submit-project')?'page':undefined}>Submit a project</a><a href="/saved">Saved collections</a><a href="/access">Packet access</a><a href="/promote">Promotion</a></nav></details>
