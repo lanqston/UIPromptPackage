@@ -13,6 +13,12 @@ test('admin configuration fails closed and packet editing is forbidden',()=>{
  for(const host of ['digitalpromptpackage.vercel.app','digivated.vercel.app'])assert.throws(()=>validateEdit('product',{id:'copy-packet',revision:0,status:'published',description:'Test',name:'Test',url:`https://${host}/ui-ux-prompt-packet`},null),e=>e.status===400);
  assert.throws(()=>validateEdit('product',{id:'other-product',revision:0,status:'published',description:'Test',name:'Test',url:'javascript:alert(1)'},null),e=>e.status===400);
 });
+test('legacy resource topics remain editable and save under the clean topic names',()=>{
+ const saved=validateEdit('resource',{id:'legacy-guide',revision:0,status:'draft',title:'Legacy article',description:'A clear short summary.',category:'AI',publishedDate:'2026-10-14',readingTime:2,content:'A guide.'},null);
+ assert.equal(saved.category,'Technology & AI');
+ const tools=validateEdit('resource',{id:'legacy-tools',revision:0,status:'draft',title:'Legacy tools article',description:'A clear short summary.',category:'Useful Tools',publishedDate:'2026-10-14',readingTime:2,content:'A guide.'},null);
+ assert.equal(tools.category,'Tools & Security');
+});
 test('real Redis: owner security, atomic moderation, publishing, withdrawal and images',{skip:!process.env.DIGIVATED_TEST_REDIS_PORT},async()=>{
  const redis=testRedis(14);await redis(['FLUSHDB']);
  const password='Test-only owner password 2026!';const env={DIGIVATED_ADMIN_PASSWORD_HASH:await passwordHash(password),DIGIVATED_ADMIN_SESSION_SECRET:'a'.repeat(64),DIGIVATED_ADMIN_ORIGIN:origin};
@@ -56,3 +62,4 @@ test('real Redis: owner security, atomic moderation, publishing, withdrawal and 
  assert.equal((await invoke(handler,{method:'POST',body:{action:'login',password}})).status,429);
  await redis(['FLUSHDB']);
 });
+
