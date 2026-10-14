@@ -52,7 +52,7 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await expect(page.getByRole('navigation', { name: 'Legal footer links' }).getByRole('link', { name: 'Privacy & Data' })).toHaveAttribute('href', '/privacy');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.evaluate(() => scrollTo(0, 0));
-    await page.locator('.header-submit').click({ trial: true });
+    if (width > 480) await page.locator('.header-submit').click({ trial: true });
     const navigation = page.getByRole('navigation', { name: width <= 1100 ? 'Mobile navigation' : 'Main navigation', exact: true });
     if (width <= 1100) await page.locator('.mobile-menu summary').click();
     await navigation.getByRole('link', { name: 'About', exact: true }).click({ trial: true });
