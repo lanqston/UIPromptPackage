@@ -112,12 +112,12 @@
 .journey-intro p:not(.section-kicker) { max-width:380px; line-height:1.65; }
 .journey-steps { list-style:none; padding:0; margin:0; border-top:1px solid #414246; }
 .journey-steps li { display:grid; grid-template-columns:48px 1fr 42px; gap:15px; padding:28px 0; border-bottom:1px solid #414246; align-items:start; }
-.journey-icon { display:grid; place-items:center; width:31px; height:31px; background:#19362c; border:1px solid #58b996; border-radius:6px; font-size:0; box-shadow:inset 0 1px #bcffe844,0 0 12px #8de5c72c; }
+.journey-icon { display:grid; place-items:center; width:31px; height:31px; background:transparent; border:0; border-radius:0; font-size:0; box-shadow:none; }
 .journey-icon::before { content:""; display:block; width:16px; height:16px; background:#8de5c7; -webkit-mask:url('/signal-spark.svg') center/contain no-repeat; mask:url('/signal-spark.svg') center/contain no-repeat; }
 .journey-steps h3 { font-size:1.35rem; font-weight:500; margin:0 0 6px; }
 .journey-steps p { font-size:.91rem; margin:0; line-height:1.5; }
-.journey-steps a { display:grid; place-items:center; width:36px; height:36px; border:1px solid #4b4c4f; border-radius:6px; text-decoration:none; }
-.journey-steps a:hover { background:#8de5c7; border-color:#8de5c7; color:#10251e; }
+.journey-steps a { display:grid; place-items:center; width:36px; height:36px; border:0; border-radius:6px; text-decoration:none; }
+.journey-steps a:hover { background:#26392f; color:#8de5c7; }
 .home-refresh .project-card,.home-refresh .community-empty,.home-refresh .community-empty.compact { background:#1b1c1e; border-color:#393a3d; }
 .home-product { display:grid; grid-template-columns:1fr .85fr; gap:70px; align-items:center; }
 .home-product p:not(.section-kicker) { max-width:550px; line-height:1.65; }
