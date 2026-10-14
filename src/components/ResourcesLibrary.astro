@@ -2,8 +2,8 @@
 import { resourceGuides } from '../data/home-content.mjs';
 ---
 <section id="resources" class="home-section resource-library" aria-labelledby="resources-heading">
-  <div class="home-section-heading flex flex-wrap items-end justify-between gap-5"><div><p class="section-kicker"><span class="signal-star" aria-hidden="true">✳</span> EXPLORE BY TOPIC</p><h2 id="resources-heading">Four ways to <em>look ahead.</em></h2><p>Choose a starting point. The library grows as new guides and tools are published.</p></div><a class="section-link" href="/resources">The full library <span aria-hidden="true">↗</span></a></div>
-  <div class="topic-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="home-section-heading flex flex-wrap items-end justify-between gap-5"><div><p class="section-kicker"><span class="signal-star" aria-hidden="true">✳</span> EXPLORE BY TOPIC</p><h2 id="resources-heading">Find a useful place to start.</h2><p>Pick the topic that fits what you’re looking for. New guides are added as the library grows.</p></div><a class="section-link" href="/resources">The full library <span aria-hidden="true">↗</span></a></div>
+  <div class="topic-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {resourceGuides.map(guide => <article class="idea-card rounded-xl border border-brand-line bg-brand-card overflow-hidden"><div class="idea-copy p-6"><span class="tag">{guide.category}</span><h3><a href={guide.href}>{guide.title}</a></h3><p>{guide.description}</p><a class="idea-link" href={guide.href}>{guide.label} <span aria-hidden="true">→</span></a></div></article>)}
   </div>
 </section>

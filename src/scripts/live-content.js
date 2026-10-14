@@ -1,5 +1,5 @@
 import { observeProjectViews, viewLabel } from './project-views.js';
-import { safeUrl } from '../data/community.mjs';
+import { safeUrl, normalizeResourceCategory } from '../data/community.mjs';
 const el=(tag,text,className)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;};
 function link(text,url){const node=el('a',text);node.href=url.startsWith('/')?url:safeUrl(url);if(!url.startsWith('/')){node.target='_blank';node.rel='noopener noreferrer';}return node;}
 function thumbnail(url,alt){const img=el('img');img.src=url;img.alt=alt;img.width=640;img.height=400;img.loading='lazy';return img;}
@@ -20,8 +20,8 @@ function projectCard(project){
  const actions=el('div',undefined,'card-links');actions.append(views);if(project.pageUrl){const detail=link('View project',project.pageUrl);detail.className='button';actions.append(detail);}actions.append(saveButton('project',project.id));const visit=link('Visit Project',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
 }
 function resourceCard(resource){
- const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.category=resource.category;card.dataset.search=`${resource.title} ${resource.description} ${resource.category}`.toLowerCase();
- if(resource.coverImage)card.append(thumbnail(resource.coverImage,''));card.append(el('span',resource.category,'tag'));const title=el('h3');title.append(link(resource.title,resource.url));card.append(title,el('p',resource.description),el('p',`${resource.date} · ${resource.readingTime} min read`,'quiet'));const read=link('Read the guide',resource.url);read.className='button';card.append(read,saveButton('resource',resource.id));return card;
+ const category=normalizeResourceCategory(resource.category);const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.category=category;card.dataset.search=`${resource.title} ${resource.description} ${category}`.toLowerCase();
+ if(resource.coverImage)card.append(thumbnail(resource.coverImage,''));card.append(el('span',category,'tag'));const title=el('h3');title.append(link(resource.title,resource.url));card.append(title,el('p',resource.description),el('p',`${resource.date} · ${resource.readingTime} min read`,'quiet'));const read=link('Read the guide',resource.url);read.className='button';card.append(read,saveButton('resource',resource.id));return card;
 }
 function productCard(product){
  const card=el('article',undefined,'product-feature');const art=el('div',undefined,'product-art');art.append(product.image?thumbnail(product.image,product.name):el('span','Made by Digivated','tiny'));
@@ -98,7 +98,7 @@ async function loadArticle(){
  try{
   const response=await fetch(`/api/content?type=resource&id=${encodeURIComponent(slug)}`,{cache:'no-store',credentials:'omit',signal:AbortSignal.timeout(15000)});
   if(!response.ok){status.textContent=response.status===404?'This article is not available.':'This article is temporarily unavailable. Please try again shortly.';return;}
-  const {item}=await response.json();document.title=`${item.title} · Digivated`;document.querySelector('link[rel="canonical"]').href=new URL(item.url,'https://digivated.vercel.app').href;document.querySelector('meta[name="description"]').content=item.description;document.getElementById('article-title').textContent=item.title;document.getElementById('article-category').textContent=item.category;document.getElementById('article-description').textContent=item.description;document.getElementById('article-meta').textContent=`${item.date} · ${item.readingTime} min read`;
+  const {item}=await response.json();document.title=`${item.title} · Digivated`;document.querySelector('link[rel="canonical"]').href=new URL(item.url,'https://digivated.vercel.app').href;document.querySelector('meta[name="description"]').content=item.description;document.getElementById('article-title').textContent=item.title;document.getElementById('article-category').textContent=normalizeResourceCategory(item.category);document.getElementById('article-description').textContent=item.description;document.getElementById('article-meta').textContent=`${item.date} · ${item.readingTime} min read`;
   const body=document.getElementById('article-body');if(item.coverImage){const image=thumbnail(item.coverImage,'');image.className='article-cover';body.append(image);}
   item.content.split(/\n\s*\n/).filter(Boolean).forEach(block=>{const heading=block.startsWith('## ');body.append(el(heading?'h2':'p',heading?block.slice(3):block));});body.prepend(saveButton('resource',item.id));root.hidden=false;status.textContent='';
   if(item.related?.length){const all=await collection('/api/content?type=resource');const related=all.filter(r=>item.related.includes(r.id)&&r.id!==item.id);const section=document.getElementById('article-related');section.querySelector('.resource-grid').replaceChildren(...related.map(resourceCard));section.hidden=related.length===0;}

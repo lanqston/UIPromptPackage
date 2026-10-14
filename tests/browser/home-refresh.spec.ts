@@ -26,7 +26,7 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await expect(page.locator('.hero-copy .primary')).toHaveCSS('background-color', 'rgb(243, 243, 241)');
     await expect(page.locator('.signal-display')).toBeVisible();
     await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link')).toHaveCount(4);
-    await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link', { name: /Markets & investing/ })).toHaveAttribute('href', '/resources?category=Markets%20%26%20Investing');
+    await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link', { name: /Markets & Investing/ })).toHaveAttribute('href', '/resources?category=Markets%20%26%20Investing');
     await expect(page.locator('.home-wayfinding, .discovery-guide')).toHaveCount(0);
     const shelf = page.locator('[data-project-filters]');
     const cards = shelf.locator('[data-project]:visible');
@@ -46,7 +46,7 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await expect(shelf.getByRole('button', { name: 'Digivated Picks', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await shelf.getByRole('button', { name: 'All', exact: true }).click();
     await expect(cards).toHaveCount(4);
-    await expect(page.locator('.idea-card')).toHaveCount(4);
+    await expect(page.locator('.idea-card')).toHaveCount(6);
     await expect(page.locator('.journey-steps li')).toHaveCount(3);
     await page.getByRole('heading', { name: 'Good to know.' }).scrollIntoViewIfNeeded();
     await page.getByText('Can I submit my project for free?').click();
