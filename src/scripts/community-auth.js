@@ -26,5 +26,5 @@ export function setupCommunityAuth({client,config,callback,sessionError,onSucces
  setMode(callback.recovery?'recovery':'signup');
  if(callback.error||sessionError&&callback.incoming){setMode('login');status.textContent=callback.legacyCode?'This older link needs the browser that requested it. Log in below, or reset your password to get a fresh link.':'This link has expired or was already used. Log in below, or request a new password reset email.';dialog.showModal();}
  else if(callback.recovery){dialog.showModal();}
- return {open:()=>dialog.showModal()};
+ return {open:(next='signup')=>{setMode(next==='login'?'login':'signup');dialog.showModal();}};
 }
