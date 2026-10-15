@@ -19,7 +19,7 @@ for(const width of [390,1440])test(`Account signup login and recovery ${width}`,
  await page.locator('#community-email input[name=email]').fill(user.email);await page.locator('#community-email input[name=password]').fill('test-only-password');
  await page.locator('#auth-submit').click();await expect(page.locator('#auth-check-email')).toBeVisible();
  expect(signup.body.code_challenge).toBeFalsy();expect(new URL(signup.url).searchParams.get('redirect_to')).toBe('http://127.0.0.1:4321/community/settings');
- await page.locator('#auth-resend').click();await expect(page.locator('#community-auth-status')).toContainText('fresh email');expect(resend.type).toBe('signup');
+ await page.locator('#auth-resend').click();await expect(page.locator('#community-auth-status')).toContainText('fresh link');expect(resend.type).toBe('signup');
  await page.screenshot({path:`test-results/community-auth-verify-${width}.png`,fullPage:true});
  await page.locator('[data-auth-mode=login]').click();await expect(page.locator('#auth-submit')).toHaveText('Log in');
  await page.locator('#auth-forgot').click();await expect(page.locator('#auth-password-label')).toBeHidden();await page.locator('#auth-submit').click();await expect(page.locator('#auth-email-instructions')).toContainText('reset link');expect(new URL(recovery).searchParams.get('redirect_to')).toContain('/community/settings');
@@ -46,4 +46,18 @@ test('Existing members log in with their password',async({page})=>{
  await page.goto('http://127.0.0.1:4321/community');await page.getByRole('button',{name:'Join the community',exact:false}).click();await page.locator('[data-auth-mode=login]').click();
  await page.locator('#community-email input[name=email]').fill(user.email);await page.locator('#community-email input[name=password]').fill('fixture-password');await page.locator('#auth-submit').click();
  await expect(page).toHaveURL('http://127.0.0.1:4321/community/settings');await expect(page.locator('[data-member-logout]')).toBeVisible();expect(credentials.email).toBe(user.email);
+});
+
+test('Existing verified account signup offers login instead of promising an email',async({page})=>{
+ await fixtures(page);await page.route(`${service}/auth/v1/signup**`,r=>r.fulfill({json:{user:{...user,identities:[]},session:null}}));
+ await page.goto('http://127.0.0.1:4321/community');await page.getByRole('button',{name:'Join the community',exact:false}).click();
+ await page.locator('#community-email input[name=email]').fill(user.email);await page.locator('#community-email input[name=password]').fill('fixture-password');await page.locator('#auth-submit').click();
+ await expect(page.locator('#auth-submit')).toHaveText('Log in');await expect(page.locator('#community-auth-status')).toContainText('already have an account');await expect(page.locator('#auth-check-email')).toBeHidden();await expect(page.locator('#auth-forgot')).toBeVisible();
+});
+
+test('Existing member can request a simple sign-in link without a password',async({page})=>{
+ await fixtures(page);let payload:any;
+ await page.route(`${service}/auth/v1/otp**`,r=>{payload=r.request().postDataJSON();return r.fulfill({json:{}});});
+ await page.goto('http://127.0.0.1:4321/community');await page.getByRole('button',{name:'Join the community',exact:false}).click();await page.locator('[data-auth-mode=login]').click();await page.locator('#community-email input[name=email]').fill(user.email);await page.locator('#auth-email-link').click();
+ await expect(page.locator('#auth-description')).toHaveText('One click and you’re in.');expect(payload.create_user).toBe(false);expect(payload.code_challenge).toBeFalsy();await expect(page.locator('#auth-email-instructions')).toContainText('Click it to sign in');
 });
