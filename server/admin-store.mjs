@@ -2,6 +2,10 @@ import { launchFields, pageSlug } from './launch-pages.mjs';
 import { AdminError } from './admin-auth.mjs';
 import { projectCategories, resourceCategories, normalizeResourceCategory, safeUrl, statuses } from '../src/data/community.mjs';
 import { validateSubmission } from './submissions.mjs';
+// The owner's original picks, verified against live records on 2026-10-15.
+// Only existing approved records can be displayed. No records or view totals are seeded.
+const originalPicks = new Set(['03e617c5-4841-43d1-8096-5fe4a556d053','141a4936-ebfa-4051-bdc8-31f0ad8dc74f']);
+export const isDigivatedPick = record => ['approved','featured'].includes(record.status) && (typeof record.pickOverride === 'boolean' ? record.pickOverride : record.pick === true || originalPicks.has(record.id));
 export const packetId = 'ui-ux-prompt-packet';
 export const validId = id => typeof id === 'string' && /^[a-z0-9][a-z0-9-]{0,99}$/.test(id);
 export const storageKey = (kind, id) => kind === 'submission' ? `digivated:submission:${id}` : `digivated:${kind}:${id}`;
@@ -28,7 +32,7 @@ export function validateEdit(kind, input, previous) {
     if (!statuses.includes(input.status) || !projectCategories.includes(input.category)) throw new AdminError(400, 'Choose a valid status and category.');
     if (input.status === 'featured' && !['approved', 'featured'].includes(previous.status)) throw new AdminError(400, 'Approve this project before featuring it.');
     const socialUrl = text(input.socialUrl, 'creator profile URL', 500, false);
-    record = { ...previous, name: text(input.name, 'project name', 120), creator: text(input.creator, 'creator', 100), description: text(input.description, 'description', 600), category: input.category, status: input.status, pick: input.pick === true && ['approved', 'featured'].includes(input.status), socialUrl: socialUrl ? safeUrl(socialUrl) : '', url: safeUrl(text(input.url, 'project URL', 500)) };
+    record = { ...previous, name: text(input.name, 'project name', 120), creator: text(input.creator, 'creator', 100), description: text(input.description, 'description', 600), category: input.category, status: input.status, pickOverride: input.pick === true, pick: input.pick === true && ['approved', 'featured'].includes(input.status), socialUrl: socialUrl ? safeUrl(socialUrl) : '', url: safeUrl(text(input.url, 'project URL', 500)) };
     if (previous.promotion?.requested) {
       const verified = input.promotionVerified === undefined ? previous.promotion.verified === true : input.promotionVerified === true;
       record.promotion = {...previous.promotion, verified};
@@ -67,7 +71,7 @@ export function validateEdit(kind, input, previous) {
 }
 export function projectPublic(record) {
   if (!['approved', 'featured'].includes(record.status) || record.consent !== true || (record.promotion?.requested && !record.promotion.verified)) return null;
-  return { ...(record.promotion?.verified ? {sponsored:true} : {}), ...(record.pagePublished && record.page?.consent ? { pageUrl: `/projects/${record.slug}` } : {}), id: record.id, name: record.name, creator: record.creator, description: record.description, category: record.category, url: safeUrl(record.url), socialUrl: safeUrl(record.socialUrl), date: record.date, status: record.status, pick: record.pick === true, image: record.image ? `/api/projects?image=${record.id}` : '' };
+  return { ...(record.promotion?.verified ? {sponsored:true} : {}), ...(record.pagePublished && record.page?.consent ? { pageUrl: `/projects/${record.slug}` } : {}), id: record.id, name: record.name, creator: record.creator, description: record.description, category: record.category, url: safeUrl(record.url), socialUrl: safeUrl(record.socialUrl), date: record.date, status: record.status, pick: isDigivatedPick(record), image: record.image ? `/api/projects?image=${record.id}` : '' };
 }
 export function contentPublic(kind, record) {
   if (record.status !== 'published') return null;
@@ -119,7 +123,7 @@ export const LIST = `local ids=redis.call('ZREVRANGE',KEYS[1],ARGV[1],ARGV[2]); 
 export async function listRecords(redis, kind, offset = 0) {
   const prefix = kind === 'submission' ? 'digivated:submission:' : `digivated:${kind}:`;
   const rows = await redis(['EVAL', LIST, 1, indexKey(kind), offset, offset + 24, prefix]);
-  return { items: rows.map(JSON.parse), next: rows.length === 25 ? offset + 25 : null };
+  return { items: rows.map(JSON.parse).map(r => kind === 'submission' ? {...r,pick:isDigivatedPick(r)} : r), next: rows.length === 25 ? offset + 25 : null };
 }
 export async function publicRecords(redis, kind, offset = 0, limit = 100) {
   const ids = await redis(['ZREVRANGE', `digivated:public:${kind}s`, offset, offset + limit - 1]);

@@ -2,7 +2,7 @@ import { renderLaunch, launchPublic } from './launch-pages.mjs';
 import { createHmac } from 'node:crypto';
 import { redisClient } from './submissions.mjs';
 import { AdminError, adminConfig, verifyPassword, createSession, requireSession, jsonBody, cookie, tokenFrom, digest } from './admin-auth.mjs';
-import { listRecords, saveRecord, storageKey, validId } from './admin-store.mjs';
+import { isDigivatedPick, listRecords, saveRecord, storageKey, validId } from './admin-store.mjs';
 import { listPendingComments, moderateComment } from './card-interactions.mjs';
 const LIMIT = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],900) end; return n`;
 export function makeAdminHandler(deps = {}) {
@@ -72,7 +72,8 @@ export function makeAdminHandler(deps = {}) {
         const raw = await redis(['GET', storageKey(kind, id)]);
         if (!raw) throw new AdminError(404, 'This item could not be found.');
         if (action === 'preview') { res.setHeader('Content-Type','text/html; charset=utf-8'); res.setHeader('X-Robots-Tag','noindex, nofollow'); res.statusCode=200; return res.end(await renderLaunch(launchPublic(JSON.parse(raw),true),{draft:true})); }
-        return send(200, { record: JSON.parse(raw) });
+        const record = JSON.parse(raw);
+        return send(200, { record: kind === 'submission' ? {...record,pick:isDigivatedPick(record)} : record });
       }
       throw new AdminError(400, 'Invalid dashboard action.');
     } catch (error) {
