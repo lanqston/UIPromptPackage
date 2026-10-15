@@ -1,6 +1,6 @@
 ---
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const links = [['/resources', 'Explore'], ['/discover', 'Projects'], ['/products', 'Products'], ['/community', 'Community'], ['/about', 'About']];
+const links = [['/resources', 'Explore'], ['/discover', 'Projects'], ['/products', 'Products'], ['/about', 'About']];
 const active = (href: string) => (href === '/discover' && (path.startsWith('/projects/') || path === '/launch-template')) || path === href || (href !== '/' && path.startsWith(href + '/'));
 ---
 <header class="platform-header fixed inset-x-0 top-0 z-50 border-b border-brand-line bg-brand-bg">

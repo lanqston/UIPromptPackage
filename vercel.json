@@ -45,6 +45,28 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "digitalpromptpackage.vercel.app"
+        }
+      ],
+      "destination": "https://digivated.com/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "digivated.vercel.app"
+        }
+      ],
+      "destination": "https://digivated.com/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
@@ -61,17 +83,6 @@
       "permanent": true
     },
     {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "digitalpromptpackage.vercel.app"
-        }
-      ],
-      "destination": "https://digivated.com/library?show=available",
-      "permanent": false
-    },
-    {
       "source": "/:path*",
       "has": [
         {
@@ -81,6 +92,41 @@
       ],
       "destination": "https://digivated.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/community",
+      "destination": "https://digivated.com/",
+      "permanent": false
+    },
+    {
+      "source": "/community/chat",
+      "destination": "https://digivated.com/",
+      "permanent": false
+    },
+    {
+      "source": "/community/members",
+      "destination": "https://digivated.com/",
+      "permanent": false
+    },
+    {
+      "source": "/community/profile",
+      "destination": "https://digivated.com/",
+      "permanent": false
+    },
+    {
+      "source": "/community/settings",
+      "destination": "https://digivated.com/",
+      "permanent": false
+    },
+    {
+      "source": "/community/moderate",
+      "destination": "https://digivated.com/",
+      "permanent": false
+    },
+    {
+      "source": "/community/alerts",
+      "destination": "https://digivated.com/",
+      "permanent": false
     }
   ],
   "crons": [
