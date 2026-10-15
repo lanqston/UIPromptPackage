@@ -32,6 +32,14 @@ export function makeResourceViewHandler(deps = {}) {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     const send = (status, body) => { res.statusCode = status; res.end(JSON.stringify(body)); };
     try {
+      if (req.method === 'GET') {
+        // Built-in guides are rendered statically, so hydrate their current counts without recording a view.
+        const ids = new URL(req.url, 'https://digivated.invalid').searchParams.getAll('id');
+        if (!ids.length || ids.length > builtins.size || ids.some(id => !builtins.has(id)) || new Set(ids).size !== ids.length) return send(400, { error: 'Invalid resource IDs.' });
+        const redis = deps.redis || redisClient(deps.env || process.env);
+        const counts = await redis(['MGET', ...ids.map(resourceViewKey)]);
+        return send(200, { views: Object.fromEntries(ids.map((id, index) => [id, Number(counts[index] || 0)])) });
+      }
       if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return send(405, { error: 'Method not allowed.' }); }
       const env = deps.env || process.env;
       if (req.headers.origin !== (env.SUBMISSIONS_ORIGIN || 'https://digivated.com') || req.headers['sec-fetch-site'] === 'cross-site') return send(403, { error: 'Use the Digivated website.' });
