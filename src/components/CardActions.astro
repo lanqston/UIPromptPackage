@@ -1,0 +1,10 @@
+---
+import { cardIconMarkup } from '../lib/card-icons.mjs';
+const { type = 'resource', id, title, url } = Astro.props;
+---
+<div class="card-actions" role="group" aria-label={`Actions for ${title}`}>
+  <button class="card-icon" type="button" data-comment-type={type} data-comment-id={id} aria-label={`Read or leave a comment on ${title}`} title="Comments"><span set:html={cardIconMarkup('comment')}/></button>
+  <button class="card-icon" type="button" data-share-url={url} aria-label={`Share ${title}`} title="Share"><span set:html={cardIconMarkup('share')}/></button>
+  <button class="card-icon" type="button" data-like-type={type} data-like-id={id} aria-label={`Like ${title}`} title="Like"><span set:html={cardIconMarkup('like')}/><span class="card-count" data-like-count></span></button>
+  <button class="card-icon card-save" type="button" data-save-type={type} data-save-id={id} aria-label="Save to collection" title="Save to collections"><span set:html={cardIconMarkup('save')}/><span class="sr-only" data-save-label>Save</span></button>
+</div>

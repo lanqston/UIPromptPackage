@@ -2,6 +2,7 @@ import { observeProjectViews, viewLabel } from './project-views.js';
 import { observeResourceViews } from './resource-views.js';
 import { safeUrl, normalizeResourceCategory } from '../data/community.mjs';
 import { cardIcon } from './card-actions.js';
+import { categoryIcon, resourceStats, formatCardDate } from '../lib/card-meta.mjs';
 const el=(tag,text,className)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;};
 function link(text,url){const node=el('a',text);node.href=url.startsWith('/')?url:safeUrl(url);if(!url.startsWith('/')){node.target='_blank';node.rel='noopener noreferrer';}return node;}
 function thumbnail(url,alt){const img=el('img');img.src=url;img.alt=alt;img.width=640;img.height=400;img.loading='lazy';return img;}
@@ -13,10 +14,17 @@ function cardButton(action,type,id,url,label){
 }
 function cardSave(type,id){const button=saveButton(type,id);button.className='card-icon card-save';button.textContent='';button.title='Save to collections';button.append(cardIcon('save'),el('span','Save','sr-only'));button.lastChild.dataset.saveLabel='';return button;}
 function cardSocial(type,id,url){const row=el('div',undefined,'card-social');row.append(cardButton('comment',type,id,null,'Read or leave a comment'),cardButton('share',type,id,url,'Share this '+type));const like=cardButton('like',type,id,null,'Like this '+type);const count=el('span',undefined,'card-count');count.dataset.likeCount='';like.append(count);row.append(like);return row;}
-function cardActions(type,id,url){const row=cardSocial(type,id,url);row.className='card-actions';row.append(cardSave(type,id));return row;}
-function resourceArt(resource,category){
- return null;
+function cardActions(type,id,url){const row=cardSocial(type,id,url);row.className='card-actions';row.setAttribute('role','group');row.setAttribute('aria-label','Comment, share, like, and save');row.append(cardSave(type,id));return row;}
+function statStrip(resource){
+ const strip=el('div',undefined,'card-stats');strip.setAttribute('aria-label','Resource details');
+ for(const stat of resourceStats(resource)){
+  const item=el('span',undefined,'card-stat');item.title=stat.label;const icon=el('span',undefined,'stat-icon');icon.append(cardIcon(stat.icon));const value=el(stat.datetime?'time':'span',stat.text);
+  if(stat.datetime)value.dateTime=stat.datetime;if(stat.viewId)value.dataset.resourceViews=stat.viewId;else value.setAttribute('aria-label',stat.label);
+  item.append(icon,value);strip.append(item);
+ }return strip;
 }
+function topicLabel(category){const topic=el('div',undefined,'card-topic');const icon=el('span',undefined,'topic-icon');icon.append(cardIcon(categoryIcon(category)));topic.append(icon,el('span',category,'tag'));return topic;}
+function openLink(text,url,icon='arrow'){const anchor=link('',url);anchor.className='card-open';const arrow=el('span',undefined,'button-arrow');arrow.append(cardIcon(icon));anchor.append(el('span',text),arrow);return anchor;}
 function projectCard(project){
  const card=el('article',undefined,'project-card');card.id=`project-${project.id}`;card.dataset.project='';card.dataset.projectId=project.id;card.dataset.category=project.category;card.dataset.featured=String(project.status==='featured');card.dataset.pick=String(project.pick===true);card.dataset.search=`${project.name} ${project.creator} ${project.description} ${project.category}`.toLowerCase();
  const image=el('div',undefined,'project-image card-visual');
@@ -24,17 +32,19 @@ function projectCard(project){
  if(project.image){const preview=thumbnail(project.image,`${project.name} project preview`);preview.decoding='async';preview.addEventListener('error',fallback,{once:true});image.append(preview);}else fallback();
  const copy=el('div',undefined,'project-copy');
  const heading=el('h3');heading.append(link(project.name,project.pageUrl||project.url));
- const meta=el('div',undefined,'project-meta');meta.append(el('span',project.category,'tag'),el('span',`By ${project.creator}`,'quiet'));
+ const meta=el('div',undefined,'project-meta');meta.append(topicLabel(project.category),project.socialUrl?link(`By ${project.creator}`,project.socialUrl):el('span',`By ${project.creator}`,'quiet'));
  if(project.sponsored)meta.append(el('span','Sponsored','tag sponsored-tag'));
  const description=el('p',project.description,'project-description');
  copy.append(heading,meta,description);
  if(project.description.length>100){const details=el('details',undefined,'project-details');details.append(el('summary','Read full description'),el('p',project.description));copy.append(details);}
- const views=el('p',viewLabel(project.views),'quiet');views.dataset.projectViews=project.id;views.title='Approximate project card views on Digivated. Repeat views from the same network count once every 24 hours.';
- const actions=el('div',undefined,'card-links');actions.append(views,cardSocial('project',project.id,project.pageUrl||`/discover#project-${project.id}`),cardSave('project',project.id));if(project.pageUrl){const detail=link('View project',project.pageUrl);detail.className='button';actions.append(detail);}const visit=link('Visit project ↗',project.url);visit.className='button primary';actions.append(visit);if(project.socialUrl)actions.append(link('Creator',project.socialUrl));copy.append(actions);card.append(image,copy);return card;
+ const stats=el('div',undefined,'card-stats project-stats');const viewStat=el('span',undefined,'card-stat');const eye=el('span',undefined,'stat-icon');eye.append(cardIcon('eye'));const views=el('span',viewLabel(project.views));views.dataset.projectViews=project.id;viewStat.title='Approximate project views. Repeat views from the same network count once every 24 hours.';viewStat.append(eye,views);stats.append(viewStat);
+ if(formatCardDate(project.date)){const dateStat=el('span',undefined,'card-stat');dateStat.title=formatCardDate(project.date,true);dateStat.append(cardIcon('calendar'),el('span',formatCardDate(project.date)));stats.prepend(dateStat);}copy.append(stats);
+ if(project.pageUrl){const detail=link('View project',project.pageUrl);detail.className='project-detail-link';detail.append(cardIcon('arrow'));copy.append(detail);}
+ const actions=el('div',undefined,'card-links card-footer');const visit=openLink('Visit project',project.url,'external');visit.classList.add('button','primary');actions.append(cardActions('project',project.id,project.pageUrl||`/discover#project-${project.id}`),visit);copy.append(actions);card.append(image,copy);return card;
 }
 function resourceCard(resource){
  const category=normalizeResourceCategory(resource.category);const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.resourceViewId=resource.id;card.dataset.category=category;card.dataset.search=`${resource.title} ${resource.description} ${category}`.toLowerCase();
- const copy=el('div',undefined,'resource-copy');copy.append(el('span',category,'tag'));const title=el('h3');title.append(link(resource.title,resource.url));const meta=el('p',`${resource.readingTime} min read · ${resource.date} · `,'resource-meta');const views=el('span',viewLabel(resource.views));views.dataset.resourceViews=resource.id;views.title='Approximate resource views on Digivated. Repeat views from the same network count once every 24 hours.';meta.append(views);copy.append(title,el('p',resource.description,'resource-description'),meta);const read=link('Read the guide ↗',resource.url);read.className='card-open';copy.append(read,cardActions('resource',resource.id,resource.url));card.append(copy);return card;
+ const copy=el('div',undefined,'resource-copy');copy.append(topicLabel(category));const title=el('h3');title.append(link(resource.title,resource.url));copy.append(title,el('p',resource.description,'resource-description'),statStrip(resource));const footer=el('div',undefined,'card-footer');footer.append(cardActions('resource',resource.id,resource.url),openLink('Read the guide',resource.url));copy.append(footer);card.append(copy);return card;
 }
 function productCard(product){
  const card=el('article',undefined,'product-feature');const art=el('div',undefined,'product-art');art.append(product.image?thumbnail(product.image,product.name):el('span','Made by Digivated','tiny'));
@@ -112,9 +122,9 @@ async function loadArticle(){
  try{
   const response=await fetch(`/api/content?type=resource&id=${encodeURIComponent(slug)}`,{cache:'no-store',credentials:'omit',signal:AbortSignal.timeout(15000)});
   if(!response.ok){status.textContent=response.status===404?'This article is not available.':'This article is temporarily unavailable. Please try again shortly.';return;}
-  const {item}=await response.json();document.title=`${item.title} · Digivated`;document.querySelector('link[rel="canonical"]').href=new URL(item.url,'https://digivated.vercel.app').href;document.querySelector('meta[name="description"]').content=item.description;document.getElementById('article-title').textContent=item.title;document.getElementById('article-category').textContent=normalizeResourceCategory(item.category);document.getElementById('article-description').textContent=item.description;const meta=document.getElementById('article-meta');meta.textContent=`${item.date} · ${item.readingTime} min read · `;const views=el('span',viewLabel(item.views));views.dataset.resourceViews=item.id;meta.append(views);
+  const {item}=await response.json();document.title=`${item.title} · Digivated`;document.querySelector('link[rel="canonical"]').href=new URL(item.url,'https://digivated.vercel.app').href;document.querySelector('meta[name="description"]').content=item.description;document.getElementById('article-title').textContent=item.title;document.getElementById('article-category').textContent=normalizeResourceCategory(item.category);document.getElementById('article-description').textContent=item.description;document.getElementById('article-meta').replaceChildren(statStrip({...item,fullDate:true}));
   const body=document.getElementById('article-body');if(item.coverImage){const image=thumbnail(item.coverImage,'');image.className='article-cover';body.append(image);}
-  item.content.split(/\n\s*\n/).filter(Boolean).forEach(block=>{const heading=block.startsWith('## ');body.append(el(heading?'h2':'p',heading?block.slice(3):block));});body.prepend(saveButton('resource',item.id));root.hidden=false;status.textContent='';const header=document.querySelector('.page-intro');header.dataset.resourceViewId=item.id;observeResourceViews();
+  item.content.split(/\n\s*\n/).filter(Boolean).forEach(block=>{const heading=block.startsWith('## ');body.append(el(heading?'h2':'p',heading?block.slice(3):block));});document.querySelector('.page-intro').append(cardActions('resource',item.id,item.url));root.hidden=false;status.textContent='';const header=document.querySelector('.page-intro');header.dataset.resourceViewId=item.id;observeResourceViews();
   if(item.related?.length){const all=await collection('/api/content?type=resource');const related=all.filter(r=>item.related.includes(r.id)&&r.id!==item.id);const section=document.getElementById('article-related');section.querySelector('.resource-grid').replaceChildren(...related.map(resourceCard));section.hidden=related.length===0;observeResourceViews();}
  }catch{status.textContent='This article is temporarily unavailable. Please try again shortly.';}
 }

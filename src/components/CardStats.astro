@@ -1,0 +1,11 @@
+---
+import { resourceStats } from '../lib/card-meta.mjs';
+import { cardIconMarkup } from '../lib/card-icons.mjs';
+const { resource, fullDate = false } = Astro.props;
+---
+<div class="card-stats" aria-label="Resource details">
+  {resourceStats({ ...resource, fullDate }).map(stat => <span class="card-stat" title={stat.label}>
+    <span class="stat-icon" set:html={cardIconMarkup(stat.icon)}/>
+    {stat.datetime ? <time datetime={stat.datetime}>{stat.text}</time> : <span data-resource-views={stat.viewId} aria-label={stat.viewId ? undefined : stat.label}>{stat.text}</span>}
+  </span>)}
+</div>
