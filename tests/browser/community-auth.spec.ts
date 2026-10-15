@@ -54,3 +54,10 @@ test('Existing verified account signup offers login instead of promising an emai
  await page.locator('#community-email input[name=email]').fill(user.email);await page.locator('#community-email input[name=password]').fill('fixture-password');await page.locator('#auth-submit').click();
  await expect(page.locator('#auth-submit')).toHaveText('Log in');await expect(page.locator('#community-auth-status')).toContainText('already have an account');await expect(page.locator('#auth-check-email')).toBeHidden();await expect(page.locator('#auth-forgot')).toBeVisible();
 });
+
+test('Existing member can request a simple sign-in link without a password',async({page})=>{
+ await fixtures(page);let payload:any;
+ await page.route(`${service}/auth/v1/otp**`,r=>{payload=r.request().postDataJSON();return r.fulfill({json:{}});});
+ await page.goto('http://127.0.0.1:4321/community');await page.getByRole('button',{name:'Join the community',exact:false}).click();await page.locator('[data-auth-mode=login]').click();await page.locator('#community-email input[name=email]').fill(user.email);await page.locator('#auth-email-link').click();
+ await expect(page.locator('#auth-description')).toHaveText('One click and you’re in.');expect(payload.create_user).toBe(false);expect(payload.code_challenge).toBeFalsy();await expect(page.locator('#auth-email-instructions')).toContainText('Click it to sign in');
+});
