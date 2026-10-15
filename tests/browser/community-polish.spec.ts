@@ -16,7 +16,7 @@ for(const width of [390,1440])test(`Community member interactions and visual rev
   const req=r.request(),u=new URL(req.url()),table=u.pathname.split('/').pop(),method=req.method();let data:any=[];
   if(table==='community_profiles'){
    if(method==='PATCH'||method==='POST'){profileSaved=req.postDataJSON();data=[];}
-   else if(u.searchParams.has('id'))data=me;
+   else if(u.searchParams.get('id')?.startsWith('eq.'))data=me;
    else if(u.searchParams.has('handle'))data=peer;
    else data=[peer];
   }
@@ -30,7 +30,7 @@ for(const width of [390,1440])test(`Community member interactions and visual rev
   if(table==='community_post_counts')data=[{post_id:postId,likes:liked?1:0,replies:0}];
   if(table==='community_likes'){if(method==='POST')liked=true;if(method==='DELETE')liked=false;data=liked?[{post_id:postId}]:[];}
   if(table==='community_bookmarks'){if(method==='POST')saved=true;if(method==='DELETE')saved=false;data=saved?[{post_id:postId}]:[];}
-  if(table==='community_follows'){if(method==='POST')following=true;if(method==='DELETE')following=false;data=req.headers().accept?.includes('object')?(following?{target_id:other}:null):[];}
+  if(table==='community_follows'){if(method==='POST')following=true;if(method==='DELETE')following=false;data=following?[{target_id:other}]:[];}
   if(table==='community_reports'&&method==='POST')report=true;
   await r.fulfill({status:200,json:data,headers:{'content-range':'0-0/1'}});
  });
