@@ -16,7 +16,7 @@ Receipt details are private. Public projections expose only a Sponsored label fo
 
 No database migration or backfill is required. New submissions optionally store `promotion: { requested, receiptReference, verified, verifiedAt? }` in the existing Redis records. Missing promotion data keeps existing free submissions working. Validation ignores any client-supplied verification status.
 
-Deploy through the existing GitHub/Vercel pipeline after CI passes. No production test submissions are necessary. Confirm `/promote`, its Gumroad offer link, and `/submit-project?promotion=1`; check unauthenticated admin access remains denied. The legacy host root now redirects to the free library, repairing the old “3 Free Prompts” link on the packet's Gumroad description. Other legacy paths keep their existing canonical redirects. Ideally update that seller description link directly to `https://digivated.vercel.app/library?show=available` as well.
+Deploy through the existing GitHub/Vercel pipeline after CI passes. No production test submissions are necessary. Confirm `/promote`, its Gumroad offer link, and `/submit-project?promotion=1`; check unauthenticated admin access remains denied. The legacy host root now redirects to the free library, repairing the old “3 Free Prompts” link on the packet's Gumroad description. Other legacy paths keep their existing canonical redirects. Ideally update that seller description link directly to `https://digivated.com/library?show=available` as well.
 
 Malformed packet license input now returns 401 rather than an incorrect temporary-service 503. Existing license, product, refund, and access checks remain in place.
 

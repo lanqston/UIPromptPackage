@@ -11,7 +11,7 @@ test('browser error payload excludes user input and keeps application source loc
     user: { email: secret }, breadcrumbs: [{ message: secret }], extra: { notes: secret },
     contexts: { arbitrary: secret }, tags: { arbitrary: secret }, message: secret,
     exception: { values: [{ type: 'TypeError', value: secret, stacktrace: { frames: [
-      { filename: 'https://digitalpromptpackage.vercel.app/_astro/app.js?license=' + secret, lineno: 12, vars: { secret }, pre_context: [secret] },
+      { filename: 'https://digivated.com/_astro/app.js?license=' + secret, lineno: 12, vars: { secret }, pre_context: [secret] },
       { filename: 'https://external.test/' + secret, function: secret },
     ] } }] },
   }, 'browser');

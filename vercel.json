@@ -45,6 +45,17 @@
   ],
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "digivated.vercel.app"
+        }
+      ],
+      "destination": "https://digivated.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/about-langston",
       "destination": "/about",
       "permanent": true
@@ -57,7 +68,7 @@
           "value": "digitalpromptpackage.vercel.app"
         }
       ],
-      "destination": "https://digivated.vercel.app/library?show=available",
+      "destination": "https://digivated.com/library?show=available",
       "permanent": false
     },
     {
@@ -68,7 +79,7 @@
           "value": "digitalpromptpackage.vercel.app"
         }
       ],
-      "destination": "https://digivated.vercel.app/:path*",
+      "destination": "https://digivated.com/:path*",
       "permanent": true
     }
   ],

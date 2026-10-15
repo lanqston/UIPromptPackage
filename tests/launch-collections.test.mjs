@@ -6,7 +6,7 @@ import { makeSavedItemHandler } from '../server/saved-items.mjs';
 import { makePublicHandler } from '../server/public-community.mjs';
 import { createCollectionStore, initialCollections, mergeCollections, validateCollections } from '../src/lib/collections.mjs';
 import { testRedis } from './helpers/redis.mjs';
-const template='<html><head><title>LAUNCH_TITLE</title><meta name="description" content="LAUNCH_DESCRIPTION"><link rel="canonical" href="https://digivated.vercel.app/launch-template"></head><body><!--LAUNCH_BODY--></body></html>';
+const template='<html><head><title>LAUNCH_TITLE</title><meta name="description" content="LAUNCH_DESCRIPTION"><link rel="canonical" href="https://digivated.com/launch-template"></head><body><!--LAUNCH_BODY--></body></html>';
 const png='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aFJkAAAAASUVORK5CYII=';
 const record=id=>({id,name:'Same name',creator:'Creator',email:'SECRET_EMAIL',notes:'SECRET_NOTES',description:'An independent project to help creators build.',url:'https://example.com',category:'Apps',status:'pending',consent:true,date:new Date().toISOString(),image:png});
 const page={bio:'An approved bio.',alt:'Project dashboard',ctaLabel:'Try the app',ctaUrl:'https://example.com/app',consent:true,gallery:[{image:png,alt:'Settings screen'}]};

@@ -45,7 +45,7 @@ export function makeCardInteractionHandler(deps={}) {
     try {
       if(!['GET','POST'].includes(req.method)){res.setHeader('Allow','GET, POST');return send(405,{error:'Method not allowed.'});}
       const env=deps.env||process.env;
-      const origin=env.SUBMISSIONS_ORIGIN||'https://digivated.vercel.app';
+      const origin=env.SUBMISSIONS_ORIGIN||'https://digivated.com';
       if(req.method==='POST'&&(req.headers.origin!==origin||req.headers['sec-fetch-site']==='cross-site'))return send(403,{error:'Open this on Digivated to continue.'});
       const url=new URL(req.url,'https://digivated.invalid');
       if(url.pathname!=='/api/card-interactions')return send(404,{error:'Not found.'});

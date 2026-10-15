@@ -34,7 +34,7 @@ export function makeResourceViewHandler(deps = {}) {
     try {
       if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return send(405, { error: 'Method not allowed.' }); }
       const env = deps.env || process.env;
-      if (req.headers.origin !== (env.SUBMISSIONS_ORIGIN || 'https://digivated.vercel.app') || req.headers['sec-fetch-site'] === 'cross-site') return send(403, { error: 'Use the Digivated website.' });
+      if (req.headers.origin !== (env.SUBMISSIONS_ORIGIN || 'https://digivated.com') || req.headers['sec-fetch-site'] === 'cross-site') return send(403, { error: 'Use the Digivated website.' });
       const id = new URL(req.url, 'https://digivated.invalid').searchParams.get('id');
       if (!id || !/^[a-z0-9][a-z0-9-]{0,99}$/.test(id)) return send(404, { error: 'Resource not found.' });
       if (/bot|crawler|spider|headless|preview/i.test(req.headers['user-agent'] || '')) return send(200, { views: null });

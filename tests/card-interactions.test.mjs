@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { makeCardInteractionHandler, listPendingComments, moderateComment } from '../server/card-interactions.mjs';
 
-const origin='https://digivated.vercel.app';
+const origin='https://digivated.com';
 function fixtureRedis(){
  const values=new Map(), sorted=new Map();
  const members=key=>sorted.get(key)||new Map();

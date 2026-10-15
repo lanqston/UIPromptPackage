@@ -6,8 +6,8 @@ This module provides account authorization and private token storage. Separate r
 
 - App permissions: Read and write; no Direct Message or email access.
 - App type: Web App, Automated App or Bot (confidential client).
-- Website: `https://digivated.vercel.app`
-- Callback URI (exactly): `https://digivated.vercel.app/api/x-connect?action=callback`
+- Website: `https://digivated.com`
+- Callback URI (exactly): `https://digivated.com/api/x-connect?action=callback`
 
 ## Vercel setup
 
