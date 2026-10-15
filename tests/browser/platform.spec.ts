@@ -29,7 +29,7 @@ test('mobile navigation, directory filters, and preserved product link',async({p
  await page.setViewportSize({width:375,height:812});await page.goto(base);
  await page.locator('.mobile-menu summary').click();
  await page.getByRole('navigation',{name:'Mobile navigation',exact:true}).getByRole('link',{name:'Projects',exact:true}).click();
- await expect(page).toHaveURL(/\/discover/);await page.getByLabel('Search projects').fill('nonexistent');await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('AI');await page.getByRole('combobox',{name:'Browse',exact:true}).selectOption('picks');await expect(page.locator('#directory-empty')).toBeVisible();
+ await expect(page).toHaveURL(/\/discover/);await page.getByLabel('Search projects').fill('nonexistent');await page.getByRole('combobox',{name:'Category',exact:true}).selectOption('AI');await expect(page.locator('[data-live-projects=picks]')).toBeVisible();await expect(page.locator('#directory-empty')).toBeVisible();
  await page.goto(base+'/products');await page.getByRole('link',{name:/View UI\/UX Prompt Packet/}).click();await expect(page).toHaveURL(/ui-ux-prompt-packet/);
  await page.route('https://digivated.gumroad.com/l/ui-prompt-package',r=>r.fulfill({contentType:'text/html',body:'<h1>Checkout destination fixture</h1>'}));
  await page.locator('.purchase-link').click();await expect(page).toHaveURL('https://digivated.gumroad.com/l/ui-prompt-package');

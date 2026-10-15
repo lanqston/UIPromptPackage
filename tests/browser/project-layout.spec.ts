@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 const description='A useful product with a detailed explanation. '.repeat(12);
-const projects=[{id:'wide',name:'Wide preview',image:'/fixture-wide.svg'},{id:'portrait',name:'Portrait preview',image:'/fixture-portrait.svg'},{id:'broken',name:'Broken preview',image:'/fixture-missing.png'},{id:'none',name:'No preview'}].map(p=>({...p,description,creator:'Maker',category:'Apps',url:'https://example.com',status:'approved',pick:false,views:12}));
+const projects=[{id:'wide',name:'Wide preview',image:'/fixture-wide.svg'},{id:'portrait',name:'Portrait preview',image:'/fixture-portrait.svg'},{id:'broken',name:'Broken preview',image:'/fixture-missing.png'},{id:'none',name:'No preview'}].map(p=>({...p,description,creator:'Maker',category:'Apps',url:'https://example.com',status:'approved',pick:true,views:12}));
 for(const width of [320,375,768,1440])test(`compact projects and resilient image previews at ${width}px`,async({page})=>{
  await page.setViewportSize({width,height:900});
  await page.route('**/api/**',r=>r.fulfill({json:{items:projects,next:null}}));
