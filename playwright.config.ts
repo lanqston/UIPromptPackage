@@ -2,6 +2,9 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/browser',
+  // Community is intentionally unpublished; community-paused.spec.ts verifies its replacement behavior.
+  // Retain these feature suites for a future relaunch.
+  testIgnore: ['**/community.spec.ts', '**/community-polish.spec.ts', '**/community-auth.spec.ts'],
   timeout: 30000,
   use: { headless: true, launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE } : {} },
   webServer: [{

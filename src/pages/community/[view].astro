@@ -1,5 +1,4 @@
 ---
-import Community from '../../components/Community.astro';
-export function getStaticPaths(){return ['chat','members','profile','settings','moderate','alerts'].map(view=>({params:{view}}));}
+// No Community subpages are published while this feature is paused.
+export function getStaticPaths(){return [];}
 ---
-<Community view={Astro.params.view}/>
