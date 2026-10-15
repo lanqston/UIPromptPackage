@@ -1,8 +1,26 @@
 import { viewLabel } from './project-views.js';
 
 let disconnect;
+async function refreshBuiltinCounts() {
+  const ids = [...new Set([...document.querySelectorAll('[data-builtin-resource][data-resource-view-id], [data-builtin-view][data-resource-view-id], [data-resource-view-id="builtin-ui-ux-prompt-packet"]')].map(node => node.dataset.resourceViewId))];
+  if (!ids.length) return;
+  try {
+    const query = ids.map(id => `id=${encodeURIComponent(id)}`).join('&');
+    const response = await fetch(`/api/resource-views?${query}`, { cache: 'no-store', credentials: 'omit', signal: AbortSignal.timeout(10000) });
+    if (!response.ok) return;
+    const { views } = await response.json();
+    for (const label of document.querySelectorAll('[data-resource-views]')) {
+      const count = views?.[label.dataset.resourceViews];
+      if (Number.isSafeInteger(count) && count >= 0) {
+        const shown = Number(label.textContent.replace(/[^\d]/g, ''));
+        if (!Number.isSafeInteger(shown) || count > shown) label.textContent = viewLabel(count);
+      }
+    }
+  } catch { /* Keep the visible count and let the view observer retry independently. */ }
+}
 export function observeResourceViews() {
   disconnect?.();
+  refreshBuiltinCounts();
   const targets = [...document.querySelectorAll('[data-resource-view-id]')];
   if (!targets.length) return;
   const controller = new AbortController();
