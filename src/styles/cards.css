@@ -101,3 +101,10 @@
 @media(max-width:480px) { .platform .resource-copy,.platform [data-live-projects] .project-copy { padding:16px 17px 14px; } .platform .comment-dialog-header,.platform .comment-dialog-body { padding-inline:17px; } }
 @media(max-width:360px) { .platform .card-footer { flex-direction:column; align-items:stretch; } .platform .card-footer .card-actions { align-self:flex-start; } .platform .card-footer .card-open { justify-content:space-between; } }
 @media(prefers-reduced-motion:reduce) { .platform .resource-card,.platform [data-live-projects] .project-card,.platform .card-icon { transition:none; } }
+
+/* Keep project summaries compact without clipping expanded descriptions or controls. */
+.platform [data-live-projects] .project-image.card-visual { height:88px; min-height:88px; }
+.platform [data-live-projects] .project-copy h3 { margin-top:10px; }
+.platform [data-live-projects] .project-copy .project-description { margin-bottom:8px; }
+.platform [data-live-projects] .project-details { margin-bottom:6px; }
+.platform [data-live-projects] .project-stats { margin-bottom:6px; }

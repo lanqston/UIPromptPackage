@@ -32,7 +32,8 @@ for (const width of [320, 390, 768]) {
         await expect(page.locator('.packet-intro .purchase-link')).toHaveAttribute('href', 'https://digivated.gumroad.com/l/ui-prompt-package');
         if (width <= 600) {
           const buttons = page.locator('.packet-intro .actions>.button');
-          const boxes = await Promise.all([0, 1, 2].map(index => buttons.nth(index).boundingBox()));
+          await expect(buttons).toHaveCount(2); // Sample and purchase are the two current packet actions.
+          const boxes = await Promise.all((await buttons.all()).map(button => button.boundingBox()));
           expect(boxes.every(box => box && box.width >= width - 50), 'packet actions fill mobile column').toBe(true);
         }
       }
