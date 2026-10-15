@@ -7,7 +7,7 @@ set local role authenticated;
 select set_config('request.jwt.claim.sub','e0000000-0000-4000-8000-000000000001',true);
 insert into public.community_profiles(id,handle,name) values('e0000000-0000-4000-8000-000000000001','test_fixture_a','Test member A');
 insert into public.community_posts(id,author_id,body) values('e0000000-0000-4000-8000-000000000010','e0000000-0000-4000-8000-000000000001','Temporary verification');
-update public.community_profiles set bio='Edited by owner' where id=auth.uid();
+update public.community_profiles set bio='Edited by owner',cover_theme='violet',cover=auth.uid()::text||'/e0000000-0000-4000-8000-000000000011.webp' where id=auth.uid();
 select set_config('request.jwt.claim.sub','e0000000-0000-4000-8000-000000000002',true);
 insert into public.community_profiles(id,handle,name) values('e0000000-0000-4000-8000-000000000002','test_fixture_b','Test member B');
 do $$ begin
@@ -27,10 +27,21 @@ select set_config('request.jwt.claim.sub','e0000000-0000-4000-8000-000000000001'
 do $$ begin
  if exists(select 1 from public.community_bookmarks where user_id='e0000000-0000-4000-8000-000000000002') then raise exception 'FAIL bookmarks exposed';end if;
 end;$$;
+do $$ begin
+ for i in 1..20 loop perform public.community_reserve_upload();end loop;
+ begin
+ perform public.community_reserve_upload();
+ raise exception 'FAIL upload budget not enforced';
+ exception when raise_exception then if SQLERRM='FAIL upload budget not enforced' then raise;end if;end;
+end;$$;
 reset role;
 insert into public.community_suspensions(user_id) values('e0000000-0000-4000-8000-000000000001');
 set local role authenticated;
 do $$ begin
+ begin
+ perform public.community_reserve_upload();
+ raise exception 'FAIL suspended upload allowed';
+ exception when raise_exception then if SQLERRM='FAIL suspended upload allowed' then raise;end if;end;
  begin
  insert into public.community_posts(author_id,body) values(auth.uid(),'Suspended write');
  raise exception 'FAIL suspended posting allowed';

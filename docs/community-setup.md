@@ -14,7 +14,7 @@ Community lives under `/community`, separate from existing routes. Supabase cont
 
 Configure these directly in the service dashboards. Do not paste secret keys into chat or commit them.
 
-1. Vercel preview branch environment needs `COMMUNITY_SUPABASE_SECRET_KEY` from this Supabase project's secret API keys. It is used only by the server upload and owner moderation handler.
+1. Vercel preview branch environment needs `COMMUNITY_SUPABASE_SECRET_KEY` from this Supabase project's secret API keys. It is now used only by the legacy Vercel upload endpoint and owner moderation handler. The Community UI uploads through the deployed Supabase `community-upload` Edge Function, which uses native server credentials and a fixed per-member SQL budget; image uploads no longer depend on a Vercel service secret.
 2. `COMMUNITY_ORIGIN` is configured for the stable preview branch URL. Redeploy after adding remaining variables. Preserve existing owner authentication secrets and configure its preview origin using the existing owner setup. Existing Redis credentials are required for owner sessions and upload limits. Production owner credentials must not be rotated or replaced.
 3. Supabase Auth URL Configuration needs the exact preview `/community/settings` redirect and eventual `https://digivated.vercel.app/community/settings`. Set the production site URL to Digivated at launch. Configure email delivery for public signups and keep verification enabled.
 4. Configure Google OAuth in Supabase and its Google Cloud consent/client settings, using the Supabase callback URL. Enable `COMMUNITY_GOOGLE_ENABLED=true` only after it works.
@@ -35,6 +35,20 @@ Configure these directly in the service dashboards. Do not paste secret keys int
 
 ## Remaining limitations
 
-- Presence indicators are omitted rather than estimating activity.
+- Chat shows a live connection indicator and the actual number of connected authenticated presence keys. This is room presence, not a historical activity estimate.
 - Member project posts appear on profiles. Ownership of older submissions is not inferred from names or email. A reviewed ownership-claim flow can associate them later.
-- Feed pagination is 20 posts. Replies show up to 100 and chat shows the latest 60. Post counters are exact SQL aggregates. Deeper reply pagination needs a follow-up before high-volume use.
+- Feed and reply pagination use 20 items. Chat initially shows 60 messages and can load earlier history. Post counters are exact SQL aggregates.
+
+## October 15 UI completion pass
+
+- Editorial charcoal/mint feed, rounded cards, persistent mobile navigation, richer skippable onboarding.
+- Searchable member directory and genuine member suggestions; no seeded/fake activity.
+- Five profile atmospheres, custom covers, avatar/cover previews, project filters, exact post counts.
+- Composer image preview/removal, counters, enlarged media, edit/report dialogs, reply pagination and parent context.
+- Fixed unmute accidentally submitting the settings form; errors surface inside open dialogs.
+- `community-profile-polish.sql` applied additively to the connected project. Do not rerun it.
+- `supabase/functions/community-upload/index.ts` deployed. Custom authentication calls Auth `getUser` on every request, requires verified non-anonymous users, checks suspension via the budget RPC, validates file signature/size, and stores only under the authenticated member ID. Gateway JWT validation is disabled because the function performs that validation itself.
+- Local production build and 92 Node checks pass (3 Redis-dependent tests skipped locally). Transactional live SQL verification includes profile cover updates, ownership, suspension, and fixed upload budgets, and leaves no fixtures.
+- Browser member-flow tests use isolated HTTP fixtures, not real accounts. They do not verify delivered email, actual storage transport, or owner credentials.
+- Existing Vercel preview authentication remains enabled. Automatic approval review rejected generating a temporary authentication-bypass link; protected-preview visual inspection remains blocked until approved or signed in.
+- Remaining launch requirements: real email-link completion and two-account checks, real storage upload, owner moderation secret/owner preview configuration, optional Google OAuth configuration. Do not call these verified from mocked browser tests.
