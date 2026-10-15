@@ -1,5 +1,5 @@
 // Auth is validated against Supabase Auth for every request, including token expiry.
-const origins = new Set(['https://digivated.vercel.app', 'https://digitalpromptpackage-git-feature-digivated-community-langston3.vercel.app']);
+const origins = new Set(['https://digivated.com', 'https://digivated.vercel.app', 'https://digitalpromptpackage-git-feature-digivated-community-langston3.vercel.app']);
 const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 Deno.serve(async (req: Request) => {
   const origin = req.headers.get('origin') || '';
