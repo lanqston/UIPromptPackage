@@ -56,3 +56,10 @@ Configure these directly in the service dashboards. Do not paste secret keys int
 ## Production moderation bridge
 
 Production sets `COMMUNITY_MODERATION_BRIDGE=true` and uses the `community-moderation` Supabase Edge Function. Existing owner session, origin, and CSRF checks issue a random 256-bit ticket in Redis with a 30-second lifetime. The function redeems it once via the fixed production callback (`/api/community?action=moderation-ticket`) and executes only that server-selected action. Service credentials remain in Supabase's native function environment. No additional database secret needs to be copied to Vercel. Deploy the Edge Function before the production app. The bridge requires the existing production owner configuration and submission Redis storage.
+
+
+## Canonical account flow (digivated.com)
+
+Production account callbacks use `https://digivated.com/community/settings`. Set Supabase Auth Site URL to that exact URL and add it to Redirect URLs. Keep `https://digivated.vercel.app/community/settings` available for old links during transition. Production must not fall back to the protected preview domain. Standard confirmation and recovery templates must use `{{ .ConfirmationURL }}`. Email confirmation remains enabled.
+
+The account dialog now supports email/password signup, login, verification resend, and password recovery. This browser-only app uses the Supabase implicit email flow, allowing confirmation in a different browser without the original PKCE verifier. Callback tokens are removed after SDK initialization. Existing email-link members can choose Forgot password to set a password. Google remains hidden until provider credentials are configured and tested. Successful provider sign-in normally verifies the provider-owned email without a separate app confirmation email.

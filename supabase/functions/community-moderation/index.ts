@@ -8,7 +8,7 @@ Deno.serve(async (req: Request) => {
   while(true){const {done,value}=await reader.read();if(done)break;if(raw.length+value.length>200){await reader.cancel();return reply(400,{error:'Invalid grant.'});}raw+=new TextDecoder().decode(value);}
   const {ticket}=JSON.parse(raw);
   if(!/^[a-f0-9]{64}$/.test(ticket||'')) return reply(401,{error:'Invalid grant.'});
-  const verified=await fetch('https://digivated.vercel.app/api/community?action=moderation-ticket',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ticket}),signal:AbortSignal.timeout(8000)});
+  const verified=await fetch('https://digivated.com/api/community?action=moderation-ticket',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ticket}),signal:AbortSignal.timeout(8000)});
   if(!verified.ok)return reply(401,{error:'Invalid or expired grant.'});
   const {operation,id}=await verified.json();
   const service=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;

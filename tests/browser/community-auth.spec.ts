@@ -38,3 +38,11 @@ test('Password recovery opens new password form and expired link gives recovery 
  await page.goto('http://127.0.0.1:4321/community/settings#error=access_denied&error_description=Email+link+is+invalid+or+has+expired');
  await expect(page.locator('#community-auth-status')).toContainText('expired');await expect(page.locator('#auth-forgot')).toBeVisible();
 });
+
+test('Existing members log in with their password',async({page})=>{
+ await fixtures(page);let credentials:any;
+ await page.route(`${service}/auth/v1/token**`,r=>{credentials=r.request().postDataJSON();return r.fulfill({json:{access_token:token,refresh_token:'fixture',expires_in:3600,token_type:'bearer',user}});});
+ await page.goto('http://127.0.0.1:4321/community');await page.getByRole('button',{name:'Join the community',exact:false}).click();await page.locator('[data-auth-mode=login]').click();
+ await page.locator('#community-email input[name=email]').fill(user.email);await page.locator('#community-email input[name=password]').fill('fixture-password');await page.locator('#auth-submit').click();
+ await expect(page).toHaveURL('http://127.0.0.1:4321/community/settings');await expect(page.locator('[data-member-logout]')).toBeVisible();expect(credentials.email).toBe(user.email);
+});
