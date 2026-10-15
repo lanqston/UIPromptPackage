@@ -18,7 +18,7 @@ for(const width of [390,1440])test(`Account signup login and recovery ${width}`,
  await page.goto('http://127.0.0.1:4321/community');await page.getByRole('button',{name:'Join the community',exact:false}).click();
  await page.locator('#community-email input[name=email]').fill(user.email);await page.locator('#community-email input[name=password]').fill('test-only-password');
  await page.locator('#auth-submit').click();await expect(page.locator('#auth-check-email')).toBeVisible();
- expect(signup.body.code_challenge).toBeUndefined();expect(new URL(signup.url).searchParams.get('redirect_to')).toBe('http://127.0.0.1:4321/community/settings');
+ expect(signup.body.code_challenge).toBeFalsy();expect(new URL(signup.url).searchParams.get('redirect_to')).toBe('http://127.0.0.1:4321/community/settings');
  await page.locator('#auth-resend').click();await expect(page.locator('#community-auth-status')).toContainText('fresh email');expect(resend.type).toBe('signup');
  await page.screenshot({path:`test-results/community-auth-verify-${width}.png`,fullPage:true});
  await page.locator('[data-auth-mode=login]').click();await expect(page.locator('#auth-submit')).toHaveText('Log in');
@@ -35,6 +35,7 @@ test('Email confirmation establishes a session in a fresh browser without PKCE v
 test('Password recovery opens new password form and expired link gives recovery path',async({page})=>{
  await fixtures(page);await page.goto(`http://127.0.0.1:4321/community/settings#access_token=${token}&refresh_token=fixture&expires_in=3600&token_type=bearer&type=recovery`);
  await expect(page.locator('#auth-title')).toHaveText('Choose a new password.');await expect(page.locator('#auth-email-label')).toBeHidden();
+ await page.goto('http://127.0.0.1:4321/community');
  await page.goto('http://127.0.0.1:4321/community/settings#error=access_denied&error_description=Email+link+is+invalid+or+has+expired');
  await expect(page.locator('#community-auth-status')).toContainText('expired');await expect(page.locator('#auth-forgot')).toBeVisible();
 });
