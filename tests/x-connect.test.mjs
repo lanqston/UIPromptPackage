@@ -4,7 +4,7 @@ import { makeXConnectHandler, seal, unseal } from '../server/x-connect.mjs';
 import { adminConfig, digest, ADMIN_COOKIE } from '../server/admin-auth.mjs';
 
 const env = { DIGIVATED_ADMIN_PASSWORD_HASH: `scrypt:${'a'.repeat(32)}:${'b'.repeat(128)}`,
-  DIGIVATED_ADMIN_SESSION_SECRET: 'c'.repeat(64), DIGIVATED_ADMIN_ORIGIN: 'https://digivated.vercel.app',
+  DIGIVATED_ADMIN_SESSION_SECRET: 'c'.repeat(64), DIGIVATED_ADMIN_ORIGIN: 'https://digivated.com',
   X_CLIENT_ID: 'client', X_CLIENT_SECRET: 'secret', X_TOKEN_ENCRYPTION_KEY: 'd'.repeat(64) };
 const token = 'e'.repeat(64), csrf = 'f'.repeat(64);
 function fixture(username = 'digivatedx') {
@@ -52,7 +52,7 @@ test('owner login and CSRF are required before starting', async () => {
 test('valid callback saves encrypted credentials and cannot be replayed', async () => {
   const f = fixture(), flow = await f.start();
   assert.equal(flow.url.searchParams.get('code_challenge_method'), 'S256');
-  assert.equal(flow.url.searchParams.get('redirect_uri'), 'https://digivated.vercel.app/api/x-connect?action=callback');
+  assert.equal(flow.url.searchParams.get('redirect_uri'), 'https://digivated.com/api/x-connect?action=callback');
   const response = await f.call('GET', flow.path, { cookie: flow.cookie });
   assert.equal(response.statusCode, 303);
   const raw = f.data.get('digivated:private:x:connection');

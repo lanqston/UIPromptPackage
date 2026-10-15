@@ -45,7 +45,7 @@ export function makeMemberCommunityHandler(deps={}){return async(req,res)=>{
    return send(200,{ok:true});
   }
   if(action!=='upload'||req.method!=='POST')throw new AdminError(405,'Method not allowed.');
-  if(req.headers.origin!==(env.COMMUNITY_ORIGIN||'https://digivated.vercel.app'))throw new AdminError(403,'Please upload from Digivated.');
+  if(req.headers.origin!==(env.COMMUNITY_ORIGIN||'https://digivated.com'))throw new AdminError(403,'Please upload from Digivated.');
   const token=req.headers.authorization;
   if(!/^Bearer [\w.-]+$/.test(token||''))throw new AdminError(401,'Sign in to add an image.');
   const auth=await fetcher(`${cfg.url}/auth/v1/user`,{headers:{apikey:cfg.key,Authorization:token},signal:AbortSignal.timeout(8000)});

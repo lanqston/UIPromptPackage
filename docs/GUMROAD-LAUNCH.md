@@ -12,7 +12,7 @@ Status: DEPLOYED TO PRODUCTION October 3, 2026. Preview purchase activation and 
 ## What was inspected
 
 - Repository: lanqston/UIPromptPackage, base f5cec3703e41b1c9d1467d4719dd46565945df55.
-- Existing hosting: Astro static build, Vercel Git deployment to https://digitalpromptpackage.vercel.app.
+- Existing hosting: Astro static build, Vercel Git deployment to https://digivated.com.
 - No database, customer authentication service, email service, or cloud note storage exists in this repository.
 - Existing paid edition used public ciphertext and a shared browser decryption key. This branch moves ciphertext to the server and removes browser decryption/key storage.
 - Public Gumroad product state observed October 3, 2026: published; USD 7.99; one-time course; no recurring billing; license keys DISABLED. Product ID `ELdVVW1-tlMwQyuADA6C0A==`, original permalink `qxlgk`, custom URL https://mccovery.gumroad.com/l/ui-prompt-package.
@@ -54,7 +54,7 @@ Your purchase gives you access to the Full Edition website. After checkout, Gumr
 Welcome to UI Prompt Package
 
 1. Copy your personal license key from the License key block on this page.
-2. Open https://digitalpromptpackage.vercel.app/access.
+2. Open https://digivated.com/access.
 3. Paste your key and select Open full edition.
 4. Start with Start Here, or browse the prompt library.
 
@@ -69,7 +69,7 @@ Your notes and progress save on your device. Use My saved work → Export backup
 ### Receipt instructions / button
 
 Button label: Open Full Edition
-Button destination: https://digitalpromptpackage.vercel.app/access
+Button destination: https://digivated.com/access
 
 Copy the license key included with your purchase, open the link above, and select Open full edition after pasting your key. Keep this receipt for future access. No separate website account is needed. If you need help, reply to this email.
 
@@ -84,7 +84,7 @@ Set server-side environment variables through Vercel's secret settings (never ch
 | Variable | Value / purpose |
 | --- | --- |
 | ACCESS_ENABLED | `false` until prerequisites pass; `true` on configured preview for tests, then production at launch |
-| APP_ORIGIN | Exact HTTPS origin without trailing slash; stable preview origin for preview, `https://digitalpromptpackage.vercel.app` for production |
+| APP_ORIGIN | Exact HTTPS origin without trailing slash; stable preview origin for preview, `https://digivated.com` for production |
 | GUMROAD_PRODUCT_ID | `ELdVVW1-tlMwQyuADA6C0A==` |
 | SESSION_SECRET | New random 32-byte value encoded as 64 hexadecimal characters; use different values in preview and production |
 | EDITION_KEY | Existing private owner edition key; server-only; do not disclose it to buyers |
@@ -168,5 +168,5 @@ Live Gumroad verification introduces provider dependency and request volume. Out
 - Owner explicitly instructed continuation without the additional live revocation purchase test. Revocation fixture coverage passes; live revocation remains unverified.
 - Production ACCESS_ENABLED set to true; existing production origin, product ID, separate session secret, edition key, and ALLOW_TEST_PURCHASES=false retained. Production always rejects test purchases in code.
 - Main fast-forwarded from f5cec3703e41b1c9d1467d4719dd46565945df55 to d2fc499da24f842daeac8d2923981e6e39125d5e. Vercel rebuilt with production configuration, rather than promoting a preview artifact.
-- Deployment dpl_2ADbrjh4ivgDRNkRvVsX736yHiBm READY, assigned https://digitalpromptpackage.vercel.app. Live anonymous GET /api/edition and dummy license POST /api/activate both return 401, without runtime 503 errors in the smoke-test logs.
+- Deployment dpl_2ADbrjh4ivgDRNkRvVsX736yHiBm READY, assigned https://digivated.com. Live anonymous GET /api/edition and dummy license POST /api/activate both return 401, without runtime 503 errors in the smoke-test logs.
 - Real paid production activation and live refund/disable enforcement remain unverified. Existing dependency advisory and bearer-license limitations above still apply. Focus City was not modified.

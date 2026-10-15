@@ -5,7 +5,7 @@ import { makePublicRouter } from '../server/public-router.mjs';
 
 test('shared deployment entry preserves each original URL, method, body and headers', async () => {
   for (const route of ['content', 'saved-item', 'project-views']) {
-    const req = { url: `/api/${route}?type=resource&id=example`, method: route === 'project-views' ? 'POST' : 'GET', headers: { origin:'https://digivated.vercel.app' }, body:{ fixture:true } };
+    const req = { url: `/api/${route}?type=resource&id=example`, method: route === 'project-views' ? 'POST' : 'GET', headers: { origin:'https://digivated.com' }, body:{ fixture:true } };
     const res = {};
     let calls = 0;
     const router = makePublicRouter({ [route]: async (incoming, outgoing) => { assert.equal(incoming,req); assert.equal(outgoing,res); calls++; return 'handled'; } });

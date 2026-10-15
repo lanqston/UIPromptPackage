@@ -87,7 +87,7 @@ test('owner mutations require CSRF', async () => {
   const env={DIGIVATED_ADMIN_PASSWORD_HASH:`scrypt:${'a'.repeat(32)}:${'b'.repeat(128)}`,DIGIVATED_ADMIN_SESSION_SECRET:'c'.repeat(64)};
   s.data.set(`digivated:admin:session:${digest(token)}`,JSON.stringify({csrf:'f'.repeat(64),fingerprint:adminConfig(env).fingerprint}));
   const res={setHeader(){},end(){}};
-  await makeResearchHandler({env,redis:s.redis})({method:'POST',headers:{cookie:`${ADMIN_COOKIE}=${token}`,origin:'https://digivated.vercel.app','content-type':'application/json'},body:{action:'resume'}},res);
+  await makeResearchHandler({env,redis:s.redis})({method:'POST',headers:{cookie:`${ADMIN_COOKIE}=${token}`,origin:'https://digivated.com','content-type':'application/json'},body:{action:'resume'}},res);
   assert.equal(res.statusCode,403);
 });
 test('Grok requests never access X publishing API', async () => {

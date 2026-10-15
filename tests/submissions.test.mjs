@@ -15,7 +15,7 @@ test('validate consent, category, URL, lengths, and image content',()=>{
  for(const patch of [{consent:false},{category:'Invented'},{url:'javascript:alert(1)'},{url:'https://user:password@example.com'},{email:'bad'},{description:'short'},{creator:'x'.repeat(101)},{image:'data:image/svg+xml;base64,PHN2Zz4='},{image:'data:image/png;base64,aGVsbG8='}])assert.throws(()=>validateSubmission({...valid,...patch}));
  assert.equal(validateSubmission(valid).url,'https://example.com/');
 });
-async function invoke({body=valid,method='POST',origin='https://digivated.vercel.app',redis=async()=>1,headers={}}={}){
+async function invoke({body=valid,method='POST',origin='https://digivated.com',redis=async()=>1,headers={}}={}){
  const req={method,headers:{origin,'content-type':'application/json','x-real-ip':'127.0.0.1',...headers},body};let data;const responseHeaders={};
  const res={setHeader:(k,v)=>responseHeaders[k]=v,end:value=>data=JSON.parse(value)};
  await makeSubmissionHandler({redis})(req,res);return {status:res.statusCode,data,headers:responseHeaders};

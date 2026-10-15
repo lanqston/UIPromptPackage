@@ -10,7 +10,7 @@ const origin='https://owner.test';
 test('admin configuration fails closed and packet editing is forbidden',()=>{
  assert.throws(()=>adminConfig({}),e=>e.status===503);
  assert.throws(()=>validateEdit('product',{id:'ui-ux-prompt-packet',revision:0},null),e=>e.status===400);
- for(const host of ['digitalpromptpackage.vercel.app','digivated.vercel.app'])assert.throws(()=>validateEdit('product',{id:'copy-packet',revision:0,status:'published',description:'Test',name:'Test',url:`https://${host}/ui-ux-prompt-packet`},null),e=>e.status===400);
+ for(const host of ['digivated.com','digitalpromptpackage.vercel.app','digivated.vercel.app'])assert.throws(()=>validateEdit('product',{id:'copy-packet',revision:0,status:'published',description:'Test',name:'Test',url:`https://${host}/ui-ux-prompt-packet`},null),e=>e.status===400);
  assert.throws(()=>validateEdit('product',{id:'other-product',revision:0,status:'published',description:'Test',name:'Test',url:'javascript:alert(1)'},null),e=>e.status===400);
 });
 test('legacy resource topics remain editable and save under the clean topic names',()=>{
