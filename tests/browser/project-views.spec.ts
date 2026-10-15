@@ -34,7 +34,7 @@ for(const width of [375,768,1440])test(`visible card counts persist safely at ${
 
 test('view counts recover from failure and refresh without reloading',async({page})=>{
  let requests=0;await page.clock.install();
- await page.route('**/api/projects?*',r=>r.fulfill({json:{items:[{id:'retry-fixture',name:'Retry fixture',creator:'Test creator',category:'Apps',description:'A fixture for resilient view tracking.',url:'https://example.com',status:'approved',views:5}],next:null}}));
+ await page.route('**/api/projects?*',r=>r.fulfill({json:{items:[{id:'retry-fixture',name:'Retry fixture',creator:'Test creator',category:'Apps',description:'A fixture for resilient view tracking.',url:'https://example.com',status:'approved',pick:true,views:5}],next:null}}));
  await page.route('**/api/project-views?*',r=>{requests++;return requests===1?r.fulfill({status:503,json:{error:'offline'}}):r.fulfill({json:{views:requests+5}});});
  await page.goto(base+'/discover');const card=page.locator('[data-project-id]');await card.scrollIntoViewIfNeeded();await expect(card.locator('[data-project-views]')).toHaveText('5 views');
  await page.clock.fastForward(1100);await expect.poll(()=>requests).toBe(1);await expect(card.locator('[data-project-views]')).toHaveText('5 views');

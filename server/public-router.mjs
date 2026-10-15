@@ -1,3 +1,4 @@
+import { makeMemberCommunityHandler } from './member-community.mjs';
 import { makePublicHandler } from './public-community.mjs';
 import { makeSavedItemHandler } from './saved-items.mjs';
 import { makeProjectViewHandler } from './project-views.mjs';
@@ -6,6 +7,7 @@ import { makeCardInteractionHandler } from './card-interactions.mjs';
 
 // Share one deployment entry point; each handler retains its validation and response.
 export function makePublicRouter(handlers = {
+  community: makeMemberCommunityHandler(),
   content: makePublicHandler('content'),
   'saved-item': makeSavedItemHandler(),
   'project-views': makeProjectViewHandler(),

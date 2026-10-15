@@ -7,7 +7,7 @@ const projects = Array.from({ length: 10 }, (_, index) => ({
   pick: index === 9, views: index + 10,
 }));
 for (const width of [320, 375, 768, 820, 1024, 1440]) {
-  test(`editorial home, topic navigation, and live filters at ${width}px`, async ({ page }) => {
+  test(`editorial home, topic navigation, and curated picks at ${width}px`, async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.route('**/api/**', route => {
@@ -28,24 +28,14 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link')).toHaveCount(4);
     await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link', { name: /Markets & Investing/ })).toHaveAttribute('href', '/resources?category=Markets%20%26%20Investing');
     await expect(page.locator('.home-wayfinding, .discovery-guide')).toHaveCount(0);
-    const shelf = page.locator('[data-project-filters]');
+    const shelf = page.locator('[data-live-projects=picks]');
     const cards = shelf.locator('[data-project]:visible');
-    await expect(shelf.locator('[data-project-filter]')).toHaveText(['All', 'Featured', 'Digivated Picks']);
     await expect(page.locator('.platform-header .x-brand-mark')).toBeVisible();
-    await expect(cards).toHaveCount(4);
-    await expect(shelf.locator('[data-demo-project]:visible')).toHaveCount(0);
-    await shelf.getByRole('button', { name: 'Featured', exact: true }).click();
-    await expect(cards).toHaveCount(1);
-    await expect(cards).toContainText('Community build 8');
-    await expect(cards.getByRole('link', { name: 'Visit Project' })).toHaveAttribute('href', 'https://example.com/build-8');
-    await shelf.getByRole('button', { name: 'Digivated Picks', exact: true }).focus();
-    await page.keyboard.press('Enter');
     await expect(cards).toHaveCount(1);
     await expect(cards).toContainText('Community build 9');
-    await expect(shelf.locator('[data-filter-description]')).toHaveText('A selection chosen by Digivated.');
-    await expect(shelf.getByRole('button', { name: 'Digivated Picks', exact: true })).toHaveAttribute('aria-pressed', 'true');
-    await shelf.getByRole('button', { name: 'All', exact: true }).click();
-    await expect(cards).toHaveCount(4);
+    await expect(cards.getByRole('link', { name: 'Visit Project' })).toHaveAttribute('href', 'https://example.com/build-9');
+    await expect(shelf.locator('[data-project-filter]')).toHaveCount(0);
+    await expect(shelf.locator('[data-demo-project]')).toHaveCount(0);
     await expect(page.locator('.idea-card')).toHaveCount(6);
     await expect(page.locator('.journey-steps li')).toHaveCount(3);
     await page.getByRole('heading', { name: 'Good to know.' }).scrollIntoViewIfNeeded();
@@ -68,13 +58,10 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
 test('empty and unavailable project feeds never display demo projects', async ({ page }) => {
   await page.route('**/api/**', route => route.fulfill({ json: { items: [], next: null } }));
   await page.goto(base);
-  const shelf = page.locator('[data-project-filters]');
-  await expect(shelf).toHaveAttribute('aria-busy', 'false');
+  const shelf = page.locator('[data-live-projects=picks]');
   await expect(shelf.locator('[data-project-id], [data-demo-project]')).toHaveCount(0);
   await expect(shelf.locator('[data-live-empty]')).toContainText('Have something you’re building?');
   await expect(shelf.getByRole('link', { name: 'Submit your project' })).toHaveAttribute('href', '/submit-project');
-  await shelf.getByRole('button', { name: 'Featured', exact: true }).click();
-  await expect(shelf.locator('[data-live-status]')).toHaveText('No projects in this collection yet.');
   await page.route('**/api/projects*', route => route.fulfill({ status: 503, json: { error: 'Unavailable' } }));
   await page.reload();
   await expect(shelf.locator('[data-live-status]')).toContainText('Projects are temporarily unavailable');
