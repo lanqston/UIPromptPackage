@@ -52,3 +52,7 @@ Configure these directly in the service dashboards. Do not paste secret keys int
 - Browser member-flow tests use isolated HTTP fixtures, not real accounts. They do not verify delivered email, actual storage transport, or owner credentials.
 - Existing Vercel preview authentication remains enabled. Automatic approval review rejected generating a temporary authentication-bypass link; protected-preview visual inspection remains blocked until approved or signed in.
 - Remaining launch requirements: real email-link completion and two-account checks, real storage upload, owner moderation secret/owner preview configuration, optional Google OAuth configuration. Do not call these verified from mocked browser tests.
+
+## Production moderation bridge
+
+Production sets `COMMUNITY_MODERATION_BRIDGE=true` and uses the `community-moderation` Supabase Edge Function. Existing owner session, origin, and CSRF checks issue a random 256-bit ticket in Redis with a 30-second lifetime. The function redeems it once via the fixed production callback (`/api/community?action=moderation-ticket`) and executes only that server-selected action. Service credentials remain in Supabase's native function environment. No additional database secret needs to be copied to Vercel. Deploy the Edge Function before the production app. The bridge requires the existing production owner configuration and submission Redis storage.

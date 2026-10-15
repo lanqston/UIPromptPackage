@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { adminConfig, requireSession, jsonBody, AdminError } from './admin-auth.mjs';
 import { redisClient } from './submissions.mjs';
+import { moderationBridge } from './community-moderation.mjs';
 const UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 export function memberConfig(env){
  let url;try{url=new URL(env.COMMUNITY_SUPABASE_URL);}catch{return null;}
@@ -22,6 +23,9 @@ export function makeMemberCommunityHandler(deps={}){return async(req,res)=>{
   const env=deps.env||process.env,cfg=memberConfig(env),fetcher=deps.fetch||fetch;
   const action=new URL(req.url,'https://digivated.invalid').searchParams.get('action')||'config';
   if(req.method==='GET'&&action==='config')return send(200,{ready:!!cfg,...(cfg||{})});
+  if(cfg&&env.COMMUNITY_MODERATION_BRIDGE==='true'&&['moderation','moderation-ticket'].includes(action)){
+   return send(200,await moderationBridge(req,action,{env,cfg,fetcher,redis:deps.redis||redisClient(env)}));
+  }
   if(!cfg||!env.COMMUNITY_SUPABASE_SECRET_KEY)throw new AdminError(503,'Community is getting ready. Please check back soon.');
   const serviceHeaders={apikey:env.COMMUNITY_SUPABASE_SECRET_KEY,'Content-Type':'application/json'};
   async function rest(path,options={}){const r=await fetcher(`${cfg.url}/rest/v1/${path}`,{...options,headers:{...serviceHeaders,...options.headers},signal:AbortSignal.timeout(8000)});if(!r.ok)throw new AdminError(503,'Community is temporarily unavailable.');const text=await r.text();return text?JSON.parse(text):null;}
