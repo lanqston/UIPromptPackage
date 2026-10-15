@@ -15,7 +15,7 @@ for(const width of [390,1440])test(`Community member interactions and visual rev
  await page.route(`${url}/rest/v1/**`,async r=>{
   const req=r.request(),u=new URL(req.url()),table=u.pathname.split('/').pop(),method=req.method();let data:any=[];
   if(table==='community_profiles'){
-   if(method==='PATCH'||method==='POST'){profileSaved=req.postDataJSON();data=[];}
+   if(method==='PATCH'||method==='POST'){profileSaved=req.postDataJSON();data={...me,...profileSaved};}
    else if(u.searchParams.get('id')?.startsWith('eq.'))data=me;
    else if(u.searchParams.has('handle'))data=peer;
    else data=[peer];
@@ -49,5 +49,32 @@ for(const width of [390,1440])test(`Community member interactions and visual rev
  await page.goto('http://127.0.0.1:4321/community/settings');await expect(page.locator('#settings-name')).toHaveText('Alex Morgan');await page.locator('.cover-choice[data-theme=sunset]').click();await page.getByRole('textbox',{name:'Display name',exact:true}).fill('Alex Creates');await expect(page.locator('#settings-name')).toHaveText('Alex Creates');await expect(page.locator('#settings-preview .member-cover')).toHaveAttribute('data-theme','sunset');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:`test-results/community-settings-polished-${width}.png`,fullPage:true});
- await page.getByRole('button',{name:'Save profile',exact:true}).click();await expect.poll(()=>profileSaved?.cover_theme).toBe('sunset');
+ await page.getByRole('textbox',{name:'Handle',exact:false}).fill('@ADMIN');await page.getByRole('button',{name:'Save profile',exact:true}).click();await expect(page.locator('#profile-save-status')).toContainText('reserved');expect(profileSaved).toBeNull();await page.getByRole('textbox',{name:'Handle',exact:false}).fill('@Alex_Creates');await page.getByRole('textbox',{name:'Website',exact:true}).fill('digivated.com');await page.getByRole('button',{name:'Save profile',exact:true}).click();await expect.poll(()=>profileSaved?.cover_theme).toBe('sunset');expect(profileSaved.handle).toBe('alex_creates');expect(profileSaved.website).toBe('https://digivated.com/');await expect(page).toHaveURL(/community\/profile$/);
+});
+
+test('New profile shows server errors inline and persists on retry',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ const token=[{alg:'HS256',typ:'JWT'},{sub:uid,role:'authenticated',exp:Math.floor(Date.now()/1000)+3600},'fixture'].map(v=>typeof v==='string'?v:Buffer.from(JSON.stringify(v)).toString('base64url')).join('.');
+ await page.addInitScript(({token,uid})=>{localStorage.setItem('digivated-community-welcome','seen');localStorage.setItem('sb-cglkjclolglwizwepvmy-auth-token',JSON.stringify({access_token:token,refresh_token:'fixture',expires_at:Math.floor(Date.now()/1000)+3600,user:{id:uid,email:'fixture@example.invalid'}}));},{token,uid});
+ let record:any=null,fail=true;
+ await page.route('**/api/community?action=config',r=>r.fulfill({json:{ready:true,url,key:'fixture',google:false}}));
+ await page.route(`${url}/auth/v1/**`,r=>r.fulfill({json:{id:uid,email:'fixture@example.invalid',email_confirmed_at:'2026-10-15'}}));
+ await page.route(`${url}/rest/v1/**`,async r=>{const u=new URL(r.request().url()),table=u.pathname.split('/').pop();let data:any=[];
+ if(table==='community_profiles'){
+  if(r.request().method()==='POST'){if(fail){await r.fulfill({status:409,json:{code:'23505',message:'duplicate handle'}});return;}record=r.request().postDataJSON();data=record;}
+  else data=u.searchParams.has('id')?record:[];
+ }
+ await r.fulfill({json:data,headers:{'content-range':'0-0/0'}});
+ });
+ await page.goto('http://127.0.0.1:4321/community/settings');
+ await expect(page.locator('#account-email')).toContainText('fixture@example.invalid');
+ await page.getByRole('textbox',{name:'Display name',exact:true}).fill('New Member');
+ await page.getByRole('textbox',{name:'Handle',exact:false}).fill('new_member');
+ await page.getByRole('button',{name:'Save profile',exact:true}).click();
+ await expect(page.locator('#profile-save-status')).toContainText('already taken');
+ await expect(page.getByRole('textbox',{name:'Display name',exact:true})).toHaveValue('New Member');
+ await expect(page.getByRole('button',{name:'Save profile',exact:true})).toBeEnabled();
+ fail=false;await page.getByRole('textbox',{name:'Handle',exact:false}).fill('new_member_2');await page.getByRole('button',{name:'Save profile',exact:true}).click();
+ await expect(page).toHaveURL(/community\/profile$/);await expect(page.locator('#community-profile')).toContainText('New Member');
+ await page.reload();await expect(page.locator('#community-profile')).toContainText('@new_member_2');
 });
