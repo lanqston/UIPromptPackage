@@ -41,13 +41,13 @@ for(const width of [390,1440])test(`Community member interactions and visual rev
  await page.locator('.post-menu summary').click();await page.getByRole('button',{name:'Edit post',exact:true}).click();await page.locator('#edit-post-form textarea').fill('Edited with a clearer idea.');await page.getByRole('button',{name:'Save changes',exact:true}).click();await expect(page.locator('#community-feed')).toContainText('Edited with a clearer idea.');expect(edited).toBe(true);
  await page.getByRole('button',{name:'Read and add replies'}).click();await expect(page.locator('#reply-parent')).toContainText('Edited with a clearer idea.');await page.getByRole('button',{name:'Close replies'}).click();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- await page.screenshot({path:`test-results/community-feed-polished-${width}.png`,fullPage:true});
+ await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:`test-results/community-feed-polished-${width}.png`,fullPage:true});
  await page.goto('http://127.0.0.1:4321/community/profile?handle=test_creator');await expect(page.locator('#community-profile')).toContainText('Jordan Lee');await page.getByRole('button',{name:'Follow',exact:true}).click();await expect(page.getByRole('button',{name:'Following · Unfollow'})).toBeVisible();
  await page.getByRole('button',{name:'Projects',exact:true}).click();await expect(page.locator('[data-profile-filter=project]')).toHaveAttribute('aria-pressed','true');
- await page.screenshot({path:`test-results/community-profile-polished-${width}.png`,fullPage:true});
+ await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:`test-results/community-profile-polished-${width}.png`,fullPage:true});
  await page.goto('http://127.0.0.1:4321/community/members');await expect(page.locator('#member-results')).toContainText('Jordan Lee');await page.getByRole('searchbox',{name:'Search members'}).fill('Jordan');await page.getByRole('button',{name:'Search',exact:true}).click();await expect(page.locator('#member-results')).toContainText('Jordan Lee');
  await page.goto('http://127.0.0.1:4321/community/settings');await expect(page.locator('#settings-name')).toHaveText('Alex Morgan');await page.locator('.cover-choice[data-theme=sunset]').click();await page.getByRole('textbox',{name:'Display name',exact:true}).fill('Alex Creates');await expect(page.locator('#settings-name')).toHaveText('Alex Creates');await expect(page.locator('#settings-preview .member-cover')).toHaveAttribute('data-theme','sunset');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- await page.screenshot({path:`test-results/community-settings-polished-${width}.png`,fullPage:true});
+ await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:`test-results/community-settings-polished-${width}.png`,fullPage:true});
  await page.getByRole('button',{name:'Save profile',exact:true}).click();await expect.poll(()=>profileSaved?.cover_theme).toBe('sunset');
 });
