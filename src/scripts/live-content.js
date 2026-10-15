@@ -126,6 +126,7 @@ async function loadArticle(){
   const body=document.getElementById('article-body');if(item.coverImage){const image=thumbnail(item.coverImage,'');image.className='article-cover';body.append(image);}
   item.content.split(/\n\s*\n/).filter(Boolean).forEach(block=>{const heading=block.startsWith('## ');body.append(el(heading?'h2':'p',heading?block.slice(3):block));});document.querySelector('.page-intro').append(cardActions('resource',item.id,item.url));root.hidden=false;status.textContent='';const header=document.querySelector('.page-intro');header.dataset.resourceViewId=item.id;observeResourceViews();
   if(item.related?.length){const all=await collection('/api/content?type=resource');const related=all.filter(r=>item.related.includes(r.id)&&r.id!==item.id);const section=document.getElementById('article-related');section.querySelector('.resource-grid').replaceChildren(...related.map(resourceCard));section.hidden=related.length===0;observeResourceViews();}
+  document.dispatchEvent(new Event('digivated:collection-updated'));
  }catch{status.textContent='This article is temporarily unavailable. Please try again shortly.';}
 }
 loadProjects();loadResources();loadProducts();loadArticle();
