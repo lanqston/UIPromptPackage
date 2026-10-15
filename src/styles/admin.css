@@ -50,10 +50,10 @@
 .owner-toolbar button { white-space:nowrap; }
 .owner-toolbar input,.owner-toolbar select,.owner-login input { background:var(--owner-raised); border-color:#505155; color:var(--owner-text); }
 .owner-toolbar input::placeholder { color:#8d8e91; }
-.owner .button { background:var(--owner-surface); border:1px solid #4b4c4f; color:var(--owner-text); }
-.owner .button:hover:not(:disabled) { background:#303135; border-color:#77787a; }
-.owner .button.primary,.owner .owner-login .button.primary { background:var(--owner-mint); border-color:var(--owner-mint); color:#10251e; }
-.owner .button.primary:hover:not(:disabled) { background:#adf0d8; border-color:#adf0d8; }
+.owner .button { background:linear-gradient(180deg,#333536,#282a2b); border:0; border-radius:12px; color:var(--owner-text); box-shadow:inset 0 1px #ffffff12,0 2px 3px #0003; }
+.owner .button:hover:not(:disabled) { background:linear-gradient(180deg,#424546,#333637); }
+.owner .button.primary,.owner .owner-login .button.primary { background:linear-gradient(180deg,#fff,#e8eae8); color:#141615; box-shadow:inset 0 1px #fff,0 2px 4px #0004; }
+.owner .button.primary:hover:not(:disabled) { background:linear-gradient(180deg,#d5faeb,#b8ecd8); color:#141615; }
 .owner .button:disabled { opacity:.58; }
 .owner :focus-visible { outline:2px solid #a8f0d7; outline-offset:3px; }
 .owner .quiet { color:var(--owner-muted); }
