@@ -4,7 +4,18 @@
     "description": "A customizable step-by-step prompt builder designed to help you plan cleaner websites, apps, and digital products.",
     "url": "/ui-ux-prompt-packet",
     "image": "/digivated-mark.svg",
-    "label": "75 prompts · A clearer place to start"
+    "label": "75 prompts · A clearer place to start",
+    "benefits": ["Customizable prompt builder", "Step-by-step guidance", "Website & app planning"]
+  },
+  {
+    "name": "Focus City",
+    "description": "Turn real focus time into a living futuristic city. Start a session, stay on track, and watch your world grow as you make progress.",
+    "url": "https://focus-city-one.vercel.app/",
+    "image": "/focus-city-preview.svg",
+    "label": "Focus sessions · A city that grows with you",
+    "benefits": ["Flexible focus timer", "Build your city as you focus", "Track your progress and streaks"],
+    "external": true,
+    "visual": "city"
   }
 ]
 
