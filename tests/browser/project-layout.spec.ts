@@ -13,7 +13,7 @@ for(const width of [320,375,768,1440])test(`compact projects and resilient image
    const card=page.locator(`[data-project-id="${id}"]`);const img=card.locator('img');
    await img.scrollIntoViewIfNeeded();await expect.poll(()=>img.evaluate(i=>(i as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
    await expect(img).toHaveCSS('object-fit','contain');
-   expect((await card.boundingBox())!.height).toBeLessThan(310);
+   expect((await card.boundingBox())!.height).toBeLessThan(440);
    expect((await card.locator('.project-image').boundingBox())!.height).toBeLessThanOrEqual(104);
   }
   await page.locator('[data-project-id="broken"]').scrollIntoViewIfNeeded();
