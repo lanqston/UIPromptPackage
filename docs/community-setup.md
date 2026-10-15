@@ -36,4 +36,4 @@ Configure these directly in the service dashboards. Do not paste secret keys int
 
 - Presence indicators are omitted rather than estimating activity.
 - Member project posts appear on profiles. Ownership of older submissions is not inferred from names or email. A reviewed ownership-claim flow can associate them later.
-- Feed pagination is 20 posts. Replies show up to 100 and chat shows the latest 60. Large-scale aggregate counters and deeper reply pagination need a follow-up before high-volume use.
+- Feed pagination is 20 posts. Replies show up to 100 and chat shows the latest 60. Post counters are exact SQL aggregates. Deeper reply pagination needs a follow-up before high-volume use.

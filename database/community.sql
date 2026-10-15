@@ -116,4 +116,11 @@ insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types) v
 -- Add realtime for committed message delivery. Presence is optional, not inferred from visits.
 alter publication supabase_realtime add table public.community_posts;
 grant all on public.community_suspensions to service_role;
+create function public.community_post_counts(post_ids uuid[]) returns table(post_id uuid, likes bigint, replies bigint)
+language sql stable security invoker set search_path='' as $$
+ select p.id,(select count(*) from public.community_likes l where l.post_id=p.id),(select count(*) from public.community_posts r where r.parent_id=p.id)
+ from public.community_posts p where p.id=any(post_ids[1:20]);
+$$;
+revoke all on function public.community_post_counts(uuid[]) from public;
+grant execute on function public.community_post_counts(uuid[]) to anon,authenticated;
 commit;

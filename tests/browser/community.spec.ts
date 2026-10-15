@@ -9,6 +9,8 @@ for (const width of [390,1440]) {
   await expect(page.locator('#community-feed')).toContainText('There is room for your first idea.');
   await expect(page.locator('[data-community-view]')).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+  await expect(page.getByRole('navigation',{name:'Community',exact:true})).toBeVisible();
+  expect(await page.locator('.community-sidebar').evaluate(el=>getComputedStyle(el).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
   await page.screenshot({path:`test-results/community-${width}.png`,fullPage:true});
   await page.getByRole('button',{name:'Join the community',exact:false}).click();
   await expect(page.locator('#community-auth')).toBeVisible();
