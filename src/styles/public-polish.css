@@ -1,3 +1,17 @@
+/* Conditional promotion surfaces must use the same light palette as the form. */
+html body.platform.light-theme #promotion-fields,
+html body.platform.light-theme :is(.submission-promo-note,.promo-ready) {
+  background:#f7f7f7; color:#171717; border-color:#dedede;
+}
+html body.platform.light-theme #promotion-fields :is(label,.consent span),
+html body.platform.light-theme :is(.submission-promo-note,.promo-ready) :is(strong,h2) { color:#171717; }
+html body.platform.light-theme #promotion-fields :is(p,.field-help),
+html body.platform.light-theme :is(.submission-promo-note,.promo-ready) p { color:#555; }
+html body.platform.light-theme #promotion-fields a { color:#333; text-decoration:underline; text-underline-offset:3px; }
+/* Keep diagram headings readable on their intentionally charcoal artwork. */
+html body.platform.light-theme .article-body .resource-visual h2 { color:#fff; }
+html body.platform.light-theme .product-art > .tiny { color:#555; }
+
 /* Public action palette: explicit surface/text pairs survive older page layers. */
 html body.platform.light-theme .button,
 html body.platform.light-theme .button:hover { background:#fff; color:#171717; border-color:#d2d2d2; box-shadow:none; }
