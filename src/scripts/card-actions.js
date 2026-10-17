@@ -1,3 +1,4 @@
+import { cardFeedback } from './motion.js';
 import { cardIconMarkup } from '../lib/card-icons.mjs';
 
 export function cardIcon(name){const template=document.createElement('template');template.innerHTML=cardIconMarkup(name);return template.content.firstElementChild;}
@@ -11,7 +12,7 @@ let toastTimer;
 function notice(message){toast.textContent=message;toast.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.hidden=true,3500);}
 function localLiked(type,id){try{return localStorage.getItem(likedKey(type,id))==='1';}catch{return false;}}
 function markLiked(type,id,liked){try{if(liked)localStorage.setItem(likedKey(type,id),'1');else localStorage.removeItem(likedKey(type,id));}catch{/* The server still records the preference. */}}
-function refreshLikes(type,id,count,liked=localLiked(type,id)){likeCounts.set(key(type,id),count);document.querySelectorAll('[data-like-id]').forEach(button=>{if(button.dataset.likeType!==type||button.dataset.likeId!==id)return;button.setAttribute('aria-pressed',String(liked));button.querySelector('[data-like-count]').textContent=count>0?String(count):'';});}
+function refreshLikes(type,id,count,liked=localLiked(type,id)){likeCounts.set(key(type,id),count);document.querySelectorAll('[data-like-id]').forEach(button=>{if(button.dataset.likeType!==type||button.dataset.likeId!==id)return;button.setAttribute('aria-pressed',String(liked));button.setAttribute('aria-label',liked?'Unlike this project or resource':'Like this project or resource');button.querySelector('[data-like-count]').textContent=count>0?String(count):'';});}
 async function request(type,id,body){const url=`/api/card-interactions?type=${encodeURIComponent(type)}&id=${encodeURIComponent(id)}`;const response=await fetch(body?'/api/card-interactions':url,{method:body?'POST':'GET',cache:'no-store',credentials:'omit',headers:body?{'Content-Type':'application/json'}:{},...(body?{body:JSON.stringify({type,id,...body})}:{}),signal:AbortSignal.timeout(12000)});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Try again in a moment.');return data;}
 function loadCount(button){const type=button.dataset.likeType,id=button.dataset.likeId,item=key(type,id);if(loaded.has(item))return;loaded.add(item);request(type,id).then(data=>refreshLikes(type,id,data.likes)).catch(()=>{});}
 const observer=typeof IntersectionObserver==='function'?new IntersectionObserver(entries=>{for(const entry of entries){if(!entry.isIntersecting)continue;observer.unobserve(entry.target);loadCount(entry.target);}}, {rootMargin:'160px'}):null;
@@ -43,6 +44,6 @@ document.addEventListener('click',async event=>{
  }
  if(target.matches('[data-like-id]')){
   const type=target.dataset.likeType,id=target.dataset.likeId;const action=localLiked(type,id)?'unlike':'like';
-  target.disabled=true;try{const data=await request(type,id,{action});markLiked(type,id,data.liked);refreshLikes(type,id,data.likes,data.liked);}catch(error){notice(error.message);}finally{target.disabled=false;}
+  target.disabled=true;target.setAttribute('aria-busy','true');try{const data=await request(type,id,{action});markLiked(type,id,data.liked);refreshLikes(type,id,data.likes,data.liked);cardFeedback(target,data.liked?'Liked.':'Like removed.',data.liked);}catch(error){notice(error.message);}finally{target.disabled=false;target.removeAttribute('aria-busy');}
  }
 });

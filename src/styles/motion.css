@@ -1,0 +1,47 @@
+/* Figma: Atmosphere / 24s gentle drift. Translate avoids repainting the gradient. */
+@keyframes digivated-atmosphere {
+  0% { animation-timing-function:ease-in-out; translate:0 0; }
+  50% { animation-timing-function:ease-in-out; translate:18px -12px; }
+  100% { translate:0 0; }
+}
+@media(prefers-reduced-motion:no-preference) {
+  html body.platform.light-theme .site-atmosphere {
+    inset:-24px;
+    animation:digivated-atmosphere 24s linear infinite;
+  }
+}
+html body.platform.light-theme :is(.project-collections,.resource-topics) { position:relative; }
+html body.platform.light-theme .has-motion-tabs button[aria-pressed=true]::after { display:none; }
+html body.platform.light-theme .motion-tab-indicator {
+  position:absolute; left:0; bottom:0; height:2px; border-radius:2px;
+  background:#171717; pointer-events:none;
+}
+html body.platform.light-theme .has-motion-tabs .motion-tab-indicator {
+  transition:translate 240ms ease-out,width 240ms ease-out;
+}
+html body.platform.light-theme :is(.project-collections,.resource-topics) button {
+  transition:color 240ms ease-out;
+}
+html body.platform.light-theme [data-like-id],html body.platform.light-theme [data-save-id] {
+  transition:background-color 160ms ease-out,color 160ms ease-out,opacity 160ms ease-out;
+}
+html body.platform.light-theme [data-like-id][aria-pressed=true],
+html body.platform.light-theme [data-save-id].is-saved {
+  color:#171717; background:#eaeaea; border-radius:7px;
+}
+html body.platform.light-theme [data-like-id] svg,
+html body.platform.light-theme [data-save-id] svg { transform-origin:center; }
+html body.platform.light-theme .motion-toast {
+  position:fixed; z-index:1100; left:50%; bottom:max(22px,env(safe-area-inset-bottom));
+  transform:translateX(-50%); max-width:calc(100vw - 32px); margin:0;
+  padding:12px 18px; border:1px solid #ddd; border-radius:12px;
+  background:#fffffff2; color:#171717; box-shadow:0 8px 30px #00000014;
+  font-size:.8125rem; font-weight:500; pointer-events:none;
+}
+html body.platform.light-theme .motion-toast[hidden] { display:none; }
+@media(prefers-reduced-motion:reduce) {
+  html body.platform.light-theme .site-atmosphere { animation:none; translate:none; }
+  html body.platform.light-theme .has-motion-tabs .motion-tab-indicator,
+  html body.platform.light-theme :is(.project-collections,.resource-topics) button,
+  html body.platform.light-theme [data-like-id],html body.platform.light-theme [data-save-id] { transition:none; }
+}
