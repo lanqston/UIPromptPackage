@@ -10,6 +10,7 @@ test('unified search ranks title matches above incidental descriptions and combi
  assert.equal(rankDiscovery(records,'AI')[0].title,'AI with better judgment');
  assert.equal(rankDiscovery(records,'agents AI')[0].title,'Arvow');
  assert.equal(rankDiscovery(records,'unknown').length,0);
+ assert.equal(rankDiscovery([{...records[0],description:'A paid tool laid out clearly'}],'AI').length,0);
 });
 test('scope switches preserve the query and limit without leaking other content types',()=>{
  assert.deepEqual(rankDiscovery(records,'AI','project').map(r=>r.title),['Arvow']);
