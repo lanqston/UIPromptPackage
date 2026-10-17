@@ -1,0 +1,231 @@
+/* Shared presentation layer. Interaction hooks, routes and tracking stay in their original components. */
+:root {
+  --mono-bg: #111111;
+  --mono-surface: #191919;
+  --mono-raised: #232323;
+  --mono-line: #363636;
+  --mono-text: #f5f5f5;
+  --mono-muted: #b3b3b3;
+  --mono-radius: 12px;
+}
+html body.platform, html body.platform.home-refresh, html body.packet-workspace,
+html body.packet-workspace[data-surface=workspace] {
+  --color-brand-bg: var(--mono-bg);
+  --color-brand-surface: var(--mono-surface);
+  --color-brand-card: var(--mono-surface);
+  --color-brand-raised: var(--mono-raised);
+  --color-brand-line: var(--mono-line);
+  --color-brand-text: var(--mono-text);
+  --color-brand-copy: #d4d4d4;
+  --color-brand-muted: var(--mono-muted);
+  --color-brand-accent: var(--mono-text);
+  --color-brand-primary: var(--mono-text);
+  --color-brand-focus: #ffffff;
+  --accent: var(--mono-text);
+  --muted: var(--mono-muted);
+  --line: var(--mono-line);
+  --paper: var(--mono-surface);
+  --tint: var(--mono-raised);
+  --shadow: none;
+  color-scheme: dark;
+  background: var(--mono-bg);
+  color: var(--mono-text);
+  -webkit-font-smoothing: antialiased;
+}
+html body.platform p, html body.platform .lede, html body.platform .quiet,
+html body.packet-workspace p, html body.packet-workspace .quiet { color: var(--mono-muted); }
+html body.platform :focus-visible, html body.packet-workspace :focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+html body.platform .skip, html body.packet-workspace .skip { background: #fff; color: #111; }
+html body.platform h1 em, html body.platform h2 em { font-family: inherit; font-style: normal; font-weight: inherit; color: #b3b3b3; }
+html body.platform .button, html body.packet-workspace .button {
+  min-height: 44px;
+  border: 1px solid #454545;
+  border-radius: 8px;
+  background: #232323;
+  color: #f5f5f5;
+  box-shadow: none;
+  font-weight: 600;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+html body.platform .button:hover, html body.packet-workspace .button:hover {
+  background: #303030; color: #fff; border-color: #777; transform: none; box-shadow: none;
+}
+html body.platform .button.primary, html body.platform .platform-header .header-submit,
+html body.packet-workspace .button.primary {
+  background: #f5f5f5; color: #111; border-color: #f5f5f5; box-shadow: none;
+}
+html body.platform .button.primary:hover, html body.platform .platform-header .header-submit:hover,
+html body.packet-workspace .button.primary:hover { background: #dedede; color: #111; border-color: #dedede; }
+html body.platform .platform-header {
+  inset: 16px 24px auto;
+  max-width: 1160px;
+  background: #191919;
+  border-color: #363636;
+  border-radius: 12px;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+html body.platform .platform-header .desktop-nav a { font-size: .875rem; }
+html body.platform .platform-header .desktop-nav a[aria-current=page] { background: #292929; border-radius: 6px; }
+html body.platform .platform-header .desktop-nav a::after { background: #f5f5f5; }
+html body.platform .platform-header .mobile-menu nav { background: #191919; }
+html body.platform .platform-footer { background: #111; border-color: #363636; }
+html body.platform .platform-footer nav a { font-size: .875rem; }
+html body.platform .page-intro h1 { font-size: clamp(2.5rem,5vw,4rem); line-height: 1.12; letter-spacing: -.05em; }
+html body.platform .page-intro .lede { font-size: 1.0625rem; line-height: 1.75; max-width: 60ch; }
+html body.platform .section-kicker, html body.platform .eyebrow { color: #aaa; font-size: .6875rem; letter-spacing: .12em; }
+
+/* Home: a readable introduction beside useful first steps. */
+html body.home-refresh .revamp-hero {
+  display: grid;
+  grid-template-columns: minmax(0,1.25fr) minmax(0,1fr);
+  align-items: center;
+  gap: 56px;
+  padding: 156px 0 0;
+}
+html body.home-refresh .hero-copy { max-width: 600px; }
+html body.home-refresh .hero-kicker { margin-bottom: 24px; line-height: 1.6; }
+html body.home-refresh .hero-copy h1.discovery-headline {
+  max-width: 12ch;
+  font-size: clamp(3rem,5.2vw,4.75rem);
+  line-height: 1.08;
+  letter-spacing: -.055em;
+  font-weight: 550;
+  margin-bottom: 24px;
+}
+html body.home-refresh .hero-copy h1 em { color: #aaa; font-family: inherit; font-style: normal; }
+html body.home-refresh .hero-copy .lede { max-width: 46ch; font-size: 1.0625rem; line-height: 1.8; margin-bottom: 28px; }
+html body.home-refresh .hero-copy .actions { gap: 12px; }
+html body.home-refresh .hero-copy .actions .button { font-size: .875rem; padding: 14px 20px; }
+html body.home-refresh .welcome-guide {
+  display: block;
+  position: static;
+  width: auto;
+  background: #191919;
+  border: 1px solid #363636;
+  border-radius: 12px;
+  padding: 28px;
+}
+html body.home-refresh .welcome-guide h2 { font-size: 1.375rem; letter-spacing: -.025em; margin-bottom: 12px; }
+html body.home-refresh .welcome-guide > p:not(.section-kicker) { font-size: .875rem; line-height: 1.7; }
+html body.home-refresh .welcome-guide > a {
+  display: flex; align-items: center; gap: 16px; padding: 20px 0;
+  border-top: 1px solid #363636; text-decoration: none; border-radius: 0;
+  color: #f5f5f5; background: none;
+}
+html body.home-refresh .welcome-guide > a:hover { background: #232323; }
+html body.home-refresh .welcome-guide > a > span:last-child { margin-left: auto; }
+html body.home-refresh .welcome-number { color: #aaa; font-size: .75rem; font-variant-numeric: tabular-nums; }
+html body.home-refresh .welcome-guide strong, html body.home-refresh .welcome-guide small { display: block; }
+html body.home-refresh .welcome-guide strong { font-size: .875rem; font-weight: 550; line-height: 1.5; }
+html body.home-refresh .welcome-guide small { margin-top: 5px; color: #aaa; font-size: .8125rem; line-height: 1.5; }
+html body.home-refresh .welcome-guide .welcome-footnote { margin: 8px 0 0; font-size: .75rem; }
+html body.home-refresh .home-topics { grid-column: 1/-1; margin: 0; border-color: #363636; }
+html body.home-refresh .home-topics a { min-height: 64px; color: #b3b3b3; border-color: #363636; font-size: .8125rem; }
+html body.home-refresh .home-topics a:hover { background: #191919; color: #fff; }
+html body.home-refresh .home-section { padding-block: 64px; }
+html body.home-refresh .home-section h2, html body.home-refresh .home-section-heading h2,
+html body.home-refresh .journey-intro h2, html body.home-refresh .home-product h2,
+html body.home-refresh .share-next h2, html body.home-refresh .home-faq h2 {
+  font-size: clamp(1.875rem,3vw,2.5rem); line-height: 1.2; letter-spacing: -.04em;
+}
+html body.home-refresh .idea-card { min-height: 220px; background: #191919; border: 1px solid #363636; border-radius: 12px; box-shadow: none; }
+html body.home-refresh .idea-card:hover { transform: none; background: #202020; border-color: #666; box-shadow: none; }
+html body.home-refresh .idea-copy { padding: 26px; }
+html body.home-refresh .idea-copy h3 { margin-top: 24px; }
+html body.home-refresh .journey-icon { background: none; border: 1px solid #454545; border-radius: 50%; color: #b3b3b3; font-size: .75rem; mask: none; -webkit-mask: none; }
+html body.home-refresh .journey-steps li, html body.home-refresh .home-product,
+html body.home-refresh .share-next { background: #191919; border: 1px solid #363636; border-radius: 12px; box-shadow: none; }
+html body.home-refresh .packet-display { background: #232323; border: 1px solid #454545; border-radius: 10px; transform: none; box-shadow: none; }
+html body.home-refresh .packet-display::before, html body.home-refresh .packet-display::after { content: none; }
+html body.home-refresh .packet-display strong { color: #f5f5f5; }
+html body.home-refresh .share-next p, html body.home-refresh .share-next .section-kicker { color: #b3b3b3; }
+
+/* Preserve each card and its actions while removing gradients, glow and movement. */
+html body.platform .resource-card, html body.platform .resource-grid > .resource-card:first-child,
+html body.platform [data-live-projects] .project-card, html body.platform .saved-card,
+html body.platform .browse-controls, html body.platform .submission-form,
+html body.platform .product-feature, html body.platform .promo-callout {
+  background: #191919; border: 1px solid #363636; border-radius: 12px; box-shadow: none;
+}
+html body.platform .resource-card:hover, html body.platform [data-live-projects] .project-card:hover {
+  transform: none; border-color: #666; box-shadow: none;
+}
+html body.platform .topic-icon { background: #292929; color: #d4d4d4; box-shadow: none; border-radius: 6px; }
+html body.platform .card-stats { gap: 12px; }
+html body.platform .card-stat { color: #b3b3b3; background: none; box-shadow: none; padding: 4px 0; font-size: .75rem; }
+html body.platform .card-stat .stat-icon { color: #aaa; }
+html body.platform .card-actions { background: none; box-shadow: none; padding: 0; gap: 2px; }
+html body.platform .card-icon { min-width: 40px; height: 44px; border-radius: 6px; color: #b3b3b3; }
+html body.platform .card-icon:hover { background: #303030; color: #fff; box-shadow: none; }
+html body.platform .card-icon[aria-pressed=true], html body.platform .card-icon.is-saved { background: #363636; color: #fff; box-shadow: none; }
+html body.platform .card-open, html body.platform [data-live-projects] .project-copy .card-links .card-open.button,
+html body.platform .saved-open { background: #f5f5f5; color: #111; min-height: 44px; font-size: .75rem; border-radius: 8px; box-shadow: none; }
+html body.platform .card-open:hover, html body.platform [data-live-projects] .project-copy .card-links .card-open.button:hover { background: #dedede; color: #111; transform: none; box-shadow: none; }
+html body.platform .card-footer { gap: 12px; border-color: #363636; }
+html body.platform .resource-description, html body.platform [data-live-projects] .project-copy .project-description { color: #b3b3b3; font-size: .9375rem; line-height: 1.7; }
+html body.platform [data-live-projects] .project-meta > .quiet, html body.platform [data-live-projects] .project-meta > a,
+html body.platform .card-topic .tag { color: #b3b3b3; font-size: .75rem; }
+html body.platform [data-live-projects] .project-details summary { color: #d4d4d4; font-size: .8125rem; }
+html body.platform .browse-controls input, html body.platform .browse-controls select { background: #111; border: 1px solid #555; box-shadow: none; font-size: 1rem; }
+html body.platform .comment-dialog-header button, html body.platform .collection-dialog button { min-height: 44px; min-width: 44px; }
+
+/* Directory, packet and owner surfaces share the same quiet hierarchy. */
+html body.projects-dashboard .projects-sidebar { background: #111; }
+html body.projects-dashboard .project-collections button, html body.projects-dashboard .project-category-list button,
+html body.projects-dashboard .project-collections a { font-size: .875rem; min-height: 44px; }
+html body.projects-dashboard .project-collections button[aria-pressed=true],
+html body.projects-dashboard .project-category-list button[aria-pressed=true] { background: #292929; color: #fff; border-color: #454545; }
+html body.projects-dashboard .dashboard-intro > p:last-child { font-size: 1rem; line-height: 1.7; }
+html body.projects-dashboard .dashboard-overview > div { background: transparent; border: 0; border-bottom: 1px solid #363636; border-radius: 0; padding: 16px 0; }
+html body.projects-dashboard .dashboard-overview dt { font-size: .8125rem; color: #b3b3b3; }
+html body.projects-dashboard .project-search input, html body.projects-dashboard .dashboard-controls select { background: #191919; border-color: #555; font-size: 1rem; }
+html body.projects-dashboard .project-layout-toggle button { width: 44px; height: 44px; }
+html body.projects-dashboard .project-layout-toggle button[aria-pressed=true] { background: #363636; color: #fff; }
+html body.packet-workspace .topbar, html body.packet-workspace[data-surface=workspace] .topbar { background: #191919; border-color: #363636; box-shadow: none; backdrop-filter: none; }
+html body.packet-workspace nav a[aria-current=page] { background: #292929; color: #fff; box-shadow: inset 3px 0 #f5f5f5; }
+html body.packet-workspace .prompt-row:hover, html body.packet-workspace .starter-card:hover { background: #232323; border-color: #666; }
+html body.packet-workspace .prompt-id, html body.packet-workspace .eyebrow, html body.packet-workspace .tiny { color: #b3b3b3; }
+html body.packet-workspace .card-action { color: #f5f5f5; }
+html body.owner .platform-header { position: relative; inset: auto; margin-top: 16px; padding: 20px 24px; }
+html body.owner main { padding-top: 40px; }
+
+@media (max-width: 1000px) {
+  html body.home-refresh .revamp-hero { gap: 32px; }
+  html body.home-refresh .welcome-guide { padding: 24px; }
+}
+@media (max-width: 767px) {
+  html body.platform .platform-header { inset: 10px 12px auto; }
+  html body.owner .platform-header { inset: auto; margin: 12px; }
+  html body.home-refresh .revamp-hero { grid-template-columns: minmax(0,1fr); padding-top: 120px; gap: 36px; }
+  html body.home-refresh .hero-copy h1.discovery-headline { font-size: clamp(2.8rem,9vw,4rem); max-width: 14ch; }
+  html body.home-refresh .hero-copy .lede { font-size: 1rem; }
+  html body.home-refresh .home-topics { grid-column: 1; }
+  html body.home-refresh .home-section { padding-block: 44px; }
+  html body.home-refresh .welcome-guide { padding: 24px; }
+  html body.projects-dashboard .dashboard-overview dt { font-size: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body.platform *, html body.packet-workspace * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+
+/* Keep repeated sections distinct and project cards compact at narrow widths. */
+html body.home-refresh .topic-grid { gap: 16px; border: 0; }
+html body.home-refresh .journey-steps { display: grid; gap: 12px; border: 0; }
+html body.home-refresh .journey-steps li { padding: 22px; grid-template-columns: 32px minmax(0,1fr) 36px; gap: 14px; }
+html body.home-refresh .journey-icon::before { content: none; }
+html body.home-refresh .home-product { padding: 40px; gap: 36px; }
+html body.platform [data-live-projects] .project-image.card-visual { height: 64px; min-height: 64px; }
+html body.platform [data-live-projects] .project-copy .card-links.card-footer { padding-top: 12px; }
+html body.platform [data-live-projects] .project-copy h3 { margin-bottom: 8px; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-image.card-visual { height: auto; }
+@media(max-width:767px) {
+ html body.home-refresh .home-product { padding: 24px; }
+ html body.home-refresh .journey-steps li { padding: 18px; gap: 10px; }
+}
+@media(max-width:360px) {
+ html body.platform [data-live-projects] .project-image.card-visual { height: 44px; min-height: 44px; }
+}

@@ -22,9 +22,10 @@ for (const width of [320, 375, 768, 820, 1024, 1440]) {
     await expect(page.locator('.hero-copy').getByRole('link', { name: 'Discover projects' })).toHaveAttribute('href', '/discover');
     await expect(page.locator('.hero-copy').getByRole('link', { name: 'Explore ideas' })).toHaveAttribute('href', '/resources');
     await expect(page.locator('.platform-header')).toHaveCSS('position', 'fixed');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(17, 18, 19)');
-    await expect(page.locator('.hero-copy .primary')).toHaveCSS('background-color', 'rgb(243, 243, 241)');
-    await expect(page.locator('.signal-display')).toBeVisible();
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(17, 17, 17)');
+    await expect(page.locator('.hero-copy .primary')).toHaveCSS('background-color', 'rgb(245, 245, 245)');
+    await expect(page.locator('.welcome-guide')).toBeVisible();
+    await expect(page.locator('.welcome-guide > a')).toHaveCount(3);
     await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link')).toHaveCount(4);
     await expect(page.getByRole('navigation', { name: 'Explore Digivated topics' }).getByRole('link', { name: /Markets & Investing/ })).toHaveAttribute('href', '/resources?category=Markets%20%26%20Investing');
     await expect(page.locator('.home-wayfinding, .discovery-guide')).toHaveCount(0);

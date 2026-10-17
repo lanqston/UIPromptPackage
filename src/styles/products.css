@@ -1,10 +1,10 @@
 .platform .stack:has(> .product-feature) { display:grid; gap:24px; }
-.platform .product-feature--focus-city .product-art { background:radial-gradient(circle at 53% 42%,#345778 0%,#1a2d45 54%,#101822 100%); }
-.platform .product-feature--focus-city .product-art::before { opacity:.3; background:repeating-linear-gradient(150deg,transparent 0 38px,#a8d9ef18 39px 40px); }
-.platform .focus-city-art { position:relative; width:min(78%,315px); aspect-ratio:9/10; border:1px solid #afdfd9aa; border-radius:18px; overflow:hidden; box-shadow:9px 12px 0 #0a1929,18px 24px 42px #0009; transform:perspective(750px) rotateY(-9deg) rotateX(3deg) rotateZ(-2deg); }
+.platform .product-feature--focus-city .product-art { background:radial-gradient(circle at 53% 42%,#525252 0%,#2b2b2b 54%,#171717 100%); }
+.platform .product-feature--focus-city .product-art::before { opacity:.3; background:repeating-linear-gradient(150deg,transparent 0 38px,#d0d0d018 39px 40px); }
+.platform .focus-city-art { position:relative; width:min(78%,315px); aspect-ratio:9/10; border:1px solid #d4d4d4aa; border-radius:18px; overflow:hidden; box-shadow:9px 12px 0 #171717,18px 24px 42px #0009; transform:perspective(750px) rotateY(-9deg) rotateX(3deg) rotateZ(-2deg); }
 .platform .focus-city-art img { display:block; width:100%; height:100%; object-fit:cover; border-radius:0; transform:none; box-shadow:none; filter:none; }
-.platform .focus-city-art-label,.platform .focus-city-art-title { position:absolute; left:20px; color:#fff; text-shadow:0 2px 12px #10283b; }
+.platform .focus-city-art-label,.platform .focus-city-art-title { position:absolute; left:20px; color:#fff; text-shadow:0 2px 12px #242424; }
 .platform .focus-city-art-label { top:19px; font-size:.62rem; font-weight:750; letter-spacing:.15em; }
 .platform .focus-city-art-title { bottom:18px; font-size:1.8rem; font-weight:750; letter-spacing:-.05em; }
-.platform .product-feature--focus-city .product-art .tiny { color:#d1e9e9; }
+.platform .product-feature--focus-city .product-art .tiny { color:#e4e4e4; }
 @media(max-width:600px){.platform .product-feature--focus-city .product-art { min-height:370px; }.platform .focus-city-art { width:min(72%,250px); }}
