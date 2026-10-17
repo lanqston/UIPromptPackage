@@ -10,6 +10,12 @@ html body.platform.light-theme :is(.button,.header-submit) :is(span,svg),
 html body.platform.light-theme .comment-form button :is(span,svg) { color:inherit; }
 html body.platform.light-theme .button-arrow { color:inherit; background:transparent; box-shadow:none; }
 html body.platform.light-theme #saved-folders .button[aria-pressed=true] { background:#eaeaea; color:#171717; border-color:#ccc; }
+/* Legacy section links used !important white text; keep their light-theme pair explicit. */
+html body.platform.light-theme.home-refresh .section-link { color:#171717!important; border-color:#aaa; }
+html body.platform.light-theme .share-actions > a:not(.button),
+html body.platform.light-theme .text-link { color:#333; }
+html body.platform.light-theme .site-breadcrumbs,
+html body.platform.light-theme .site-breadcrumbs a { color:#595959; }
 html body.platform.light-theme :is(.button,.card-open,.card-icon):focus-visible { outline:2px solid #171717; outline-offset:4px; }
 
 /* The homepage uses the compact identity layout from the Figma project dashboard. */
