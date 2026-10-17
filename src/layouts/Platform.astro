@@ -11,6 +11,7 @@ import '../styles/cards.css';
 import '../styles/products.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import DiscoveryTools from '../components/DiscoveryTools.astro';
 const { title = 'Tech. AI. Markets. What’s next.', description = 'Digivated explores technology, AI, markets, useful tools, and independent projects.' } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const sectionNames: Record<string,string> = { '/discover':'Projects', '/resources':'Resources', '/products':'Digital Products', '/ui-ux-prompt-packet':'Prompt Packet', '/submit-project':'Submit Project', '/promote':'Promote your project', '/about':'About', '/privacy':'Privacy & Data', '/terms':'Terms of Use' };
@@ -23,6 +24,7 @@ import '../styles/light-theme.css';
 import '../styles/motion.css';
 import '../styles/public-polish.css';
 import '../styles/studio.css';
+import '../styles/discovery.css';
 ---
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><title>{title} · Digivated</title><meta name="description" content={description}/><meta name="theme-color" content="#ffffff"/><link rel="icon" href="/favicon.svg"/><link rel="canonical" href={new URL(path, 'https://digivated.com')}/><meta property="og:title" content={`${title} · Digivated`}/><meta property="og:description" content={description}/><meta property="og:image" content="https://digivated.com/digivated-tech-markets-banner.png"/></head>
@@ -30,6 +32,7 @@ import '../styles/studio.css';
 <SiteHeader/>
 <main id="main" tabindex="-1">{path !== '/' && <nav class="site-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>{(path.startsWith('/projects/') || path === '/launch-template') && <><a href="/discover">Projects</a><span aria-hidden="true">/</span></>}{path.startsWith('/resources/') && <><a href="/resources">Resources</a><span aria-hidden="true">/</span></>}<span aria-current="page">{breadcrumb}</span></nav>}<slot/></main>
 <SiteFooter/>
+<DiscoveryTools/>
 <script is:inline src="/analytics.js"></script>
 <script is:inline defer src="/_vercel/insights/script.js"></script><script>import '../scripts/monitoring.js'; import '../scripts/platform-ui.js'; import '../scripts/collections.js';</script>
 <script>import '../scripts/motion.js'; import '../scripts/card-actions.js';</script>
