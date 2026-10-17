@@ -1,0 +1,55 @@
+/* Soft grayscale light fields, inspired by the supplied flowing-gradient reference. */
+html body.platform,html body.platform.home-refresh {
+  position:relative;
+  isolation:isolate;
+  background:#0e0e0e;
+}
+.site-atmosphere {
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  overflow:hidden;
+  pointer-events:none;
+  user-select:none;
+  background:
+    radial-gradient(ellipse 65% 70% at 85% -12%,#ffffff24 0%,#ffffff0a 43%,transparent 74%),
+    radial-gradient(ellipse 50% 74% at -8% 88%,#ffffff20 0%,#ffffff08 48%,transparent 76%),
+    radial-gradient(ellipse 46% 88% at 73% 58%,transparent 24%,#ffffff08 49%,transparent 72%),
+    linear-gradient(128deg,#0b0b0b 0%,#121212 42%,#1a1a1a 72%,#101010 100%);
+}
+.site-atmosphere::before,.site-atmosphere::after {
+  content:'';
+  position:absolute;
+  pointer-events:none;
+  border-radius:50%;
+  filter:blur(64px);
+}
+.site-atmosphere::before {
+  width:62vw;
+  height:105vh;
+  left:34%;
+  top:-26%;
+  transform:rotate(-34deg);
+  background:radial-gradient(ellipse at 30% 50%,transparent 28%,#ffffff0b 48%,#ffffff13 57%,transparent 72%);
+}
+.site-atmosphere::after {
+  width:68vw;
+  height:82vh;
+  left:-25%;
+  top:56%;
+  transform:rotate(30deg);
+  background:radial-gradient(ellipse at 60% 45%,#ffffff0f 0%,#ffffff06 48%,transparent 72%);
+}
+/* The background is decorative; opaque reading surfaces retain their contrast. */
+html body.platform .platform-footer { background:#101010e8; }
+@media(max-width:767px) {
+  .site-atmosphere {
+    background:
+      radial-gradient(ellipse 110% 68% at 105% -10%,#ffffff22 0%,transparent 73%),
+      radial-gradient(ellipse 100% 65% at -24% 86%,#ffffff18 0%,transparent 74%),
+      linear-gradient(145deg,#0b0b0b,#191919 66%,#101010);
+  }
+  .site-atmosphere::before { width:130vw; left:10%; filter:blur(48px); }
+  .site-atmosphere::after { width:120vw; left:-65%; filter:blur(48px); }
+}
+@media print { .site-atmosphere { display:none; } }
