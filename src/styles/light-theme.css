@@ -1,0 +1,342 @@
+/* Generated palette: node scripts/build-light-theme.mjs. Public pages only. */
+html body.platform.light-theme,html body.platform.light-theme.home-refresh { --mono-bg:#fff; --mono-surface:#fff; --mono-raised:#f4f4f4; --mono-line:#dedede; --mono-text:#171717; --mono-muted:#5d5d5d; --color-brand-copy:#424242; --color-brand-focus:#171717; --refined-bg:#fff; --refined-surface:#fff; --refined-raised:#f4f4f4; --refined-line:#dedede; --refined-ink:#171717; --refined-muted:#5d5d5d; --refined-soft:#707070; color-scheme:light; color:#171717; background:#fff; }
+html body.platform.light-theme,
+html body.platform.light-theme.home-refresh {
+  --color-brand-bg: var(--mono-bg);
+  --color-brand-surface: var(--mono-surface);
+  --color-brand-card: var(--mono-surface);
+  --color-brand-raised: var(--mono-raised);
+  --color-brand-line: var(--mono-line);
+  --color-brand-text: var(--mono-text);
+  --color-brand-copy: #313131;
+  --color-brand-muted: var(--mono-muted);
+  --color-brand-accent: var(--mono-text);
+  --color-brand-primary: var(--mono-text);
+  --color-brand-focus: #111111;
+  --accent: var(--mono-text);
+  --muted: var(--mono-muted);
+  --line: var(--mono-line);
+  --paper: var(--mono-surface);
+  --tint: var(--mono-raised);
+  --shadow: none
+}
+html body.platform.light-theme :focus-visible {
+  outline: 2px solid #111111
+}
+html body.platform.light-theme .skip { background: #111111; color: #ffffff
+}
+html body.platform.light-theme h1 em,
+html body.platform.light-theme h2 em { color: #505050
+}
+html body.platform.light-theme .button {
+  border: 1px solid #c9c9c9;
+  background: #f4f4f4;
+  color: #171717
+}
+html body.platform.light-theme .button:hover {
+  background: #e5e5e5; color: #111111; border-color: #797979
+}
+html body.platform.light-theme .button.primary,
+html body.platform.light-theme .platform-header .header-submit {
+  background: #171717; color: #ffffff; border-color: #171717
+}
+html body.platform.light-theme .button.primary:hover,
+html body.platform.light-theme .platform-header .header-submit:hover { background: #272727; color: #ffffff; border-color: #272727
+}
+html body.platform.light-theme .platform-header {
+  background: #fbfbfb;
+  border-color: #dedede
+}
+html body.platform.light-theme .platform-header .desktop-nav a[aria-current=page] { background: #ededed
+}
+html body.platform.light-theme .platform-header .desktop-nav a::after { background: #171717
+}
+html body.platform.light-theme .platform-header .mobile-menu nav { background: #fbfbfb
+}
+html body.platform.light-theme .platform-footer { background: #ffffff; border-color: #dedede
+}
+html body.platform.light-theme .section-kicker,
+html body.platform.light-theme .eyebrow { color: #545454
+}
+html body.platform.light-theme.home-refresh .hero-copy h1 em { color: #545454
+}
+html body.platform.light-theme.home-refresh .welcome-guide {
+  background: #fbfbfb;
+  border: 1px solid #dedede
+}
+html body.platform.light-theme.home-refresh .welcome-guide > a {
+  border-top: 1px solid #dedede;
+  color: #171717
+}
+html body.platform.light-theme.home-refresh .welcome-guide > a:hover { background: #f4f4f4
+}
+html body.platform.light-theme.home-refresh .welcome-number { color: #545454
+}
+html body.platform.light-theme.home-refresh .welcome-guide small { color: #545454
+}
+html body.platform.light-theme.home-refresh .home-topics { border-color: #dedede
+}
+html body.platform.light-theme.home-refresh .home-topics a { color: #505050; border-color: #dedede
+}
+html body.platform.light-theme.home-refresh .home-topics a:hover { background: #fbfbfb; color: #111111
+}
+html body.platform.light-theme.home-refresh .idea-card { background: #fbfbfb; border: 1px solid #dedede
+}
+html body.platform.light-theme.home-refresh .idea-card:hover { background: #f7f7f7; border-color: #8e8e8e
+}
+html body.platform.light-theme.home-refresh .journey-icon { border: 1px solid #c9c9c9; color: #505050
+}
+html body.platform.light-theme.home-refresh .journey-steps li,
+html body.platform.light-theme.home-refresh .home-product,
+html body.platform.light-theme.home-refresh .share-next { background: #fbfbfb; border: 1px solid #dedede
+}
+html body.platform.light-theme.home-refresh .packet-display { background: #f4f4f4; border: 1px solid #c9c9c9
+}
+html body.platform.light-theme.home-refresh .packet-display strong { color: #171717
+}
+html body.platform.light-theme.home-refresh .share-next p,
+html body.platform.light-theme.home-refresh .share-next .section-kicker { color: #505050
+}
+html body.platform.light-theme .resource-card,
+html body.platform.light-theme .resource-grid > .resource-card:first-child,
+html body.platform.light-theme [data-live-projects] .project-card,
+html body.platform.light-theme .saved-card,
+html body.platform.light-theme .browse-controls,
+html body.platform.light-theme .submission-form,
+html body.platform.light-theme .product-feature,
+html body.platform.light-theme .promo-callout {
+  background: #fbfbfb; border: 1px solid #dedede
+}
+html body.platform.light-theme .resource-card:hover,
+html body.platform.light-theme [data-live-projects] .project-card:hover { border-color: #8e8e8e
+}
+html body.platform.light-theme .topic-icon { background: #ededed; color: #313131
+}
+html body.platform.light-theme .card-stat { color: #505050
+}
+html body.platform.light-theme .card-stat .stat-icon { color: #545454
+}
+html body.platform.light-theme .card-icon { color: #505050
+}
+html body.platform.light-theme .card-icon:hover { background: #e5e5e5; color: #111111
+}
+html body.platform.light-theme .card-icon[aria-pressed=true],
+html body.platform.light-theme .card-icon.is-saved { background: #dedede; color: #111111
+}
+html body.platform.light-theme .card-open,
+html body.platform.light-theme [data-live-projects] .project-copy .card-links .card-open.button,
+html body.platform.light-theme .saved-open { background: #171717; color: #ffffff
+}
+html body.platform.light-theme .card-open:hover,
+html body.platform.light-theme [data-live-projects] .project-copy .card-links .card-open.button:hover { background: #272727; color: #ffffff
+}
+html body.platform.light-theme .card-footer { border-color: #dedede
+}
+html body.platform.light-theme .resource-description,
+html body.platform.light-theme [data-live-projects] .project-copy .project-description { color: #505050
+}
+html body.platform.light-theme [data-live-projects] .project-meta > .quiet,
+html body.platform.light-theme [data-live-projects] .project-meta > a,
+html body.platform.light-theme .card-topic .tag { color: #505050
+}
+html body.platform.light-theme [data-live-projects] .project-details summary { color: #313131
+}
+html body.platform.light-theme .browse-controls input,
+html body.platform.light-theme .browse-controls select { background: #ffffff; border: 1px solid #ababab
+}
+html body.platform.light-theme.projects-dashboard .projects-sidebar { background: #ffffff
+}
+html body.platform.light-theme.projects-dashboard .project-collections button[aria-pressed=true],
+html body.platform.light-theme.projects-dashboard .project-category-list button[aria-pressed=true] { background: #ededed; color: #111111; border-color: #c9c9c9
+}
+html body.platform.light-theme.projects-dashboard .dashboard-overview > div { border-bottom: 1px solid #dedede
+}
+html body.platform.light-theme.projects-dashboard .dashboard-overview dt { color: #505050
+}
+html body.platform.light-theme.projects-dashboard .project-search input,
+html body.platform.light-theme.projects-dashboard .dashboard-controls select { background: #fbfbfb; border-color: #ababab
+}
+html body.platform.light-theme.projects-dashboard .project-layout-toggle button[aria-pressed=true] { background: #dedede; color: #111111
+}
+html body.platform.light-theme.projects-dashboard {
+ --refined-bg:#ffffff; --refined-surface:#fcfcfc; --refined-raised:#f7f7f7; --refined-line:#e7e7e7; --refined-ink:#171717; --refined-muted:#575757; --refined-soft:#686868
+}
+html body.platform.light-theme.projects-dashboard .platform-header { border-bottom:1px solid #f1f1f1; background:#ffffffff
+}
+html body.platform.light-theme.projects-dashboard .project-collections button span { color:#545454; background:#11111106
+}
+html body.platform.light-theme.projects-dashboard .project-collections button[aria-pressed=true]::after { background:#1c1c1c
+}
+html body.platform.light-theme.projects-dashboard .project-collections button:hover,
+html body.platform.light-theme.projects-dashboard .project-collections a:hover { color:#111
+}
+html body.platform.light-theme.projects-dashboard .dashboard-controls input,
+html body.platform.light-theme.projects-dashboard .dashboard-controls select { border:1px solid #e5e5e5; background:#fcfcfc; color:#2e2e2e
+}
+html body.platform.light-theme.projects-dashboard .project-search svg { color:#686868
+}
+html body.platform.light-theme.projects-dashboard .project-search input::placeholder { color:#616161
+}
+html body.platform.light-theme.projects-dashboard .project-layout-toggle { border-color:#e5e5e5
+}
+html body.platform.light-theme.projects-dashboard .project-layout-toggle button { color:#616161
+}
+html body.platform.light-theme.projects-dashboard .project-layout-toggle button[aria-pressed=true] { background:#eaeaea; color:#111
+}
+html body.platform.light-theme.projects-dashboard .dashboard-results .results-status { color:#5e5e5e
+}
+html body.platform.light-theme.projects-dashboard .clear-project-filters { color:#282828
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-card:hover { border-color:#bcbcbc
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-image.card-visual { border:1px solid #11111106; background:#f4f4f4
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-monogram { color:#1b1b1b
+}
+html body.platform.light-theme.projects-dashboard .project-identity .tag { color:#545454
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-meta>.quiet,
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-meta>a { color:#5e5e5e
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-copy .project-description { color:#545454
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-details summary { color:#5c5c5c
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-details summary:hover { color:#1b1b1b
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .card-stat { color:#686868
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .card-stat svg { color:#686868
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-copy .card-links.card-footer { border-top:1px solid #ebebeb
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .card-icon { color:#686868
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .card-icon:hover { color:#1b1b1b; background:#f0f0f0
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-copy .card-links .card-open.button { color:#1c1c1c
+}
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-copy .card-links .card-open.button:hover { color:#111
+}
+html body.platform.light-theme.projects-dashboard .refined-submit p { color:#686868
+}
+html body.platform.light-theme.projects-dashboard .refined-submit a { color:#212121
+}
+html body.platform.light-theme.projects-dashboard .dashboard-review-note { color:#797979
+}
+@media (max-width:767px) {
+  html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .card-links.card-footer { border-top:1px solid #ebebeb
+  }
+}
+html body.platform.light-theme.resources-dashboard .platform-header { border-bottom:1px solid #f1f1f1; background:#ffffffff
+}
+html body.platform.light-theme.resources-dashboard .resources-intro p { color:#575757
+}
+html body.platform.light-theme.resources-dashboard .resources-intro>span { color:#686868
+}
+html body.platform.light-theme.resources-dashboard .resource-topics { border-bottom:1px solid #e7e7e7
+}
+html body.platform.light-theme.resources-dashboard .resource-topics button,
+html body.platform.light-theme.resources-dashboard .resource-topics a { color:#575757
+}
+html body.platform.light-theme.resources-dashboard .resource-topics button[aria-pressed=true] { color:#171717
+}
+html body.platform.light-theme.resources-dashboard .resource-topics button[aria-pressed=true]::after { background:#1c1c1c
+}
+html body.platform.light-theme.resources-dashboard .resource-topics button:hover,
+html body.platform.light-theme.resources-dashboard .resource-topics a:hover { color:#111
+}
+html body.platform.light-theme.resources-dashboard .resources-controls input,
+html body.platform.light-theme.resources-dashboard .resources-controls select { border:1px solid #e5e5e5; background:#fcfcfc; color:#2e2e2e
+}
+html body.platform.light-theme.resources-dashboard .resources-search svg { color:#686868
+}
+html body.platform.light-theme.resources-dashboard .resources-search input::placeholder { color:#616161
+}
+html body.platform.light-theme.resources-dashboard .resources-layout { border:1px solid #e5e5e5
+}
+html body.platform.light-theme.resources-dashboard .resources-layout button { color:#616161
+}
+html body.platform.light-theme.resources-dashboard .resources-layout button[aria-pressed=true] { color:#111; background:#eaeaea
+}
+html body.platform.light-theme.resources-dashboard .resources-results p { color:#5e5e5e
+}
+html body.platform.light-theme.resources-dashboard [data-directory-clear] { color:#282828
+}
+html body.platform.light-theme.resources-dashboard .resource-card,
+html body.platform.light-theme.resources-dashboard .resource-grid>.resource-card:first-child { border:1px solid #e7e7e7; background:#fcfcfc
+}
+html body.platform.light-theme.resources-dashboard .resource-card:hover { border-color:#bcbcbc
+}
+html body.platform.light-theme.resources-dashboard .card-topic .tag { color:#575757
+}
+html body.platform.light-theme.resources-dashboard .resource-card[data-resource-kind=toolkit] .card-topic::after { border:1px solid #dadada; color:#505050
+}
+html body.platform.light-theme.resources-dashboard .resource-copy h3 a { color:#171717
+}
+html body.platform.light-theme.resources-dashboard .resource-copy h3 a:hover { color:#111
+}
+html body.platform.light-theme.resources-dashboard .resource-description,
+html body.platform.light-theme.resources-dashboard .resource-copy .resource-description { color:#545454
+}
+html body.platform.light-theme.resources-dashboard .card-stat { color:#686868
+}
+html body.platform.light-theme.resources-dashboard .card-stat svg { color:#686868
+}
+html body.platform.light-theme.resources-dashboard .card-footer { border-top:1px solid #ebebeb
+}
+html body.platform.light-theme.resources-dashboard .card-icon { color:#686868
+}
+html body.platform.light-theme.resources-dashboard .card-icon:hover { color:#1b1b1b; background:#f0f0f0
+}
+html body.platform.light-theme.resources-dashboard .card-open { color:#1c1c1c
+}
+html body.platform.light-theme.resources-dashboard .card-open:hover { color:#111
+}
+html body.platform.light-theme.resources-dashboard .resources-closing p { color:#5c5c5c
+}
+html body.platform.light-theme.resources-dashboard .resources-closing a { color:#484848
+}
+@media (max-width:767px) {
+  html body.platform.light-theme.resources-dashboard .resource-grid[data-layout=list] .card-footer { border-top:1px solid #ebebeb
+  }
+}
+
+html body.platform.light-theme :is(h1,h2,h3,h4,h5,h6) { color:#171717; }
+html body.platform.light-theme p,html body.platform.light-theme .quiet,html body.platform.light-theme .lede { color:#5d5d5d; }
+html body.platform.light-theme :is(input,select,textarea) { background:#fff; color:#242424; border-color:#c9c9c9; }
+html body.platform.light-theme :is(input,textarea)::placeholder { color:#737373; }
+html body.platform.light-theme a { color:inherit; }
+html body.platform.light-theme .x-brand-mark { background:#171717; }
+html body.platform.light-theme .platform-header { color:#171717; background:#ffffffed; border-color:#e1e1e1; backdrop-filter:blur(16px); }
+html body.platform.light-theme .platform-header .desktop-nav a { color:#555; }
+html body.platform.light-theme .platform-header .desktop-nav a[aria-current=page] { color:#111; background:#efefef; }
+html body.platform.light-theme .platform-header .header-sign-in { color:#555; }
+html body.platform.light-theme .mobile-menu summary { background:#f7f7f7; color:#222; border-color:#ddd; }
+html body.platform.light-theme .mobile-menu nav { background:#fff; color:#222; border-color:#ddd; }
+html body.platform.light-theme .mobile-menu nav a { color:#333; }
+html body.platform.light-theme .mobile-menu nav a:hover,html body.platform.light-theme .mobile-menu nav a[aria-current=page] { background:#f0f0f0; color:#111; }
+html body.platform.light-theme .platform-footer { background:#ffffffc9; color:#171717; border-color:#ddd; }
+html body.platform.light-theme .platform-footer a,html body.platform.light-theme .platform-footer h2 { color:#333; }
+html body.platform.light-theme .welcome-guide,html body.platform.light-theme .idea-card,html body.platform.light-theme .journey-steps li,html body.platform.light-theme .home-product,html body.platform.light-theme .share-next { background:#ffffffdb; border-color:#dedede; }
+html body.platform.light-theme .welcome-guide a { color:#222; }
+html body.platform.light-theme .welcome-guide small,html body.platform.light-theme .welcome-number { color:#666; }
+html body.platform.light-theme .home-topics a { color:#555; }
+html body.platform.light-theme .home-topics a:hover { color:#111; background:#fff8; }
+html body.platform.light-theme .packet-display { color:#111; background:#f0f0f0; }
+html body.platform.light-theme .project-image,html body.platform.light-theme .product-art { background:#f0f0f0; }
+html body.platform.light-theme .project-monogram { color:#333; }
+html body.platform.light-theme .tag,html body.platform.light-theme .pill { background:#f1f1f1; color:#454545; }
+html body.platform.light-theme .comment-dialog,html body.platform.light-theme .collection-dialog { background:#fff; color:#171717; border-color:#ccc; box-shadow:0 20px 80px #0002; }
+html body.platform.light-theme .comment-dialog-header { border-color:#ddd; }
+html body.platform.light-theme .comment-dialog-header h2 { color:#171717; }
+html body.platform.light-theme .comment-dialog-header button { color:#333; background:#f1f1f1; }
+html body.platform.light-theme .comment-list li,html body.platform.light-theme .collection-dialog .collection-choice { background:#f5f5f5; color:#333; }
+html body.platform.light-theme .comment-list strong,html body.platform.light-theme .comment-list p { color:#333; }
+html body.platform.light-theme .comment-form input,html body.platform.light-theme .comment-form textarea,html body.platform.light-theme .collection-dialog input { color:#222; background:#fff; border-color:#ccc; }
+html body.platform.light-theme .comment-form button { color:white; background:#171717; }
+html body.platform.light-theme .comment-status { color:#555; }
+html body.platform.light-theme :is(.saved-empty-panel,.community-empty,.about-values>div,.promo-details>div,.submission-note,.promo-callout) { background:#ffffffd9; color:#222; border-color:#ddd; }
+html body.platform.light-theme .site-atmosphere { background:radial-gradient(ellipse 65% 70% at 85% -12%,#0000000a 0%,transparent 74%),radial-gradient(ellipse 50% 74% at -8% 88%,#0000000c 0%,transparent 76%),radial-gradient(ellipse 46% 88% at 73% 58%,transparent 24%,#ffffffb3 49%,transparent 72%),linear-gradient(128deg,#fff 0%,#f7f7f7 42%,#ededed 72%,#fff 100%); }
+html body.platform.light-theme .site-atmosphere::before { background:radial-gradient(ellipse at 30% 50%,transparent 28%,#00000005 48%,#ffffffc9 57%,transparent 72%); }
+html body.platform.light-theme .site-atmosphere::after { background:radial-gradient(ellipse at 60% 45%,#00000009 0%,#ffffff80 48%,transparent 72%); }
