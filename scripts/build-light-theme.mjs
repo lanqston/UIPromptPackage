@@ -13,7 +13,7 @@ for(const file of ['monochrome.css','projects-refined.css','resources-refined.cs
  const selectors=postcss.list.comma(node.selector).filter(s=>!s.includes('packet-workspace')&&!s.includes('body.owner')).map(s=>s.replace('html body.platform','html body.platform.light-theme').replace('html body.home-refresh','html body.platform.light-theme.home-refresh').replace('html body.projects-dashboard','html body.platform.light-theme.projects-dashboard')).filter(s=>s.includes('.light-theme'));
  if(!selectors.length)continue;
  const rule=postcss.rule({selector:selectors.join(',\n')});
- for(const d of node.nodes||[]){if(d.type!=='decl'||!(/^(?:--|color$|background|border(?:$|-(?:color|top|bottom|left|right)$)|outline|box-shadow|text-shadow|fill$|stroke$)/.test(d.prop)))continue;const val=palette(d.value);if(val!==d.value||d.prop.startsWith('--'))rule.append(d.clone({value:val}));}
+ for(const d of node.nodes||[]){if(d.type!=='decl'||!(/^(?:--|color$|background|border(?:$|-(?:color|top|bottom|left|right)$)|outline|box-shadow|text-shadow|fill$|stroke$)/.test(d.prop)))continue;const val=palette(d.value);rule.append(d.clone({value:val}));}
  if(rule.nodes?.length)parent.append(rule);
  }}};visit(input,output);
 }
@@ -54,8 +54,32 @@ html body.platform.light-theme .comment-form input,html body.platform.light-them
 html body.platform.light-theme .comment-form button { color:white; background:#171717; }
 html body.platform.light-theme .comment-status { color:#555; }
 html body.platform.light-theme :is(.saved-empty-panel,.community-empty,.about-values>div,.promo-details>div,.submission-note,.promo-callout) { background:#ffffffd9; color:#222; border-color:#ddd; }
-html body.platform.light-theme .site-atmosphere { background:radial-gradient(ellipse 65% 70% at 85% -12%,#0000000a 0%,transparent 74%),radial-gradient(ellipse 50% 74% at -8% 88%,#0000000c 0%,transparent 76%),radial-gradient(ellipse 46% 88% at 73% 58%,transparent 24%,#ffffffb3 49%,transparent 72%),linear-gradient(128deg,#fff 0%,#f7f7f7 42%,#ededed 72%,#fff 100%); }
-html body.platform.light-theme .site-atmosphere::before { background:radial-gradient(ellipse at 30% 50%,transparent 28%,#00000005 48%,#ffffffc9 57%,transparent 72%); }
-html body.platform.light-theme .site-atmosphere::after { background:radial-gradient(ellipse at 60% 45%,#00000009 0%,#ffffff80 48%,transparent 72%); }
+/* Keep the dashboard visit action an open text link, including legacy button states. */
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-copy .card-links .card-open.button,
+html body.platform.light-theme.projects-dashboard [data-live-projects] .project-copy .card-links .card-open.button:hover { background:transparent; color:#171717; border:0; box-shadow:none; }
+/* Broad silver folds and white highlights retain the flowing reference on small screens. */
+html body.platform.light-theme .site-atmosphere {
+ background:
+  radial-gradient(ellipse 42% 78% at 86% 16%,#ffffff 15%,#ffffff00 70%),
+  radial-gradient(ellipse 52% 70% at 10% 8%,#ffffff 20%,#ffffff00 78%),
+  radial-gradient(ellipse 48% 88% at 56% 64%,#ffffff00 35%,#c4c4c47a 54%,#e5e5e52e 65%,#ffffff00 78%),
+  linear-gradient(125deg,#fff 12%,#ededed 40%,#fafafa 58%,#dedede 76%,#fff 100%);
+}
+html body.platform.light-theme .site-atmosphere::before {
+ width:85vw; height:135vh; left:27%; top:-28%; transform:rotate(-30deg); filter:blur(24px);
+ background:radial-gradient(ellipse at 42% 50%,#fff0 31%,#ffffffd9 42%,#bcbcbc70 49%,#e0e0e04d 57%,#fff0 68%);
+}
+html body.platform.light-theme .site-atmosphere::after {
+ width:95vw; height:110vh; left:-42%; top:30%; transform:rotate(32deg); filter:blur(36px);
+ background:radial-gradient(ellipse at 60% 48%,#ffffffb3 26%,#cdcdcd80 49%,#fff0 68%);
+}
+@media(max-width:767px) {
+ html body.platform.light-theme .site-atmosphere {
+  background:radial-gradient(ellipse 100% 65% at 0% 0%,#fff 15%,#fff0 80%),radial-gradient(ellipse 90% 80% at 100% 100%,#fff 12%,#fff0 78%),linear-gradient(130deg,#fff 8%,#eee 32%,#d6d6d6 54%,#f8f8f8 72%,#fff 96%);
+ }
+ html body.platform.light-theme .site-atmosphere::before { width:170vw; height:120vh; left:-5%; top:-16%; filter:blur(20px); }
+ html body.platform.light-theme .site-atmosphere::after { width:165vw; left:-105%; top:32%; filter:blur(28px); }
+}
+
 `;
 writeFileSync('src/styles/light-theme.css',base+output.toString()+'\n'+fixes);
