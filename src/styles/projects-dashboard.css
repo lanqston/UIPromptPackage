@@ -2,7 +2,7 @@
 .platform.projects-dashboard main { max-width:1680px; padding:112px 32px 48px; }
 .projects-dashboard .site-breadcrumbs { display:none; }
 .projects-workspace { display:grid; grid-template-columns:208px minmax(0,1fr); gap:36px; }
-.projects-sidebar { position:sticky; top:112px; align-self:start; max-height:calc(100dvh - 128px); overflow:auto; padding-right:18px; scrollbar-width:thin; }
+.platform.projects-dashboard .projects-sidebar { background:transparent; border:0; padding:8px 18px 0 0; position:sticky; top:112px; align-self:start; max-height:calc(100dvh - 128px); overflow:auto; padding-right:18px; scrollbar-width:thin; }
 .projects-dashboard .dashboard-kicker { margin:0 0 14px; color:#8de5c7; font-size:.65rem; font-weight:650; text-transform:uppercase; letter-spacing:.12em; }
 .projects-sidebar>.dashboard-kicker,.project-categories .dashboard-kicker { color:#939c98; }
 .project-collections { display:grid; gap:4px; margin-bottom:28px; }
@@ -64,7 +64,7 @@
 @media(max-width:900px) {
  .platform.projects-dashboard main { padding:104px 22px 40px; }
  .projects-workspace { display:block; }
- .projects-sidebar { position:static; max-height:none; padding:0; overflow:visible; }
+ .platform.projects-dashboard .projects-sidebar { position:static; max-height:none; padding:0; overflow:visible; }
  .projects-sidebar>.dashboard-kicker,.project-categories,.dashboard-invite { display:none; }
  .project-collections { display:flex; gap:6px; margin-bottom:22px; overflow-x:auto; padding:2px; }
  .project-collections button,.project-collections a { width:auto; flex:none; white-space:nowrap; min-height:44px; padding:10px 13px; border-color:#333f37; font-size:.75rem; }
