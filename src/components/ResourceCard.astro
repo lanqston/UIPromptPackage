@@ -9,7 +9,7 @@ const category = normalizeResourceCategory(resource.category);
 const id = resource.id || resource.slug;
 const url = resource.url || `/resources/${resource.slug}`;
 ---
-<article class="resource-card" data-resource data-builtin-resource data-resource-view-id={id} data-resource-url={url} data-category={category} data-search={`${resource.title} ${resource.description} ${category} ${resource.packet ? 'promptpackage prompts toolkit' : ''}`.toLowerCase()}>
+<article class="resource-card" data-resource data-resource-name={resource.title} data-resource-date={resource.date || ''} data-resource-reading-time={resource.readingTime || ''} data-resource-kind={resource.packet ? 'toolkit' : 'guide'} data-builtin-resource data-resource-view-id={id} data-resource-url={url} data-category={category} data-search={`${resource.title} ${resource.description} ${category} ${resource.packet ? 'promptpackage prompts toolkit' : ''}`.toLowerCase()}>
   <div class="resource-copy">
     <div class="card-topic"><span class="topic-icon" set:html={cardIconMarkup(categoryIcon(category))}/><span class="tag">{category}</span></div>
     <h3><a href={url}>{resource.title}</a></h3>

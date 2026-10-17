@@ -17,10 +17,11 @@ const sectionNames: Record<string,string> = { '/discover':'Projects', '/resource
 const breadcrumb = sectionNames[path] || title;
 import '../styles/monochrome.css';
 import '../styles/projects-refined.css';
+import '../styles/resources-refined.css';
 ---
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><title>{title} · Digivated</title><meta name="description" content={description}/><meta name="theme-color" content="#111111"/><link rel="icon" href="/favicon.svg"/><link rel="canonical" href={new URL(path, 'https://digivated.com')}/><meta property="og:title" content={`${title} · Digivated`}/><meta property="og:description" content={description}/><meta property="og:image" content="https://digivated.com/digivated-tech-markets-banner.png"/></head>
-<body class:list={['platform', { 'home-refresh': path === '/', 'projects-dashboard': path === '/discover', 'community-page': path.startsWith('/community') }]}><a class="skip" href="#main">Skip to content</a>
+<body class:list={['platform', { 'home-refresh': path === '/', 'projects-dashboard': path === '/discover', 'resources-dashboard': path === '/resources', 'community-page': path.startsWith('/community') }]}><a class="skip" href="#main">Skip to content</a>
 <SiteHeader/>
 <main id="main" tabindex="-1">{path !== '/' && <nav class="site-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>{(path.startsWith('/projects/') || path === '/launch-template') && <><a href="/discover">Projects</a><span aria-hidden="true">/</span></>}{path.startsWith('/resources/') && <><a href="/resources">Resources</a><span aria-hidden="true">/</span></>}<span aria-current="page">{breadcrumb}</span></nav>}<slot/></main>
 <SiteFooter/>

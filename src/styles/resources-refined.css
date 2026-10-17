@@ -1,0 +1,101 @@
+/* Resources / Refined: an open reading workspace, sharing the Projects hierarchy. */
+html body.platform.resources-dashboard { padding-top:0; }
+html body.platform.resources-dashboard main { width:100%; max-width:1440px; padding:128px 48px 56px; }
+html body.platform.resources-dashboard .site-breadcrumbs { display:none; }
+html body.platform.resources-dashboard .platform-header { inset:0 0 auto; max-width:none; width:100%; margin:0; padding:0 48px; border:0; border-bottom:1px solid #252525; border-radius:0; background:#111f; box-shadow:none; backdrop-filter:blur(12px); }
+html body.platform.resources-dashboard .header-inner { max-width:1344px; min-height:76px; margin:auto; padding:0; }
+html body.platform.resources-dashboard .platform-header .header-submit { min-height:40px; padding:10px 15px; font-size:.8rem; }
+html body.platform.resources-dashboard .resources-intro { display:flex; align-items:center; justify-content:space-between; gap:24px; margin:0 0 32px; }
+html body.platform.resources-dashboard .resources-intro h1 { margin:0 0 10px; font-size:clamp(2rem,3.3vw,2.7rem); font-weight:600; line-height:1.15; letter-spacing:-.04em; }
+html body.platform.resources-dashboard .resources-intro p { margin:0; color:#a3a3a3; font-size:.9375rem; line-height:1.6; }
+html body.platform.resources-dashboard .resources-intro>span { font-size:.65rem; text-transform:uppercase; letter-spacing:.1em; color:#888; }
+html body.platform.resources-dashboard .resource-topics { display:flex; align-items:center; gap:26px; margin:0 0 24px; padding:0; overflow-x:auto; border-bottom:1px solid #2e2e2e; scrollbar-width:thin; }
+html body.platform.resources-dashboard .resource-topics button,html body.platform.resources-dashboard .resource-topics a { display:inline-flex; align-items:center; position:relative; flex:none; gap:8px; width:auto; min-height:48px; padding:0 0 15px; border:0; border-radius:0; background:transparent; color:#a3a3a3; font-size:.75rem; font-weight:450; white-space:nowrap; text-decoration:none; }
+html body.platform.resources-dashboard .resource-topics a { margin-left:auto; }
+html body.platform.resources-dashboard .resource-topics button[aria-pressed=true] { color:#f5f5f5; background:none; }
+html body.platform.resources-dashboard .resource-topics button[aria-pressed=true]::after { content:''; position:absolute; left:0; right:0; bottom:0; height:2px; background:#ededed; border-radius:2px; }
+html body.platform.resources-dashboard .resource-topics button:hover,html body.platform.resources-dashboard .resource-topics a:hover { color:white; }
+html body.platform.resources-dashboard .resources-controls { display:grid; grid-template-columns:minmax(200px,1fr) 190px 180px auto; gap:12px; align-items:center; margin:0 0 16px; }
+html body.platform.resources-dashboard .resources-controls label { min-width:0; width:auto; margin:0; }
+html body.platform.resources-dashboard .resources-controls input,html body.platform.resources-dashboard .resources-controls select { min-height:44px; height:44px; margin:0; padding:8px 12px; border:1px solid #303030; border-radius:8px; background:#171717; color:#d7d7d7; font-size:.8125rem; box-shadow:none; }
+html body.platform.resources-dashboard .resources-search { position:relative; }
+html body.platform.resources-dashboard .resources-search input { padding-left:40px; }
+html body.platform.resources-dashboard .resources-search svg { position:absolute; left:13px; top:13px; color:#888; pointer-events:none; }
+html body.platform.resources-dashboard .resources-search input::placeholder { color:#929292; }
+html body.platform.resources-dashboard .resources-layout { display:flex; align-items:center; gap:2px; padding:3px; border:1px solid #303030; border-radius:8px; }
+html body.platform.resources-dashboard .resources-layout button { display:grid; place-items:center; width:36px; height:36px; padding:0; border:0; border-radius:4px; color:#929292; background:transparent; }
+html body.platform.resources-dashboard .resources-layout button[aria-pressed=true] { color:white; background:#2c2c2c; }
+html body.platform.resources-dashboard .resources-results { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:20px; margin:0 0 18px; }
+html body.platform.resources-dashboard .resources-results p { margin:0; color:#969696; font-size:.6875rem; }
+html body.platform.resources-dashboard [data-directory-clear] { min-height:30px; padding:0; color:#ddd; background:none; font-size:.75rem; text-decoration:underline; text-underline-offset:4px; }
+html body.platform.resources-dashboard .resource-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; align-items:stretch; }
+html body.platform.resources-dashboard .resource-card,html body.platform.resources-dashboard .resource-grid>.resource-card:first-child { display:flex; flex-direction:column; grid-column:auto; min-width:0; padding:0; border:1px solid #2e2e2e; border-radius:12px; background:#171717; box-shadow:none; transform:none; }
+html body.platform.resources-dashboard .resource-card:hover { border-color:#4c4c4c; transform:none; box-shadow:none; }
+html body.platform.resources-dashboard .resource-copy { display:flex; flex-direction:column; flex:1; min-width:0; padding:24px; }
+html body.platform.resources-dashboard .card-topic { min-height:0; gap:8px; margin:0 0 18px; }
+html body.platform.resources-dashboard .topic-icon { display:none; }
+html body.platform.resources-dashboard .card-topic .tag { padding:0; border:0; border-radius:0; background:none; color:#a3a3a3; font-size:.75rem; font-weight:450; }
+html body.platform.resources-dashboard .resource-card[data-resource-kind=toolkit] .card-topic::after { content:'TOOLKIT'; margin-left:auto; padding:3px 6px; border:1px solid #3a3a3a; border-radius:4px; color:#b3b3b3; font-size:.5rem; letter-spacing:.06em; }
+html body.platform.resources-dashboard .resource-copy h3,html body.platform.resources-dashboard .resource-grid>.resource-card:first-child h3 { margin:0 0 14px; min-height:52px; font-size:1.15rem; line-height:1.4; letter-spacing:-.025em; font-weight:600; }
+html body.platform.resources-dashboard .resource-copy h3 a { color:#f5f5f5; text-decoration:none; }
+html body.platform.resources-dashboard .resource-copy h3 a:hover { color:white; text-decoration:underline; text-underline-offset:4px; }
+html body.platform.resources-dashboard .resource-description,html body.platform.resources-dashboard .resource-copy .resource-description { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; min-height:66px; margin:0 0 22px; color:#aaa; font-size:.8125rem; line-height:1.75; }
+html body.platform.resources-dashboard .card-stats { display:flex; gap:10px; margin:0 0 14px; flex-wrap:wrap; }
+html body.platform.resources-dashboard .card-stat { display:inline-flex; gap:5px; min-height:0; padding:0; border:0; border-radius:0; background:none; color:#888; box-shadow:none; font-size:.625rem; }
+html body.platform.resources-dashboard .card-stat svg { width:11px; height:11px; color:#888; }
+html body.platform.resources-dashboard .card-footer { display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-top:auto; padding-top:14px; border-top:1px solid #2b2b2b; }
+html body.platform.resources-dashboard .card-actions { display:flex; gap:0; padding:0; border:0; border-radius:0; background:none; box-shadow:none; }
+html body.platform.resources-dashboard .card-icon { display:grid; place-items:center; width:32px; min-width:32px; height:40px; padding:0; border:0; color:#888; background:transparent; box-shadow:none; }
+html body.platform.resources-dashboard .card-icon:hover { color:#eee; background:#262626; box-shadow:none; }
+html body.platform.resources-dashboard .card-icon svg { width:15px; height:15px; }
+html body.platform.resources-dashboard .card-open { min-height:40px; padding:0; gap:5px; border:0; border-radius:0; background:none; box-shadow:none; color:#ededed; font-size:.6875rem; font-weight:500; }
+html body.platform.resources-dashboard .card-open:hover { color:white; background:none; box-shadow:none; transform:none; text-decoration:underline; text-underline-offset:4px; }
+html body.platform.resources-dashboard .card-open .button-arrow { width:20px; height:20px; background:none; box-shadow:none; }
+html body.platform.resources-dashboard .resource-grid[data-layout=list] { grid-template-columns:1fr; }
+html body.platform.resources-dashboard .resource-grid[data-layout=list] .resource-copy { display:grid; grid-template-columns:160px minmax(180px,1fr) minmax(200px,1fr) auto; gap:12px 24px; align-items:center; padding:20px 24px; }
+html body.platform.resources-dashboard .resource-grid[data-layout=list] .card-topic { grid-column:1; margin:0; }
+html body.platform.resources-dashboard .resource-grid[data-layout=list] h3 { grid-column:2; min-height:0; margin:0; font-size:1rem; }
+html body.platform.resources-dashboard .resource-grid[data-layout=list] .resource-description { grid-column:3; min-height:0; margin:0; -webkit-line-clamp:2; }
+html body.platform.resources-dashboard .resource-grid[data-layout=list] .card-stats { grid-column:2/4; grid-row:2; margin:0; }
+html body.platform.resources-dashboard .resource-grid[data-layout=list] .card-footer { grid-column:4; grid-row:1/3; flex-direction:column-reverse; margin:0; padding:0; border:0; }
+html body.platform.resources-dashboard .resources-closing { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-top:28px; }
+html body.platform.resources-dashboard .resources-closing p { margin:0; font-size:.8125rem; color:#999; }
+html body.platform.resources-dashboard .resources-closing a { color:#bbb; font-size:.75rem; text-decoration:none; }
+@media(max-width:1100px) {
+ html body.platform.resources-dashboard main { padding:112px 32px 40px; }
+ html body.platform.resources-dashboard .platform-header { padding-inline:32px; }
+ html body.platform.resources-dashboard .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ html body.platform.resources-dashboard .resources-controls { grid-template-columns:minmax(180px,1fr) 170px 160px auto; gap:10px; }
+ html body.platform.resources-dashboard .resources-intro>span { display:none; }
+ html body.platform.resources-dashboard .resource-grid[data-layout=list] .resource-copy { grid-template-columns:130px minmax(160px,1fr) minmax(160px,1fr); }
+ html body.platform.resources-dashboard .resource-grid[data-layout=list] .card-footer { grid-column:1; grid-row:2; flex-direction:row; flex-wrap:wrap; }
+}
+@media(max-width:767px) {
+ html body.platform.resources-dashboard main { padding:104px 20px 32px; }
+ html body.platform.resources-dashboard .platform-header { inset:0 0 auto; padding:0 20px; border-radius:0; }
+ html body.platform.resources-dashboard .header-inner { min-height:68px; }
+ html body.platform.resources-dashboard .resources-intro { margin-bottom:24px; }
+ html body.platform.resources-dashboard .resources-intro h1 { font-size:2rem; margin-bottom:8px; }
+ html body.platform.resources-dashboard .resources-intro p { font-size:.875rem; }
+ html body.platform.resources-dashboard .resource-topics { gap:22px; margin-bottom:20px; }
+ html body.platform.resources-dashboard .resources-controls { grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto; gap:10px; }
+ html body.platform.resources-dashboard .resources-search { grid-column:1/-1; }
+ html body.platform.resources-dashboard .resources-controls select { font-size:.75rem; padding-inline:10px; }
+ html body.platform.resources-dashboard .resources-layout { padding:2px; }
+ html body.platform.resources-dashboard .resources-layout button { width:32px; height:36px; }
+ html body.platform.resources-dashboard .resource-grid { gap:16px; }
+ html body.platform.resources-dashboard .resource-copy { padding:20px; }
+ html body.platform.resources-dashboard .resource-grid[data-layout=list] .resource-copy { display:flex; padding:20px; }
+ html body.platform.resources-dashboard .resource-grid[data-layout=list] .card-topic { margin-bottom:18px; }
+ html body.platform.resources-dashboard .resource-grid[data-layout=list] h3 { margin-bottom:14px; }
+ html body.platform.resources-dashboard .resource-grid[data-layout=list] .resource-description { margin-bottom:22px; }
+ html body.platform.resources-dashboard .resource-grid[data-layout=list] .card-stats { margin-bottom:14px; }
+ html body.platform.resources-dashboard .resource-grid[data-layout=list] .card-footer { flex-direction:row; padding-top:14px; margin-top:auto; border-top:1px solid #2b2b2b; }
+}
+@media(max-width:540px) {
+ html body.platform.resources-dashboard .resource-grid { grid-template-columns:1fr; }
+ html body.platform.resources-dashboard .resource-copy h3 { min-height:0; }
+ html body.platform.resources-dashboard .resource-description { min-height:0; }
+ html body.platform.resources-dashboard .card-icon { width:36px; min-width:36px; height:44px; }
+ html body.platform.resources-dashboard .card-open { min-height:44px; font-size:.75rem; }
+}

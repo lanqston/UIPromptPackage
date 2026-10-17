@@ -15,6 +15,7 @@ function setup(kind = 'projects') {
     node({search:'zebra ai maker',category:'AI',pick:'false',featured:'false',projectName:'Zebra',projectDate:'2026-10-16',projectViewsTotal:'0'}),
     node({search:'alpha saas maker',category:'SaaS',pick:'true',featured:'true',projectName:'Alpha',projectDate:'2026-10-01',projectViewsTotal:'63'}),
   ];
+  for (const [index,card] of cards.entries()) Object.assign(card.dataset,{resourceName:card.dataset.projectName,resourceDate:card.dataset.projectDate,resourceReadingTime:String(index ? 2 : 4)});
   const clear=node();
   const list=node();list.order=[...cards];list.appendChild=card=>{list.order=list.order.filter(c=>c!==card);list.order.push(card);};
   const views=['newest','picks','featured'].map(value=>node({directoryView:value}));
@@ -24,7 +25,7 @@ function setup(kind = 'projects') {
   const counts=['AI','SaaS'].map(value=>node({categoryCount:value}));
   const document=node();
   document.getElementById=id=>ids[id]||null;
-  document.querySelector=selector=>selector==='[data-directory]'?directory:selector==='[data-directory-clear]'?clear:selector==='[data-live-projects] [data-live-list]'?list:null;
+  document.querySelector=selector=>selector==='[data-directory]'?directory:selector==='[data-directory-clear]'?clear:(selector==='[data-live-projects] [data-live-list]'||selector==='[data-live-resources] [data-live-list]')?list:null;
   document.querySelectorAll=selector=> {
     if(selector==='[data-project]'||selector==='[data-resource]')return cards;
     if(selector==='[data-directory-view]')return views;
@@ -59,4 +60,16 @@ test('sorts all cards by views, name, and date and switches list layout',()=>{
 test('resource directory retains search and category filtering',()=>{
   const h=setup('resources');h.ids['directory-search'].value='alpha';h.ids['directory-search'].fire('input');
   assert.equal(h.ids['directory-status'].textContent,'1 resource found');assert.deepEqual(h.cards.map(c=>c.hidden),[true,false]);
+});
+
+test('resources sort by reading time and title, reset topics, and switch layout',()=>{
+  const h=setup('resources');
+  h.ids['directory-sort'].value='quick';h.ids['directory-sort'].fire('change');
+  assert.equal(h.list.order[0].dataset.resourceName,'Alpha');
+  h.ids['directory-sort'].value='name';h.ids['directory-sort'].fire('change');
+  assert.equal(h.list.order[0].dataset.resourceName,'Alpha');
+  h.chips[1].fire('click');assert.equal(h.ids['directory-status'].textContent,'1 resource found');
+  assert.equal(h.clear.hidden,false);h.clear.fire('click');assert.equal(h.clear.hidden,true);
+  assert.equal(h.ids['directory-status'].textContent,'2 resources found');
+  h.layouts[1].fire('click');assert.equal(h.list.dataset.layout,'list');
 });

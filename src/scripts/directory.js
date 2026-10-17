@@ -8,13 +8,14 @@ if (directory) {
   const isProjects = directory.dataset.directory === 'projects';
   const update = () => {
     const cards = [...document.querySelectorAll(directory.dataset.directory === 'projects' ? '[data-project]' : '[data-resource]')];
-    if (isProjects && sort) {
+    if (sort) {
       const ordered = [...cards].sort((a, b) => {
-        if (sort.value === 'name') return (a.dataset.projectName || '').localeCompare(b.dataset.projectName || '');
+        if (sort.value === 'name') return (a.dataset[isProjects ? 'projectName' : 'resourceName'] || '').localeCompare(b.dataset[isProjects ? 'projectName' : 'resourceName'] || '');
+        if (!isProjects && sort.value === 'quick') return (Number(a.dataset.resourceReadingTime) || Infinity) - (Number(b.dataset.resourceReadingTime) || Infinity);
         if (sort.value === 'views') return Number(b.dataset.projectViewsTotal || 0) - Number(a.dataset.projectViewsTotal || 0);
-        return (b.dataset.projectDate || '').localeCompare(a.dataset.projectDate || '');
+        return (b.dataset[isProjects ? 'projectDate' : 'resourceDate'] || '').localeCompare(a.dataset[isProjects ? 'projectDate' : 'resourceDate'] || '');
       });
-      const list = document.querySelector('[data-live-projects] [data-live-list]');
+      const list = document.querySelector(isProjects ? '[data-live-projects] [data-live-list]' : '[data-live-resources] [data-live-list]');
       if (list) for (const card of ordered) list.appendChild(card);
     }
     let count = 0;
@@ -47,8 +48,8 @@ if (directory) {
       for (const button of document.querySelectorAll('[data-directory-view]')) button.setAttribute('aria-pressed', String(button.dataset.directoryView === view?.value));
       const heading = document.getElementById('directory-heading');
       if (heading) heading.textContent = view?.value === 'picks' ? 'Digivated Picks' : view?.value === 'featured' ? 'Featured projects' : category.value || 'All projects';
-      if (clear) clear.hidden = !query && !category.value && (!view || view.value === 'newest');
     }
+    if (clear) clear.hidden = !query && !category.value && (!view || view.value === 'newest');
     const empty = document.getElementById('directory-empty');
     if (isProjects && directory.dataset.loaded !== 'true') {
       document.getElementById('directory-status').textContent = 'Loading projects…';
@@ -67,7 +68,7 @@ if (directory) {
   if (view && ['featured', 'picks'].includes(requestedView)) view.value = requestedView;
   for (const button of document.querySelectorAll('[data-directory-view]')) button.addEventListener('click', () => { if (view) view.value = button.dataset.directoryView; update(); });
   for (const button of document.querySelectorAll('[data-directory-layout]')) button.addEventListener('click', () => {
-    const list = document.querySelector('[data-live-projects] [data-live-list]');
+    const list = document.querySelector(isProjects ? '[data-live-projects] [data-live-list]' : '[data-live-resources] [data-live-list]');
     if (list) list.dataset.layout = button.dataset.directoryLayout;
     for (const toggle of document.querySelectorAll('[data-directory-layout]')) toggle.setAttribute('aria-pressed', String(toggle === button));
   });
