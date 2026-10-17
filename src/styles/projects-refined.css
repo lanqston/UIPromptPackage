@@ -1,0 +1,126 @@
+/* Figma: Projects / Refined. This view deliberately uses a single open canvas. */
+html body.platform.projects-dashboard {
+ --refined-bg:#111; --refined-surface:#171717; --refined-raised:#202020; --refined-line:#2e2e2e; --refined-ink:#f5f5f5; --refined-muted:#a3a3a3; --refined-soft:#888;
+ padding-top:0;
+}
+html body.platform.projects-dashboard main { width:100%; max-width:1440px; padding:128px 48px 56px; }
+html body.platform.projects-dashboard .projects-workspace { display:block; }
+html body.platform.projects-dashboard .projects-content { width:100%; }
+html body.platform.projects-dashboard .platform-header { inset:0 0 auto; max-width:none; width:100%; margin:0; padding:0 48px; border:0; border-bottom:1px solid #252525; border-radius:0; background:#111f; box-shadow:none; backdrop-filter:blur(12px); }
+html body.platform.projects-dashboard .header-inner { max-width:1344px; min-height:76px; margin:auto; padding:0; }
+html body.platform.projects-dashboard .platform-header .header-submit { min-height:40px; padding:10px 15px; font-size:.8rem; }
+html body.platform.projects-dashboard .dashboard-intro { display:flex; justify-content:space-between; align-items:center; gap:24px; padding:0 0 32px; }
+html body.platform.projects-dashboard .dashboard-intro h1 { margin:0 0 10px; font-size:clamp(2rem,3.3vw,2.7rem); font-weight:600; line-height:1.15; letter-spacing:-.04em; }
+html body.platform.projects-dashboard .dashboard-intro p { margin:0; color:var(--refined-muted); font-size:.9375rem; line-height:1.6; }
+html body.platform.projects-dashboard .dashboard-curation { font-size:.65rem; text-transform:uppercase; letter-spacing:.1em; color:var(--refined-soft); }
+html body.platform.projects-dashboard .project-collections { display:flex; align-items:center; gap:28px; margin:0 0 24px; padding:0; overflow-x:auto; border-bottom:1px solid var(--refined-line); scrollbar-width:none; }
+html body.platform.projects-dashboard .project-collections button,html body.platform.projects-dashboard .project-collections a { position:relative; display:inline-flex; justify-content:flex-start; align-items:center; flex:none; gap:9px; width:auto; min-height:48px; padding:0 0 15px; border:0; border-radius:0; background:transparent; color:var(--refined-muted); font-size:.8125rem; font-weight:450; text-decoration:none; white-space:nowrap; }
+html body.platform.projects-dashboard .project-collections a { margin-left:auto; }
+html body.platform.projects-dashboard .project-collections button span { font-size:.6875rem; font-variant-numeric:tabular-nums; color:#aaa; padding:2px 5px; background:#ffffff06; border-radius:4px; }
+html body.platform.projects-dashboard .project-collections button[aria-pressed=true] { color:var(--refined-ink); background:transparent; border:0; }
+html body.platform.projects-dashboard .project-collections button[aria-pressed=true]::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; border-radius:2px; background:#ededed; }
+html body.platform.projects-dashboard .project-collections button:hover,html body.platform.projects-dashboard .project-collections a:hover { color:white; background:transparent; }
+html body.platform.projects-dashboard .dashboard-controls { display:grid; grid-template-columns:minmax(200px,1fr) 180px 168px auto; gap:12px; margin:0 0 16px; }
+html body.platform.projects-dashboard .dashboard-controls label { min-width:0; width:auto; margin:0; }
+html body.platform.projects-dashboard .mobile-category { display:block; }
+html body.platform.projects-dashboard .dashboard-controls input,html body.platform.projects-dashboard .dashboard-controls select { height:44px; min-height:44px; border:1px solid #303030; background:#171717; border-radius:8px; margin:0; box-shadow:none; color:#d7d7d7; font-size:.8125rem; }
+html body.platform.projects-dashboard .dashboard-controls input { padding:11px 14px 11px 40px; }
+html body.platform.projects-dashboard .project-search svg { left:13px; top:13px; width:17px; height:17px; color:#888; }
+html body.platform.projects-dashboard .project-search input::placeholder { color:#929292; }
+html body.platform.projects-dashboard .dashboard-controls select { padding:8px 12px; }
+html body.platform.projects-dashboard .project-layout-toggle { align-self:center; padding:3px; gap:2px; border-color:#303030; border-radius:8px; }
+html body.platform.projects-dashboard .project-layout-toggle button { width:36px; height:36px; min-width:36px; color:#929292; background:transparent; border-radius:4px; }
+html body.platform.projects-dashboard .project-layout-toggle button[aria-pressed=true] { background:#2c2c2c; color:white; }
+html body.platform.projects-dashboard .dashboard-results { min-height:20px; margin:0 0 18px; justify-content:space-between; }
+html body.platform.projects-dashboard .dashboard-results .results-status { font-size:.6875rem; color:#969696; }
+html body.platform.projects-dashboard .clear-project-filters { font-size:.75rem; min-height:30px; color:#ddd; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+html body.platform.projects-dashboard [data-live-projects] .project-card { background:var(--refined-surface); border:1px solid var(--refined-line); border-radius:12px; overflow:visible; box-shadow:none; transform:none; }
+html body.platform.projects-dashboard [data-live-projects] .project-card:hover { border-color:#4c4c4c; box-shadow:none; transform:none; }
+html body.platform.projects-dashboard [data-live-projects] .project-copy { display:flex; padding:24px; gap:0; min-width:0; }
+html body.platform.projects-dashboard .project-identity { display:flex; align-items:center; gap:12px; min-height:44px; margin:0 0 20px; }
+html body.platform.projects-dashboard [data-live-projects] .project-image.card-visual { flex:none; width:44px; height:44px; min-height:44px; border:1px solid #ffffff06; border-radius:10px; background:#232323; overflow:hidden; }
+html body.platform.projects-dashboard [data-live-projects] .project-image img { width:100%; height:100%; object-fit:contain; border-radius:9px; }
+html body.platform.projects-dashboard [data-live-projects] .project-monogram { font-size:.8125rem; font-weight:550; letter-spacing:-.02em; color:#eee; }
+html body.platform.projects-dashboard .project-identity .card-topic { min-height:0; }
+html body.platform.projects-dashboard .project-identity .topic-icon { display:none; }
+html body.platform.projects-dashboard .project-identity .tag { padding:0; background:none; border:0; color:#aaa; font-size:.75rem; font-weight:450; }
+html body.platform.projects-dashboard [data-live-projects] .project-copy h3 { order:initial; margin:0 0 4px; font-size:1.2rem; font-weight:600; line-height:1.35; letter-spacing:-.025em; }
+html body.platform.projects-dashboard [data-live-projects] .project-meta { margin:0 0 18px; min-height:20px; }
+html body.platform.projects-dashboard [data-live-projects] .project-meta>.quiet,html body.platform.projects-dashboard [data-live-projects] .project-meta>a { display:block; max-width:100%; font-size:.6875rem; line-height:1.5; font-weight:400; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#969696; }
+html body.platform.projects-dashboard [data-live-projects] .project-copy .project-description { min-height:46px; margin:0 0 10px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; color:#aaa; font-size:.8125rem; line-height:1.75; }
+html body.platform.projects-dashboard [data-live-projects] .project-details { margin:0 0 18px; font-size:.75rem; }
+html body.platform.projects-dashboard [data-live-projects] .project-details summary { display:inline-flex; min-height:28px; align-items:center; color:#999; font-size:.6875rem; }
+html body.platform.projects-dashboard [data-live-projects] .project-details summary:hover { color:#eee; }
+html body.platform.projects-dashboard [data-live-projects] .project-details[open] summary { margin-bottom:8px; }
+html body.platform.projects-dashboard [data-live-projects] .project-details p { margin:0; font-size:.8125rem; line-height:1.7; white-space:pre-line; }
+html body.platform.projects-dashboard [data-live-projects] .project-stats { gap:12px; margin:0 0 14px; }
+html body.platform.projects-dashboard [data-live-projects] .card-stat { gap:5px; min-height:0; padding:0; border:0; background:none; box-shadow:none; color:#888; font-size:.625rem; }
+html body.platform.projects-dashboard [data-live-projects] .card-stat svg { width:11px; height:11px; color:#888; }
+html body.platform.projects-dashboard [data-live-projects] .project-copy .card-links.card-footer { align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; margin-top:auto; padding-top:14px; border-top:1px solid #2b2b2b; }
+html body.platform.projects-dashboard [data-live-projects] .card-actions { gap:0; padding:0; border:0; border-radius:0; background:none; box-shadow:none; }
+html body.platform.projects-dashboard [data-live-projects] .card-icon { width:32px; min-width:32px; height:40px; padding:0; color:#888; border:0; background:transparent; box-shadow:none; }
+html body.platform.projects-dashboard [data-live-projects] .card-icon:hover { color:#eee; background:#262626; box-shadow:none; }
+html body.platform.projects-dashboard [data-live-projects] .card-icon svg { width:15px; height:15px; }
+html body.platform.projects-dashboard [data-live-projects] .project-copy .card-links .card-open.button { gap:5px; min-height:40px; padding:0; border:0; border-radius:0; background:none; color:#ededed; box-shadow:none; font-size:.6875rem; font-weight:500; }
+html body.platform.projects-dashboard [data-live-projects] .project-copy .card-links .card-open.button:hover { color:white; background:none; text-decoration:underline; text-underline-offset:4px; }
+html body.platform.projects-dashboard [data-live-projects] .card-open .button-arrow { width:20px; height:20px; background:none; box-shadow:none; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] { grid-template-columns:1fr; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-card { display:block; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-copy { display:grid; grid-template-columns:56px minmax(130px,1fr) minmax(220px,2fr) auto; align-items:center; column-gap:24px; padding:20px 24px; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-identity { grid-row:1/5; grid-column:1; align-self:start; flex-direction:column; gap:8px; margin:0; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] h3 { grid-column:2; grid-row:1; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-meta { grid-column:2; grid-row:2; margin:0; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-description { grid-column:3; grid-row:1/3; margin:0; min-height:0; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-details { grid-column:3; margin:0; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-stats { grid-column:2; margin:4px 0 0; }
+html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .card-links.card-footer { grid-column:4; grid-row:1/5; display:flex; flex-direction:column-reverse; padding:0; margin:0; border:0; gap:4px; }
+html body.platform.projects-dashboard .refined-submit { display:flex; align-items:center; justify-content:space-between; gap:24px; margin:28px 0 0; padding:24px; border:1px solid var(--refined-line); border-radius:12px; background:transparent; }
+html body.platform.projects-dashboard .refined-submit>div { display:flex; align-items:baseline; gap:24px; }
+html body.platform.projects-dashboard .refined-submit h2 { margin:0; font-size:.875rem; line-height:1.5; font-weight:500; letter-spacing:-.015em; }
+html body.platform.projects-dashboard .refined-submit p { margin:0; color:#888; font-size:.8125rem; }
+html body.platform.projects-dashboard .refined-submit a { flex:none; color:#e5e5e5; font-size:.75rem; text-decoration:none; }
+html body.platform.projects-dashboard .dashboard-review-note { margin:18px 0 0; text-align:center; font-size:.625rem; color:#777; }
+@media(max-width:1100px) {
+ html body.platform.projects-dashboard main { padding:112px 32px 40px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ html body.platform.projects-dashboard .platform-header { padding-inline:32px; }
+ html body.platform.projects-dashboard .dashboard-curation { display:none; }
+ html body.platform.projects-dashboard .dashboard-controls { grid-template-columns:minmax(200px,1fr) 160px 150px auto; gap:10px; }
+ html body.platform.projects-dashboard .refined-submit>div { display:block; }
+}
+@media(max-width:767px) {
+ html body.platform.projects-dashboard main { padding:104px 20px 32px; }
+ html body.platform.projects-dashboard .platform-header { inset:0 0 auto; width:100%; padding:0 20px; border-radius:0; }
+ html body.platform.projects-dashboard .header-inner { min-height:68px; }
+ html body.platform.projects-dashboard .dashboard-intro { padding-bottom:24px; }
+ html body.platform.projects-dashboard .dashboard-intro h1 { font-size:2rem; margin-bottom:8px; }
+ html body.platform.projects-dashboard .dashboard-intro p { font-size:.875rem; }
+ html body.platform.projects-dashboard .project-collections { gap:24px; margin-bottom:20px; }
+ html body.platform.projects-dashboard .project-collections button,html body.platform.projects-dashboard .project-collections a { font-size:.75rem; }
+ html body.platform.projects-dashboard .project-collections a { margin-left:0; }
+ html body.platform.projects-dashboard .dashboard-controls { grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto; gap:10px; }
+ html body.platform.projects-dashboard .project-search { grid-column:1/-1; }
+ html body.platform.projects-dashboard .dashboard-controls select { font-size:.75rem; padding-inline:10px; }
+ html body.platform.projects-dashboard .project-layout-toggle { padding:2px; }
+ html body.platform.projects-dashboard .project-layout-toggle button { width:32px; min-width:32px; height:36px; }
+ html body.platform.projects-dashboard .dashboard-results { margin-bottom:14px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-grid { gap:16px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-copy { padding:20px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-copy { display:flex; padding:20px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-identity { flex-direction:row; align-self:auto; margin-bottom:20px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-meta { margin:0 0 18px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-description { min-height:46px; margin:0 0 10px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-details { margin:0 0 18px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-stats { margin:0 0 14px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .card-links.card-footer { flex-direction:row; padding-top:14px; margin-top:auto; border-top:1px solid #2b2b2b; }
+ html body.platform.projects-dashboard .refined-submit { padding:20px; }
+ html body.platform.projects-dashboard .refined-submit p { margin-top:6px; }
+}
+@media(max-width:540px) {
+ html body.platform.projects-dashboard [data-live-projects] .project-grid { grid-template-columns:1fr; }
+ html body.platform.projects-dashboard [data-live-projects] .card-icon { width:36px; min-width:36px; height:44px; }
+ html body.platform.projects-dashboard [data-live-projects] .project-copy .card-links .card-open.button { min-height:44px; font-size:.75rem; }
+ html body.platform.projects-dashboard .refined-submit { display:block; }
+ html body.platform.projects-dashboard .refined-submit a { display:inline-block; min-height:44px; padding-top:14px; }
+}

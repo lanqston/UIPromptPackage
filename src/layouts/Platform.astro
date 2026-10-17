@@ -16,6 +16,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const sectionNames: Record<string,string> = { '/discover':'Projects', '/resources':'Resources', '/products':'Digital Products', '/ui-ux-prompt-packet':'Prompt Packet', '/submit-project':'Submit Project', '/promote':'Promote your project', '/about':'About', '/privacy':'Privacy & Data', '/terms':'Terms of Use' };
 const breadcrumb = sectionNames[path] || title;
 import '../styles/monochrome.css';
+import '../styles/projects-refined.css';
 ---
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><title>{title} · Digivated</title><meta name="description" content={description}/><meta name="theme-color" content="#111111"/><link rel="icon" href="/favicon.svg"/><link rel="canonical" href={new URL(path, 'https://digivated.com')}/><meta property="og:title" content={`${title} · Digivated`}/><meta property="og:description" content={description}/><meta property="og:image" content="https://digivated.com/digivated-tech-markets-banner.png"/></head>

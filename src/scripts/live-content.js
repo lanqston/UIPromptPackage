@@ -40,7 +40,14 @@ function projectCard(project){
  const stats=el('div',undefined,'card-stats project-stats');const viewStat=el('span',undefined,'card-stat');const eye=el('span',undefined,'stat-icon');eye.append(cardIcon('eye'));const views=el('span',viewLabel(project.views));views.dataset.projectViews=project.id;viewStat.title='Approximate project views. Repeat views from the same network count once every 24 hours.';viewStat.append(eye,views);stats.append(viewStat);
  if(formatCardDate(project.date)){const dateStat=el('span',undefined,'card-stat');dateStat.title=formatCardDate(project.date,true);dateStat.append(cardIcon('calendar'),el('span',formatCardDate(project.date)));stats.prepend(dateStat);}copy.append(stats);
  if(project.pageUrl){const detail=link('View project',project.pageUrl);detail.className='project-detail-link';detail.append(cardIcon('arrow'));copy.append(detail);}
- const actions=el('div',undefined,'card-links card-footer');const visit=openLink('Visit project',project.url,'external');visit.classList.add('button','primary');actions.append(cardActions('project',project.id,project.pageUrl||`/discover#project-${project.id}`),visit);copy.append(actions);card.append(image,copy);return card;
+ const actions=el('div',undefined,'card-links card-footer');const visit=openLink('Visit project',project.url,'external');visit.classList.add('button','primary');actions.append(cardActions('project',project.id,project.pageUrl||`/discover#project-${project.id}`),visit);copy.append(actions);
+ if(document.body.classList.contains('projects-dashboard')){
+  const identity=el('div',undefined,'project-identity');
+  identity.append(image,meta.querySelector('.card-topic'));
+  const sponsored=meta.querySelector('.sponsored-tag');if(sponsored)identity.append(sponsored);
+  copy.prepend(identity);card.append(copy);
+ }else card.append(image,copy);
+ return card;
 }
 function resourceCard(resource){
  const category=normalizeResourceCategory(resource.category);const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.resourceViewId=resource.id;card.dataset.category=category;card.dataset.search=`${resource.title} ${resource.description} ${category}`.toLowerCase();
