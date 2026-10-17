@@ -26,6 +26,7 @@ for(const width of [375,768,1440]){
  });
 }
 test('mobile navigation, directory filters, and preserved product link',async({page})=>{
+ await page.route('**/api/projects*',route=>route.fulfill({json:{items:[],next:null}}));
  await page.setViewportSize({width:375,height:812});await page.goto(base);
  await page.locator('.mobile-menu summary').click();
  await page.getByRole('navigation',{name:'Mobile navigation',exact:true}).getByRole('link',{name:'Projects',exact:true}).click();

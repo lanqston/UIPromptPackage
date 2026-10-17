@@ -229,3 +229,6 @@ html body.platform.projects-dashboard [data-live-projects] .project-grid[data-la
 @media(max-width:360px) {
  html body.platform [data-live-projects] .project-image.card-visual { height: 44px; min-height: 44px; }
 }
+
+/* Leave comfortable room for readable actions within compact directory cards. */
+html body.platform.projects-dashboard [data-live-projects] .project-copy { padding: 16px; }
