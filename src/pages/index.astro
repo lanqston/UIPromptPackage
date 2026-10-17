@@ -29,6 +29,11 @@ import ResourcesLibrary from '../components/ResourcesLibrary.astro';
       </nav>
     </section>
 
+    <section id="projects" class="home-section community-builds" aria-labelledby="community-heading">
+      <div class="home-section-heading"><div><p class="section-kicker">DIGIVATED PICKS</p><h2 id="community-heading">Meet your next <em>discovery.</em></h2><p>A few independent projects worth a closer look.</p></div><a class="section-link" href="/discover">Browse projects <span aria-hidden="true">↗</span></a></div>
+      <LiveProjects mode="picks" limit={4} compact title="The next discovery is still to come." description="Reviewed community projects will appear here. Have something you’re building? Send it in for free." href="/submit-project" label="Submit your project"/>
+    </section>
+
     <ResourcesLibrary/>
 
     <section class="journey-section" aria-labelledby="journey-heading">
@@ -40,10 +45,7 @@ import ResourcesLibrary from '../components/ResourcesLibrary.astro';
       </ol>
     </section>
 
-    <section id="projects" class="home-section community-builds" aria-labelledby="community-heading">
-      <div class="home-section-heading"><div><p class="section-kicker">DIGIVATED PICKS</p><h2 id="community-heading">Ideas worth <em>discovering.</em></h2><p>Independent projects selected by Digivated. Meet the people making something worth exploring.</p></div><a class="section-link" href="/discover">Browse projects <span aria-hidden="true">↗</span></a></div>
-      <LiveProjects mode="picks" limit={4} compact title="The next discovery is still to come." description="Reviewed community projects will appear here. Have something you’re building? Send it in for free." href="/submit-project" label="Submit your project"/>
-    </section>
+
 
     <section class="home-product" aria-labelledby="home-product-heading"><div><p class="section-kicker">MADE BY DIGIVATED</p><h2 id="home-product-heading">Turn an idea into <em>something real.</em></h2><p>The UI/UX Prompt Packet brings 75 prompts and step-by-step guidance to your next website or app. Try three prompts free before deciding whether the full packet is for you.</p><div class="actions"><a class="button primary" href="/ui-ux-prompt-packet">Explore the packet ↗</a><a class="text-link" href="/access">Already purchased? Open access →</a></div></div><div class="packet-display" aria-hidden="true"><span>THE UI/UX PROMPT PACKET</span><strong>75<span> prompts</span></strong><span>FROM IDEA → INTERFACE</span></div></section>
 

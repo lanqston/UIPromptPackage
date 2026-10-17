@@ -1,0 +1,52 @@
+/* Public action palette: explicit surface/text pairs survive older page layers. */
+html body.platform.light-theme .button,
+html body.platform.light-theme .button:hover { background:#fff; color:#171717; border-color:#d2d2d2; box-shadow:none; }
+html body.platform.light-theme .button.primary,
+html body.platform.light-theme .button.primary:hover,
+html body.platform.light-theme .platform-header .header-submit,
+html body.platform.light-theme .platform-header .header-submit:hover,
+html body.platform.light-theme .comment-form button { background:#171717; color:#fff; border-color:#171717; }
+html body.platform.light-theme :is(.button,.header-submit) :is(span,svg),
+html body.platform.light-theme .comment-form button :is(span,svg) { color:inherit; }
+html body.platform.light-theme .button-arrow { color:inherit; background:transparent; box-shadow:none; }
+html body.platform.light-theme :is(.button,.card-open,.card-icon):focus-visible { outline:2px solid #171717; outline-offset:4px; }
+
+/* The homepage uses the compact identity layout from the Figma project dashboard. */
+html body.platform.light-theme.home-refresh .community-builds { padding-block:28px 48px; }
+html body.platform.light-theme.home-refresh .community-builds .home-section-heading { margin-bottom:24px; }
+html body.platform.light-theme.home-refresh .community-builds h2 { font-size:clamp(1.8rem,3vw,2.5rem); }
+html body.platform.light-theme.home-refresh .community-builds .project-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-card { background:#ffffffed; border:1px solid #dedede; border-radius:14px; box-shadow:none; overflow:hidden; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-copy { display:flex; flex-direction:column; padding:24px; gap:0; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-copy > * { order:initial; }
+html body.platform.light-theme.home-refresh .project-identity { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-image.card-visual { flex:none; width:44px; height:44px; min-height:44px; border-radius:10px; border:1px solid #e9e9e9; background:#f4f4f4; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-image img { width:100%; height:100%; object-fit:contain; border-radius:9px; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-monogram { font-size:.8125rem; color:#333; }
+html body.platform.light-theme.home-refresh .project-identity .topic-icon { display:none; }
+html body.platform.light-theme.home-refresh .project-identity .tag { padding:0; border:0; background:transparent; color:#626262; font-size:.75rem; }
+html body.platform.light-theme.home-refresh [data-live-projects] h3 { margin:0 0 5px; font-size:1.2rem; letter-spacing:-.025em; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-meta { margin:0 0 16px; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-meta :is(a,.quiet) { color:#707070; font-size:.75rem; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-description { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:44px; margin:0 0 8px; color:#555; font-size:.875rem; line-height:1.6; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-details { margin:0 0 16px; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-details summary { display:inline-flex; align-items:center; min-height:32px; color:#666; font-size:.75rem; list-style:none; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-details summary::-webkit-details-marker { display:none; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-details p { font-size:.875rem; line-height:1.6; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-stats { margin:0 0 12px; gap:14px; }
+html body.platform.light-theme.home-refresh [data-live-projects] .card-stat { padding:0; color:#707070; font-size:.6875rem; }
+html body.platform.light-theme.home-refresh [data-live-projects] .card-stat svg { width:13px; height:13px; }
+html body.platform.light-theme.home-refresh [data-live-projects] .card-links.card-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; padding-top:12px; margin-top:auto; border-top:1px solid #e6e6e6; }
+html body.platform.light-theme.home-refresh [data-live-projects] .card-actions { gap:0; }
+html body.platform.light-theme.home-refresh [data-live-projects] .card-icon { min-width:36px; width:36px; height:44px; padding:0; color:#666; }
+html body.platform.light-theme.home-refresh [data-live-projects] .card-icon:hover { background:#f0f0f0; color:#171717; }
+html body.platform.light-theme.home-refresh [data-live-projects] .card-icon svg { width:17px; height:17px; }
+html body.platform.light-theme.home-refresh [data-live-projects] .project-copy .card-links .card-open.button,
+html body.platform.light-theme.home-refresh [data-live-projects] .project-copy .card-links .card-open.button:hover { background:transparent; color:#171717; border:0; border-radius:0; padding:0; gap:6px; font-size:.75rem; min-height:44px; box-shadow:none; }
+html body.platform.light-theme.home-refresh [data-live-projects] .card-open .button-arrow { width:18px; height:18px; color:inherit; background:none; }
+@media(max-width:767px) {
+ html body.platform.light-theme.home-refresh .community-builds { padding-top:12px; }
+ html body.platform.light-theme.home-refresh .community-builds .project-grid { grid-template-columns:1fr; gap:16px; }
+ html body.platform.light-theme.home-refresh .community-builds .home-section-heading { gap:16px; }
+ html body.platform.light-theme.home-refresh [data-live-projects] .project-copy { padding:20px; }
+}

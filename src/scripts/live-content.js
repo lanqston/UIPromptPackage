@@ -41,7 +41,7 @@ function projectCard(project){
  if(formatCardDate(project.date)){const dateStat=el('span',undefined,'card-stat');dateStat.title=formatCardDate(project.date,true);dateStat.append(cardIcon('calendar'),el('span',formatCardDate(project.date)));stats.prepend(dateStat);}copy.append(stats);
  if(project.pageUrl){const detail=link('View project',project.pageUrl);detail.className='project-detail-link';detail.append(cardIcon('arrow'));copy.append(detail);}
  const actions=el('div',undefined,'card-links card-footer');const visit=openLink('Visit project',project.url,'external');visit.classList.add('button','primary');actions.append(cardActions('project',project.id,project.pageUrl||`/discover#project-${project.id}`),visit);copy.append(actions);
- if(document.body.classList.contains('projects-dashboard')){
+ if(document.body.classList.contains('projects-dashboard') || document.body.classList.contains('home-refresh')){
   const identity=el('div',undefined,'project-identity');
   identity.append(image,meta.querySelector('.card-topic'));
   const sponsored=meta.querySelector('.sponsored-tag');if(sponsored)identity.append(sponsored);
