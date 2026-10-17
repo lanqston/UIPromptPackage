@@ -124,3 +124,5 @@ html body.platform.projects-dashboard .dashboard-review-note { margin:18px 0 0; 
  html body.platform.projects-dashboard .refined-submit { display:block; }
  html body.platform.projects-dashboard .refined-submit a { display:inline-block; min-height:44px; padding-top:14px; }
 }
+/* Neutralize legacy flex ordering so identity, title and creator follow the Figma hierarchy. */
+html body.platform.projects-dashboard [data-live-projects] .project-copy > * { order:initial; }
