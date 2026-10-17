@@ -20,7 +20,7 @@ for (const width of [320, 390, 768]) {
         body: getComputedStyle(document.body).backgroundColor,
         overflow: document.documentElement.scrollWidth > innerWidth,
       }));
-      expect(metrics, `${name} at ${width}px`).toEqual({ body: 'rgb(17, 18, 19)', overflow: false });
+      expect(metrics, `${name} at ${width}px`).toEqual({ body: 'rgb(17, 17, 17)', overflow: false });
       if (name !== 'library') {
         const menu = page.locator('.mobile-menu summary');
         await expect(menu).toBeVisible();
@@ -40,17 +40,12 @@ for (const width of [320, 390, 768]) {
       if (name === 'library' && width <= 600) await expect(page.locator('.brand-caption')).toBeVisible();
       await page.screenshot({ path: `test-results/mobile/${name}-${width}.png`, fullPage: false });
       if (name === 'home') {
-        await page.locator('.signal-stage').scrollIntoViewIfNeeded();
-        const stage = await page.locator('.signal-display').boundingBox();
-        const emblem = await page.locator('.signal-emblem').boundingBox();
-        expect(stage && emblem, 'hero card and logo are visible').toBeTruthy();
-        expect(Math.abs((emblem!.x + emblem!.width / 2) - (stage!.x + stage!.width / 2)), 'hero logo stays centered').toBeLessThan(18);
-        const iconStyle = await page.locator('.journey-icon').first().evaluate(element => ({
-          fontSize: getComputedStyle(element).fontSize,
-          mask: getComputedStyle(element, '::before').maskImage,
-        }));
-        expect(iconStyle.fontSize).toBe('0px');
-        expect(iconStyle.mask).toContain('signal-spark.svg');
+        await page.locator('.welcome-guide').scrollIntoViewIfNeeded();
+        const guide = await page.locator('.welcome-guide').boundingBox();
+        expect(guide, 'beginner guide is visible').not.toBeNull();
+        expect(guide!.x + guide!.width).toBeLessThanOrEqual(width);
+        await expect(page.locator('.welcome-guide > a')).toHaveCount(3);
+        await expect(page.locator('.journey-icon').first()).toHaveText('01');
         await page.screenshot({ path: `test-results/mobile/hero-card-${width}.png`, fullPage: false });
       }
     }
