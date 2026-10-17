@@ -9,6 +9,7 @@ html body.platform.light-theme .comment-form button { background:#171717; color:
 html body.platform.light-theme :is(.button,.header-submit) :is(span,svg),
 html body.platform.light-theme .comment-form button :is(span,svg) { color:inherit; }
 html body.platform.light-theme .button-arrow { color:inherit; background:transparent; box-shadow:none; }
+html body.platform.light-theme #saved-folders .button[aria-pressed=true] { background:#eaeaea; color:#171717; border-color:#ccc; }
 html body.platform.light-theme :is(.button,.card-open,.card-icon):focus-visible { outline:2px solid #171717; outline-offset:4px; }
 
 /* The homepage uses the compact identity layout from the Figma project dashboard. */
