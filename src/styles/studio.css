@@ -52,7 +52,7 @@ html body.platform.light-theme.home-refresh .welcome-kicker { margin:0 0 8px; fo
 html body.platform.light-theme.home-refresh .welcome-guide > a { min-height:58px; padding:12px 0; border-top:1px solid #d9d9d9a6; transition:padding 220ms var(--studio-ease),background 200ms; }
 html body.platform.light-theme.home-refresh .welcome-guide > a:hover { padding-left:7px; padding-right:7px; background:#ffffff80; }
 html body.platform.light-theme.home-refresh .welcome-guide strong { font-size:.8rem; }
-html body.platform.light-theme.home-refresh .welcome-guide small { font-size:.7rem; margin-top:2px; }
+html body.platform.light-theme.home-refresh .welcome-guide small { font-size:.75rem; margin-top:2px; }
 html body.platform.light-theme.home-refresh .welcome-guide .welcome-footnote { font-size:.625rem; margin-top:10px; }
 .orbit-stage { position:relative; height:260px; margin:0 -20px 10px; perspective:900px; }
 .orbit-sculpture { position:absolute; inset:12px 0 0; display:grid; place-items:center; transform:rotateX(var(--orbit-x,0deg)) rotateY(var(--orbit-y,0deg)); transition:transform 600ms var(--studio-ease); }
@@ -64,7 +64,7 @@ html body.platform.light-theme.home-refresh .home-topics a:last-child { border:0
 
 /* A single surface language across projects, resources, topics and products. */
 html body.platform.light-theme [data-live-projects] .project-card[data-project],
-html body.platform.light-theme .resource-grid > .resource-card[data-resource],
+html body.platform.light-theme.resources-dashboard .resource-grid > .resource-card[data-resource],
 html body.platform.light-theme.home-refresh .idea-card,
 html body.platform.light-theme .saved-card {
  position:relative; isolation:isolate; border-radius:var(--studio-radius); border-color:#e2e2e2;
@@ -72,7 +72,7 @@ html body.platform.light-theme .saved-card {
  transition:transform 420ms var(--studio-ease),box-shadow 420ms var(--studio-ease),border-color 240ms;
 }
 html body.platform.light-theme [data-live-projects] .project-card[data-project]::after,
-html body.platform.light-theme .resource-grid > .resource-card[data-resource]::after,
+html body.platform.light-theme.resources-dashboard .resource-grid > .resource-card[data-resource]::after,
 html body.platform.light-theme.home-refresh .idea-card::after {
  content:''; position:absolute; inset:0; z-index:-1; border-radius:inherit; pointer-events:none; opacity:0;
  background:radial-gradient(350px circle at var(--shine-x,50%) var(--shine-y,0%),#e6e6e66b,transparent 70%); transition:opacity 300ms;
@@ -81,7 +81,7 @@ html body.platform.light-theme [data-live-projects] .project-image.card-visual {
 html body.platform.light-theme [data-live-projects] .project-image img { border-radius:12px; }
 html body.platform.light-theme.projects-dashboard [data-live-projects] .project-copy { padding:26px; }
 html body.platform.light-theme.projects-dashboard [data-live-projects] h3 { font-size:1.25rem; }
-html body.platform.light-theme .resource-grid > .resource-card[data-resource] .resource-copy { padding:26px; }
+html body.platform.light-theme.resources-dashboard .resource-grid > .resource-card[data-resource] .resource-copy { padding:26px; }
 html body.platform.light-theme.resources-dashboard .resource-card .topic-icon { display:grid; place-items:center; width:34px; height:34px; min-width:34px; border-radius:10px; background:linear-gradient(140deg,#fff,#eee); border:1px solid #e3e3e3; box-shadow:0 2px 4px #00000004; }
 html body.platform.light-theme.resources-dashboard .resource-card .topic-icon svg { width:16px; height:16px; color:#555; }
 html body.platform.light-theme.resources-dashboard .resource-card .card-topic { gap:10px; min-height:34px; }
@@ -115,10 +115,10 @@ html body.platform.light-theme dialog::backdrop { background:#17171740; backdrop
 @keyframes studio-dialog-in { from { opacity:0; translate:0 10px; scale:.98; } to { opacity:1; translate:0 0; scale:1; } }
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
  html body.platform.light-theme [data-live-projects] .project-card[data-project]:hover,
- html body.platform.light-theme .resource-grid > .resource-card[data-resource]:hover,
+ html body.platform.light-theme.resources-dashboard .resource-grid > .resource-card[data-resource]:hover,
  html body.platform.light-theme.home-refresh .idea-card:hover { transform:perspective(1000px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translateY(-4px); box-shadow:var(--studio-hover-shadow); border-color:#c8c8c8; }
  html body.platform.light-theme [data-live-projects] .project-card[data-project]:hover::after,
- html body.platform.light-theme .resource-grid > .resource-card[data-resource]:hover::after,
+ html body.platform.light-theme.resources-dashboard .resource-grid > .resource-card[data-resource]:hover::after,
  html body.platform.light-theme.home-refresh .idea-card:hover::after { opacity:1; }
  html body.platform.light-theme .project-grid[data-layout=list] .project-card:hover { transform:translateY(-2px); }
 }
@@ -141,7 +141,7 @@ html body.platform.light-theme dialog::backdrop { background:#17171740; backdrop
  html body.platform.light-theme.home-refresh .home-topics a:nth-child(2) { border-right:0; }
  html body.platform.light-theme.home-refresh .home-topics a:nth-child(n+3) { border-bottom:0; }
  html body.platform.light-theme.projects-dashboard [data-live-projects] .project-copy,
- html body.platform.light-theme .resource-grid > .resource-card[data-resource] .resource-copy { padding:20px; }
+ html body.platform.light-theme.resources-dashboard .resource-grid > .resource-card[data-resource] .resource-copy { padding:20px; }
  html body.platform.light-theme .project-copy .card-open,
  html body.platform.light-theme .resource-copy .card-open { font-size:.7rem; padding-inline:9px!important; }
  html body.platform.light-theme :is(.dashboard-controls,.resources-controls) { padding:8px; gap:8px; }
