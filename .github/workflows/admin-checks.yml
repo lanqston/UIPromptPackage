@@ -27,7 +27,7 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test tests/browser/admin.spec.ts tests/browser/project-views.spec.ts tests/browser/refinement.spec.ts tests/browser/launch-collections.spec.ts tests/browser/home-refresh.spec.ts
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: component-visual-review
