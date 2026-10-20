@@ -8,7 +8,7 @@ test('Digivated discovery, view counts, free prompt, and purchase access', async
   const response = await page.goto('https://digivated.com/');
   expect(response?.status()).toBe(200);
   await expect(page.locator('#home-heading')).toBeVisible();
-  await expect(page.getByRole('link', { name: /^Browse (?:free guides|resources)$/ })).toHaveAttribute('href', '/resources');
+  await expect(page.locator('.hero-copy').getByRole('link', { name: /^Browse (?:free guides|resources)$/ })).toHaveAttribute('href', '/resources');
   const resourcesResponse = await page.goto('https://digivated.com/resources');
   expect(resourcesResponse?.status()).toBe(200);
   await expect(page.getByRole('heading', { name: 'Resources', exact: true })).toBeVisible();
