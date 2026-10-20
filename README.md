@@ -35,6 +35,36 @@ Astro creates 12 public static pages in `dist/`. Paid content is not in those pa
 
 The source import/sealing scripts still operate on ignored `.private/` input and write server ciphertext. Keep its key securely backed up separately.
 
+## Educational carousels
+
+Public pages: `/carousels` and `/carousels/<slug>`. Anyone can read the title, summary, and the first four slides. Slide 5 and later, their images, and the reference list are returned only by `GET /api/carousels` after a founding-member session. Locked image requests never receive image bytes. While `FOUNDING_ACCESS_ENABLED` is not `true`, sign-in stays off and locked slides say the full carousel is coming soon, with a link to `/founding-members`.
+
+Publishing does not require a code change or a database migration. Carousels are stored in the existing submissions Redis under new `digivated:carousel:` keys. Set these on the Vercel environment that should receive the carousel (preview and production can share Redis; a publish then becomes readable wherever that Redis is read):
+
+- `CAROUSEL_PUBLISH_SECRET`: 64 hex characters (`openssl rand -hex 32`). The publish route rejects requests until this is set.
+- `SUBMISSIONS_REDIS_REST_URL` and `SUBMISSIONS_REDIS_REST_TOKEN`: already used by submissions. No new table.
+
+```bash
+CAROUSEL_PUBLISH_URL=https://your-preview-host/api/carousel-publish \
+CAROUSEL_PUBLISH_SECRET=... \
+node scripts/publish-carousel.mjs path/to/carousel.json
+```
+
+`carousel.json` fields: `slug`, `title`, `summary`, `created` (optional ISO date), `references` (`label`, `https` `url`, optional `note`), and `slides`. A carousel needs 7 to 16 slides. Each slide needs `text`, `alt`, and an `image` data URL (`image/png`, `image/jpeg`, or `image/webp`, up to 350 KB). The same slug replaces the stored carousel. The route is `POST /api/carousel-publish` with `Authorization: Bearer $CAROUSEL_PUBLISH_SECRET` and `Content-Type: application/json`.
+
+Keep member sign-in off during prelaunch. Turn it on only after the Founding Member Pass is published on Gumroad with license keys enabled, and after these are set:
+
+- `FOUNDING_ACCESS_ENABLED=true`
+- `FOUNDING_GUMROAD_PRODUCT_ID`: the founding product id, not the Prompt Packet id
+- `FOUNDING_SESSION_SECRET`: a new 64-hex secret, not `SESSION_SECRET`
+- `FOUNDING_GUMROAD_ACCESS_TOKEN`: a seller token with `view_sales`, used to match a purchase email
+- `APP_ORIGIN`: the existing site origin
+- `FOUNDING_ALLOW_TEST_PURCHASES`: preview only, same rule as packet test purchases
+
+Sign-in is `POST /api/founding-access` with either `{ "license" }` or `{ "email" }`. It uses a separate `__Host-founding-session` cookie and checks Gumroad again on every full read. A packet license cannot open a carousel. `POST /api/founding-logout` clears only the founding cookie.
+
+No migration is required. Do not apply this to production Redis, production environment variables, or a production deploy until you mean to publish the library on the live site.
+
 ## Hosting
 
 Existing production: https://digivated.com. Main is connected to Vercel; review the latest production-release entry in `docs/GUMROAD-LAUNCH.md` before making deployment changes. `.env.example` lists required server configuration without secrets. Backend access fails closed by default.
