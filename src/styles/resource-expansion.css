@@ -1,4 +1,15 @@
 /* Resource formats stay inside the existing article and library layout. */
+/* Compact, native reading navigation works without JavaScript. */
+html body.platform.light-theme .guide-contents { margin:0 0 24px; border:1px solid #d2d7de; border-radius:12px; background:#ffffffd9; }
+html body.platform.light-theme .guide-contents summary { min-height:48px; padding:12px 18px; box-sizing:border-box; cursor:pointer; font-weight:650; font-size:.9rem; color:#2d3540; }
+html body.platform.light-theme .guide-contents summary>span { margin-left:12px; font-size:.75rem; font-weight:400; color:#5e6773; }
+html body.platform.light-theme .guide-contents nav { border-top:1px solid #dce0e5; padding:8px 18px 14px; }
+html body.platform.light-theme .guide-contents ul { list-style:none; padding:0; margin:0; }
+html body.platform.light-theme .guide-contents a { display:flex; align-items:center; min-height:44px; padding:8px 0; box-sizing:border-box; font-size:.875rem; line-height:1.55; text-decoration:underline; text-underline-offset:4px; color:#343e4c; }
+html body.platform.light-theme .resource-article>h2 { margin:32px 0 14px; font-size:clamp(1.4rem,3.5vw,1.8rem); line-height:1.4; letter-spacing:-.025em; }
+html body.platform.light-theme .resource-article [id] { scroll-margin-top:120px; }
+html body.platform.light-theme .resource-article>p { font-size:1.04rem; line-height:1.8; }
+html body.platform.light-theme .directory-goal-description { margin:16px 0; padding:10px 14px; border-left:2px solid #a6b0bd; color:#4a5563; font-size:.875rem; line-height:1.65; }
 /* Lesson figures use real text and keep their layout inside the article. */
 html body.platform.light-theme .article-body .lesson-figure { margin:32px 0; padding:24px; min-width:0; border:1px solid #cfd4da; border-radius:18px; background:linear-gradient(145deg,#fff,#f3f4f6); color:#252b32; }
 html body.platform.light-theme .article-body .lesson-figure figcaption h2 { margin:8px 0 10px; font-size:clamp(1.2rem,3vw,1.5rem); line-height:1.35; letter-spacing:-.025em; }

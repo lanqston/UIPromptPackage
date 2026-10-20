@@ -13,9 +13,10 @@ const orderedResources = [...resources.filter(r=>r.status==='published'),packet]
 <header class="resources-intro"><div><h1 id="resources-title">Resources</h1><p>Pick a goal. Free guides are numbered in a suggested order.</p></div><span>The Digivated library</span></header>
 <nav class="resource-topics" aria-label="Choose a learning goal">
 <button type="button" data-goal-filter="" aria-pressed="true">All resources</button>
-{learningPaths.map(path=><button type="button" data-goal-filter={path.id} aria-pressed="false">{path.label}</button>)}
+{learningPaths.map(path=><button type="button" data-goal-filter={path.id} data-goal-description={path.description} aria-pressed="false">{path.label}</button>)}
 <a href="/saved">Saved <span aria-hidden="true">↗</span></a>
 </nav>
+<p id="directory-goal-description" class="directory-goal-description" hidden></p>
 <div class="resources-controls" data-directory="resources">
 <label class="resources-search"><span class="sr-only">Search resources</span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><input id="directory-search" type="search" placeholder="Search guides, ideas, and tools"/></label>
 <label><span class="sr-only">Topic</span><select id="directory-category"><option value="">All topics</option>{resourceCategories.map(c=><option>{c}</option>)}</select></label>

@@ -10,14 +10,16 @@ function setup(kind = 'projects', query = '') {
   const ids=Object.fromEntries(['search','category','view','sort','status','empty','heading'].map(id=>['directory-'+id,node()]));
   ids['directory-category'].options=[{value:''},{value:'AI'},{value:'SaaS'}];
   ids['directory-sort'].value=ids['directory-view'].value='newest';
-  ids['directory-empty'].querySelector=()=>node();
+  ids['directory-sort'].options=['newest','views','name','quick','recommended'].map(value=>({value}));
+  const emptyParts={h3:node(),p:node()};
+  ids['directory-empty'].querySelector=selector=>emptyParts[selector];
   const cards=[
     node({search:'zebra ai maker',category:'AI',pick:'false',featured:'false',projectName:'Zebra',projectDate:'2026-10-16',projectViewsTotal:'0'}),
     node({search:'alpha saas maker',category:'SaaS',pick:'true',featured:'true',projectName:'Alpha',projectDate:'2026-10-01',projectViewsTotal:'63'}),
   ];
   for (const [index,card] of cards.entries()) Object.assign(card.dataset,{resourceName:card.dataset.projectName,resourceDate:card.dataset.projectDate,resourceReadingTime:String(index ? 2 : 4),learningGoal:index?'markets':'ai-tools',resourceOrder:String(index?1:2)});
   const clear=node();
-  const list=node();list.order=[...cards];list.appendChild=card=>{list.order=list.order.filter(c=>c!==card);list.order.push(card);};
+  const list=node();list.order=[...cards];list.moves=0;list.appendChild=card=>{list.moves++;list.order=list.order.filter(c=>c!==card);list.order.push(card);};
   const views=['newest','picks','featured'].map(value=>node({directoryView:value}));
   const layouts=['grid','list'].map(value=>node({directoryLayout:value}));
   const chips=['','AI','SaaS'].map(value=>node({categoryFilter:value}));
@@ -39,7 +41,7 @@ function setup(kind = 'projects', query = '') {
   const location={href:`https://digivated.com/${kind==='resources'?'resources':'discover'}${query}`,search:query};
   const history={replaceState(_state,_title,url){location.href=url.href;location.search=url.search;}};
   runInNewContext(readFileSync('src/scripts/directory.js','utf8'),{document,location,history,URL,URLSearchParams});
-  return {document,ids,cards,clear,list,views,layouts,chips,stats,counts,goals,location};
+  return {document,ids,cards,clear,list,views,layouts,chips,stats,counts,goals,location,emptyParts};
 }
 test('approved non-picks remain visible; collection/category filters and reset combine correctly',()=>{
   const h=setup();assert.equal(h.ids['directory-status'].textContent,'Loading projects…');
@@ -95,4 +97,57 @@ test('goal links load the right guides, category changes release the goal, and r
  assert.equal(h.location.search,'');
  h.ids['directory-sort'].value='recommended';h.ids['directory-sort'].fire('change');
  assert.equal(h.list.order[0].dataset.resourceName,'Alpha');
+});
+
+test('resource searches, sorting, layout and goals survive reopening the result URL',()=>{
+ const h=setup('resources');
+ h.goals[2].fire('click');
+ h.ids['directory-search'].value='alpha';h.ids['directory-search'].fire('input');
+ h.ids['directory-sort'].value='quick';h.ids['directory-sort'].fire('change');
+ h.layouts[1].fire('click');
+ const reopened=setup('resources',h.location.search);
+ assert.equal(reopened.ids['directory-search'].value,'alpha');
+ assert.equal(reopened.ids['directory-sort'].value,'quick');
+ assert.equal(reopened.list.dataset.layout,'list');
+ assert.equal(reopened.goals[2].attrs['aria-pressed'],'true');
+ assert.deepEqual(reopened.cards.map(c=>c.hidden),[true,false]);
+ reopened.clear.fire('click');
+ const params=new URL(reopened.location.href).searchParams;
+ assert.equal(params.has('q'),false);assert.equal(params.has('path'),false);
+ assert.equal(params.get('layout'),'list');assert.equal(params.get('sort'),'quick');
+});
+
+test('project results preserve collection, category and search without changing approval visibility',()=>{
+ const h=setup();h.document.fire('digivated:collection-updated');
+ h.views[1].fire('click');h.chips[2].fire('click');
+ h.ids['directory-search'].value='alpha';h.ids['directory-search'].fire('input');
+ const reopened=setup('projects',h.location.search);reopened.document.fire('digivated:collection-updated');
+ assert.equal(reopened.ids['directory-view'].value,'picks');
+ assert.equal(reopened.ids['directory-category'].value,'SaaS');
+ assert.deepEqual(reopened.cards.map(c=>c.hidden),[true,false]);
+});
+
+test('invalid sort and layout parameters fall back to the working defaults',()=>{
+ const h=setup('resources','?sort=missing&layout=missing&category=AI&path=');
+ assert.equal(h.ids['directory-sort'].value,'newest');
+ assert.equal(h.list.dataset.layout,'grid');
+ assert.deepEqual(h.cards.map(c=>c.hidden),[false,true]);
+});
+
+test('empty-result guidance matches the directory the visitor is browsing',()=>{
+ for(const kind of ['projects','resources']) {
+  const h=setup(kind);h.document.fire('digivated:collection-updated');
+  h.ids['directory-search'].value='no matching item';h.ids['directory-search'].fire('input');
+  assert.equal(h.ids['directory-empty'].hidden,false);
+  assert.match(h.emptyParts.p.textContent,kind==='projects'?/all projects/:/all guides/);
+ }
+});
+
+test('typing a search does not rebuild cards when their order has not changed',()=>{
+ const h=setup('resources');const moves=h.list.moves;
+ for(const query of ['a','al','alpha']) {h.ids['directory-search'].value=query;h.ids['directory-search'].fire('input');}
+ assert.equal(h.list.moves,moves);
+ assert.equal(h.ids['directory-status'].textContent,'1 resource found');
+ h.ids['directory-sort'].value='name';h.ids['directory-sort'].fire('change');
+ assert.ok(h.list.moves>moves);assert.equal(h.list.order[0].dataset.resourceName,'Alpha');
 });

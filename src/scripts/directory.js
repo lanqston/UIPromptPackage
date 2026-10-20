@@ -8,11 +8,22 @@ if (directory) {
   const isProjects = directory.dataset.directory === 'projects';
   const goalButtons = [...document.querySelectorAll('[data-goal-filter]')];
   let goal = '';
+  let layout = 'grid';
+  const defaultSort = sort?.value || 'newest';
+  let lastOrderedCards = [];
+  const setLayout = value => {
+    layout = value;
+    const list = document.querySelector(isProjects ? '[data-live-projects] [data-live-list]' : '[data-live-resources] [data-live-list]');
+    if (list) list.dataset.layout = layout;
+    for (const button of document.querySelectorAll('[data-directory-layout]')) button.setAttribute('aria-pressed', String(button.dataset.directoryLayout === layout));
+  };
   const setGoal = value => { goal = value; for (const button of goalButtons) button.setAttribute('aria-pressed',String(button.dataset.goalFilter === goal)); };
   const syncFilters = () => {
-    if (isProjects) return;
     const url = new URL(location.href);
-    for (const [key,value] of [['path',goal],['category',category.value]]) { if(value) url.searchParams.set(key,value); else url.searchParams.delete(key); }
+    const values = [['category',category.value],['q',search.value.trim()],['sort',sort?.value === defaultSort ? '' : sort?.value],['layout',layout === 'grid' ? '' : layout]];
+    if (isProjects) values.push(['view',view?.value === 'newest' ? '' : view?.value]);
+    else values.push(['path',goal]);
+    for (const [key,value] of values) { if(value) url.searchParams.set(key,value); else url.searchParams.delete(key); }
     history.replaceState(null,'',url);
   };
   const update = () => {
@@ -26,7 +37,10 @@ if (directory) {
         return (b.dataset[isProjects ? 'projectDate' : 'resourceDate'] || '').localeCompare(a.dataset[isProjects ? 'projectDate' : 'resourceDate'] || '');
       });
       const list = document.querySelector(isProjects ? '[data-live-projects] [data-live-list]' : '[data-live-resources] [data-live-list]');
-      if (list) for (const card of ordered) list.appendChild(card);
+      if (list && (ordered.length !== lastOrderedCards.length || ordered.some((card,index) => card !== lastOrderedCards[index]))) {
+        for (const card of ordered) list.appendChild(card);
+        lastOrderedCards = ordered;
+      }
     }
     let count = 0;
     const query = search.value.trim().toLowerCase();
@@ -60,6 +74,11 @@ if (directory) {
       if (heading) heading.textContent = view?.value === 'picks' ? 'Digivated Picks' : view?.value === 'featured' ? 'Featured projects' : category.value || 'All projects';
     }
     if (clear) clear.hidden = !query && !category.value && !goal && (!view || view.value === 'newest');
+    const goalDescription = document.getElementById('directory-goal-description');
+    if (goalDescription) {
+      goalDescription.textContent = goalButtons.find(button => button.dataset.goalFilter === goal)?.dataset.goalDescription || '';
+      goalDescription.hidden = !goalDescription.textContent;
+    }
     const empty = document.getElementById('directory-empty');
     if (isProjects && directory.dataset.loaded !== 'true') {
       document.getElementById('directory-status').textContent = 'Loading projects…';
@@ -68,28 +87,32 @@ if (directory) {
     if (empty && count === 0) {
       const hasFilters = Boolean(query || category.value || goal || (view && view.value !== 'newest'));
       empty.querySelector('h3').textContent = hasFilters && cards.length ? 'Nothing in this view yet.' : directory.dataset.directory === 'resources' ? 'The library is taking shape.' : 'The next discovery is still to come.';
-      empty.querySelector('p').textContent = hasFilters && cards.length ? 'Try another goal or topic, or clear the filters to see all guides.' : directory.dataset.directory === 'resources' ? 'New guides and useful tools will appear here as they’re published.' : 'Reviewed projects will appear here as the community grows.';
+      empty.querySelector('p').textContent = hasFilters && cards.length ? isProjects ? 'Try another search or category, or clear the filters to see all projects.' : 'Try another goal or topic, or clear the filters to see all guides.' : directory.dataset.directory === 'resources' ? 'New guides and useful tools will appear here as they’re published.' : 'Reviewed projects will appear here as the community grows.';
     }
   };
   const requestedCategory = new URLSearchParams(location.search).get('category');
   if ([...category.options].some(option => option.value === requestedCategory)) category.value = requestedCategory;
   const requestedGoal = new URLSearchParams(location.search).get('path');
-  if(goalButtons.some(button=>button.dataset.goalFilter === requestedGoal)) setGoal(requestedGoal);
+  if(requestedGoal && goalButtons.some(button=>button.dataset.goalFilter === requestedGoal)) { setGoal(requestedGoal); category.value=''; }
+  search.value = new URLSearchParams(location.search).get('q') || '';
+  const requestedSort = new URLSearchParams(location.search).get('sort');
+  if (sort && [...sort.options].some(option => option.value === requestedSort)) sort.value = requestedSort;
+  const requestedLayout = new URLSearchParams(location.search).get('layout');
+  setLayout(requestedLayout === 'list' ? 'list' : 'grid');
   for(const button of goalButtons) button.addEventListener('click',()=>{setGoal(button.dataset.goalFilter);category.value='';syncFilters();update();});
-  for (const chip of document.querySelectorAll('[data-category-filter]')) chip.addEventListener('click', () => { category.value = chip.dataset.categoryFilter; update(); });
+  for (const chip of document.querySelectorAll('[data-category-filter]')) chip.addEventListener('click', () => { category.value = chip.dataset.categoryFilter; syncFilters(); update(); });
   const requestedView = new URLSearchParams(location.search).get('view');
   if (view && ['featured', 'picks'].includes(requestedView)) view.value = requestedView;
-  for (const button of document.querySelectorAll('[data-directory-view]')) button.addEventListener('click', () => { if (view) view.value = button.dataset.directoryView; update(); });
+  for (const button of document.querySelectorAll('[data-directory-view]')) button.addEventListener('click', () => { if (view) view.value = button.dataset.directoryView; syncFilters(); update(); });
   for (const button of document.querySelectorAll('[data-directory-layout]')) button.addEventListener('click', () => {
-    const list = document.querySelector(isProjects ? '[data-live-projects] [data-live-list]' : '[data-live-resources] [data-live-list]');
-    if (list) list.dataset.layout = button.dataset.directoryLayout;
-    for (const toggle of document.querySelectorAll('[data-directory-layout]')) toggle.setAttribute('aria-pressed', String(toggle === button));
+    setLayout(button.dataset.directoryLayout);
+    syncFilters();
   });
   clear?.addEventListener('click', () => { search.value = ''; category.value = ''; setGoal(''); if (view) view.value = 'newest'; syncFilters(); update(); });
-  sort?.addEventListener('change', update);
-  search.addEventListener('input', update);
+  sort?.addEventListener('change', () => {syncFilters(); update();});
+  search.addEventListener('input', () => {syncFilters(); update();});
   category.addEventListener('change', () => {setGoal(''); syncFilters(); update();});
-  view?.addEventListener('change', update);
+  view?.addEventListener('change', () => {syncFilters(); update();});
   document.addEventListener('digivated:collection-updated', () => { directory.dataset.loaded = 'true'; update(); });
   update();
 }
