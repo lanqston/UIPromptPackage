@@ -1,0 +1,89 @@
+/* Final shared color contract. Keep geometry and interaction hooks unchanged. */
+html body:is(.platform.light-theme,.packet-workspace) {
+  --read-ink:#171717; --read-copy:#424242; --read-muted:#595959;
+  --read-paper:#fff; --read-soft:#f4f4f4; --read-line:#d5d5d5;
+}
+
+/* Packet pages use the same white and silver surfaces as the public site. */
+html body.packet-workspace,
+html body.packet-workspace[data-surface=workspace] {
+  --mono-bg:#fff; --mono-surface:#fff; --mono-raised:#f4f4f4;
+  --mono-line:#d5d5d5; --mono-text:#171717; --mono-muted:#595959;
+  --accent:#171717; --muted:#595959; --line:#d5d5d5; --paper:#fff; --tint:#f4f4f4;
+  --color-brand-bg:#fff; --color-brand-surface:#fff; --color-brand-card:#fff;
+  --color-brand-raised:#f4f4f4; --color-brand-line:#d5d5d5;
+  --color-brand-text:#171717; --color-brand-copy:#424242;
+  --color-brand-muted:#595959; --color-brand-accent:#171717; --color-brand-focus:#171717;
+  color-scheme:light; color:var(--read-ink); background:#f7f7f7;
+}
+html body.packet-workspace :is(h1,h2,h3,h4,strong,label,legend,summary) { color:var(--read-ink); }
+html body.packet-workspace :is(p,.lede,.quiet,.tiny,.eyebrow,.prompt-id,.brand-caption,.edition,.breadcrumbs,.packet-context,.stats span) { color:var(--read-muted); }
+html body.packet-workspace a { color:var(--read-copy); }
+html body.packet-workspace :is(.topbar,footer),
+html body.packet-workspace[data-surface=workspace] :is(.topbar,.shell,aside),
+html body.packet-workspace[data-surface=editorial] aside.is-open,
+html body.packet-workspace :is(.panel,.prompt-row,.filters,.stats,dialog,.dialog-header,.starter-card,.preview-window) {
+  background:var(--read-paper); color:var(--read-ink); border-color:var(--read-line);
+}
+html body.packet-workspace .shell { background:var(--read-paper); border-color:var(--read-line); }
+html body.packet-workspace[data-surface=editorial] .shell { background:transparent; }
+html body.packet-workspace :is(.prompt-row,.starter-card,.fix-choice):hover { background:#f4f4f4; border-color:#898989; }
+html body.packet-workspace nav a { color:#424242; }
+html body.packet-workspace nav a:hover:not([aria-current=page]) { background:#ededed; color:#171717; }
+html body.packet-workspace nav a[aria-current=page] { background:#e8e8e8; color:#171717; box-shadow:inset 3px 0 #171717; }
+html body.packet-workspace :is(.pill,.pill.locked,.example,.prompt-text,.about-cta,.preview-toolbar,.topic-tags span) {
+  background:#f4f4f4; color:#424242; border-color:var(--read-line);
+}
+html body.packet-workspace .topic-tags span:nth-child(n) { background:#f4f4f4; color:#424242; }
+html body.packet-workspace :is(.check-item,.preview-outline,.home-library) { border-color:var(--read-line); }
+html body.packet-workspace :is(input,select,textarea),
+html body.packet-workspace[data-surface=workspace] :is(input,select,textarea) {
+  background:#fff; color:#171717; border-color:#858585; caret-color:#171717; accent-color:#171717;
+}
+/* Existing builder rule is important; keep the output readable in both layouts. */
+html body.packet-workspace .builder-output textarea { background:#f4f4f4!important; color:#171717; }
+html body.packet-workspace :is(input,textarea)::placeholder { color:#626262; opacity:1; }
+html body.packet-workspace .brand { color:#171717; }
+html body.packet-workspace :is(.brand-logo,.footer-logo) { filter:none; }
+html body.packet-workspace .card-action { color:#333; }
+html body.packet-workspace .toast { background:#171717; color:#fff; border-color:#171717; }
+html body.packet-workspace .toast :is(a,strong) { color:inherit; }
+html body.packet-workspace :focus-visible { outline:2px solid #171717; outline-offset:4px; }
+html body.packet-workspace .skip { background:#171717; color:#fff; }
+html body.packet-workspace dialog::backdrop { background:#17171766; }
+
+/* Specify both halves of every button state, including nested text and icons. */
+html body:is(.platform.light-theme,.packet-workspace) .button {
+  background:#f4f4f4; color:#171717; border-color:#b0b0b0;
+}
+html body:is(.platform.light-theme,.packet-workspace) .button:hover {
+  background:#e9e9e9; color:#171717; border-color:#858585;
+}
+html body:is(.platform.light-theme,.packet-workspace) .button.primary,
+html body.platform.light-theme .platform-header .header-submit {
+  background:#171717; color:#fff; border-color:#171717;
+}
+html body:is(.platform.light-theme,.packet-workspace) .button.primary:hover,
+html body.platform.light-theme .platform-header .header-submit:hover {
+  background:#303030; color:#fff; border-color:#303030;
+}
+html body:is(.platform.light-theme,.packet-workspace) .button :is(span,strong,small,svg) { color:inherit; }
+html body.platform.light-theme .dashboard-review-note { color:#595959; }
+/* Artwork labels need a known backing surface, independent of the image. */
+html body.platform.light-theme .product-art-cover { background-color:#303030; }
+html body.platform.light-theme :is(.focus-city-art-label,.focus-city-art-title) {
+  background:#171717; color:#fff; padding:4px 6px; border-radius:4px; text-shadow:none;
+}
+html body.platform.light-theme :is(input,textarea)::placeholder { color:#626262; opacity:1; }
+html body.platform.light-theme :is(input,select,textarea) { color:#171717; caret-color:#171717; accent-color:#171717; }
+html body.platform.light-theme :is(.comment-dialog,.collection-dialog,.discovery-dialog) {
+  background:#fff; color:#171717; border-color:#d5d5d5;
+}
+/* Headline accents remain readable even where text clipping is unsupported. */
+html body.platform.light-theme.home-refresh .hero-copy h1 em {
+  color:#424242; -webkit-text-fill-color:#424242; background:none;
+}
+@media(forced-colors:active) {
+  html body.platform.light-theme.home-refresh .hero-copy h1 em { -webkit-text-fill-color:CanvasText; }
+  html body:is(.platform.light-theme,.packet-workspace) :focus-visible { outline-color:Highlight; }
+}
