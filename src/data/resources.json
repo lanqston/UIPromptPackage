@@ -970,7 +970,7 @@
     "slug": "design-one-small-flow-at-a-time",
     "status": "published",
     "title": "Design a form that's easy to complete",
-    "description": "Walk through a project-submission form and learn how to make instructions, errors, and success messages clearer.",
+    "description": "Use a fictional music-lesson form to improve instructions, error messages, and confirmation of a request.",
     "category": "Design & UX",
     "date": "2026-10-14",
     "readingTime": 4,
@@ -985,7 +985,7 @@
       },
       {
         "type": "paragraph",
-        "text": "A user flow is the path someone follows to finish a task. For a project-submission form, that path includes entering details, fixing mistakes, sending the form, and knowing what happens next. A good-looking form still needs to handle all of those moments."
+        "text": "A user flow is the path someone follows to finish a task. We'll use a fictional music school's lesson-request form. A learner enters their contact details, chooses a preferred time, corrects any mistakes, and sends a request. A good-looking form still needs to handle all of those moments."
       },
       {
         "type": "heading",
@@ -993,7 +993,7 @@
       },
       {
         "type": "paragraph",
-        "text": "“Submit for review” and “Publish now” promise different things. If someone has to review a project first, the confirmation should say the submission was received and explain the next step. It shouldn't say the project is already live."
+        "text": "“Request a lesson” and “Book a lesson” promise different things. In this example, the school needs to check the teacher's availability first. The confirmation should say the request was received and explain when the learner can expect a reply. It shouldn't claim the lesson is booked."
       },
       {
         "type": "paragraph",
@@ -1004,7 +1004,7 @@
         "id": "design-one-small-flow-at-a-time",
         "kind": "comparison",
         "title": "A form needs useful feedback in every state",
-        "summary": "Example: a builder submits a project to a directory. These are interface examples, not live form controls.",
+        "summary": "Practice scenario: a learner requests a lesson from a fictional music school. These are interface examples, not live form controls.",
         "takeaway": "Keep the person informed before, during, and after submission. An error should explain the next action.",
         "columns": [
           "State",
@@ -1014,26 +1014,26 @@
         "rows": [
           [
             "Before entry",
-            "“URL”",
-            "“Project link. Add a public https:// link people can open.”"
+            "“Email”",
+            "“Email address. We will use this to reply about your lesson request.”"
           ],
           [
             "Invalid entry",
             "“Invalid input”",
-            "“Enter a complete link, such as https://example.com.”"
+            "“Enter a complete email address, such as learner@example.com.”"
           ],
           [
             "While sending",
             "No change after clicking",
-            "“Submitting your project…” Keep another click from creating a duplicate."
+            "“Sending your lesson request…” Prevent another click from sending a duplicate."
           ],
           [
             "After success",
-            "“Done”",
-            "“Project received. It will appear after review.”"
+            "“Booked!”",
+            "“Request received. We will reply within two working days to confirm availability.”"
           ]
         ],
-        "note": "Only show the success message after the service confirms the submission."
+        "note": "Only show success after the service confirms receipt. The two-day reply is part of this fictional school's process; real wording must match the service."
       },
       {
         "type": "heading",
@@ -1041,11 +1041,11 @@
       },
       {
         "type": "paragraph",
-        "text": "Decide which details are required and which are optional. A working project link may be necessary, while an image might simply make the listing nicer. Label those differences clearly."
+        "text": "Decide which details are required and which are optional. The school needs an email address and a preferred lesson time to follow up. A note about previous experience can be optional. Label those differences clearly."
       },
       {
         "type": "paragraph",
-        "text": "Explain why you're asking for information that won't be public, such as an email for follow-up. Use labels that stay visible after someone starts typing. Placeholder text alone disappears just when they might need to remember what a field means."
+        "text": "Explain why you're asking for each detail. For example, the email address lets the school reply about availability. Use labels that stay visible after someone starts typing. Placeholder text alone disappears just when they might need to remember what a field means."
       },
       {
         "type": "heading",
@@ -1053,7 +1053,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Suppose someone uploads an image that's too large. Tell them which file caused the problem, state the size limit, and keep the rest of their entries. “Invalid input” doesn't tell them how to continue."
+        "text": "Suppose someone enters an email address without the part after the @ symbol. Point to the email field, explain what's missing, and keep their chosen lesson time. “Invalid input” doesn't tell them how to continue."
       },
       {
         "type": "paragraph",
@@ -1081,11 +1081,11 @@
       },
       {
         "type": "paragraph",
-        "text": "Ask a person to submit an invented project without coaching them. Include an invalid link and an oversized image in your test. Can they find the errors? Do their other entries survive? Can they finish using only a keyboard?"
+        "text": "Ask a person to request a lesson using invented contact details, without coaching them. Include an incomplete email address and leave the preferred time blank. Can they find both errors? Do their other entries survive? Can they finish using only a keyboard?"
       },
       {
         "type": "paragraph",
-        "text": "Write a specific finding, such as “They corrected the link but didn't notice the image error below the screen.” Then change that part and test again. You're finished when someone can complete the form, recover from ordinary mistakes, and understand the result."
+        "text": "Write a specific finding, such as “They corrected the email address but didn't notice the missing lesson time below the screen.” Then change that part and test again. You're finished when someone can complete the form, recover from ordinary mistakes, and understand the result."
       },
       {
         "type": "links",
@@ -1267,7 +1267,7 @@
     "slug": "grow-a-small-account-with-real-conversations",
     "status": "published",
     "title": "Understand why social media views aren't leading to action",
-    "description": "Follow the steps from seeing a post to taking action, then test one improvement you can actually measure.",
+    "description": "Follow a fictional pottery workshop from social media views to bookings, then plan one improvement to investigate.",
     "category": "Creator Growth",
     "date": "2026-10-14",
     "readingTime": 4,
@@ -1282,11 +1282,11 @@
       },
       {
         "type": "paragraph",
-        "text": "More views aren't always the same as more useful interest. If your page shares independent projects, you might care most about suitable project submissions. Likes can be encouraging, but they don't tell you whether someone understood the site or submitted their work."
+        "text": "More views aren't always the same as more useful interest. Imagine a fictional pottery studio promoting a beginner workshop. Likes can be encouraging, but the studio needs to know whether interested people understand the class and complete a booking."
       },
       {
         "type": "paragraph",
-        "text": "Let's look at the path one step at a time. This is a planning method, not a promise of growth."
+        "text": "We'll follow that practice scenario one step at a time. The numbers are invented, and this is a planning method, not a promise of growth."
       },
       {
         "type": "heading",
@@ -1294,7 +1294,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Write one clear goal, such as “help suitable builders submit a project.” Then list the steps you can measure: post views, profile visits, site visits you can trace, and completed submissions that fit the directory."
+        "text": "Write one clear goal, such as “help interested beginners book a workshop.” Then list the steps you can measure: post views, profile visits, visits to the workshop page that you can trace, and completed bookings."
       },
       {
         "type": "paragraph",
@@ -1305,7 +1305,7 @@
         "id": "grow-a-small-account-with-real-conversations",
         "kind": "comparison",
         "title": "Use the numbers to choose a question",
-        "summary": "A made-up week shows how to reason about different measurements.",
+        "summary": "An invented week at a pottery studio shows how to reason about different measurements.",
         "takeaway": "These ratios suggest where to investigate. They do not prove that the same people moved through every step.",
         "columns": [
           "Measurement",
@@ -1316,22 +1316,22 @@
           [
             "Post impressions",
             "10,000 times shown",
-            "Did the post explain who the site is for?"
+            "Did the post make the beginner workshop easy to recognize?"
           ],
           [
             "Profile visits",
             "100 ÷ 10,000 = 1%",
-            "Is the profile giving people a reason to open the site?"
+            "Does the profile explain where to find lesson dates?"
           ],
           [
-            "Measured site visits",
+            "Measured workshop-page visits",
             "20 ÷ 100 = 20%",
-            "Does the destination match what the profile promised?"
+            "Does the page explain the class promised in the post?"
           ],
           [
-            "Suitable submissions",
+            "Completed bookings",
             "Record separately",
-            "Do visitors understand eligibility, cost, and what becomes public?"
+            "Can a beginner find the dates, total price, and what to bring?"
           ]
         ],
         "note": "Not a tracked conversion funnel. Counts may include repeat activity and different people. Use matching dates and documented definitions."
@@ -1342,7 +1342,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Imagine a week with 10,000 impressions, 100 profile visits, and 20 measured site visits. An impression is a time the post was shown, not necessarily a unique viewer. The example gives one profile visit per 100 impressions and one site visit per five profile visits."
+        "text": "Imagine a week with 10,000 impressions, 100 profile visits, and 20 measured workshop-page visits. An impression is a time the post was shown, not necessarily a unique viewer. The example gives one profile visit per 100 impressions and one page visit per five profile visits."
       },
       {
         "type": "paragraph",
@@ -1354,11 +1354,11 @@
       },
       {
         "type": "paragraph",
-        "text": "If people visit the profile but rarely open the site, ask whether the profile explains what they'll find there. A list of interests such as AI, tech, and markets doesn't necessarily explain that they can browse projects or submit one."
+        "text": "If people visit the profile but rarely open the workshop page, check whether the profile explains what they'll find there. Photos of finished pottery may be appealing without telling a beginner that lessons are available, where the studio is, or how to see the next dates."
       },
       {
         "type": "paragraph",
-        "text": "If people reach the site but don't submit, look for unanswered questions. Is submission free? Do unfinished projects qualify? What information becomes public? Clear answers may help more than posting another invitation."
+        "text": "If people reach the workshop page but don't book, look for unanswered questions. Is the class suitable for someone who's never used clay? Are materials included in the price? What dates are available? Clear answers may help more than posting another invitation."
       },
       {
         "type": "heading",
@@ -1366,7 +1366,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Choose a manageable test period, such as two weeks. Keep your posting pace steady and try a repeatable format: explain a real project, show one useful detail, and link to the relevant page. Record any profile or site changes too, so you don't credit everything to the posts."
+        "text": "Choose a manageable test period, such as two weeks. Keep the posting pace steady and try a repeatable format: show one step from a beginner exercise, explain what the class teaches, and link to the workshop details. Record any profile or page changes too, so you don't credit everything to the posts."
       },
       {
         "type": "paragraph",
@@ -1378,11 +1378,11 @@
       },
       {
         "type": "paragraph",
-        "text": "Respond to something specific in the person's project or question. Offer a relevant example, ask about a choice they made, or share a resource that answers their problem. Mention submission when it fits, rather than attaching the same pitch to every reply."
+        "text": "Respond to something specific in the person's question. If they ask whether they need experience, explain the starting level and an exercise they'd try. Link to the workshop details when that helps, rather than attaching the same booking pitch to every reply."
       },
       {
         "type": "paragraph",
-        "text": "Finish with one finding and one next action. “People keep asking whether submission costs money, so I'll clarify it beside the button” gives you something useful to improve. That's a much stronger outcome than deciding you simply need more views."
+        "text": "Finish with one finding and one next action. “People keep asking whether materials cost extra, so I'll state what's included beside the price” gives the studio something useful to improve. That's a stronger outcome than deciding it simply needs more views."
       },
       {
         "type": "links",
@@ -1393,7 +1393,7 @@
             "label": "GOV.UK: set meaningful performance metrics",
             "url": "https://www.gov.uk/service-manual/measuring-success/how-to-set-performance-metrics-for-your-service",
             "description": "Separate a service goal from convenient activity counts.",
-            "practice": "Choose a measure tied to suitable submissions.",
+            "practice": "Choose a measure tied to completed workshop bookings.",
             "level": "Start here",
             "format": "Guide"
           },
@@ -1563,7 +1563,7 @@
     "slug": "make-a-digital-product-easier-to-understand",
     "status": "published",
     "title": "Write a clear description for your digital product",
-    "description": "Use a prompt-packet example to make the purpose, contents, sample, and next step clearer.",
+    "description": "Use a fictional meal planner to explain a digital product's purpose, contents, sample, and next step.",
     "category": "Digital Products",
     "date": "2026-10-14",
     "readingTime": 4,
@@ -1578,7 +1578,7 @@
       },
       {
         "type": "paragraph",
-        "text": "“A powerful toolkit that transforms your workflow” sounds positive, but a reader still has to guess what they're buying. Clear product writing answers practical questions. Let's use a made-up packet of website-design prompts as an example."
+        "text": "“A powerful toolkit that transforms your routine” sounds positive, but a reader still has to guess what they're buying. Clear product writing answers practical questions. We'll use a fictional meal-planning spreadsheet with a printable shopping list as a practice example."
       },
       {
         "type": "heading",
@@ -1586,22 +1586,22 @@
       },
       {
         "type": "paragraph",
-        "text": "Instead of “Unlock better design,” try: “Use these prompts to review one website task, find confusing steps, and draft clearer button labels before you edit the page.”"
+        "text": "Instead of “Transform your meals,” try: “Plan seven dinners, record the ingredients you need, and make a shopping list before you go to the store.”"
       },
       {
         "type": "paragraph",
-        "text": "That gives the reader a job and an expected result. It doesn't imply that pasting a prompt will automatically produce a finished, tested website."
+        "text": "That gives the reader a task and an expected result. It doesn't imply that buying a spreadsheet will automatically save money or make every meal decision for them."
       },
       {
         "type": "paragraph",
-        "text": "Say what someone needs to start. Do they already need a website and access to its editor? Is this for someone learning design or someone delivering work to clients? A clear starting point helps the right person recognize whether it fits."
+        "text": "Say what someone needs to start. Does the spreadsheet open in Google Sheets, Excel, or both? Can the shopping list be printed without using the spreadsheet? A clear starting point helps someone judge whether the product fits their routine."
       },
       {
         "type": "learning-figure",
         "id": "make-a-digital-product-easier-to-understand",
         "kind": "comparison",
         "title": "Replace broad promises with details people can check",
-        "summary": "Example: describe a packet of prompts for improving websites and apps.",
+        "summary": "Practice scenario: describe a meal-planning spreadsheet and printable shopping list.",
         "takeaway": "A useful description lets a reader judge the fit before committing time or money.",
         "columns": [
           "Vague wording",
@@ -1610,23 +1610,23 @@
         ],
         "rows": [
           [
-            "“Transform your workflow”",
-            "“Prompts for reviewing navigation, forms, and page copy”",
-            "Which tasks does it help with?"
+            "“Transform your routine”",
+            "“Plan seven dinners and prepare a shopping list”",
+            "Which task does it help with?"
           ],
           [
             "“Everything you need”",
-            "“75 prompts, with workflows and review checklists”",
+            "“A weekly planning sheet, ingredient table, and printable list”",
             "What is actually included?"
           ],
           [
-            "“Professional results”",
-            "“Try a sample, then check its suggestions against your own site”",
-            "What can I inspect before buying?"
+            "“Works anywhere”",
+            "“Google Sheets template and a printable PDF list”",
+            "Which tools and file formats do I need?"
           ],
           [
             "“Get started”",
-            "“Try free samples” or “Buy the full packet”",
+            "“View a sample week” or “Buy the meal planner”",
             "What happens when I click?"
           ]
         ],
@@ -1638,15 +1638,15 @@
       },
       {
         "type": "paragraph",
-        "text": "A cover image shows the packaging. A sample shows the work. Include one prompt, the context you'd give it, a couple of possible answers, and why you'd choose one."
+        "text": "A cover image shows the packaging. A sample shows the work. Include a filled-in dinner row, its ingredient list, and the shopping-list entry it creates. Make it clear which entries the person types and which ones the spreadsheet calculates."
       },
       {
         "type": "paragraph",
-        "text": "For instance, “Continue” might become “Submit for review” if that's what the button really does. If it instead takes someone to another screen, that wording would be wrong. This shows why a person still needs to review AI suggestions in context."
+        "text": "For instance, a sample could show a recipe using two cups of rice for four servings. Planning two servings changes that amount to one cup. If the spreadsheet calculates this, show the result and explain the input. If the user must adjust it by hand, say so."
       },
       {
         "type": "paragraph",
-        "text": "Mention the checks that come afterward: does the button work, does it lead where the label promises, and can someone use it with a keyboard and on a phone? The sample should teach the real process."
+        "text": "Let someone try the sample in a copy. Can they change the servings, find the matching shopping entry, and print the list without cutting off text? Check those tasks in the file formats you actually plan to provide."
       },
       {
         "type": "heading",
@@ -1654,11 +1654,11 @@
       },
       {
         "type": "paragraph",
-        "text": "A count of prompts tells someone the package size, not whether it will help them. Group the contents by the jobs they support, such as planning a page, reviewing a form, or improving labels. Show an example from a useful group."
+        "text": "A count of sheets tells someone the package size, not whether it will help them. Group the contents by the tasks they support: planning dinners, adjusting quantities, and preparing a shopping list. Show an example from a useful group."
       },
       {
         "type": "paragraph",
-        "text": "State the file format, required tools, and how access arrives. Be specific about any limits. If the package doesn't include custom design or implementation work, say so where you describe how it's used."
+        "text": "State the file formats, required tools, and how the download arrives. If formulas work in one app but need changes in another, explain that before purchase. Don't describe an Excel file and a printable PDF as interchangeable."
       },
       {
         "type": "heading",
@@ -1666,7 +1666,7 @@
       },
       {
         "type": "paragraph",
-        "text": "A free sample, a purchase, and access for an existing customer are three different actions. Their links shouldn't all say “Get started.” Use wording that explains what each one does."
+        "text": "Viewing a sample, buying the planner, and downloading a purchased copy are different actions. Their links shouldn't all say “Get started.” Use wording such as “View a sample week” and “Buy the meal planner” so each action is clear."
       },
       {
         "type": "paragraph",
@@ -1698,11 +1698,11 @@
             "format": "Guide"
           },
           {
-            "label": "GitHub: explain a project in a README",
-            "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
-            "description": "For code products, structure an introduction and getting-started instructions.",
-            "practice": "Draft the first action a new user should take.",
-            "level": "For code products",
+            "label": "GOV.UK: test whether instructions make sense",
+            "url": "https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing",
+            "description": "Watch someone try a task without guiding their choices.",
+            "practice": "Ask a reader to use the sample and explain what the full planner includes.",
+            "level": "Next step",
             "format": "Guide"
           }
         ]
@@ -2535,7 +2535,7 @@
     "slug": "turn-a-project-into-a-useful-thread",
     "status": "published",
     "title": "Write a clear social media thread about your project",
-    "description": "Use a complete example to explain a problem, show your choices, and invite a relevant conversation.",
+    "description": "Follow a fictional study-timer example to explain a problem, show a design choice, and invite a useful conversation.",
     "category": "Creator Growth",
     "date": "2026-10-20",
     "readingTime": 4,
@@ -2550,7 +2550,7 @@
       },
       {
         "type": "paragraph",
-        "text": "We'll use a made-up resource directory. Replace the example with work you've actually done, and label plans or mockups honestly."
+        "text": "We'll use a fictional study-timer app as a practice scenario. Replace the example with work you've actually done, and label plans or mockups honestly."
       },
       {
         "type": "heading",
@@ -2558,7 +2558,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Post one could say: “I kept saving tutorials that looked useful, then forgetting which problem each one solved. I tried grouping them by the task I was doing instead of the app they mentioned.”"
+        "text": "Post one could say: “I wanted a study timer I could start quickly. My first version asked me to choose a duration, session name, break length, sound, and theme before I could begin.”"
       },
       {
         "type": "paragraph",
@@ -2569,28 +2569,28 @@
         "id": "turn-a-project-into-a-useful-thread",
         "kind": "flow",
         "title": "Five posts that tell one project story",
-        "summary": "Use the resource-directory example as a structure, then replace it with your own work.",
+        "summary": "Use the fictional study-timer example as a structure, then replace it with your own work.",
         "takeaway": "Each post should add a new piece of the explanation. A screenshot should show the choice being discussed.",
         "steps": [
           {
             "title": "Problem",
-            "text": "I kept saving tutorials, then forgetting which task each one helped with."
+            "text": "The first timer screen asked for five settings before a study session could start."
           },
           {
             "title": "Change",
-            "text": "I grouped the resources by task and added a short note about when to use each one."
+            "text": "The new screen shows a 25-minute preset and one Start button. Other settings are optional."
           },
           {
             "title": "Tradeoff",
-            "text": "Fewer groups were easier to scan, but some resources fit more than one task."
+            "text": "A preset reduces setup, but the duration must stay visible and easy to change."
           },
           {
             "title": "Evidence and limits",
-            "text": "It feels easier for me. I have not yet tested whether a new visitor can find the right guide."
+            "text": "It feels simpler to the creator. No test has established whether a new user can operate it without help."
           },
           {
             "title": "Relevant question",
-            "text": "What makes you return to a resource list: the groups, a useful note, or something else?"
+            "text": "Would you rather start a study timer with a preset or choose the length first?"
           }
         ],
         "label": "Thread storyboard",
@@ -2602,7 +2602,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Post two: “The first version had a tag for everything. It looked organized, but I still had a long list to sort through. I cut it to three task groups and added a short ‘use this when’ note to each resource.”"
+        "text": "Post two: “I changed the first screen to show a 25-minute session and one Start button. People can still change the duration, but they no longer have to visit every setting before starting.”"
       },
       {
         "type": "paragraph",
@@ -2614,11 +2614,11 @@
       },
       {
         "type": "paragraph",
-        "text": "A tradeoff is what you give up or make harder to gain something else. Post three could say: “Fewer categories were easier for me to scan, but some resources fit two tasks. I kept one main category and used the description to explain the second use.”"
+        "text": "A tradeoff is what you give up or make harder to gain something else. Post three could say: “A preset makes the first session quicker to start, but 25 minutes won't suit everyone. I kept the duration visible and editable beside the button.”"
       },
       {
         "type": "paragraph",
-        "text": "Now another builder has a real decision to respond to. You've also shown that the simpler layout didn't remove every problem."
+        "text": "Now another builder has a specific design choice to respond to. You've also explained the cost of the simpler screen instead of presenting it as a perfect solution."
       },
       {
         "type": "heading",
@@ -2626,11 +2626,11 @@
       },
       {
         "type": "paragraph",
-        "text": "Post four: “Next I want to see whether someone new to the collection can find a resource for a specific task. I haven't tested that yet. It feels easier for me, but that doesn't tell me how it works for someone else.”"
+        "text": "Post four: “Next I want to see whether someone new to the timer can start a session and change its length without help. I haven't tested that yet. Fewer settings feel simpler to me, but that doesn't tell me how the screen works for someone else.”"
       },
       {
         "type": "paragraph",
-        "text": "Keep your own observation separate from evidence about other users. One person finding a link doesn't establish that everyone finds resources faster. If you have measurements, explain the task and what you compared."
+        "text": "Keep your own observation separate from evidence about other users. Starting a timer more easily wouldn't prove that someone studies more effectively. If you have measurements, explain the task you observed and what you compared."
       },
       {
         "type": "heading",
@@ -2638,7 +2638,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Post five: “If you keep a resource list, what makes you return to it: the categories, a useful note, or something else? Here's the prototype if you'd like to see the structure.”"
+        "text": "Post five: “When you use a study timer, would you rather start with a preset or choose the length first? Here's the prototype if you'd like to try the screen.”"
       },
       {
         "type": "paragraph",
