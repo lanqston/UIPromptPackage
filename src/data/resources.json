@@ -239,7 +239,7 @@
           {
             "label": "Investor.gov: understand investment fees",
             "url": "https://www.investor.gov/introduction-investing/getting-started/understanding-fees",
-            "description": "Use the questions to check which costs apply and what's included. Its example is separate from the simplified Digivated calculation above."
+            "description": "Use the questions to check which costs apply and what's included. Its chart uses its own assumptions, so read the setup before comparing numbers."
           },
           {
             "label": "Investor.gov: spread risk and plan around your goal",
@@ -1588,7 +1588,7 @@
           {
             "label": "Investor.gov: understand investment fees",
             "url": "https://www.investor.gov/introduction-investing/getting-started/understanding-fees",
-            "description": "Use the questions to check which costs apply and what's included. Its example is separate from the simplified Digivated calculation above."
+            "description": "Use the questions to check which costs apply and what's included. Its chart uses its own assumptions, so read the setup before comparing numbers."
           }
         ]
       }
@@ -1699,7 +1699,7 @@
           {
             "label": "Investor.gov: understand investment fees",
             "url": "https://www.investor.gov/introduction-investing/getting-started/understanding-fees",
-            "description": "Use the questions to check which costs apply and what's included. Its example is separate from the simplified Digivated calculation above."
+            "description": "Use the questions to check which costs apply and what's included. Its chart uses its own assumptions, so read the setup before comparing numbers."
           }
         ]
       }
