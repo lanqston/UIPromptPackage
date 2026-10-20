@@ -86,6 +86,6 @@ test('consented trial feedback becomes a quote only after owner approval',async(
 test('feedback requires explicit boolean permission and the correct product',async()=>{
  const {redis}=fixtureRedis(),handler=makeCardInteractionHandler({redis,env:{SUBMISSIONS_ORIGIN:origin}}),id='builtin-ui-ux-prompt-packet';
  for(const quoteConsent of [undefined,'true',1])assert.equal((await call(handler,'POST',id,{action:'feedback',comment:'A useful test comment.',quoteConsent},{},'resource')).status,400);
- assert.equal((await call(handler,'POST','make-sense-of-new-tech',{action:'feedback',comment:'A useful test comment.',quoteConsent:true},{},'resource')).status,400);
+ assert.equal((await call(handler,'POST','make-sense-of-new-tech',{action:'feedback',comment:'A useful test comment.',quoteConsent:true},{},'resource')).status,404);
  assert.equal((await listPendingComments(redis)).items.length,0);
 });

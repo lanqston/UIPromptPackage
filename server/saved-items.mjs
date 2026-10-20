@@ -1,3 +1,4 @@
+import { resourceArticlesVisible } from '../src/data/resource-publication.mjs';
 import resources from '../src/data/resources.json' with { type:'json' };
 import { redisClient } from './submissions.mjs';
 import { projectPublic, contentPublic, validId, storageKey } from './admin-store.mjs';
@@ -10,6 +11,7 @@ export function makeSavedItemHandler(deps={}){
    const url=new URL(req.url,'https://digivated.invalid'),type=url.searchParams.get('type'),id=url.searchParams.get('id');
    if(!['project','resource'].includes(type)||!validId(id))return send(404,{error:'Not found.'});
    if(type==='resource'&&id==='builtin-ui-ux-prompt-packet')return send(200,{item:{id,title:'UI/UX Prompt Packet',description:'75 practical prompts, workflows, and checklists.',url:'/ui-ux-prompt-packet'}});
+   if(type==='resource'&&!resourceArticlesVisible)return send(404,{error:'Not found.'});
    const staticResource=type==='resource'?resources.find(r=>r.slug===id&&r.status==='published'):null;
    if(staticResource)return send(200,{item:{id,title:staticResource.title,description:staticResource.description,url:`/resources/${staticResource.slug}`}});
    const env=deps.env||process.env;if(!deps.redis&&!env.SUBMISSIONS_REDIS_REST_URL)return send(404,{error:'Not found.'});

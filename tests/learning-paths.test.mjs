@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {learningPaths,resourcePathInfo} from '../src/data/learning-paths.mjs';
 import {rankDiscovery} from '../src/lib/discovery-search.mjs';
-const resources=JSON.parse(readFileSync(new URL('../src/data/resources.json',import.meta.url),'utf8')).filter(r=>r.status==='published');
+const resources=JSON.parse(readFileSync(new URL('../docs/archive/resources-2026-10-20.json',import.meta.url),'utf8')).filter(r=>r.status==='published');
 test('every published guide belongs to one complete, nonduplicated learning sequence',()=>{
  const assigned=learningPaths.flatMap(p=>p.slugs);
  assert.equal(new Set(assigned).size,assigned.length);

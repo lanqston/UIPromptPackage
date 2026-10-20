@@ -1,2 +1,1 @@
-import { learningPaths } from './learning-paths.mjs';
-export const resourceGuides = learningPaths.map(path => ({title:path.label,description:path.description,category:'LEARNING GOAL',icon:path.icon,href:`/resources?path=${path.id}`,label:'See the guides'}));
+export const resourceGuides = [{title:'UI/UX Prompt Packet',description:'Improve a website or app with practical prompts, workflows, and review checklists. Try three complete prompts for free.',category:'DESIGN & UX',icon:'sparkle',href:'/ui-ux-prompt-packet',label:'Explore the packet'}];

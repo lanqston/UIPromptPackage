@@ -1,6 +1,6 @@
 ---
 const groups = [
-  { title:'Explore', links:[['All Resources','/resources'],['Technology & AI','/resources?category=Technology%20%26%20AI'],['Markets & Investing','/resources?category=Markets%20%26%20Investing'],['Tools & Security','/resources?category=Tools%20%26%20Security'],['Design & UX','/resources?category=Design%20%26%20UX'],['Creator Growth','/resources?category=Creator%20Growth'],['Digital Products','/resources?category=Digital%20Products']] },
+  { title:'Explore', links:[['All Resources','/resources'],['UI/UX Prompt Packet','/ui-ux-prompt-packet'],['Try Free Prompts','/library?sample=1']] },
   { title:'Community', links:[['Browse Projects','/discover'],['Submit a Project','/submit-project'],['Saved Collections','/saved'],['Paid Promotion','/promote']] },
   { title:'Digivated', links:[['About','/about'],['Products','/products'],['Prompt Packet','/ui-ux-prompt-packet'],['Packet Access','/access']] },
   { title:'Connect', links:[['X / Twitter','https://x.com/digivatedx'],['Threads','https://www.threads.com/@digivated'],['Instagram','https://www.instagram.com/digivated/'],['Pinterest','https://www.pinterest.com/digivated/']] },
@@ -9,7 +9,7 @@ const groups = [
 ---
 <footer class="platform-footer">
   <div class="footer-inner mx-auto px-6"><div class="footer-columns grid grid-cols-2 md:grid-cols-4 lg:grid-cols-[2fr_repeat(4,1fr)] gap-8">
-    <div class="footer-intro col-span-2 md:col-span-4 lg:col-span-1"><a class="platform-brand" href="/"><span class="x-brand-mark" aria-hidden="true"></span>Digivated</a><p>Learn something. Discover a project. Share your work.</p><p class="quiet">Practical guides and independent projects, in one place.</p></div>
+    <div class="footer-intro col-span-2 md:col-span-4 lg:col-span-1"><a class="platform-brand" href="/"><span class="x-brand-mark" aria-hidden="true"></span>Digivated</a><p>Learn something. Discover a project. Share your work.</p><p class="quiet">Useful tools and independent projects, in one place.</p></div>
     {groups.map(group => <nav aria-label={`${group.title} footer links`}><h2>{group.title}</h2>{group.links.map(([label, href]) => <a href={href} target={href.startsWith('https:') ? '_blank' : undefined} rel={href.startsWith('https:') ? 'noopener noreferrer' : undefined}>{label}</a>)}</nav>)}
   </div><div class="footer-bottom flex flex-wrap items-center justify-between gap-4"><span>© {new Date().getFullYear()} Digivated.</span><span>Keep looking forward.</span></div></div>
 </footer>

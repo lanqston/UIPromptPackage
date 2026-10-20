@@ -4,7 +4,7 @@ import { makeResourceViewHandler, withResourceViews, resourceViewKey } from '../
 import { makePublicHandler } from '../server/public-community.mjs';
 
 const origin = 'https://views.test';
-async function invoke(handler, { id = 'make-sense-of-new-tech', method = 'POST', headers = {} } = {}) {
+async function invoke(handler, { id = 'builtin-ui-ux-prompt-packet', method = 'POST', headers = {} } = {}) {
   let body;
   const response = { statusCode: 200, setHeader() {}, end(value) { body = JSON.parse(value); } };
   await handler({ method, url: `/api/resource-views?id=${id}`, headers: { origin, 'x-real-ip': '192.0.2.1', 'user-agent': 'Mozilla/5.0', ...headers } }, response);
@@ -22,8 +22,8 @@ test('resource views validate visitors, publication and storage errors', async (
   assert.equal((await invoke(handler, { headers: { 'user-agent': 'Googlebot' } })).body.views, null);
   assert.equal(commands.length, 0);
   assert.deepEqual((await invoke(handler)).body, { views: 1 });
-  assert.equal(commands[0][3], 'digivated:resource:make-sense-of-new-tech');
-  assert.equal(commands[0][4], resourceViewKey('make-sense-of-new-tech'));
+  assert.equal(commands[0][3], 'digivated:resource:builtin-ui-ux-prompt-packet');
+  assert.equal(commands[0][4], resourceViewKey('builtin-ui-ux-prompt-packet'));
   assert.equal(commands[0][6], '1');
   await invoke(handler, { id: 'published-article' });
   assert.equal(commands[1][6], '0');
@@ -35,18 +35,18 @@ test('resource views validate visitors, publication and storage errors', async (
 
 test('read-only built-in counts are current without incrementing, including zero counts', async () => {
   const commands = [];
-  const handler = makeResourceViewHandler({ redis: async command => { commands.push(command); return ['17', null]; } });
+  const handler = makeResourceViewHandler({ redis: async command => { commands.push(command); return ['17']; } });
   let status = 200, body;
-  await handler({ method: 'GET', url: '/api/resource-views?id=make-sense-of-new-tech&id=builtin-ui-ux-prompt-packet', headers: {} }, {
+  await handler({ method: 'GET', url: '/api/resource-views?id=builtin-ui-ux-prompt-packet', headers: {} }, {
     setHeader() {}, set statusCode(value) { status = value; }, end(value) { body = JSON.parse(value); },
   });
   assert.equal(status, 200);
-  assert.deepEqual(body.views, { 'make-sense-of-new-tech': 17, 'builtin-ui-ux-prompt-packet': 0 });
-  assert.deepEqual(commands[0], ['MGET', resourceViewKey('make-sense-of-new-tech'), resourceViewKey('builtin-ui-ux-prompt-packet')]);
+  assert.deepEqual(body.views, { 'builtin-ui-ux-prompt-packet': 17 });
+  assert.deepEqual(commands[0], ['MGET', resourceViewKey('builtin-ui-ux-prompt-packet')]);
   assert.equal((await invoke(handler, { method: 'GET', id: 'private-article' })).status, 400);
 });
 
-test('published dashboard resources expose their stored view counts', async () => {
+test('paused dashboard resources stay unavailable while stored view counts are preserved', async () => {
   const item = { id: 'published-article', status: 'published', title: 'Article', description: 'Useful guide', category: 'Technology & AI', publishedDate: '2026-10-14', readingTime: 2, content: 'Hello' };
   const redis = async command => {
     if (command[0] === 'MGET') return ['7'];
@@ -57,7 +57,7 @@ test('published dashboard resources expose their stored view counts', async () =
   const publicApi = makePublicHandler('content', { redis });
   let body;
   await publicApi({ method: 'GET', url: '/api/content?type=resource&id=published-article' }, { setHeader() {}, end(value) { body = JSON.parse(value); } });
-  assert.equal(body.item.views, 7);
+  assert.deepEqual(body, { error: 'Not found.' });
   assert.deepEqual(await withResourceViews(async () => ['3', null], [{ id: 'a' }, { id: 'b' }]), [{ id: 'a', views: 3 }, { id: 'b', views: 0 }]);
   assert.deepEqual(await withResourceViews(async () => { throw Error('offline'); }, [{ id: 'a' }]), [{ id: 'a', views: null }]);
 });

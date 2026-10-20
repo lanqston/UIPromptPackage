@@ -1,3 +1,4 @@
+import { resourceArticlesVisible } from '../src/data/resource-publication.mjs';
 import { withProjectViews } from './project-views.mjs';
 import { withResourceViews } from './resource-views.mjs';
 import { redisClient } from './submissions.mjs';
@@ -14,6 +15,7 @@ export function makePublicHandler(type, deps = {}) {
       const url = new URL(req.url, 'https://digivated.invalid');
       const kind = type === 'projects' ? 'submission' : url.searchParams.get('type') || 'resource';
       if (!['submission', 'resource', 'product'].includes(kind) || (type !== 'projects' && kind === 'submission')) return send(400, { error: 'Invalid content type.' });
+      if (kind === 'resource' && !resourceArticlesVisible) return url.searchParams.has('id') || url.searchParams.has('image') ? send(404, { error: 'Not found.' }) : send(200, { items: [], next: null });
       if (!deps.redis && (!env.SUBMISSIONS_REDIS_REST_URL || !env.SUBMISSIONS_REDIS_REST_TOKEN)) {
         if (url.searchParams.has('image') || url.searchParams.has('id')) return send(404, { error: 'Not found.' });
         return send(200, { items: [], next: null });
