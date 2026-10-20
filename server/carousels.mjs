@@ -11,6 +11,7 @@ export const MAX_SLIDES = 100;
 const MAX_IMAGE_BYTES = 350 * 1024;
 const MAX_PUBLISH_BYTES = 4_000_000;
 const ITEM_PREFIX = 'digivated:carousel:item:';
+export const carouselItemKey = slug => `${ITEM_PREFIX}${slug}`;
 const INDEX_KEY = 'digivated:carousel:index';
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+){0,12}$/;
 
