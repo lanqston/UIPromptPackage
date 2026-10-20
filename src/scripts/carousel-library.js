@@ -1,4 +1,8 @@
 import { cardIconMarkup } from '../lib/card-icons.mjs';
+import { viewLabel } from './project-views.js';
+import { observeResourceViews } from './resource-views.js';
+
+const VIEW_LABEL = 'Approximate views. Repeat views from the same network count once every 24 hours.';
 
 const FOUNDING_CHECKOUT = 'https://digivated.gumroad.com/l/founding-member-pass';
 
@@ -33,9 +37,40 @@ function icon(name, className) {
   return node;
 }
 
+function showStoredViews(views) {
+  if (!views) return;
+  for (const label of document.querySelectorAll('[data-resource-views]')) {
+    const count = views[label.dataset.resourceViews];
+    if (!Number.isSafeInteger(count) || count < 0) continue;
+    const shown = Number(label.textContent.replace(/[^\d]/g, ''));
+    if (!Number.isSafeInteger(shown) || count > shown) label.textContent = viewLabel(count);
+  }
+}
+
+function bindCarouselViews(ids) {
+  const unique = [...new Set(ids.filter(Boolean))];
+  if (!unique.length) return;
+  observeResourceViews();
+  const query = unique.map(id => `id=${encodeURIComponent(id)}`).join('&');
+  fetch(`/api/resource-views?${query}`, { cache: 'no-store', credentials: 'omit', signal: AbortSignal.timeout(10000) })
+    .then(response => response.ok ? response.json() : null)
+    .then(data => showStoredViews(data?.views))
+    .catch(() => {});
+}
+
+function viewStat(id) {
+  const stat = el('span', undefined, 'card-stat');
+  stat.title = VIEW_LABEL;
+  const label = el('span', viewLabel(0));
+  label.dataset.resourceViews = id;
+  stat.append(icon('eye', 'stat-icon'), label);
+  return stat;
+}
+
 function card(item) {
   const href = `/carousels/${encodeURIComponent(item.slug)}`;
   const article = el('article', undefined, 'resource-card carousel-resource-card');
+  article.dataset.resourceViewId = item.slug;
   const cover = el('a', undefined, 'carousel-cover');
   cover.href = href;
   cover.tabIndex = -1;
@@ -58,7 +93,7 @@ function card(item) {
   const stat = el('span', undefined, 'card-stat');
   stat.title = 'Slides open without a Founding Member Pass';
   stat.append(icon('layers', 'stat-icon'), el('span', `${item.previewCount} of ${item.slideCount} slides free`));
-  stats.append(stat);
+  stats.append(stat, viewStat(item.slug));
   const footer = el('div', undefined, 'card-footer');
   const actions = el('div', undefined, 'card-actions');
   actions.setAttribute('role', 'group');
@@ -89,6 +124,7 @@ function card(item) {
 
 function renderList(target, items) {
   target.replaceChildren(...items.map(card));
+  bindCarouselViews(items.map(item => item.slug));
 }
 
 function initReader(root) {
@@ -156,8 +192,15 @@ function renderDetail(root, payload) {
   if (heading) heading.textContent = item.title;
   if (summary) summary.textContent = item.summary;
   if (status) status.textContent = '';
+  const intro = document.querySelector('.carousel-reader-intro');
+  if (intro) intro.dataset.resourceViewId = item.slug;
   const meta = document.getElementById('carousel-meta');
-  if (meta) meta.textContent = item.locked ? `${item.slides.length} of ${item.slideCount} slides free` : `All ${item.slideCount} slides`;
+  if (meta) {
+    const count = el('span', viewLabel(0), 'carousel-reader-views');
+    count.dataset.resourceViews = item.slug;
+    count.title = VIEW_LABEL;
+    meta.replaceChildren(el('span', item.locked ? `${item.slides.length} of ${item.slideCount} slides free` : `All ${item.slideCount} slides`), count);
+  }
   const crumb = document.querySelector('.site-breadcrumbs [aria-current="page"]');
   if (crumb) crumb.textContent = item.title;
   const reader = el('section', undefined, 'carousel-viewer');
@@ -226,6 +269,7 @@ function renderDetail(root, payload) {
   } else references.hidden = true;
   root.replaceChildren(reader, locked, references);
   initReader(reader);
+  bindCarouselViews([item.slug]);
   const form = document.getElementById('founding-access-form');
   const signOut = document.getElementById('founding-sign-out');
   if (form) form.hidden = !!payload.member;
