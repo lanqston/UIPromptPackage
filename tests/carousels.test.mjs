@@ -245,7 +245,9 @@ test('carousel routes stay on the shared function and do not add an API file', a
   const teaser = readFileSync(new URL('../src/components/FoundingPassTeaser.astro', import.meta.url), 'utf8');
   const offer = `${offerPages}\n${teaser}\n${source}`;
   assert.match(offer, /https:\/\/digivated\.gumroad\.com\/l\/founding-member-pass/);
-  assert.match(offer, /Get the Founding Member Pass/);
+  assert.match(offer, /Get Founding Membership/);
+  assert.match(offer, /\$5 USD/);
+  assert.doesNotMatch(offer, /\$2/);
   assert.equal(/coming soon|aren't open|in preparation|sales aren't open/i.test(offer), false);
   assert.equal(offer.includes('\u2014'), false);
 });

@@ -1,6 +1,7 @@
 import { reportServerFailure } from './monitoring.mjs';
 import { checkRateLimit } from '@vercel/firewall';
 import { AccessError, config, invalid, unavailable, verifyLicense, isOwnerKey, sealSession, sealOwnerSession, openSession, sessionCookie, readEdition } from './access.mjs';
+import { FoundingError, foundingConfig, foundingCookie, readMember, sealFoundingSession, verifyFoundingLicense } from './founding-access.mjs';
 
 export async function rateLimit(req, cfg, kind) {
   // Never trust a client Host for SDK outbound requests, or forward cookies/licenses to it.
@@ -17,6 +18,28 @@ export async function rateLimit(req, cfg, kind) {
   if (result.error === 'not-found') throw unavailable();
   if (result.rateLimited || result.error === 'blocked') throw new AccessError(429, 'rate_limited', 'Too many attempts. Wait a minute, then try again.');
 }
+async function foundingPurchase(license, deps) {
+  const founding = foundingConfig(deps.env || process.env);
+  if (!founding.enabled) return null;
+  try {
+    const purchase = await verifyFoundingLicense(license, founding, deps.fetcher || fetch);
+    return foundingCookie(await sealFoundingSession({ method: 'license', license, saleId: purchase.saleId }, founding));
+  } catch (error) {
+    if (error instanceof FoundingError && error.status === 401) return null;
+    throw unavailable();
+  }
+}
+
+async function foundingReader(req, deps) {
+  const founding = foundingConfig(deps.env || process.env);
+  if (!founding.enabled) return null;
+  try { return await readMember(req, founding, deps.fetcher || fetch); }
+  catch (error) {
+    if (error instanceof FoundingError && error.status === 401) return null;
+    throw unavailable();
+  }
+}
+
 async function jsonBody(req) {
   if (!/^application\/json(?:;|$)/i.test(req.headers['content-type'] || '')) throw new AccessError(415, 'json_required', 'Please use the access form.');
   if (Number(req.headers['content-length'] || 0) > 1024) throw new AccessError(413, 'too_large', 'The request is too large.');
@@ -71,7 +94,18 @@ export function makeHandler(action, deps = {}) {
           send(200, { ok: true }); return;
         }
         phase = 'purchase_verification';
-        const purchase = await verify(license, cfg);
+        let purchase;
+        try { purchase = await verify(license, cfg); }
+        catch (error) {
+          if (!(error instanceof AccessError) || error.status !== 401) throw error;
+          const cookie = await foundingPurchase(license, deps);
+          if (!cookie) throw error;
+          phase = 'edition_read';
+          await load(cfg);
+          res.setHeader('Set-Cookie', cookie);
+          audit({ event: 'access_activation', outcome: 'founding' });
+          send(200, { ok: true }); return;
+        }
         phase = 'edition_read';
         await load(cfg); // Do not issue a success/session for an unreadable edition.
         phase = 'session';
@@ -81,11 +115,23 @@ export function makeHandler(action, deps = {}) {
         send(200, { ok: true }); return;
       }
       phase = 'session';
-      const session = await openSession(req.headers.cookie, cfg);
+      let session;
+      try { session = await openSession(req.headers.cookie, cfg); }
+      catch (error) {
+        if (!(error instanceof AccessError) || error.status !== 401) throw error;
+        if (!await foundingReader(req, deps)) throw error;
+        phase = 'edition_read';
+        send(200, await load(cfg)); return;
+      }
       if (session.owner !== true) {
         phase = 'purchase_verification';
-        const purchase = await verify(session.license, cfg);
-        if (purchase.saleId !== session.saleId) throw invalid();
+        try {
+          const purchase = await verify(session.license, cfg);
+          if (purchase.saleId !== session.saleId) throw invalid();
+        } catch (error) {
+          if (!(error instanceof AccessError) || error.status !== 401) throw error;
+          if (!await foundingReader(req, deps)) throw error;
+        }
       }
       phase = 'edition_read';
       send(200, await load(cfg));

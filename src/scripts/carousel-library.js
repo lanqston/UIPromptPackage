@@ -91,7 +91,7 @@ function card(item) {
   const stats = el('div', undefined, 'card-stats');
   stats.setAttribute('aria-label', 'Carousel details');
   const stat = el('span', undefined, 'card-stat');
-  stat.title = 'Slides open without a Founding Member Pass';
+  stat.title = 'Slides open without Founding Membership';
   stat.append(icon('layers', 'stat-icon'), el('span', `${item.previewCount} of ${item.slideCount} slides free`));
   stats.append(stat, viewStat(item.slug));
   const footer = el('div', undefined, 'card-footer');
@@ -242,8 +242,8 @@ function renderDetail(root, payload) {
   reader.append(transcript);
   const locked = el('section', undefined, 'carousel-locked');
   if (item.locked) {
-    locked.append(el('h2', item.locked.message), el('p', `${item.locked.count} more slides are included with the Founding Member Pass. The collection grows as carousels are added.`));
-    const buy = el('a', 'Get the Founding Member Pass', 'button');
+    locked.append(el('h2', item.locked.message), el('p', `${item.locked.count} more slides are included with Founding Membership, along with the full Prompt Packet and one reviewed feature. The collection grows as carousels are added.`));
+    const buy = el('a', 'Get Founding Membership', 'button');
     buy.href = FOUNDING_CHECKOUT;
     buy.target = '_blank';
     buy.rel = 'noopener noreferrer';

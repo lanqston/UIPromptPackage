@@ -7,7 +7,7 @@ export const FOUNDING_COOKIE = '__Host-founding-session';
 export const FOUNDING_MAX_AGE = 30 * 24 * 60 * 60;
 const AUDIENCE = 'founding-collection';
 const SALE_ID = /^[A-Za-z0-9+=/_-]{8,200}$/;
-export const COMING_SOON = 'We can’t check Founding Member Pass purchases right now. Please try again shortly.';
+export const COMING_SOON = 'We can’t check Founding Membership purchases right now. Please try again shortly.';
 export const UNAVAILABLE = 'We can’t check founding access right now. Please try again shortly.';
 export const INVALID_PURCHASE = 'We couldn’t verify that purchase. Use the license key or email from your Gumroad receipt.';
 export const FOUNDING_HREF = '/founding-members';
