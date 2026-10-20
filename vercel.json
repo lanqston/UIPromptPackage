@@ -143,6 +143,10 @@
     {
       "source": "/projects/:slug",
       "destination": "/api/project-page?slug=:slug"
+    },
+    {
+      "source": "/carousels/:slug",
+      "destination": "/carousels/read?slug=:slug"
     }
   ]
 }

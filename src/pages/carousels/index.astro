@@ -1,0 +1,10 @@
+---
+import Platform from '../../layouts/Platform.astro';
+import '../../styles/founding-pass.css';
+import '../../styles/carousel-library.css';
+---
+<Platform title="Educational carousels" description="Educational carousels on Digivated. Titles, summaries, and the first four slides are open to everyone.">
+  <header class="page-intro carousel-library-intro"><p class="eyebrow">Resources</p><h1>Educational carousels</h1><p class="lede">Each carousel explains one idea. The title, summary, and first four slides are open to everyone. The rest of a full carousel stays on the server for Founding Members.</p><p class="quiet"><a href="/resources">← All resources</a></p></header>
+  <section class="carousel-library" aria-labelledby="carousel-library-title"><h2 id="carousel-library-title" class="sr-only">Published carousels</h2><p id="carousel-index-status" role="status">Loading carousels…</p><div id="carousel-index" class="carousel-library-grid"></div><noscript><p>Enable JavaScript to load carousel previews. Full carousels are coming soon. <a href="/founding-members">See the Founding Member Pass</a>.</p></noscript></section>
+  <script>import '../../scripts/carousel-library.js';</script>
+</Platform>

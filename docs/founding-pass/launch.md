@@ -19,4 +19,6 @@ The owner selected permanent access to a defined founding collection. The first 
 6. Confirm Gumroad's maximum of 25 purchases and fixed price are still saved. The checkout provider, not a client counter, enforces the introductory limit. Do not claim live remaining quantities without verified checkout data.
 7. Test the complete purchase-to-reading flow and publish a real, complete collection. Only then open checkout and replace prelaunch messaging.
 
-The founding product is intentionally unpublished. There is no working paid member unlock in this first stage and no sales have been opened by this implementation.
+The founding product is intentionally unpublished. Sales are not open.
+
+The carousel library and a separate founding-member check now exist. Public readers get the title, summary, and first four slides. Later slides stay on the server. `FOUNDING_ACCESS_ENABLED` must stay unset or `false` until the Gumroad product is published and the owner finishes the steps in the README. A Prompt Packet license does not open this collection. See the Educational carousels section of the README for the publish command and environment variables. No database migration is required.

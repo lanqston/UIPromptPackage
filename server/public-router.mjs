@@ -3,15 +3,26 @@ import { makeSavedItemHandler } from './saved-items.mjs';
 import { makeProjectViewHandler } from './project-views.mjs';
 import { makeResourceViewHandler } from './resource-views.mjs';
 import { makeCardInteractionHandler } from './card-interactions.mjs';
+import { makeCarouselHandler, makeCarouselPublishHandler } from './carousels.mjs';
+import { makeFoundingAccessHandler, makeFoundingLogoutHandler } from './founding-access.mjs';
 
 // Share one deployment entry point; each handler retains its validation and response.
-export function makePublicRouter(handlers = {
-  content: makePublicHandler('content'),
-  'saved-item': makeSavedItemHandler(),
-  'project-views': makeProjectViewHandler(),
-  'resource-views': makeResourceViewHandler(),
-  'card-interactions': makeCardInteractionHandler(),
-}) {
+// Carousel routes stay on this router so the deployment does not add a serverless function.
+export function defaultPublicHandlers(overrides = {}) {
+  return {
+    content: makePublicHandler('content'),
+    'saved-item': makeSavedItemHandler(),
+    'project-views': makeProjectViewHandler(),
+    'resource-views': makeResourceViewHandler(),
+    'card-interactions': makeCardInteractionHandler(),
+    carousels: makeCarouselHandler(),
+    'carousel-publish': makeCarouselPublishHandler(),
+    'founding-access': makeFoundingAccessHandler(),
+    'founding-logout': makeFoundingLogoutHandler(),
+    ...overrides,
+  };
+}
+export function makePublicRouter(handlers = defaultPublicHandlers()) {
   return (req, res) => {
     const path = new URL(req.url, 'https://digivated.invalid').pathname;
     const route = /^\/api\/([^/]+)$/.exec(path)?.[1];
