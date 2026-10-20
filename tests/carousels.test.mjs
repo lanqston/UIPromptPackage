@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import { randomBytes } from 'node:crypto';
 import { PRODUCT_ID } from '../server/access.mjs';
-import { makeCarouselHandler, makeCarouselPublishHandler, validateCarousel } from '../server/carousels.mjs';
+import { MAX_SLIDES, makeCarouselHandler, makeCarouselPublishHandler, validateCarousel } from '../server/carousels.mjs';
 import { foundingConfig, makeFoundingAccessHandler, makeFoundingLogoutHandler, sealFoundingSession, FOUNDING_COOKIE } from '../server/founding-access.mjs';
 import { makePublicRouter } from '../server/public-router.mjs';
 
@@ -102,6 +102,29 @@ test('publishing requires the secret and stores no public image payload', async 
   assert.equal(saved.json.slug, 'how-indexes-work');
   assert.equal(writes.every(key => key.startsWith('digivated:carousel:')), true);
   assert.throws(() => validateCarousel({ ...carousel(), slug: 'read' }), /slug/i);
+});
+
+test('carousel length has no editorial cap below the abuse ceiling', async () => {
+  const { redis } = memoryRedis();
+  const env = { CAROUSEL_PUBLISH_SECRET: secret, FOUNDING_ACCESS_ENABLED: 'false' };
+  const publish = makeCarouselPublishHandler({ redis, env });
+  const headers = { authorization: `Bearer ${secret}`, 'content-type': 'application/json' };
+  assert.equal(MAX_SLIDES, 100);
+  assert.equal((await call(publish, { method: 'POST', url: '/api/carousel-publish', headers, body: carousel(17) })).status, 201);
+  const saved = await call(publish, { method: 'POST', url: '/api/carousel-publish', headers, body: carousel(MAX_SLIDES) });
+  assert.equal(saved.status, 201);
+  assert.equal(saved.json.slideCount, MAX_SLIDES);
+  const over = await call(publish, { method: 'POST', url: '/api/carousel-publish', headers, body: carousel(MAX_SLIDES + 1) });
+  assert.equal(over.status, 400);
+  assert.match(over.json.error, /at most 100 slides/);
+  const handler = makeCarouselHandler({ redis, env, fetcher: () => { throw new Error('gumroad should not be called'); } });
+  const detail = await call(handler, { url: '/api/carousels?slug=how-indexes-work' });
+  assert.equal(detail.json.item.slideCount, MAX_SLIDES);
+  assert.equal(detail.json.item.previewCount, 4);
+  assert.equal(detail.json.item.slides.length, 4);
+  assert.equal(detail.json.item.locked.from, 5);
+  assert.equal(detail.json.item.locked.count, MAX_SLIDES - 4);
+  assert.equal(detail.json.item.slides.at(-1).text, 'Private lesson 4');
 });
 
 test('anonymous readers receive four slides and no locked image bytes', async () => {

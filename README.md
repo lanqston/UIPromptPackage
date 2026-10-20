@@ -50,7 +50,7 @@ CAROUSEL_PUBLISH_SECRET=... \
 node scripts/publish-carousel.mjs path/to/carousel.json
 ```
 
-`carousel.json` fields: `slug`, `title`, `summary`, `created` (optional ISO date), `references` (`label`, `https` `url`, optional `note`), and `slides`. A carousel needs 7 to 16 slides. Each slide needs `text`, `alt`, and an `image` data URL (`image/png`, `image/jpeg`, or `image/webp`, up to 350 KB). The same slug replaces the stored carousel. The route is `POST /api/carousel-publish` with `Authorization: Bearer $CAROUSEL_PUBLISH_SECRET` and `Content-Type: application/json`.
+`carousel.json` fields: `slug`, `title`, `summary`, `created` (optional ISO date), `references` (`label`, `https` `url`, optional `note`), and `slides`. A carousel needs at least 7 slides and can be as long as the lesson needs. The publish route rejects more than 100 slides; that ceiling is abuse protection, not an editorial limit. The JSON body must stay under 4 MB, and each slide needs `text`, `alt`, and an `image` data URL (`image/png`, `image/jpeg`, or `image/webp`, up to 350 KB). The same slug replaces the stored carousel. The route is `POST /api/carousel-publish` with `Authorization: Bearer $CAROUSEL_PUBLISH_SECRET` and `Content-Type: application/json`.
 
 Keep member sign-in off during prelaunch. Turn it on only after the Founding Member Pass is published on Gumroad with license keys enabled, and after these are set:
 

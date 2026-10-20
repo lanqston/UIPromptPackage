@@ -6,7 +6,8 @@ import {
 
 export const PREVIEW_COUNT = 4;
 export const MIN_SLIDES = 7;
-export const MAX_SLIDES = 16;
+/** Abuse ceiling only. A carousel can be as long as the lesson needs, up to this count. */
+export const MAX_SLIDES = 100;
 const MAX_IMAGE_BYTES = 350 * 1024;
 const MAX_PUBLISH_BYTES = 4_000_000;
 const ITEM_PREFIX = 'digivated:carousel:item:';
@@ -83,7 +84,8 @@ export function validateCarousel(body, now = new Date()) {
     if (!url.startsWith('https://')) fail('Reference links must be HTTPS.');
     return { label: text(item.label, 140, 'reference label'), url, note: typeof item.note === 'string' ? item.note.trim().slice(0, 300) : '' };
   });
-  if (!Array.isArray(body.slides) || body.slides.length < MIN_SLIDES || body.slides.length > MAX_SLIDES) fail(`A full carousel needs ${MIN_SLIDES} to ${MAX_SLIDES} slides.`);
+  if (!Array.isArray(body.slides) || body.slides.length < MIN_SLIDES) fail(`A full carousel needs at least ${MIN_SLIDES} slides.`);
+  if (body.slides.length > MAX_SLIDES) fail(`A carousel can include at most ${MAX_SLIDES} slides.`);
   const slides = body.slides.map((slide, index) => {
     if (!slide || typeof slide !== 'object' || Array.isArray(slide)) fail(`Please check slide ${index + 1}.`);
     const image = parseImage(slide.image);
@@ -132,7 +134,7 @@ async function readRecord(redis, slug) {
   if (!raw) return null;
   try {
     const record = JSON.parse(raw);
-    if (!record || record.slug !== slug || !Array.isArray(record.slides) || record.slides.length < MIN_SLIDES) return null;
+    if (!record || record.slug !== slug || !Array.isArray(record.slides) || record.slides.length < MIN_SLIDES || record.slides.length > MAX_SLIDES) return null;
     return record;
   } catch { return null; }
 }
