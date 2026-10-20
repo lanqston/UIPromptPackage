@@ -45,6 +45,44 @@
         "text": "Keep a note of the kinds of corrections you make. Fixing a heading is different from discovering that the tool invented an agreement. Even if both take a minute to correct, the second error deserves closer attention."
       },
       {
+        "type": "learning-figure",
+        "id": "make-sense-of-new-tech",
+        "kind": "time",
+        "title": "The one-minute answer still needs 15 minutes of work",
+        "summary": "Compare the complete meeting-note task, using the same 25-minute scale for both bars.",
+        "takeaway": "The saving is 9 minutes per meeting. A 60-minute setup takes about 7 similar meetings to recover.",
+        "scale": 25,
+        "rows": [
+          {
+            "label": "Current process",
+            "segments": [
+              {
+                "label": "Write and organize",
+                "minutes": 25
+              }
+            ]
+          },
+          {
+            "label": "With the AI assistant",
+            "segments": [
+              {
+                "label": "Generate",
+                "minutes": 1
+              },
+              {
+                "label": "Check and correct",
+                "minutes": 12
+              },
+              {
+                "label": "Move into task app",
+                "minutes": 3
+              }
+            ]
+          }
+        ],
+        "note": "Made-up example. Subscription costs and the consequences of missed errors are separate questions."
+      },
+      {
         "type": "heading",
         "text": "3. Try the awkward cases"
       },
@@ -75,6 +113,29 @@
       {
         "type": "paragraph",
         "text": "Try the same process with a tool you're considering. You're done when you've recorded the total work, the important mistakes, and a reason to adopt it, keep testing, or skip it."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "GOV.UK: test a task with real users",
+            "url": "https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing",
+            "description": "A practical way to observe a task without coaching.",
+            "practice": "Write a neutral task for your tool trial.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "NIST: AI risk management",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "description": "A broader framework for evaluating AI in context.",
+            "practice": "List one failure your trial should investigate.",
+            "level": "Go deeper",
+            "format": "Framework"
+          }
+        ]
       }
     ],
     "updated": "2026-10-20"
@@ -86,7 +147,7 @@
     "description": "Learn to give AI a clear job, handle uncertain answers, and check whether it actually reduces your workload.",
     "category": "Technology & AI",
     "date": "2026-10-14",
-    "readingTime": 3,
+    "readingTime": 4,
     "content": [
       {
         "type": "objective",
@@ -107,6 +168,32 @@
       {
         "type": "paragraph",
         "text": "Ask for a category and the sentence in the message that supports it. That makes the suggestion easier to inspect. A message saying “I can't sign in” doesn't tell you whether the cause is a password, an outage, or an account that should be closed. Don't ask the AI to fill in those gaps."
+      },
+      {
+        "type": "learning-figure",
+        "id": "use-ai-with-better-judgment",
+        "kind": "decision",
+        "title": "A support message needs a route, not a guess",
+        "summary": "Use these branches when testing an AI ticket sorter. The examples are invented.",
+        "takeaway": "A useful system has somewhere for uncertain cases to go. It never needs to invent a diagnosis to fill a category.",
+        "question": "Does the message clearly fit one allowed category?",
+        "branches": [
+          {
+            "when": "Yes, one category fits",
+            "action": "Suggest the category and show the evidence",
+            "reason": "“My laptop will not turn on” supports “device problem.” A technician still reviews the suggestion."
+          },
+          {
+            "when": "More than one category fits",
+            "action": "Flag the message for review",
+            "reason": "“I cannot sign in, and the laptop keeps restarting” contains two problems. Follow your written rule for mixed tickets."
+          },
+          {
+            "when": "No clear category fits",
+            "action": "Return “uncertain”",
+            "reason": "“It is broken again” does not identify the problem. Ask for details instead of guessing."
+          }
+        ]
       },
       {
         "type": "heading",
@@ -155,6 +242,29 @@
       {
         "type": "paragraph",
         "text": "You're ready for a small trial when you can explain what the AI is allowed to suggest, how you check it, and when a person takes over. If it adds work instead of removing it, you can change the task or leave the AI step out."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "OWASP: prompt injection explained",
+            "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+            "description": "Examples of outside text changing an AI task.",
+            "practice": "Add a misleading instruction to a made-up test ticket.",
+            "level": "Go deeper",
+            "format": "Technical guide"
+          },
+          {
+            "label": "NIST: AI evaluation and risk",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "description": "Context for checking an AI system beyond its demo.",
+            "practice": "Write down one limit of your test.",
+            "level": "Go deeper",
+            "format": "Framework"
+          }
+        ]
       }
     ],
     "updated": "2026-10-20"
@@ -166,7 +276,7 @@
     "description": "Work through a sample return, learn what a backtest means, and spot the questions a headline leaves unanswered.",
     "category": "Markets & Investing",
     "date": "2026-10-14",
-    "readingTime": 3,
+    "readingTime": 4,
     "content": [
       {
         "type": "objective",
@@ -191,6 +301,42 @@
       {
         "type": "paragraph",
         "text": "If money was deposited or withdrawn, this simple beginning-to-end comparison won't isolate the investment's performance. Ask how those cash movements were handled."
+      },
+      {
+        "type": "learning-figure",
+        "id": "read-market-claims-clearly",
+        "kind": "comparison",
+        "title": "The same return can tell very different stories",
+        "summary": "Start with the invented claim: “Our strategy returned 30%.”",
+        "takeaway": "The headline cannot answer these questions on its own. Missing information stays unknown.",
+        "columns": [
+          "Check",
+          "Example detail",
+          "Why it matters"
+        ],
+        "rows": [
+          [
+            "Period",
+            "$10,000 became $13,000 over 3 years",
+            "30% total is about 9.1% compounded per year, with no cash added or removed."
+          ],
+          [
+            "Losses",
+            "A $10,000 balance fell to $7,000",
+            "A 30% loss needs about a 42.9% gain to recover. The final return hides that fall."
+          ],
+          [
+            "Evidence",
+            "A simulation used historical prices",
+            "A backtest is not money actually invested at that time."
+          ],
+          [
+            "Comparison",
+            "Same dates, relevant benchmark",
+            "Fees, reinvested payments, and risk can change the comparison."
+          ]
+        ],
+        "note": "Hypothetical examples for education. No prediction or investment recommendation."
       },
       {
         "type": "heading",
@@ -234,17 +380,24 @@
       },
       {
         "type": "links",
-        "title": "Where to go next",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
         "items": [
+          {
+            "label": "Investor.gov: performance claims",
+            "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-47",
+            "description": "Questions about simulated results, comparisons, and missing context.",
+            "practice": "Mark which questions the headline still leaves unanswered.",
+            "level": "Start here",
+            "format": "Guide"
+          },
           {
             "label": "Investor.gov: understand investment fees",
             "url": "https://www.investor.gov/introduction-investing/getting-started/understanding-fees",
-            "description": "Use the questions to check which costs apply and what's included. Its chart uses its own assumptions, so read the setup before comparing numbers."
-          },
-          {
-            "label": "Investor.gov: spread risk and plan around your goal",
-            "url": "https://www.investor.gov/introduction-investing/getting-started/asset-allocation",
-            "description": "Read how your goal, when you may need the money, and the mix of investments relate. The page explains the ideas; it doesn't choose a personal investment plan for you."
+            "description": "Check which charges affect a performance comparison.",
+            "practice": "List the costs included in the quoted return.",
+            "level": "Next step",
+            "format": "Guide"
           }
         ]
       }
@@ -297,6 +450,40 @@
         "text": "If you value your time at $20 an hour for planning, 15 minutes represents $5 of time. It isn't automatically $5 of extra income. The saving becomes useful only if the free time helps you do something you care about."
       },
       {
+        "type": "learning-figure",
+        "id": "choose-tools-that-earn-their-place",
+        "kind": "time",
+        "title": "Count the checking before calling it a saving",
+        "summary": "Here is the weekly report example on one shared 45-minute scale.",
+        "takeaway": "15 minutes saved each week takes 12 weeks to recover 3 hours of setup. Price and data requirements still need checking.",
+        "scale": 45,
+        "rows": [
+          {
+            "label": "Current weekly report",
+            "segments": [
+              {
+                "label": "Complete the report",
+                "minutes": 45
+              }
+            ]
+          },
+          {
+            "label": "Trial with the new app",
+            "segments": [
+              {
+                "label": "Collect and format",
+                "minutes": 20
+              },
+              {
+                "label": "Check and fix export",
+                "minutes": 10
+              }
+            ]
+          }
+        ],
+        "note": "Illustrative timings. A time saving is not automatically extra income."
+      },
+      {
         "type": "heading",
         "text": "3. Look for work the app moves somewhere else"
       },
@@ -331,6 +518,29 @@
       {
         "type": "paragraph",
         "text": "That's your finish line: a decision tied to an actual task, with the limits written down. Revisit it if your work or the app changes. You don't have to keep a tool just because you've already spent time learning it."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "GOV.UK: choose useful measurements",
+            "url": "https://www.gov.uk/service-manual/measuring-success/how-to-set-performance-metrics-for-your-service",
+            "description": "A service-focused guide to measures that inform decisions.",
+            "practice": "Define the total task time you will compare.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "GOV.UK: observe a usability test",
+            "url": "https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing",
+            "description": "See how to watch someone complete a task.",
+            "practice": "Note each point where the app creates extra work.",
+            "level": "Next step",
+            "format": "Guide"
+          }
+        ]
       }
     ],
     "updated": "2026-10-20"
@@ -367,6 +577,41 @@
       {
         "type": "paragraph",
         "text": "Give it an “unsure” option. A file called notes-final.pdf may not reveal what it's about. Leaving it for you to review is better than quietly filing it in the wrong place."
+      },
+      {
+        "type": "learning-figure",
+        "id": "give-ai-agents-clear-boundaries",
+        "kind": "comparison",
+        "title": "Turn “organize my files” into a permission plan",
+        "summary": "Start with copies in a practice folder. Decide these limits before a test.",
+        "takeaway": "Instructions explain the task. Tool permissions must enforce which files and actions the agent can access.",
+        "columns": [
+          "Action",
+          "First test",
+          "Reason"
+        ],
+        "rows": [
+          [
+            "Read file names",
+            "Allow in the practice folder",
+            "Enough to propose a structure without moving originals."
+          ],
+          [
+            "Move a file",
+            "Only test copies after plan review",
+            "Record the original and new locations."
+          ],
+          [
+            "Replace an existing file",
+            "Stop and flag the conflict",
+            "Matching names do not mean matching contents."
+          ],
+          [
+            "Delete or upload",
+            "Outside this test",
+            "Neither action is needed to test folder organization."
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -415,6 +660,29 @@
       {
         "type": "paragraph",
         "text": "You're finished when you can explain what the agent may do, what makes it stop, and how you'll check or reverse its changes. Give it more access only when there's a clear need and you understand the consequences."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "OWASP: prompt injection and access limits",
+            "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+            "description": "Read the mitigation section on permissions and approval.",
+            "practice": "Check that the test cannot overwrite originals.",
+            "level": "Go deeper",
+            "format": "Technical guide"
+          },
+          {
+            "label": "NIST: risks in context",
+            "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+            "description": "A framework for reasoning about AI use and evaluation.",
+            "practice": "Record who reviews a failed agent task.",
+            "level": "Go deeper",
+            "format": "Framework"
+          }
+        ]
       }
     ],
     "updated": "2026-10-20"
@@ -451,6 +719,32 @@
       {
         "type": "paragraph",
         "text": "Write the claims separately. Then decide what kind of source could support each one. Current prices and access rules belong on the provider's official pages. A study-time claim needs the actual study, including how it was carried out."
+      },
+      {
+        "type": "learning-figure",
+        "id": "check-an-ai-answer-before-you-use-it",
+        "kind": "decision",
+        "title": "A real source can still support the wrong claim",
+        "summary": "Choose one statement, open its original source, then follow the matching branch.",
+        "takeaway": "Check the exact wording, date, population, and conditions. A link existing is only the beginning.",
+        "question": "Does the source support the exact statement?",
+        "branches": [
+          {
+            "when": "Yes, including its limits",
+            "action": "Keep the claim with its source",
+            "reason": "The source matches the statement and the context in which you plan to use it."
+          },
+          {
+            "when": "Only a narrower version",
+            "action": "Correct the wording",
+            "reason": "A student trial is not proof that the tool is available to everyone. Preserve the restriction."
+          },
+          {
+            "when": "No, or you cannot inspect it",
+            "action": "Remove the claim or mark it unverified",
+            "reason": "Do not turn a missing answer into a confident fact. Look for independent evidence if the claim matters."
+          }
+        ]
       },
       {
         "type": "heading",
@@ -499,6 +793,29 @@
       {
         "type": "paragraph",
         "text": "A brainstorming idea doesn't need the same level of review as financial, health, legal, or live software work. Give claims that could affect an important decision the attention they deserve and use qualified help when needed. You're done when the claims you're relying on match the evidence and their limits are clear."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "University of Washington: evaluate information",
+            "url": "https://guides.lib.uw.edu/research/evaluate",
+            "description": "A library guide to judging information and its source.",
+            "practice": "Apply its questions to one claim you want to reuse.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "Investor.gov: inspect performance claims",
+            "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-47",
+            "description": "A focused example of checking an impressive number.",
+            "practice": "Practice finding the period and whether a result is simulated.",
+            "level": "Practice example",
+            "format": "Guide"
+          }
+        ]
       }
     ],
     "updated": "2026-10-20"
@@ -539,6 +856,41 @@
       {
         "type": "paragraph",
         "text": "Don't assume a feature shown in a demo is included in the plan whose price you saw. If the provider hasn't explained a detail, mark it as unknown. That's a question to answer, not a gap you need to guess your way through."
+      },
+      {
+        "type": "learning-figure",
+        "id": "read-a-tech-launch-with-a-clear-head",
+        "kind": "comparison",
+        "title": "Separate the announcement from your trial plan",
+        "summary": "Use this sheet when reading about a new product feature.",
+        "takeaway": "A launch becomes useful when it produces a testable question about your own work.",
+        "columns": [
+          "Announcement says",
+          "What to verify",
+          "Your next step"
+        ],
+        "rows": [
+          [
+            "“Available now”",
+            "Your account, region, plan, and device qualify",
+            "Confirm access in the official documentation."
+          ],
+          [
+            "“Coming soon”",
+            "A promise is different from an available feature",
+            "Keep the current process until you can test it."
+          ],
+          [
+            "“Works with your tools”",
+            "The fields and files you need transfer correctly",
+            "Try a small copy and inspect the output."
+          ],
+          [
+            "“Saves time”",
+            "Setup, checking, and recovery are included",
+            "Compare the full task with your current process."
+          ]
+        ]
       },
       {
         "type": "heading",
@@ -587,6 +939,29 @@
       {
         "type": "paragraph",
         "text": "You're done when you've written what's available, what you tested, what didn't work, and what would make you continue. That turns a launch announcement into a decision you can explain."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "GOV.UK: plan a task-based test",
+            "url": "https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing",
+            "description": "Turn a feature promise into an observed task.",
+            "practice": "Write one task the new feature should help complete.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "University of Washington: evaluate the source",
+            "url": "https://guides.lib.uw.edu/research/evaluate",
+            "description": "Check who published a claim and what supports it.",
+            "practice": "Separate the announcement from independent evidence.",
+            "level": "Next step",
+            "format": "Guide"
+          }
+        ]
       }
     ],
     "updated": "2026-10-20"
@@ -598,7 +973,7 @@
     "description": "Walk through a project-submission form and learn how to make instructions, errors, and success messages clearer.",
     "category": "Design & UX",
     "date": "2026-10-14",
-    "readingTime": 3,
+    "readingTime": 4,
     "related": [
       "read-a-tech-launch-with-a-clear-head",
       "make-a-carousel-people-can-follow"
@@ -623,6 +998,42 @@
       {
         "type": "paragraph",
         "text": "Write that confirmation before adjusting the form. It'll help you spot what the system must know before it can honestly show success."
+      },
+      {
+        "type": "learning-figure",
+        "id": "design-one-small-flow-at-a-time",
+        "kind": "comparison",
+        "title": "A form needs useful feedback in every state",
+        "summary": "Example: a builder submits a project to a directory. These are interface examples, not live form controls.",
+        "takeaway": "Keep the person informed before, during, and after submission. An error should explain the next action.",
+        "columns": [
+          "State",
+          "Unhelpful message",
+          "Clearer example"
+        ],
+        "rows": [
+          [
+            "Before entry",
+            "“URL”",
+            "“Project link. Add a public https:// link people can open.”"
+          ],
+          [
+            "Invalid entry",
+            "“Invalid input”",
+            "“Enter a complete link, such as https://example.com.”"
+          ],
+          [
+            "While sending",
+            "No change after clicking",
+            "“Submitting your project…” Keep another click from creating a duplicate."
+          ],
+          [
+            "After success",
+            "“Done”",
+            "“Project received. It will appear after review.”"
+          ]
+        ],
+        "note": "Only show the success message after the service confirms the submission."
       },
       {
         "type": "heading",
@@ -678,12 +1089,32 @@
       },
       {
         "type": "links",
-        "title": "Where to go next",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
         "items": [
           {
-            "label": "W3C: help people correct form errors",
+            "label": "W3C: label form controls clearly",
+            "url": "https://www.w3.org/WAI/tutorials/forms/labels/",
+            "description": "See accessible ways to connect labels and fields.",
+            "practice": "Check whether every field has a visible, useful label.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "W3C: explain input errors",
             "url": "https://www.w3.org/WAI/tutorials/forms/validation/",
-            "description": "Look at how to identify errors and connect helpful feedback to the right field. Compare the examples with the form you're reviewing."
+            "description": "Examples of helping people correct invalid input.",
+            "practice": "Rewrite one error with a clear correction.",
+            "level": "Next step",
+            "format": "Guide"
+          },
+          {
+            "label": "W3C: communicate form results",
+            "url": "https://www.w3.org/WAI/tutorials/forms/notifications/",
+            "description": "Explain success and errors in ways people can perceive.",
+            "practice": "Describe what happens after submission.",
+            "level": "Go deeper",
+            "format": "Guide"
           }
         ]
       }
@@ -697,7 +1128,7 @@
     "description": "Plan a connected six-slide explanation, keep the numbers honest, and check that it makes sense on a phone.",
     "category": "Creator Growth",
     "date": "2026-10-14",
-    "readingTime": 3,
+    "readingTime": 4,
     "related": [
       "turn-a-project-into-a-useful-thread",
       "build-a-small-game-you-can-finish"
@@ -748,6 +1179,41 @@
         "text": "Slide six offers a useful question: “Which costs apply, and am I comparing investments with similar risks?” Now the reader has both an explanation and something sensible to check next."
       },
       {
+        "type": "learning-figure",
+        "id": "make-a-carousel-people-can-follow",
+        "kind": "flow",
+        "title": "A six-slide lesson with a reason for every slide",
+        "summary": "This storyboard uses the same hypothetical fees example as the guide.",
+        "takeaway": "The sequence moves from a question to assumptions, evidence, meaning, and a useful action.",
+        "steps": [
+          {
+            "title": "Ask one question",
+            "text": "What changes when an annual fee is 1% instead of 0.25%?"
+          },
+          {
+            "title": "Make the setup visible",
+            "text": "$10,000, 20 years, assumed 5% yearly growth before fees. No added money, tax, or inflation."
+          },
+          {
+            "title": "Explain how it works",
+            "text": "In this simplified model, subtract the fee rate from the annual return, then grow the previous balance."
+          },
+          {
+            "title": "Show the result",
+            "text": "About $21,911 at 1% versus $25,298 at 0.25%. Label both as hypothetical."
+          },
+          {
+            "title": "Explain the difference",
+            "text": "The roughly $3,387 gap includes fees and growth that did not happen on money removed."
+          },
+          {
+            "title": "Give a next question",
+            "text": "Which costs apply, and are these investments similar enough to compare?"
+          }
+        ],
+        "note": "These figures illustrate the model, not real future returns. A carousel needs readable assumptions and a text alternative."
+      },
+      {
         "type": "heading",
         "text": "3. Keep the visual honest"
       },
@@ -770,6 +1236,29 @@
       {
         "type": "paragraph",
         "text": "You're done when someone can explain the lesson and its limits without your narration. The design should help them follow the reasoning, not cover up missing reasoning."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "W3C: explain charts and complex images",
+            "url": "https://www.w3.org/WAI/tutorials/images/complex/",
+            "description": "Examples of text alternatives for visual information.",
+            "practice": "Write a text version of your carousel’s main comparison.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "W3C: write clear headings and links",
+            "url": "https://www.w3.org/WAI/tips/writing/",
+            "description": "Practical writing guidance for accessible web content.",
+            "practice": "Check that the slide headings tell a connected story.",
+            "level": "Next step",
+            "format": "Guide"
+          }
+        ]
       }
     ],
     "updated": "2026-10-20"
@@ -781,7 +1270,7 @@
     "description": "Follow the steps from seeing a post to taking action, then test one improvement you can actually measure.",
     "category": "Creator Growth",
     "date": "2026-10-14",
-    "readingTime": 3,
+    "readingTime": 4,
     "related": [
       "make-a-carousel-people-can-follow",
       "make-a-digital-product-easier-to-understand"
@@ -810,6 +1299,42 @@
       {
         "type": "paragraph",
         "text": "Don't assume every number represents a different person. And don't claim that someone followed the entire path unless your measurement shows it. A platform's views and a website's visits are different kinds of counts."
+      },
+      {
+        "type": "learning-figure",
+        "id": "grow-a-small-account-with-real-conversations",
+        "kind": "comparison",
+        "title": "Use the numbers to choose a question",
+        "summary": "A made-up week shows how to reason about different measurements.",
+        "takeaway": "These ratios suggest where to investigate. They do not prove that the same people moved through every step.",
+        "columns": [
+          "Measurement",
+          "Example calculation",
+          "Question to investigate"
+        ],
+        "rows": [
+          [
+            "Post impressions",
+            "10,000 times shown",
+            "Did the post explain who the site is for?"
+          ],
+          [
+            "Profile visits",
+            "100 ÷ 10,000 = 1%",
+            "Is the profile giving people a reason to open the site?"
+          ],
+          [
+            "Measured site visits",
+            "20 ÷ 100 = 20%",
+            "Does the destination match what the profile promised?"
+          ],
+          [
+            "Suitable submissions",
+            "Record separately",
+            "Do visitors understand eligibility, cost, and what becomes public?"
+          ]
+        ],
+        "note": "Not a tracked conversion funnel. Counts may include repeat activity and different people. Use matching dates and documented definitions."
       },
       {
         "type": "heading",
@@ -858,6 +1383,29 @@
       {
         "type": "paragraph",
         "text": "Finish with one finding and one next action. “People keep asking whether submission costs money, so I'll clarify it beside the button” gives you something useful to improve. That's a much stronger outcome than deciding you simply need more views."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "GOV.UK: set meaningful performance metrics",
+            "url": "https://www.gov.uk/service-manual/measuring-success/how-to-set-performance-metrics-for-your-service",
+            "description": "Separate a service goal from convenient activity counts.",
+            "practice": "Choose a measure tied to suitable submissions.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "GOV.UK: watch where users get stuck",
+            "url": "https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing",
+            "description": "A method for investigating problems numbers cannot explain.",
+            "practice": "Observe the step where a visitor hesitates.",
+            "level": "Next step",
+            "format": "Guide"
+          }
+        ]
       }
     ],
     "updated": "2026-10-20"
@@ -898,6 +1446,36 @@
       {
         "type": "paragraph",
         "text": "Don't remove your only working recovery method before a replacement is verified. Follow the account provider's instructions for adding and checking the new method."
+      },
+      {
+        "type": "learning-figure",
+        "id": "a-gentle-security-reset-for-your-accounts",
+        "kind": "flow",
+        "title": "Check the route back before changing sign-in",
+        "summary": "Imagine your main email helps you recover several other accounts.",
+        "takeaway": "Protect the recovery route as carefully as the front door. Avoid storing your only backup inside the account it unlocks.",
+        "steps": [
+          {
+            "title": "Start with the recovery account",
+            "text": "Confirm which email address or phone helps you regain access. Make sure you can still use it.",
+            "check": "Can you reach that recovery option today?"
+          },
+          {
+            "title": "Strengthen sign-in",
+            "text": "Follow the provider’s current instructions for a strong unique password, passkey, or extra verification.",
+            "check": "Keep a working signed-in session while following setup guidance."
+          },
+          {
+            "title": "Keep an independent backup",
+            "text": "Store recovery codes securely somewhere you can reach if your usual device is unavailable.",
+            "check": "Do not put your only copy behind the same locked account."
+          },
+          {
+            "title": "Review connected access",
+            "text": "Check devices and apps that already have access. Investigate entries you do not recognize.",
+            "check": "Know what a removal will affect before disconnecting a service."
+          }
+        ]
       },
       {
         "type": "heading",
@@ -957,12 +1535,24 @@
       },
       {
         "type": "links",
-        "title": "Where to go next",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
         "items": [
           {
-            "label": "CISA: add another layer to sign-in",
-            "url": "https://www.cisa.gov/secure-our-world/turn-mfa",
-            "description": "Learn what MFA does. For exact setup and recovery steps, follow your account provider's current instructions."
+            "label": "Google: set up recovery options",
+            "url": "https://support.google.com/accounts/answer/183723",
+            "description": "Provider-specific instructions for a Google account’s recovery details.",
+            "practice": "Confirm you can still reach the recovery email or phone.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "Google: turn on 2-Step Verification",
+            "url": "https://support.google.com/accounts/answer/185839?ctx=topic&hl=en&topic=1099588",
+            "description": "Read the current setup guidance before changing sign-in.",
+            "practice": "Follow the instructions for your device and keep recovery options available.",
+            "level": "Next step",
+            "format": "Guide"
           }
         ]
       }
@@ -976,7 +1566,7 @@
     "description": "Use a prompt-packet example to make the purpose, contents, sample, and next step clearer.",
     "category": "Digital Products",
     "date": "2026-10-14",
-    "readingTime": 3,
+    "readingTime": 4,
     "related": [
       "grow-a-small-account-with-real-conversations",
       "choose-tools-that-earn-their-place"
@@ -1005,6 +1595,42 @@
       {
         "type": "paragraph",
         "text": "Say what someone needs to start. Do they already need a website and access to its editor? Is this for someone learning design or someone delivering work to clients? A clear starting point helps the right person recognize whether it fits."
+      },
+      {
+        "type": "learning-figure",
+        "id": "make-a-digital-product-easier-to-understand",
+        "kind": "comparison",
+        "title": "Replace broad promises with details people can check",
+        "summary": "Example: describe a packet of prompts for improving websites and apps.",
+        "takeaway": "A useful description lets a reader judge the fit before committing time or money.",
+        "columns": [
+          "Vague wording",
+          "Clearer detail",
+          "What it answers"
+        ],
+        "rows": [
+          [
+            "“Transform your workflow”",
+            "“Prompts for reviewing navigation, forms, and page copy”",
+            "Which tasks does it help with?"
+          ],
+          [
+            "“Everything you need”",
+            "“75 prompts, with workflows and review checklists”",
+            "What is actually included?"
+          ],
+          [
+            "“Professional results”",
+            "“Try a sample, then check its suggestions against your own site”",
+            "What can I inspect before buying?"
+          ],
+          [
+            "“Get started”",
+            "“Try free samples” or “Buy the full packet”",
+            "What happens when I click?"
+          ]
+        ],
+        "note": "Match the description to the real product. A clear promise still needs a useful product behind it."
       },
       {
         "type": "heading",
@@ -1057,6 +1683,29 @@
       {
         "type": "paragraph",
         "text": "You're done when someone can make an informed choice without a private walkthrough from you. You can still have personality in the writing. Just make sure the personality sits alongside the details rather than replacing them."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "W3C: write content people can navigate",
+            "url": "https://www.w3.org/WAI/tips/writing/",
+            "description": "Use descriptive headings, link text, and clear instructions.",
+            "practice": "Rewrite one vague button label.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "GitHub: explain a project in a README",
+            "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+            "description": "For code products, structure an introduction and getting-started instructions.",
+            "practice": "Draft the first action a new user should take.",
+            "level": "For code products",
+            "format": "Guide"
+          }
+        ]
       }
     ],
     "updated": "2026-10-20"
@@ -1151,6 +1800,43 @@
         "text": "In a home lab where you know the correct settings, record the current values before restoring the expected setup. At work, follow the support process and ask for approval where needed. Don't switch a workplace computer to a public DNS service just to see what happens. Internal websites may depend on the organization's own service."
       },
       {
+        "type": "learning-figure",
+        "id": "tech-career-starter-linkbook",
+        "kind": "flow",
+        "title": "Follow the evidence in the laptop example",
+        "summary": "Wi-Fi is connected, but a website will not open. The second device works.",
+        "takeaway": "One failed DNS lookup is a clue. The old lab DNS setting and follow-up checks make the case stronger.",
+        "steps": [
+          {
+            "title": "Compare the devices",
+            "text": "The same website opens on a second device using the same network.",
+            "check": "Investigate the laptop first without declaring the whole network healthy."
+          },
+          {
+            "title": "Inspect the active adapter",
+            "text": "ipconfig /all shows the gateway and DNS servers for the connection being used.",
+            "check": "Compare with the documented settings for your own lab."
+          },
+          {
+            "title": "Test name lookup",
+            "text": "Resolve-DnsName example.com times out in this made-up case.",
+            "check": "A timeout does not tell you the cause by itself."
+          },
+          {
+            "title": "Connect the clues",
+            "text": "The laptop still uses an old lab DNS server that no longer responds.",
+            "check": "Only restore the documented configuration on a setup you control."
+          },
+          {
+            "title": "Verify the original task",
+            "text": "Repeat name lookup and open two websites after the approved change.",
+            "check": "Record the evidence, change, and result in the ticket."
+          }
+        ],
+        "label": "Troubleshooting map",
+        "note": "Practice on a device you own or have permission to use. Keep private network details out of shared case studies."
+      },
+      {
         "type": "heading",
         "text": "5. Check the original problem again"
       },
@@ -1196,22 +1882,32 @@
       },
       {
         "type": "links",
-        "title": "Where to go next",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
         "items": [
           {
-            "label": "Microsoft: why website-name lookups can fail",
+            "label": "Microsoft: investigate DNS resolution",
             "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/troubleshoot-dns-client-resolution-issues",
-            "description": "Start with the example of an unreachable DNS server. Compare its clues with the practice case above. Don't change workplace settings just because a reference shows how."
+            "description": "Technical troubleshooting reference for Windows name resolution.",
+            "practice": "Compare one test with the lab case before changing settings.",
+            "level": "Go deeper",
+            "format": "Technical guide"
           },
           {
-            "label": "Microsoft: compare credentials",
+            "label": "Microsoft Learn: explore credentials",
             "url": "https://learn.microsoft.com/en-us/credentials/",
-            "description": "See the difference between a certification earned through an exam and an Applied Skills credential earned through practical tasks. Open the specific credential page for current requirements."
+            "description": "Compare certification and Applied Skills routes for a role.",
+            "practice": "Read a specific credential’s skills and prerequisites. Do not choose on title alone.",
+            "level": "Choose a route",
+            "format": "Credential directory"
           },
           {
-            "label": "Cisco: networking and security learning",
+            "label": "Cisco: Networking Academy",
             "url": "https://www.cisco.com/site/us/en/learn/training-certifications/training/netacad/index.html",
-            "description": "Choose a lesson that answers a question from your practice case. Keep a diagram or short explanation of what you've learned alongside the course."
+            "description": "Explore networking learning paths, then inspect the individual course.",
+            "practice": "Choose one lesson for the gap your lab exposed; check access and cost.",
+            "level": "Build foundations",
+            "format": "Course directory"
           }
         ]
       }
@@ -1258,6 +1954,30 @@
       {
         "type": "paragraph",
         "text": "For the first version, leave out shops, classes, upgrades, and currency. First find out whether firing, dodging, and recovering the projectile are enjoyable by themselves."
+      },
+      {
+        "type": "learning-figure",
+        "id": "build-a-small-game-you-can-finish",
+        "kind": "arena",
+        "title": "One shot creates three different decisions",
+        "summary": "A storyboard for the invented Rebound Duel prototype. The dashed line shows a planned or returning path.",
+        "takeaway": "The interesting moment is the choice between taking a shot and staying ready. Test the recovery time before adding features.",
+        "frames": [
+          {
+            "title": "Hold your shot",
+            "text": "Player A still has a projectile. Wait for a clearer angle or pressure the opponent into moving."
+          },
+          {
+            "title": "Commit to an attack",
+            "text": "A fires across the arena. B can dodge. A cannot immediately fire a second shot."
+          },
+          {
+            "title": "Recover after a miss",
+            "text": "B has moved out of the line of fire. A must recover the projectile while remaining vulnerable."
+          }
+        ],
+        "label": "Game storyboard",
+        "note": "Concept sketch, not a screenshot or a tested game. The round also needs rules for a hit, draw, disconnect, and reset."
       },
       {
         "type": "heading",
@@ -1365,17 +2085,24 @@
       },
       {
         "type": "links",
-        "title": "Where to go next",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
         "items": [
           {
-            "label": "Roblox: check requests from player devices",
-            "url": "https://create.roblox.com/docs/scripting/security/client-server-boundary",
-            "description": "Read how the server checks incoming actions. Use it to work through your test cases for firing, hits, and scoring."
+            "label": "Godot: your first complete 2D game",
+            "url": "https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html",
+            "description": "A local project tutorial that assumes some programming experience.",
+            "practice": "Build one complete round before adapting the idea.",
+            "level": "Local prototype",
+            "format": "Tutorial"
           },
           {
-            "label": "Godot: build your first 2D game",
-            "url": "https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html",
-            "description": "Follow a complete small project. If coding is new to you, start with its earlier lessons, then try rebuilding one part without copying."
+            "label": "Roblox: validate requests from players",
+            "url": "https://create.roblox.com/docs/scripting/security/client-server-boundary",
+            "description": "Technical examples of checks at the client-server boundary.",
+            "practice": "Write a test for firing when a round is inactive.",
+            "level": "Online implementation",
+            "format": "Technical guide"
           }
         ]
       }
@@ -1418,6 +2145,37 @@
       {
         "type": "paragraph",
         "text": "After reading, make a simple round plan: waiting, countdown, playing, result, and reset. For each stage, write whether moving, firing, and scoring are allowed. Test restarting twice. If something from the old round remains, find which reset step missed it."
+      },
+      {
+        "type": "learning-figure",
+        "id": "game-dev-resource-linkbook",
+        "kind": "comparison",
+        "title": "Give every reference a job in your project",
+        "summary": "Choose the path that fits your engine and experience. You do not need to learn both engines at once.",
+        "takeaway": "Turn each reading session into a small change or test you can inspect.",
+        "columns": [
+          "Reference",
+          "Use it for",
+          "Keep this result"
+        ],
+        "rows": [
+          [
+            "Godot first 2D game",
+            "Understand how a complete playable project fits together",
+            "A round plan and a working local learning project."
+          ],
+          [
+            "Roblox client-server boundary",
+            "Understand which incoming requests the server must check",
+            "Tests for firing during reset, repeated requests, and invalid scoring."
+          ],
+          [
+            "Roblox retention",
+            "Learn how the platform defines players returning",
+            "A measurement question that separates rematches from later visits."
+          ]
+        ],
+        "note": "Godot’s tutorial assumes some programming experience. Roblox security examples need scripting knowledge. Read the earlier lessons when a term is unfamiliar."
       },
       {
         "type": "heading",
@@ -1465,22 +2223,32 @@
       },
       {
         "type": "links",
-        "title": "Where to go next",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
         "items": [
           {
-            "label": "Godot: build your first 2D game",
+            "label": "Godot: build a complete 2D project",
             "url": "https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html",
-            "description": "Follow a complete small project. If coding is new to you, start with its earlier lessons, then try rebuilding one part without copying."
+            "description": "Follow a full project; use the earlier lessons if programming is new.",
+            "practice": "Rebuild one small part without copying.",
+            "level": "Local prototype",
+            "format": "Tutorial"
           },
           {
-            "label": "Roblox: check requests from player devices",
+            "label": "Roblox: protect shared game rules",
             "url": "https://create.roblox.com/docs/scripting/security/client-server-boundary",
-            "description": "Read how the server checks incoming actions. Use it to work through your test cases for firing, hits, and scoring."
+            "description": "Learn to validate actions received from a player’s device.",
+            "practice": "List the checks before awarding a point.",
+            "level": "Online implementation",
+            "format": "Technical guide"
           },
           {
-            "label": "Roblox: understand returning-player numbers",
+            "label": "Roblox: understand retention metrics",
             "url": "https://create.roblox.com/docs/production/analytics/retention",
-            "description": "Check how Roblox defines its return measurements. Keep same-visit rematches separate from players coming back on another day."
+            "description": "Read the platform’s definitions of returning players.",
+            "practice": "Keep immediate rematches separate from later visits.",
+            "level": "After launch",
+            "format": "Analytics reference"
           }
         ]
       }
@@ -1497,7 +2265,7 @@
     "description": "Separate the account from what's inside it, check what you would own, and write down the costs and open questions.",
     "category": "Markets & Investing",
     "date": "2026-10-20",
-    "readingTime": 3,
+    "readingTime": 4,
     "content": [
       {
         "type": "objective",
@@ -1522,6 +2290,37 @@
       {
         "type": "paragraph",
         "text": "Also separate how comfortable you feel with risk from how much loss your circumstances could handle. You might feel willing to take a risk while still needing the money soon. A product name can't resolve that conflict for you."
+      },
+      {
+        "type": "learning-figure",
+        "id": "investing-basics-linkbook",
+        "kind": "comparison",
+        "title": "Keep the account separate from the investment",
+        "summary": "Use these three layers when researching what a product would mean for you.",
+        "takeaway": "A familiar app or account name does not tell you what you own, what you pay, or when you can access the money.",
+        "columns": [
+          "Layer",
+          "What it describes",
+          "Question to write down"
+        ],
+        "rows": [
+          [
+            "Account",
+            "The container and its rules",
+            "What charges, tax rules, or withdrawal restrictions apply?"
+          ],
+          [
+            "Investment",
+            "What the account actually holds",
+            "What does it own, and what could make it lose value?"
+          ],
+          [
+            "Your goal",
+            "Why and when you may need the money",
+            "What would a loss or delayed withdrawal affect?"
+          ]
+        ],
+        "note": "General education. This comparison does not select a product or account for your circumstances."
       },
       {
         "type": "heading",
@@ -1573,22 +2372,32 @@
       },
       {
         "type": "links",
-        "title": "Where to go next",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
         "items": [
           {
-            "label": "Investor.gov: understand the product type",
+            "label": "Investor.gov: understand product types",
             "url": "https://www.investor.gov/introduction-investing/investing-basics/investment-products",
-            "description": "Find out what kind of investment you're looking at and the basic risks to investigate before comparing providers."
+            "description": "Start with what the investment actually is.",
+            "practice": "Write down what it holds and how it can lose value.",
+            "level": "Start here",
+            "format": "Guide"
           },
           {
-            "label": "Investor.gov: spread risk and plan around your goal",
+            "label": "Investor.gov: allocation and diversification",
             "url": "https://www.investor.gov/introduction-investing/getting-started/asset-allocation",
-            "description": "Read how your goal, when you may need the money, and the mix of investments relate. The page explains the ideas; it doesn't choose a personal investment plan for you."
+            "description": "Learn how investment mix relates to goals and risk.",
+            "practice": "Explain why two funds may still share the same risks.",
+            "level": "Next step",
+            "format": "Guide"
           },
           {
-            "label": "Investor.gov: understand investment fees",
+            "label": "Investor.gov: understand fees",
             "url": "https://www.investor.gov/introduction-investing/getting-started/understanding-fees",
-            "description": "Use the questions to check which costs apply and what's included. Its chart uses its own assumptions, so read the setup before comparing numbers."
+            "description": "Review costs before comparing providers.",
+            "practice": "Add a source for each charge on your comparison sheet.",
+            "level": "Next step",
+            "format": "Guide"
           }
         ]
       }
@@ -1606,7 +2415,7 @@
     "description": "Follow a simple example, understand why the gap grows, and learn which costs to check in a real product.",
     "category": "Markets & Investing",
     "date": "2026-10-20",
-    "readingTime": 4,
+    "readingTime": 3,
     "content": [
       {
         "type": "objective",
@@ -1694,12 +2503,24 @@
       },
       {
         "type": "links",
-        "title": "Where to go next",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
         "items": [
           {
             "label": "Investor.gov: understand investment fees",
             "url": "https://www.investor.gov/introduction-investing/getting-started/understanding-fees",
-            "description": "Use the questions to check which costs apply and what's included. Its chart uses its own assumptions, so read the setup before comparing numbers."
+            "description": "Check the different layers of investment costs.",
+            "practice": "Label each charge by amount or percentage and frequency.",
+            "level": "Start here",
+            "format": "Guide"
+          },
+          {
+            "label": "Investor.gov: read performance claims",
+            "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-47",
+            "description": "Consider what a return includes before comparing it.",
+            "practice": "Check whether the comparison includes fees.",
+            "level": "Next step",
+            "format": "Guide"
           }
         ]
       }
@@ -1717,7 +2538,7 @@
     "description": "Use a complete example to explain a problem, show your choices, and invite a relevant conversation.",
     "category": "Creator Growth",
     "date": "2026-10-20",
-    "readingTime": 3,
+    "readingTime": 4,
     "content": [
       {
         "type": "objective",
@@ -1742,6 +2563,38 @@
       {
         "type": "paragraph",
         "text": "That gives someone a situation and a choice. It doesn't ask them to believe the project is amazing before they've seen it."
+      },
+      {
+        "type": "learning-figure",
+        "id": "turn-a-project-into-a-useful-thread",
+        "kind": "flow",
+        "title": "Five posts that tell one project story",
+        "summary": "Use the resource-directory example as a structure, then replace it with your own work.",
+        "takeaway": "Each post should add a new piece of the explanation. A screenshot should show the choice being discussed.",
+        "steps": [
+          {
+            "title": "Problem",
+            "text": "I kept saving tutorials, then forgetting which task each one helped with."
+          },
+          {
+            "title": "Change",
+            "text": "I grouped the resources by task and added a short note about when to use each one."
+          },
+          {
+            "title": "Tradeoff",
+            "text": "Fewer groups were easier to scan, but some resources fit more than one task."
+          },
+          {
+            "title": "Evidence and limits",
+            "text": "It feels easier for me. I have not yet tested whether a new visitor can find the right guide."
+          },
+          {
+            "title": "Relevant question",
+            "text": "What makes you return to a resource list: the groups, a useful note, or something else?"
+          }
+        ],
+        "label": "Thread storyboard",
+        "note": "Use a real screenshot or label the image as a mockup. Never present an untested outcome as a measured result."
       },
       {
         "type": "heading",
@@ -1802,6 +2655,29 @@
       {
         "type": "paragraph",
         "text": "You're finished when a reader can tell what was difficult, what you changed, why you chose that approach, and what's still uncertain. That's a complete story about the work, even when the project is small."
+      },
+      {
+        "type": "links",
+        "title": "Continue with these resources",
+        "intro": "Choose the reference that fits your next question. Each suggestion includes something small to put into practice.",
+        "items": [
+          {
+            "label": "GitHub: document what your project does",
+            "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+            "description": "For code projects, explain purpose, setup, and where to get help.",
+            "practice": "Reuse those facts to draft the opening post.",
+            "level": "For code projects",
+            "format": "Guide"
+          },
+          {
+            "label": "W3C: make images understandable",
+            "url": "https://www.w3.org/WAI/tutorials/images/complex/",
+            "description": "Use meaningful text descriptions alongside complex visuals.",
+            "practice": "Describe the change shown in your screenshot.",
+            "level": "Next step",
+            "format": "Guide"
+          }
+        ]
       }
     ],
     "related": [

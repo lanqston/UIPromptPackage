@@ -1,0 +1,18 @@
+---
+const { block } = Astro.props;
+const headingId = `lesson-${block.id}`;
+---
+<figure class={`lesson-figure lesson-figure--${block.kind}`} aria-labelledby={headingId}>
+  <figcaption>
+    <span class="lesson-kicker">{block.label || 'Worked example'}</span>
+    <h2 id={headingId}>{block.title}</h2>
+    <p>{block.summary}</p>
+  </figcaption>
+  {block.kind === 'comparison' && <div class="lesson-table-wrap" role="region" aria-label={`${block.title}: comparison table`} tabindex="0"><table><caption class="sr-only">{block.title}</caption><thead><tr>{block.columns.map(column=><th scope="col">{column}</th>)}</tr></thead><tbody>{block.rows.map(row=><tr>{row.map((cell,index)=>index===0 ? <th scope="row">{cell}</th> : <td>{cell}</td>)}</tr>)}</tbody></table></div>}
+  {block.kind === 'time' && <div class="lesson-times">{block.rows.map(row=><div class="lesson-time-row"><div class="lesson-time-label"><strong>{row.label}</strong><span>{row.segments.reduce((sum,segment)=>sum+segment.minutes,0)} min total</span></div><div class="lesson-time-track" aria-hidden="true">{row.segments.map((segment,index)=><span class={`lesson-time-segment lesson-time-segment--${index}`} style={`width:${segment.minutes/block.scale*100}%`}></span>)}</div><ul>{row.segments.map(segment=><li><span>{segment.label}</span><strong>{segment.minutes} min</strong></li>)}</ul></div>)}</div>}
+  {block.kind === 'decision' && <div class="lesson-decision"><div class="lesson-question"><span class="lesson-symbol" aria-hidden="true">?</span><strong>{block.question}</strong></div><ul>{block.branches.map(branch=><li><span class="lesson-branch-label">{branch.when}</span><strong>{branch.action}</strong><p>{branch.reason}</p></li>)}</ul></div>}
+  {block.kind === 'flow' && <ol class="lesson-flow">{block.steps.map((step,index)=><li><span class="lesson-step-number" aria-hidden="true">{String(index+1).padStart(2,'0')}</span><div><h3>{step.title}</h3><p>{step.text}</p>{step.check && <span class="lesson-check">Check: {step.check}</span>}</div></li>)}</ol>}
+  {block.kind === 'arena' && <ol class="lesson-arena">{block.frames.map((frame,index)=><li><svg viewBox="0 0 300 160" aria-hidden="true" focusable="false"><rect x="2" y="2" width="296" height="156" rx="14" fill="#f4f5f6" stroke="#b7bdc5"/><path d="M150 15V145" stroke="#d2d6dc" stroke-dasharray="4 5"/><circle cx="55" cy="80" r="13" fill="#343b44"/><circle cx="245" cy={index===2?40:80} r="13" fill="#fff" stroke="#343b44" stroke-width="3"/><text x="55" y="118" text-anchor="middle" fill="#343b44" font-size="12">Player A</text><text x="245" y={index===2?17:118} text-anchor="middle" fill="#343b44" font-size="12">Player B</text>{index===0 ? <><circle cx="80" cy="80" r="5" fill="#343b44"/><path d="M98 80H210M201 73L210 80L201 87" fill="none" stroke="#707984" stroke-width="2" stroke-dasharray="5 4"/></> : index===1 ? <><circle cx="205" cy="80" r="5" fill="#343b44"/><path d="M94 80H184M176 73L184 80L176 87" fill="none" stroke="#707984" stroke-width="2"/><path d="M245 57V30M239 37L245 30L251 37" fill="none" stroke="#343b44" stroke-width="2"/></> : <><circle cx="212" cy="113" r="5" fill="#343b44"/><path d="M199 116Q148 145 83 98M83 98L86 111M83 98L97 99" fill="none" stroke="#707984" stroke-width="2" stroke-dasharray="5 4"/></>}</svg><span class="lesson-branch-label">{index+1}. {frame.title}</span><p>{frame.text}</p></li>)}</ol>}
+  <p class="lesson-takeaway"><strong>What to notice</strong> {block.takeaway}</p>
+  {block.note && <p class="resource-note">{block.note}</p>}
+</figure>
