@@ -15,6 +15,7 @@ export default defineConfig({
     locations: ['us-east-1'],
     tags: ['promptcove', 'production'],
     alertChannels,
+    checkMatch: './monitoring/*.check.ts',
     browserChecks: { testMatch: './monitoring/*.spec.ts' },
   },
 });

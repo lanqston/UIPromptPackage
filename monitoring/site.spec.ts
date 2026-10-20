@@ -7,7 +7,12 @@ test('Digivated discovery, view counts, free prompt, and purchase access', async
   page.on('pageerror', error => errors.push(error.name));
   const response = await page.goto('https://digivated.com/');
   expect(response?.status()).toBe(200);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Discover independent projects. Get ideas for your next build.');
+  await expect(page.locator('#home-heading')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Browse free guides', exact: true })).toHaveAttribute('href', '/resources');
+  const resourcesResponse = await page.goto('https://digivated.com/resources');
+  expect(resourcesResponse?.status()).toBe(200);
+  await expect(page.getByRole('heading', { name: 'Resources', exact: true })).toBeVisible();
+  await expect(page.locator('[data-builtin-resource]').first()).toBeVisible();
   const projectsResponse = await page.request.get('https://digivated.com/api/projects');
   expect(projectsResponse.status()).toBe(200);
   const { items } = await projectsResponse.json();

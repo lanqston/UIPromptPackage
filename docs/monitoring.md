@@ -1,6 +1,8 @@
 # Production monitoring
 
-Checkly runs `monitoring/site.spec.ts` hourly from us-east-1. The check verifies the homepage, three free samples, opening a prompt, and the enabled purchase-access form. It does not make purchases or submit license keys.
+Checkly runs `monitoring/site.spec.ts` hourly from us-east-1. The check verifies the homepage's guide entry point, the resource library, three free samples, opening a prompt, and the enabled purchase-access form. It checks the homepage structure rather than an exact marketing headline. It does not make purchases or submit license keys.
+
+`monitoring/availability.check.ts` separately requests the HTTPS homepage every five minutes from the configured US East and US West locations. It requires HTTP 200 without following redirects and leaves certificate verification enabled. A response over five seconds is degraded; over fifteen seconds fails. This lightweight check can detect connection, certificate, timeout, or HTTP availability failures even when the browser journey has a separate UI failure. It uses the existing alert channels inherited from the project configuration. Monitoring detects trouble; it cannot guarantee that every device or network will always connect.
 
 Production Vercel builds run `npm run monitoring:deploy` after the site build. The script maps the existing `PromptCoveCheckly_CHECKLY_API_KEY` and `PromptCoveCheckly_CHECKLY_ACCOUNT_ID` integration variables to Checkly's standard names, deploys the stable `promptcove-production` project, and records a live-site test. Preview builds and local builds do not change monitoring. Existing Checkly resources are preserved.
 
