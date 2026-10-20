@@ -1,12 +1,17 @@
 // Public offer metadata only. Paid slides must never be imported here.
 export const foundingPass = Object.freeze({
-  name:'Digivated Founding Member Pass',
-  priceUSD:2,
+  name:'Digivated Founding Membership',
+  priceUSD:5,
   introductoryLimit:25,
   status:'live',
   checkoutUrl:'https://digivated.gumroad.com/l/founding-member-pass',
   scope:'founding-collection',
   includedCarousels:[],
+  includes:Object.freeze([
+    'Full educational carousels',
+    'The full UI/UX Prompt Packet',
+    'One featured project submission. Review is required, and a feature is never guaranteed.',
+  ]),
 });
 export const readingPreview = [
   {title:'Start with the idea.',label:'The X preview',text:'The public post introduces a topic and gives you something useful to take away. The full collection continues the explanation on Digivated.',visual:['The question','The key idea','A useful takeaway']},

@@ -34,7 +34,9 @@ export function validateEdit(kind, input, previous) {
     const socialUrl = text(input.socialUrl, 'creator profile URL', 500, false);
     record = { ...previous, name: text(input.name, 'project name', 120), creator: text(input.creator, 'creator', 100), description: text(input.description, 'description', 600), category: input.category, status: input.status, pickOverride: input.pick === true, pick: input.pick === true && ['approved', 'featured'].includes(input.status), socialUrl: socialUrl ? safeUrl(socialUrl) : '', url: safeUrl(text(input.url, 'project URL', 500)) };
     if (previous.promotion?.requested) {
-      const verified = input.promotionVerified === undefined ? previous.promotion.verified === true : input.promotionVerified === true;
+      const memberIncluded = previous.promotion.included === 'founding-membership' && typeof previous.promotion.memberSaleId === 'string';
+      const approving = ['approved', 'featured'].includes(input.status);
+      const verified = (memberIncluded && approving) || (input.promotionVerified === undefined ? previous.promotion.verified === true : input.promotionVerified === true);
       record.promotion = {...previous.promotion, verified};
       if (verified && !previous.promotion.verified) record.promotion.verifiedAt = now;
       if (!verified) delete record.promotion.verifiedAt;
