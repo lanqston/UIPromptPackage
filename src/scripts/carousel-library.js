@@ -1,3 +1,5 @@
+import { cardIconMarkup } from '../lib/card-icons.mjs';
+
 const FOUNDING_CHECKOUT = 'https://digivated.gumroad.com/l/founding-member-pass';
 
 const el = (tag, text, className) => {
@@ -25,17 +27,63 @@ async function loadJson(url) {
   return { ok: response.ok, status: response.status, data };
 }
 
+function icon(name, className) {
+  const node = el('span', undefined, className);
+  node.innerHTML = cardIconMarkup(name);
+  return node;
+}
+
 function card(item) {
-  const article = el('article', undefined, 'carousel-card');
-  const title = el('h2');
+  const href = `/carousels/${encodeURIComponent(item.slug)}`;
+  const article = el('article', undefined, 'resource-card carousel-resource-card');
+  const cover = el('a', undefined, 'carousel-cover');
+  cover.href = href;
+  cover.tabIndex = -1;
+  cover.setAttribute('aria-hidden', 'true');
+  const image = el('img');
+  image.src = mediaUrl(item.slug, 1);
+  image.alt = '';
+  image.loading = 'lazy';
+  image.decoding = 'async';
+  cover.append(image);
+  const copy = el('div', undefined, 'resource-copy');
+  const topic = el('div', undefined, 'card-topic');
+  topic.append(icon('book', 'topic-icon'), el('span', 'Educational carousel', 'tag'));
+  const title = el('h3');
   const link = el('a', item.title);
-  link.href = `/carousels/${encodeURIComponent(item.slug)}`;
+  link.href = href;
   title.append(link);
-  article.append(
-    title,
-    el('p', item.summary),
-    el('p', `${item.previewCount} of ${item.slideCount} slides open to everyone`, 'carousel-meta'),
-  );
+  const stats = el('div', undefined, 'card-stats');
+  stats.setAttribute('aria-label', 'Carousel details');
+  const stat = el('span', undefined, 'card-stat');
+  stat.title = 'Slides open without a Founding Member Pass';
+  stat.append(icon('layers', 'stat-icon'), el('span', `${item.previewCount} of ${item.slideCount} slides free`));
+  stats.append(stat);
+  const footer = el('div', undefined, 'card-footer');
+  const actions = el('div', undefined, 'card-actions');
+  actions.setAttribute('role', 'group');
+  actions.setAttribute('aria-label', `Actions for ${item.title}`);
+  const share = el('button', undefined, 'card-icon');
+  share.type = 'button';
+  share.dataset.shareUrl = href;
+  share.setAttribute('aria-label', `Share ${item.title}`);
+  share.title = 'Share';
+  share.append(icon('share'));
+  const save = el('button', undefined, 'card-icon card-save');
+  save.type = 'button';
+  save.dataset.saveType = 'carousel';
+  save.dataset.saveId = item.slug;
+  save.setAttribute('aria-label', 'Save to collection');
+  save.title = 'Save to collections';
+  save.append(icon('save'), el('span', 'Save', 'sr-only'));
+  save.lastElementChild.dataset.saveLabel = '';
+  actions.append(share, save);
+  const open = el('a', undefined, 'card-open');
+  open.href = href;
+  open.append(el('span', 'View carousel'), icon('arrow', 'button-arrow'));
+  footer.append(actions, open);
+  copy.append(topic, title, el('p', item.summary, 'resource-description'), stats, footer);
+  article.append(cover, copy);
   return article;
 }
 
@@ -81,13 +129,13 @@ function initReader(root) {
   update();
 }
 
-function slideArticle(slide, total) {
-  const article = el('article', undefined, 'founding-carousel-slide carousel-detail-slide');
+function slideArticle(slide, total, member) {
+  const article = el('article', undefined, 'carousel-viewer-slide');
   article.dataset.carouselSlide = '';
   article.setAttribute('aria-roledescription', 'slide');
   article.setAttribute('aria-label', `${slide.number} of ${total}`);
-  const top = el('div', undefined, 'founding-carousel-slide-top');
-  top.append(el('span', 'Preview'), el('span', String(slide.number).padStart(2, '0')));
+  const top = el('p', undefined, 'carousel-viewer-kicker');
+  top.append(el('span', member || slide.number > 4 ? `Slide ${slide.number}` : 'Preview'), el('span', `${slide.number} of ${total}`));
   article.append(top);
   if (slide.image === mediaUrl(slide.slug, slide.number)) {
     const image = el('img');
@@ -95,7 +143,7 @@ function slideArticle(slide, total) {
     image.alt = slide.alt || '';
     article.append(image);
   }
-  article.append(el('p', slide.text, 'carousel-detail-copy'));
+  article.append(el('p', slide.text, 'carousel-viewer-copy'));
   return article;
 }
 
@@ -108,17 +156,21 @@ function renderDetail(root, payload) {
   if (heading) heading.textContent = item.title;
   if (summary) summary.textContent = item.summary;
   if (status) status.textContent = '';
-  const reader = el('section', undefined, 'founding-carousel-reader');
+  const meta = document.getElementById('carousel-meta');
+  if (meta) meta.textContent = item.locked ? `${item.slides.length} of ${item.slideCount} slides free` : `All ${item.slideCount} slides`;
+  const crumb = document.querySelector('.site-breadcrumbs [aria-current="page"]');
+  if (crumb) crumb.textContent = item.title;
+  const reader = el('section', undefined, 'carousel-viewer');
   reader.dataset.carouselReader = '';
   reader.setAttribute('aria-label', item.title);
   reader.setAttribute('aria-roledescription', 'carousel');
-  const track = el('div', undefined, 'founding-carousel-track');
+  const track = el('div', undefined, 'carousel-viewer-track');
   track.id = 'carousel-slides';
   track.dataset.carouselTrack = '';
   track.tabIndex = 0;
   track.setAttribute('aria-label', 'Carousel slides. Swipe, scroll, or use the arrow buttons.');
-  for (const slide of item.slides) track.append(slideArticle({ ...slide, slug: item.slug }, item.slides.length));
-  const controls = el('div', undefined, 'founding-carousel-controls');
+  for (const slide of item.slides) track.append(slideArticle({ ...slide, slug: item.slug }, item.slides.length, !!payload.member));
+  const controls = el('div', undefined, 'carousel-viewer-controls');
   controls.dataset.carouselControls = '';
   controls.hidden = true;
   const previous = el('button', '← Previous', 'button');
@@ -137,7 +189,7 @@ function renderDetail(root, payload) {
   next.setAttribute('aria-label', 'Next slide');
   controls.append(previous, position, next);
   reader.append(track, controls);
-  const transcript = el('details', undefined, 'founding-carousel-transcript');
+  const transcript = el('details', undefined, 'carousel-viewer-transcript');
   transcript.append(el('summary', 'Read the preview slides as text'));
   for (const slide of item.slides) {
     const section = el('section');
