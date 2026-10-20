@@ -3,22 +3,22 @@ import Platform from '../layouts/Platform.astro';
 import LiveProjects from '../components/LiveProjects.astro';
 import ResourcesLibrary from '../components/ResourcesLibrary.astro';
 ---
-<Platform title="Technology & AI, markets & what’s next" description="Explore technology and AI, markets, useful tools, and independent projects with Digivated.">
+<Platform title="Learn, discover projects, and share your work" description="Digivated brings practical guides and independent projects together. Learn something useful, discover a project, or share what you’re building.">
   <div class="home-container mx-auto px-6">
     <section class="revamp-hero" aria-labelledby="home-heading">
       <div class="hero-copy">
-        <p class="section-kicker hero-kicker">A SPACE FOR CURIOUS MINDS</p>
-        <h1 class="discovery-headline" id="home-heading">Stay curious about <em>what’s next.</em></h1>
-        <p class="lede">Understand technology and AI, find useful tools, and discover what independent people are building. One idea at a time.</p>
-        <div class="actions"><a class="button primary" href="/resources">Explore the library <span aria-hidden="true">↗</span></a><a class="button hero-explore" href="/discover">Discover projects <span aria-hidden="true">→</span></a></div>
+        <p class="section-kicker hero-kicker">PRACTICAL GUIDES. INDEPENDENT PROJECTS.</p>
+        <h1 class="discovery-headline" id="home-heading">Learn. Discover.<em>Share your work.</em></h1>
+        <p class="lede">Digivated brings practical guides and independent projects together. Learn about tech, AI, and markets, find something worth trying, or share what you’re building.</p>
+        <div class="actions"><a class="button primary" href="/resources">Browse free guides <span aria-hidden="true">↗</span></a><a class="button hero-explore" href="/discover">Discover projects <span aria-hidden="true">→</span></a></div>
       </div>
       <aside class="welcome-guide" aria-labelledby="welcome-heading">
         <div class="orbit-stage" data-orbit-stage aria-hidden="true"><div class="orbit-sculpture"><img src="/discovery-orbit.svg" width="560" height="340" alt="" fetchpriority="high"/></div></div><p class="section-kicker welcome-kicker">EXPLORE. BUILD. SHARE.</p>
-        <h2 id="welcome-heading">Where will curiosity take you?</h2>
+        <h2 id="welcome-heading">What would you like to do?</h2>
         
-        <a href="/resources"><span class="welcome-number" aria-hidden="true">01</span><span><strong>Learn something useful</strong><small>Browse ideas, guides, and tools</small></span><span aria-hidden="true">→</span></a>
-        <a href="/discover"><span class="welcome-number" aria-hidden="true">02</span><span><strong>Find your next discovery</strong><small>Explore independent projects</small></span><span aria-hidden="true">→</span></a>
-        <a href="/ui-ux-prompt-packet"><span class="welcome-number" aria-hidden="true">03</span><span><strong>Make a start on your idea</strong><small>Try three UI prompts for free</small></span><span aria-hidden="true">→</span></a>
+        <a href="/resources"><span class="welcome-number" aria-hidden="true">01</span><span><strong>Learn something useful</strong><small>Follow a guide with a clear next step</small></span><span aria-hidden="true">→</span></a>
+        <a href="/discover"><span class="welcome-number" aria-hidden="true">02</span><span><strong>Discover a project</strong><small>Explore independent projects</small></span><span aria-hidden="true">→</span></a>
+        <a href="/submit-project"><span class="welcome-number" aria-hidden="true">03</span><span><strong>Share your work</strong><small>Submit your project for free review</small></span><span aria-hidden="true">→</span></a>
         <p class="welcome-footnote">No account needed to explore.</p>
       </aside>
       <nav class="home-topics" aria-label="Explore Digivated topics">
@@ -30,28 +30,28 @@ import ResourcesLibrary from '../components/ResourcesLibrary.astro';
     </section>
 
     <section id="projects" class="home-section community-builds" aria-labelledby="community-heading">
-      <div class="home-section-heading"><div><p class="section-kicker">DIGIVATED PICKS</p><h2 id="community-heading">Meet your next <em>discovery.</em></h2><p>A few independent projects worth a closer look.</p></div><a class="section-link" href="/discover">Browse projects <span aria-hidden="true">↗</span></a></div>
+      <div class="home-section-heading"><div><p class="section-kicker">DIGIVATED PICKS</p><h2 id="community-heading">Discover independent <em>projects.</em></h2><p>A few independent projects worth a closer look.</p></div><a class="section-link" href="/discover">Browse projects <span aria-hidden="true">↗</span></a></div>
       <LiveProjects mode="picks" limit={4} compact title="The next discovery is still to come." description="Reviewed community projects will appear here. Have something you’re building? Send it in for free." href="/submit-project" label="Submit your project"/>
     </section>
 
     <ResourcesLibrary/>
 
     <section class="journey-section" aria-labelledby="journey-heading">
-      <div class="journey-intro"><p class="section-kicker">HOW DIGIVATED WORKS</p><h2 id="journey-heading">Follow an idea <em>further.</em></h2><p>There’s no complicated process. Browse what interests you, find people making things, and add your own work when you’re ready.</p></div>
+      <div class="journey-intro"><p class="section-kicker">HOW DIGIVATED WORKS</p><h2 id="journey-heading">Three ways to <em>get involved.</em></h2><p>There’s no complicated process. Browse what interests you, find people making things, and add your own work when you’re ready.</p></div>
       <ol class="journey-steps">
-        <li><span class="journey-icon" aria-hidden="true">01</span><div><h3>Explore a topic</h3><p>Start with technology and AI, markets, tools, design, or creator growth in the resource library.</p></div><a href="/resources" aria-label="Browse resources">↗</a></li>
+        <li><span class="journey-icon" aria-hidden="true">01</span><div><h3>Learn something useful</h3><p>Choose a goal and follow the suggested reading order. Every free guide has a clear objective and examples.</p></div><a href="/resources" aria-label="Browse resources">↗</a></li>
         <li><span class="journey-icon" aria-hidden="true">02</span><div><h3>Discover a project</h3><p>Meet independent builders and save the projects you want to revisit.</p></div><a href="/discover" aria-label="Explore projects">↗</a></li>
-        <li><span class="journey-icon" aria-hidden="true">03</span><div><h3>Share what you make</h3><p>Submit a project for review. Approved work can join the community directory.</p></div><a href="/submit-project" aria-label="Submit a project">↗</a></li>
+        <li><span class="journey-icon" aria-hidden="true">03</span><div><h3>Share your work</h3><p>Submit a project for review. Approved work can join the community directory.</p></div><a href="/submit-project" aria-label="Submit a project">↗</a></li>
       </ol>
     </section>
 
 
 
-    <section class="home-product" aria-labelledby="home-product-heading"><div><p class="section-kicker">MADE BY DIGIVATED</p><h2 id="home-product-heading">Turn an idea into <em>something real.</em></h2><p>The UI/UX Prompt Packet brings 75 prompts and step-by-step guidance to your next website or app. Try three prompts free before deciding whether the full packet is for you.</p><div class="actions"><a class="button primary" href="/ui-ux-prompt-packet">Explore the packet ↗</a><a class="text-link" href="/access">Already purchased? Open access →</a></div></div><div class="packet-display" aria-hidden="true"><span>THE UI/UX PROMPT PACKET</span><strong>75<span> prompts</span></strong><span>FROM IDEA → INTERFACE</span></div></section>
+    <section class="home-product" aria-labelledby="home-product-heading"><div><p class="section-kicker">OPTIONAL DIGITAL PRODUCT</p><h2 id="home-product-heading">Want help with your <em>website or app?</em></h2><p>The UI/UX Prompt Packet brings 75 prompts and step-by-step guidance to your next website or app. Try three prompts free before deciding whether the full packet is for you.</p><div class="actions"><a class="button" href="/ui-ux-prompt-packet">Try the free samples ↗</a><a class="text-link" href="/access">Already purchased? Open access →</a></div></div><div class="packet-display" aria-hidden="true"><span>THE UI/UX PROMPT PACKET</span><strong>75<span> prompts</span></strong><span>FROM IDEA → INTERFACE</span></div></section>
 
     <section class="share-next" aria-labelledby="share-heading"><div><p class="section-kicker">YOUR TURN</p><h2 id="share-heading">Building something <em>worth sharing?</em></h2><p>Submit your project for free. Want to learn about paid promotion? That’s a separate option after you’ve seen how submissions work.</p></div><div class="share-actions"><a class="button primary" href="/submit-project">Submit a project ↗</a><a href="/promote">About promotion →</a></div></section>
 
-    <section class="home-faq" aria-labelledby="faq-heading"><div><p class="section-kicker">QUICK ANSWERS</p><h2 id="faq-heading">Good to <em>know.</em></h2></div><div class="faq-list"><details><summary>What is Digivated?</summary><p>A place to explore technology and AI, markets, useful tools, and ideas from independent creators.</p></details><details><summary>Can I submit my project for free?</summary><p>Yes. You can send in a project for review at no cost. A submission does not guarantee that it will be published or featured.</p></details><details><summary>Is the Prompt Packet free?</summary><p>Three prompts are free to try. The full 75-prompt packet is a paid digital product.</p></details><details><summary>How do I save things for later?</summary><p>Use Save on a project or resource to add it to a private collection on this device.</p></details></div></section>
+    <section class="home-faq" aria-labelledby="faq-heading"><div><p class="section-kicker">QUICK ANSWERS</p><h2 id="faq-heading">Good to <em>know.</em></h2></div><div class="faq-list"><details><summary>What is Digivated?</summary><p>A place to learn from practical guides, discover independent projects, and share what you’re building. The guides cover tech, AI, markets, and creating useful things.</p></details><details><summary>Can I submit my project for free?</summary><p>Yes. You can send in a project for review at no cost. A submission does not guarantee that it will be published or featured.</p></details><details><summary>Is the Prompt Packet free?</summary><p>Three prompts are free to try. The full 75-prompt packet is a paid digital product.</p></details><details><summary>How do I save things for later?</summary><p>Use Save on a project or resource to add it to a private collection on this device.</p></details></div></section>
   </div>
   <script>import '../scripts/live-content.js';</script>
 </Platform>

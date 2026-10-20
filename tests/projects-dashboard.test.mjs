@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 
 // A minimal event-driven DOM harness exercises the real directory script.
-function setup(kind = 'projects') {
+function setup(kind = 'projects', query = '') {
   const node = (dataset = {}, value = '') => ({dataset, value, hidden:false, textContent:'', attrs:{}, handlers:{}, options:[], setAttribute(k,v){this.attrs[k]=v;}, addEventListener(k,fn){this.handlers[k]=fn;}, fire(k){this.handlers[k]?.();}});
   const directory=node({directory:kind});
   const ids=Object.fromEntries(['search','category','view','sort','status','empty','heading'].map(id=>['directory-'+id,node()]));
@@ -15,12 +15,13 @@ function setup(kind = 'projects') {
     node({search:'zebra ai maker',category:'AI',pick:'false',featured:'false',projectName:'Zebra',projectDate:'2026-10-16',projectViewsTotal:'0'}),
     node({search:'alpha saas maker',category:'SaaS',pick:'true',featured:'true',projectName:'Alpha',projectDate:'2026-10-01',projectViewsTotal:'63'}),
   ];
-  for (const [index,card] of cards.entries()) Object.assign(card.dataset,{resourceName:card.dataset.projectName,resourceDate:card.dataset.projectDate,resourceReadingTime:String(index ? 2 : 4)});
+  for (const [index,card] of cards.entries()) Object.assign(card.dataset,{resourceName:card.dataset.projectName,resourceDate:card.dataset.projectDate,resourceReadingTime:String(index ? 2 : 4),learningGoal:index?'markets':'ai-tools',resourceOrder:String(index?1:2)});
   const clear=node();
   const list=node();list.order=[...cards];list.appendChild=card=>{list.order=list.order.filter(c=>c!==card);list.order.push(card);};
   const views=['newest','picks','featured'].map(value=>node({directoryView:value}));
   const layouts=['grid','list'].map(value=>node({directoryLayout:value}));
   const chips=['','AI','SaaS'].map(value=>node({categoryFilter:value}));
+  const goals=['','ai-tools','markets'].map(value=>node({goalFilter:value}));
   const stats=Object.fromEntries(['total','picks','featured','categories'].map(key=>['data-project-'+key,node()]));
   const counts=['AI','SaaS'].map(value=>node({categoryCount:value}));
   const document=node();
@@ -31,11 +32,14 @@ function setup(kind = 'projects') {
     if(selector==='[data-directory-view]')return views;
     if(selector==='[data-directory-layout]')return layouts;
     if(selector==='[data-category-filter]')return chips;
+    if(selector==='[data-goal-filter]')return kind==='resources'?goals:[];
     if(selector==='[data-category-count]')return counts;
     return stats[selector.slice(1,-1)]?[stats[selector.slice(1,-1)]]:[];
   };
-  runInNewContext(readFileSync('src/scripts/directory.js','utf8'),{document,location:{search:''},URLSearchParams});
-  return {document,ids,cards,clear,list,views,layouts,chips,stats,counts};
+  const location={href:`https://digivated.com/${kind==='resources'?'resources':'discover'}${query}`,search:query};
+  const history={replaceState(_state,_title,url){location.href=url.href;location.search=url.search;}};
+  runInNewContext(readFileSync('src/scripts/directory.js','utf8'),{document,location,history,URL,URLSearchParams});
+  return {document,ids,cards,clear,list,views,layouts,chips,stats,counts,goals,location};
 }
 test('approved non-picks remain visible; collection/category filters and reset combine correctly',()=>{
   const h=setup();assert.equal(h.ids['directory-status'].textContent,'Loading projects…');
@@ -72,4 +76,23 @@ test('resources sort by reading time and title, reset topics, and switch layout'
   assert.equal(h.clear.hidden,false);h.clear.fire('click');assert.equal(h.clear.hidden,true);
   assert.equal(h.ids['directory-status'].textContent,'2 resources found');
   h.layouts[1].fire('click');assert.equal(h.list.dataset.layout,'list');
+});
+
+test('goal links load the right guides, category changes release the goal, and reset clears the URL',()=>{
+ const h=setup('resources','?path=markets');
+ assert.deepEqual(h.cards.map(c=>c.hidden),[true,false]);
+ assert.equal(h.goals[2].attrs['aria-pressed'],'true');
+ h.ids['directory-category'].value='AI';h.ids['directory-category'].fire('change');
+ assert.deepEqual(h.cards.map(c=>c.hidden),[false,true]);
+ assert.equal(h.goals[0].attrs['aria-pressed'],'true');
+ assert.equal(new URL(h.location.href).searchParams.get('path'),null);
+ h.goals[2].fire('click');assert.equal(h.ids['directory-category'].value,'');
+ assert.deepEqual(h.cards.map(c=>c.hidden),[true,false]);
+ assert.equal(new URL(h.location.href).searchParams.get('path'),'markets');
+ h.ids['directory-search'].value='not here';h.ids['directory-search'].fire('input');
+ assert.equal(h.ids['directory-status'].textContent,'0 resources found');
+ h.clear.fire('click');assert.equal(h.ids['directory-status'].textContent,'2 resources found');
+ assert.equal(h.location.search,'');
+ h.ids['directory-sort'].value='recommended';h.ids['directory-sort'].fire('change');
+ assert.equal(h.list.order[0].dataset.resourceName,'Alpha');
 });

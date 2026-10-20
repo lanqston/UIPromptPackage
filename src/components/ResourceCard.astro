@@ -3,21 +3,23 @@ import { normalizeResourceCategory } from '../data/community.mjs';
 import { cardIconMarkup } from '../lib/card-icons.mjs';
 import { categoryIcon } from '../lib/card-meta.mjs';
 import CardStats from './CardStats.astro';
+import { resourcePathInfo } from '../data/learning-paths.mjs';
 import CardActions from './CardActions.astro';
 const { resource } = Astro.props;
 const category = normalizeResourceCategory(resource.category);
 const id = resource.id || resource.slug;
+const learning = resourcePathInfo({...resource, category});
 const url = resource.url || `/resources/${resource.slug}`;
 ---
-<article class="resource-card" data-resource data-resource-name={resource.title} data-resource-date={resource.date || ''} data-resource-reading-time={resource.readingTime || ''} data-resource-kind={resource.packet ? 'toolkit' : 'guide'} data-builtin-resource data-resource-view-id={id} data-resource-url={url} data-category={category} data-search={`${resource.title} ${resource.description} ${category} ${resource.packet ? 'promptpackage prompts toolkit' : ''}`.toLowerCase()}>
+<article data-learning-goal={learning.path?.id || ''} data-resource-order={learning.order} class="resource-card" data-resource data-resource-name={resource.title} data-resource-date={resource.date || ''} data-resource-reading-time={resource.readingTime || ''} data-resource-kind={resource.packet ? 'toolkit' : 'guide'} data-builtin-resource data-resource-view-id={id} data-resource-url={url} data-category={category} data-search={`${resource.title} ${resource.description} ${category} ${learning.path?.label || ''} ${learning.path?.keywords || ''} ${resource.packet ? 'promptpackage prompts toolkit' : ''}`.toLowerCase()}>
   <div class="resource-copy">
-    <div class="card-topic"><span class="topic-icon" set:html={cardIconMarkup(categoryIcon(category))}/><span class="tag">{category}</span></div>
+    <div class="card-topic"><span class="topic-icon" set:html={cardIconMarkup(categoryIcon(category))}/><span class="tag">{learning.path?.label || category}</span>{learning.step && <span class="learning-step">{learning.step === 1 ? 'Start here · ' : ''}{learning.step} of {learning.total}</span>}{resource.packet && <span class="resource-offer">Paid toolkit</span>}</div>
     <h3><a href={url}>{resource.title}</a></h3>
     <p class="resource-description">{resource.description}</p>
     <CardStats resource={{ ...resource, id }}/>
     <div class="card-footer">
       <CardActions id={id} title={resource.title} url={url}/>
-      <a class="card-open" href={url}><span>{resource.packet ? 'Explore the packet' : 'Read the guide'}</span><span class="button-arrow" set:html={cardIconMarkup('arrow')}/></a>
+      <a class="card-open" href={url}><span>{resource.packet ? 'Try free samples' : 'Read the guide'}</span><span class="button-arrow" set:html={cardIconMarkup('arrow')}/></a>
     </div>
   </div>
 </article>

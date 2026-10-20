@@ -1,6 +1,7 @@
 ---
 import resources from '../data/resources.json';
-const index = resources.filter(r => r.status === 'published').map(r => ({type:'resource',title:r.title,description:r.description,category:r.category,href:`/resources/${r.slug}`}));
+import { resourcePathInfo } from '../data/learning-paths.mjs';
+const index = resources.filter(r => r.status === 'published').map(r => ({type:'resource',title:r.title,description:r.description,category:r.category,keywords:resourcePathInfo(r).path?.keywords || '',href:`/resources/${r.slug}`}));
 index.unshift({type:'resource',title:'UI/UX Prompt Packet',description:'75 practical prompts, workflows, and checklists.',category:'Design & UX',href:'/ui-ux-prompt-packet'});
 ---
 <script type="application/json" id="discovery-index" set:html={JSON.stringify(index).replace(/</g,'\u003c')}/>

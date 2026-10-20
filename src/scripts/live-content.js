@@ -1,5 +1,6 @@
 import { observeProjectViews, viewLabel } from './project-views.js';
 import { observeResourceViews } from './resource-views.js';
+import { resourcePathInfo } from '../data/learning-paths.mjs';
 import { safeUrl, normalizeResourceCategory } from '../data/community.mjs';
 import { cardIcon } from './card-actions.js';
 import { categoryIcon, resourceStats, formatCardDate } from '../lib/card-meta.mjs';
@@ -50,7 +51,7 @@ function projectCard(project){
  return card;
 }
 function resourceCard(resource){
- const category=normalizeResourceCategory(resource.category);const card=el('article',undefined,'resource-card');card.dataset.resource='';card.dataset.resourceName=resource.title;card.dataset.resourceDate=resource.date||'';card.dataset.resourceReadingTime=String(resource.readingTime||'');card.dataset.resourceKind='guide';card.dataset.resourceViewId=resource.id;card.dataset.category=category;card.dataset.search=`${resource.title} ${resource.description} ${category}`.toLowerCase();
+ const category=normalizeResourceCategory(resource.category);const learning=resourcePathInfo({...resource,category});const card=el('article',undefined,'resource-card');card.dataset.learningGoal=learning.path?.id||'';card.dataset.resourceOrder=String(learning.order);card.dataset.resource='';card.dataset.resourceName=resource.title;card.dataset.resourceDate=resource.date||'';card.dataset.resourceReadingTime=String(resource.readingTime||'');card.dataset.resourceKind='guide';card.dataset.resourceViewId=resource.id;card.dataset.category=category;card.dataset.search=`${resource.title} ${resource.description} ${category} ${learning.path?.keywords || ''}`.toLowerCase();
  const copy=el('div',undefined,'resource-copy');copy.append(topicLabel(category));const title=el('h3');title.append(link(resource.title,resource.url));copy.append(title,el('p',resource.description,'resource-description'),statStrip(resource));const footer=el('div',undefined,'card-footer');footer.append(cardActions('resource',resource.id,resource.url),openLink('Read the guide',resource.url));copy.append(footer);card.append(copy);return card;
 }
 function productCard(product){
