@@ -43,6 +43,7 @@ export function makeAdminHandler(deps = {}) {
         }
         if (body.action === 'moderate-comment') {
           const result=await moderateComment(redis,body.id,body.status);
+          if(result===-3)throw new AdminError(400,'This feedback is private. The author did not give permission for a public quote.');
           if(result!==1)throw new AdminError(result===-2?400:404,result===-2?'This item is no longer published.':'This comment is no longer pending. Refresh the list.');
           return send(200,{ok:true});
         }

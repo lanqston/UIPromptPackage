@@ -1,0 +1,13 @@
+---
+import Platform from '../layouts/Platform.astro';
+import PacketExample from '../components/PacketExample.astro';
+import PacketFeedback from '../components/PacketFeedback.astro';
+import '../styles/packet-sales.css';
+---
+<Platform title="Try a complete UI/UX prompt example" description="Follow a fictional lesson-request screen from a filled-in free prompt to an illustrative review and a practical checklist.">
+<header class="page-intro"><a href="/ui-ux-prompt-packet">← About the packet</a><p class="eyebrow">Free walkthrough · No purchase required</p><h1>Try one complete screen review.</h1><p class="lede">Read the example, copy the prompt, then try the same process on a screen you can inspect. The illustrations show the design reasoning, not a measured customer result.</p></header>
+<PacketExample expanded/>
+<section class="sales-section"><h2>Ready to use your own screen?</h2><div class="actions"><a class="button primary" href="/builder?prompt=1">Customize the free screen review</a><a class="button" href="/library?sample=1">Browse all 3 free prompts</a></div></section>
+<PacketFeedback/>
+<script>import '../scripts/packet-sales.js';</script>
+</Platform>

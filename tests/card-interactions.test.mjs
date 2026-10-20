@@ -21,11 +21,11 @@ function fixtureRedis(){
   }
   throw Error(`Unexpected Redis command ${command}`);
  };
- return {redis,values};
+ return {redis,values,sorted};
 }
-async function call(handler,method,id,body,headers={}){
+async function call(handler,method,id,body,headers={},type='project'){
  let data;const res={statusCode:200,setHeader(){},end(value){data=JSON.parse(value);}};
- await handler({url:`/api/card-interactions?type=project&id=${id}`,method,headers:{origin,'content-type':'application/json','x-real-ip':'192.0.2.10','user-agent':'Mozilla/5.0',...headers},body:method==='POST'?{type:'project',id,...body}:undefined},res);
+ await handler({url:`/api/card-interactions?type=${type}&id=${id}`,method,headers:{origin,'content-type':'application/json','x-real-ip':'192.0.2.10','user-agent':'Mozilla/5.0',...headers},body:method==='POST'?{type,id,...body}:undefined},res);
  return {status:res.statusCode,data};
 }
 test('project interactions require a published project and moderate comments without changing its record',async()=>{
@@ -57,4 +57,35 @@ test('cross-site writes and invalid requests fail before any interaction is stor
  assert.equal((await call(handler,'POST','project-one',{action:'comment',comment:'Hi'})).status,400);
  assert.equal((await call(handler,'POST','../private',{action:'like'})).status,404);
  assert.equal((await call(handler,'GET','project-one')).data.likes,0);
+});
+
+test('private packet feedback cannot be published and never appears in public responses',async()=>{
+ const {redis,values,sorted}=fixtureRedis(),handler=makeCardInteractionHandler({redis,env:{SUBMISSIONS_ORIGIN:origin}}),id='builtin-ui-ux-prompt-packet';
+ const response=await call(handler,'POST',id,{action:'feedback',comment:'Tried a form review. The request label became clearer.',quoteConsent:false},{},'resource');
+ assert.equal(response.status,201);assert.match(response.data.message,/privately/);
+ const entry=(await listPendingComments(redis)).items[0];
+ assert.equal(entry.purpose,'packet-feedback');assert.equal(entry.quoteConsent,false);
+ assert.equal(await moderateComment(redis,entry.id,'approved'),-3);
+ assert.deepEqual((await call(handler,'GET',id,undefined,{},'resource')).data.comments,[]);
+ // Fail closed even if an old or manual storage edit marks private feedback approved.
+ const key=`digivated:card:comment:${entry.id}`;values.set(key,JSON.stringify({...entry,status:'approved'}));
+ sorted.set(`digivated:card:comments:resource:${id}`,new Map([[entry.id,Date.now()]]));
+ assert.deepEqual((await call(handler,'GET',id,undefined,{},'resource')).data.comments,[]);
+});
+
+test('consented trial feedback becomes a quote only after owner approval',async()=>{
+ const {redis}=fixtureRedis(),handler=makeCardInteractionHandler({redis,env:{SUBMISSIONS_ORIGIN:origin}}),id='builtin-ui-ux-prompt-packet';
+ assert.equal((await call(handler,'POST',id,{action:'feedback',name:'Test fixture',comment:'Fixture feedback for the permission test.',quoteConsent:true},{},'resource')).status,201);
+ assert.deepEqual((await call(handler,'GET',id,undefined,{},'resource')).data.comments,[]);
+ const entry=(await listPendingComments(redis)).items[0];assert.equal(entry.quoteConsent,true);
+ assert.equal(await moderateComment(redis,entry.id,'approved'),1);
+ const quote=(await call(handler,'GET',id,undefined,{},'resource')).data.comments[0];
+ assert.equal(quote.quote,true);assert.equal(quote.name,'Test fixture');
+});
+
+test('feedback requires explicit boolean permission and the correct product',async()=>{
+ const {redis}=fixtureRedis(),handler=makeCardInteractionHandler({redis,env:{SUBMISSIONS_ORIGIN:origin}}),id='builtin-ui-ux-prompt-packet';
+ for(const quoteConsent of [undefined,'true',1])assert.equal((await call(handler,'POST',id,{action:'feedback',comment:'A useful test comment.',quoteConsent},{},'resource')).status,400);
+ assert.equal((await call(handler,'POST','make-sense-of-new-tech',{action:'feedback',comment:'A useful test comment.',quoteConsent:true},{},'resource')).status,400);
+ assert.equal((await listPendingComments(redis)).items.length,0);
 });

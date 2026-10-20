@@ -1,0 +1,17 @@
+<section class="packet-feedback sales-section" aria-labelledby="packet-feedback-title">
+  <p class="eyebrow">Help improve the packet</p><h2 id="packet-feedback-title">Try one prompt. Tell us what happened.</h2>
+  <p>You don't need to buy anything to give useful feedback. Try the free example on one screen, review the suggestions, then share what helped and what didn't.</p>
+  <p class="packet-note">Don't include private project details, an email address, or a license key. Feedback is private unless you explicitly allow a quote below.</p>
+  <form data-packet-feedback>
+    <label>First name or display name <span>(optional)</span><input name="name" maxlength="40" autocomplete="given-name"/></label>
+    <label>What screen and prompt did you try?<textarea name="task" maxlength="140" minlength="4" rows="2" required placeholder="For example: free prompt 1 on a lesson-request screen."></textarea></label>
+    <label>What changed, or what did you learn?<textarea name="outcome" maxlength="140" minlength="4" rows="2" required placeholder="Describe what actually happened, even if it didn't help."></textarea></label>
+    <label>What was still confusing? <span>(optional)</span><textarea name="difficulty" maxlength="100" rows="2"></textarea></label>
+    <label class="packet-check"><input name="quoteConsent" type="checkbox"/><span>You may publish this feedback with my display name as a quote on Digivated's packet page. This is optional.</span></label>
+    <label class="honeypot" aria-hidden="true">Company<input name="company" tabindex="-1" autocomplete="off"/></label>
+    <button class="button primary" type="submit" disabled>Send feedback</button><noscript><p>Enable JavaScript to send feedback securely.</p></noscript>
+    <p data-packet-feedback-status role="status" aria-live="polite"></p>
+    <p class="packet-note">Allowing a quote doesn't publish it automatically. Feedback is reviewed first. <a href="/privacy">How feedback is handled</a>.</p>
+  </form>
+</section>
+<section class="packet-quotes sales-section" data-packet-quotes hidden aria-labelledby="packet-quotes-title"><h2 id="packet-quotes-title">Feedback from people who've tried it</h2><div data-packet-quote-list></div><p class="packet-note">Quotes are published with permission. People may have used the free samples; this isn't a verified-purchase review system.</p></section>

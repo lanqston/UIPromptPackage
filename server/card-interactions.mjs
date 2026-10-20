@@ -10,7 +10,7 @@ const commentIndex = (type,id) => `digivated:card:comments:${itemKey(type,id)}`;
 export const commentKey = id => `digivated:card:comment:${id}`;
 const LIKE = `local liked=redis.call('GET',KEYS[1]); local count=tonumber(redis.call('GET',KEYS[2]) or '0'); if ARGV[1]=='like' then if liked then return {count,1} end; redis.call('SET',KEYS[1],'1','EX',2592000); return {redis.call('INCR',KEYS[2]),1} end; if ARGV[1]=='unlike' then if liked then redis.call('DEL',KEYS[1]); if count>0 then count=redis.call('DECR',KEYS[2]) end end; return {count,0} end; return {-1,0}`;
 const COMMENT = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],86400) end; if n>3 then return 0 end; redis.call('SET',KEYS[2],ARGV[1]); redis.call('ZADD',KEYS[3],ARGV[2],ARGV[3]); return 1`;
-const MODERATE = `local raw=redis.call('GET',KEYS[1]); if not raw then return -1 end; local entry=cjson.decode(raw); if entry.status~='pending' then return 0 end; entry.status=ARGV[1]; redis.call('SET',KEYS[1],cjson.encode(entry)); if ARGV[1]=='approved' then redis.call('ZADD',KEYS[2],ARGV[2],entry.id) else redis.call('ZREM',KEYS[2],entry.id) end; return 1`;
+const MODERATE = `local raw=redis.call('GET',KEYS[1]); if not raw then return -1 end; local entry=cjson.decode(raw); if entry.status~='pending' then return 0 end; if ARGV[1]=='approved' and entry.purpose=='packet-feedback' and entry.quoteConsent~=true then return -3 end; entry.status=ARGV[1]; redis.call('SET',KEYS[1],cjson.encode(entry)); if ARGV[1]=='approved' then redis.call('ZADD',KEYS[2],ARGV[2],entry.id) else redis.call('ZREM',KEYS[2],entry.id) end; return 1`;
 
 export async function isPublicItem(redis,type,id) {
   if (type === 'resource' && builtinResources.has(id)) return true;
@@ -22,18 +22,19 @@ export async function isPublicItem(redis,type,id) {
 export async function listComments(redis,type,id) {
   const ids=await redis(['ZREVRANGE',commentIndex(type,id),0,29]);
   const raws=ids.length ? await redis(['MGET',...ids.map(commentKey)]) : [];
-  return raws.filter(Boolean).map(raw=>JSON.parse(raw)).filter(entry=>entry.status==='approved').map(({name,body,date})=>({name,body,date}));
+  return raws.filter(Boolean).map(raw=>JSON.parse(raw)).filter(entry=>entry.status==='approved' && (entry.purpose!=='packet-feedback' || entry.quoteConsent===true)).map(({name,body,date,purpose,quoteConsent})=>({name,body,date,...(purpose==='packet-feedback' && quoteConsent===true ? {quote:true} : {})}));
 }
 export async function listPendingComments(redis,offset=0) {
   const ids=await redis(['ZREVRANGE','digivated:card:comments:all',offset,offset+49]);
   const raws=ids.length ? await redis(['MGET',...ids.map(commentKey)]) : [];
-  return {items:raws.filter(Boolean).map(raw=>JSON.parse(raw)).map(({id,type,itemId,name,body,date,status})=>({id,type,itemId,name,body,date,status})),next:ids.length===50?offset+50:null};
+  return {items:raws.filter(Boolean).map(raw=>JSON.parse(raw)).map(({id,type,itemId,name,body,date,status,purpose,quoteConsent})=>({id,type,itemId,name,body,date,status,...(purpose==='packet-feedback'?{purpose,quoteConsent:quoteConsent===true}:{})})),next:ids.length===50?offset+50:null};
 }
 export async function moderateComment(redis,id,status) {
   if(!validId(id)||!['approved','rejected'].includes(status))return 0;
   const raw=await redis(['GET',commentKey(id)]);
   if(!raw)return -1;
   const entry=JSON.parse(raw);
+  if(status==='approved' && entry.purpose==='packet-feedback' && entry.quoteConsent!==true)return -3;
   if(!await isPublicItem(redis,entry.type,entry.itemId) && status==='approved')return -2;
   return redis(['EVAL',MODERATE,2,commentKey(id),commentIndex(entry.type,entry.itemId),status,Date.parse(entry.date)]);
 }
@@ -77,14 +78,17 @@ export function makeCardInteractionHandler(deps={}) {
         const [likes,liked]=await redis(['EVAL',LIKE,2,`digivated:card:liked:${visitor}`,likeKey(type,id),body.action]);
         return send(200,{liked:Boolean(Number(liked)),likes:Number(likes)});
       }
-      if(body.action!=='comment')return send(400,{error:'Unknown action.'});
+      const isFeedback=body.action==='feedback';
+      if(body.action!=='comment'&&!isFeedback)return send(400,{error:'Unknown action.'});
+      if(isFeedback && (type!=='resource'||id!=='builtin-ui-ux-prompt-packet'))return send(400,{error:'Use the packet feedback form.'});
+      if(isFeedback && typeof body.quoteConsent!=='boolean')return send(400,{error:'Choose whether your feedback may be quoted.'});
       if(body.company)return send(400,{error:'Check the form and try again.'});
       const name=typeof body.name==='string'?body.name.trim():'',comment=typeof body.comment==='string'?body.comment.trim():'';
       if(name.length>40||comment.length<4||comment.length>500)return send(400,{error:'Use up to 40 characters for your name and 4 to 500 for your comment.'});
-      const entry={id:randomUUID(),type,itemId:id,name:name||'Guest',body:comment,date:new Date().toISOString(),status:'pending'};
+      const entry={id:randomUUID(),type,itemId:id,name:name||(isFeedback?'Anonymous tester':'Guest'),body:comment,date:new Date().toISOString(),status:'pending',...(isFeedback?{purpose:'packet-feedback',quoteConsent:body.quoteConsent}:{})};
       const saved=await redis(['EVAL',COMMENT,3,`digivated:card:comment-limit:${visitor}`,commentKey(entry.id),'digivated:card:comments:all',JSON.stringify(entry),Date.parse(entry.date),entry.id]);
       if(saved!==1){res.setHeader('Retry-After','86400');return send(429,{error:'You’ve reached today’s comment limit. Please try again tomorrow.'});}
-      return send(201,{ok:true,message:'Thanks for sharing your thoughts. Your comment will appear after review.'});
+      return send(201,{ok:true,message:isFeedback ? body.quoteConsent ? 'Thanks. Your feedback is saved for review. You have allowed a public quote; nothing is published automatically.' : 'Thanks. Your feedback is saved privately for review and will not be published.' : 'Thanks for sharing your thoughts. Your comment will appear after review.'});
     }catch{return send(503,{error:'This action is temporarily unavailable. Please try again later.'});}
   };
 }

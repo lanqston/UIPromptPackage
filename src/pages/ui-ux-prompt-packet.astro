@@ -2,20 +2,31 @@
 import Platform from '../layouts/Platform.astro';
 import CardStats from '../components/CardStats.astro';
 import CardActions from '../components/CardActions.astro';
+import PacketExample from '../components/PacketExample.astro';
+import PacketFeedback from '../components/PacketFeedback.astro';
+import '../styles/packet-sales.css';
 ---
-<Platform title="UI/UX Prompt Packet" description="75 practical UI/UX prompts, workflows, and checklists to help you improve websites and apps.">
+<Platform title="UI/UX Prompt Packet" description="A beginner-friendly toolkit for people building their first websites and apps with AI. Try a complete free example before buying.">
   <header class="page-intro packet-intro" data-resource-view-id="builtin-ui-ux-prompt-packet">
-    <p class="eyebrow">Made by Digivated</p><h1>UI/UX Prompt Packet</h1>
-    <p class="lede">A practical toolkit for improving websites and apps with AI. Choose a prompt, add your project details, and turn the suggestions into a clear next step.</p>
+    <p class="eyebrow">For beginners building websites and apps with AI</p><h1>UI/UX Prompt Packet</h1>
+    <p class="lede">Know your screen needs work, but aren't sure what to ask the AI? Start with a specific prompt, explain your project, and get suggestions you can review one step at a time.</p>
+    <div class="packet-price"><strong>From $5.99 USD</strong><span>One-time payment. Pay more if you choose.</span></div>
+    <p class="packet-note">Gumroad handles payment and your license key. The final price, any taxes, and local currency are shown at checkout.</p>
     <div class="actions"><a class="button primary" href="/library?sample=1">Try 3 free prompts</a><a class="button purchase-link" href="https://digivated.gumroad.com/l/ui-prompt-package">Buy the full packet</a></div>
-    <CardStats resource={{id: "builtin-ui-ux-prompt-packet", packet: true}}/><CardActions id="builtin-ui-ux-prompt-packet" title="UI/UX Prompt Packet" url="/ui-ux-prompt-packet"/>
+    <p class="packet-note"><a href="#packet-example-title">See a complete before-and-after example ↓</a></p>
+    <CardStats resource={{id: 'builtin-ui-ux-prompt-packet', packet: true}}/><CardActions id="builtin-ui-ux-prompt-packet" title="UI/UX Prompt Packet" url="/ui-ux-prompt-packet"/>
     <a class="text-link" href="/access">Already purchased? Open your packet →</a>
   </header>
   <section class="packet-details" aria-label="What is included">
-    <article><p class="eyebrow">Find a starting point</p><h2>75 practical prompts</h2><p>Review a screen, improve mobile layouts, or simplify a busy interface. Start with the task you need to solve.</p></article>
-    <article><p class="eyebrow">Make it your own</p><h2>A prompt builder</h2><p>Add your audience, goals, and constraints to create a prompt suited to your project.</p></article>
-    <article><p class="eyebrow">Follow through</p><h2>Guides &amp; checklists</h2><p>Eight workflows and eight review checklists help you apply suggestions and check the result.</p></article>
+    <article><p class="eyebrow">Choose a real task</p><h2>75 practical prompts</h2><p>Review a screen, improve a mobile layout, or clarify a form. Choose the problem before asking for changes.</p></article>
+    <article><p class="eyebrow">Add your context</p><h2>A prompt builder</h2><p>Fill in your screen, audience, and goal. Copy the prepared prompt into the AI tool you already use.</p></article>
+    <article><p class="eyebrow">Know what to check</p><h2>8 workflows and 8 checklists</h2><p>Work through the suggestions in a sensible order and review the result before sharing it.</p></article>
   </section>
-  <section class="packet-steps" aria-labelledby="packet-steps-heading"><h2 id="packet-steps-heading">From prompt to progress</h2><ol><li><b>Choose a task</b><span>Open a free sample or browse the prompt library.</span></li><li><b>Add your context</b><span>Describe your screen, your audience, and what you want to improve.</span></li><li><b>Try and review</b><span>Paste into your AI tool, apply one useful suggestion, and check the result.</span></li></ol><a class="text-link" href="/start">Follow the getting-started guide →</a></section>
-  <section class="packet-help" aria-labelledby="packet-access-heading"><h2 id="packet-access-heading">Already have the packet?</h2><p>Use the license key from your Gumroad receipt to unlock the full toolkit. <a href="/access">Open Packet Access →</a></p></section>
+  <section class="sales-section packet-fit" aria-labelledby="packet-fit-title"><h2 id="packet-fit-title">Made for your first builds, not just design experts.</h2><p>This is for students, beginner developers, and creators who can describe what they're building but need help explaining a design problem. Start with one screen rather than a full redesign.</p><div class="packet-fit-grid"><div><h3>You'll need</h3><p>A screenshot or project you can inspect, a browser, and access to an AI chat or coding tool. Any AI tool costs are separate.</p></div><div><h3>You'll receive</h3><p>Access to the complete web-based packet: prompts, workflows, checklists, beginner explanations, and the customizer. Your Gumroad receipt provides the license key.</p></div><div><h3>You stay in control</h3><p>The packet prepares instructions. It doesn't call an AI model, edit your site, or guarantee a finished design. You review and test the changes.</p></div></div></section>
+  <PacketExample/>
+  <section class="packet-steps" aria-labelledby="packet-steps-heading"><h2 id="packet-steps-heading">Try the whole process before buying.</h2><ol><li><b>Choose a free prompt</b><span>The samples cover a screen review, mobile usability, and simplifying an overcrowded interface.</span></li><li><b>Apply it to one screen</b><span>Use the worked example to add your own context. Review the answer before making a change.</span></li><li><b>Check what improved</b><span>Use the example checklist, then decide whether the wider packet would help your next tasks.</span></li></ol><div class="actions"><a class="button" href="/packet-example">Open the complete free walkthrough</a><a class="text-link" href="/start">Read the getting-started guide →</a></div></section>
+  <PacketFeedback/>
+  <section class="sales-section packet-faq" aria-labelledby="packet-questions"><h2 id="packet-questions">Before you decide</h2><details><summary>What happens after I pay?</summary><p>Gumroad sends your receipt and license key. Open Packet Access, enter the key, and continue to the full library. You don't need a separate Digivated account. Keep your receipt so you can return later.</p><a href="/access">See how access works →</a></details><details><summary>Can I use this with my current AI tool?</summary><p>The prompts are text you can copy into an AI chat or coding tool. The packet doesn't connect to those services for you. Check whether your chosen tool supports the screenshots, code, or changes your task needs.</p></details><details><summary>Are the samples enough to try it properly?</summary><p>Yes. The three sample prompts are complete. The free walkthrough includes a filled-in prompt, an illustrative review, and a checklist so you can try the process before deciding whether to buy more topics.</p></details><details><summary>Where are my notes and saved prompts kept?</summary><p>They stay in your browser. Export a backup from My saved work before clearing browser data or switching devices.</p></details></section>
+  <section class="sales-section packet-final-offer" aria-label="Choose your next step"><h2>Start free. Upgrade when you have another task to tackle.</h2><p>The full packet starts at $5.99 USD as a one-time payment. Checkout shows the current price and purchase terms.</p><div class="actions"><a class="button primary purchase-link" href="https://digivated.gumroad.com/l/ui-prompt-package">Buy the full packet</a><a class="button" href="/library?sample=1">Keep trying the free samples</a></div></section>
+  <script>import '../scripts/packet-sales.js';</script>
 </Platform>

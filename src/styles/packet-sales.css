@@ -1,0 +1,54 @@
+/* Sales education stays within the established light, silver article surface. */
+html body.platform.light-theme :is(.sales-section,.packet-example) { max-width:940px; min-width:0; margin:32px 0; padding:28px 0; border-top:1px solid #d7dbe0; color:#252b32; }
+html body.platform.light-theme .sales-section h2 { max-width:760px; margin:0 0 18px; font-size:clamp(1.5rem,3.5vw,2rem); line-height:1.3; letter-spacing:-.03em; }
+html body.platform.light-theme .sales-section h3 { font-size:1.05rem; line-height:1.45; margin:10px 0; }
+html body.platform.light-theme .sales-section p { max-width:740px; font-size:1rem; line-height:1.8; color:#4d5661; }
+html body.platform.light-theme .packet-price { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 18px; margin:24px 0 8px; }
+html body.platform.light-theme .packet-price strong { font-size:1.5rem; letter-spacing:-.025em; color:#232a32; }
+html body.platform.light-theme .packet-price span { color:#56606d; font-size:.9rem; }
+html body.platform.light-theme :is(.packet-intro,.sales-section) .packet-note { font-size:.82rem; line-height:1.7; color:#5c6570; }
+html body.platform.light-theme :is(.packet-intro,.sales-section) .packet-note a { text-decoration:underline; text-underline-offset:4px; }
+html body.platform.light-theme .packet-fit-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:24px; }
+html body.platform.light-theme .packet-fit-grid p { font-size:.9rem; }
+html body.platform.light-theme .packet-comparison { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin:28px 0 14px; }
+html body.platform.light-theme .packet-comparison figure { margin:0; min-width:0; }
+html body.platform.light-theme .packet-comparison figcaption { margin:0 0 14px; display:flex; flex-direction:column; gap:5px; }
+html body.platform.light-theme .packet-comparison figcaption strong { font-size:1rem; }
+html body.platform.light-theme .packet-comparison figcaption span { font-size:.85rem; color:#59636f; }
+html body.platform.light-theme .packet-screen { padding:24px; border:1px solid #cdd3db; border-radius:18px; background:linear-gradient(145deg,#fff,#f2f4f6); min-height:360px; box-sizing:border-box; }
+html body.platform.light-theme .packet-screen-brand { display:block; font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; font-weight:700; color:#5e6875; }
+html body.platform.light-theme .packet-screen h3 { margin:22px 0; font-size:1.3rem; color:#242d38; }
+html body.platform.light-theme .packet-screen p { font-size:.8rem; line-height:1.65; margin:14px 0 0; }
+html body.platform.light-theme .sample-field { padding:12px; margin:6px 0 18px; min-height:44px; border:1px solid #cbd2dc; border-radius:8px; background:#fff; color:#535f6e; font-size:.85rem; overflow-wrap:anywhere; }
+html body.platform.light-theme .sample-label { font-size:.75rem; font-weight:650; color:#394452; }
+html body.platform.light-theme .sample-actions { display:flex; gap:12px; }
+html body.platform.light-theme .sample-button { display:block; padding:12px 18px; border:1px solid #b7c0cb; border-radius:9px; background:#e8ebef; color:#283341; text-align:center; font-size:.85rem; }
+html body.platform.light-theme .sample-button--primary { background:#303a46; color:#fff; border-color:#303a46; }
+html body.platform.light-theme .packet-reasoning { padding:20px 24px; border-left:3px solid #9aa7b6; background:#ffffffa6; margin:24px 0; }
+html body.platform.light-theme .packet-reasoning ol { padding-left:20px; margin:12px 0 0; }
+html body.platform.light-theme .sales-section li { font-size:.95rem; line-height:1.75; color:#45505f; margin:10px 0; }
+html body.platform.light-theme :is(.packet-example-detail,.packet-faq details) { margin:14px 0; border:1px solid #d2d8e0; border-radius:12px; background:#ffffffc9; padding:0 20px 16px; }
+html body.platform.light-theme :is(.packet-example-detail,.packet-faq details):not([open]) { padding-bottom:0; }
+html body.platform.light-theme :is(.packet-example-detail,.packet-faq details) summary { padding:16px 0; min-height:48px; box-sizing:border-box; font-size:.95rem; font-weight:650; cursor:pointer; color:#303c4b; line-height:1.5; }
+html body.platform.light-theme .packet-example-detail label:not(.packet-check) { display:block; font-size:.85rem; font-weight:650; }
+html body.platform.light-theme #packet-example-prompt { display:block; width:100%; max-width:100%; box-sizing:border-box; min-height:240px; margin:10px 0 14px; padding:16px; border:1px solid #bdc7d3; border-radius:10px; background:#f6f7f9; color:#293544; line-height:1.75; font-size:.875rem; }
+html body.platform.light-theme .packet-check { display:flex; align-items:flex-start; gap:12px; margin:16px 0; font-size:.9rem; line-height:1.7; font-weight:400; color:#3d4959; }
+html body.platform.light-theme .packet-check input { flex:0 0 20px; width:20px; height:20px; min-height:20px; margin:4px 0 0; accent-color:#303b49; }
+html body.platform.light-theme .packet-feedback form { max-width:680px; padding:24px; border:1px solid #d0d7e0; border-radius:16px; background:#ffffffce; }
+html body.platform.light-theme .packet-feedback form>label:not(.packet-check,.honeypot) { display:block; margin:0 0 18px; font-size:.9rem; font-weight:650; }
+html body.platform.light-theme .packet-feedback :is(input:not([type=checkbox]),textarea) { display:block; width:100%; max-width:100%; box-sizing:border-box; margin-top:8px; padding:12px; border:1px solid #bdc7d3; border-radius:8px; color:#293544; background:#fff; font-size:1rem; }
+html body.platform.light-theme .packet-feedback button:disabled { opacity:.6; cursor:wait; }
+html body.platform.light-theme [data-packet-feedback-status] { font-size:.9rem; }
+html body.platform.light-theme .packet-quotes figure { margin:16px 0; padding:20px; border-left:3px solid #a3afbd; background:#fff; }
+html body.platform.light-theme .packet-quotes blockquote { white-space:pre-line; margin:0 0 12px; line-height:1.8; }
+html body.platform.light-theme .packet-quotes figcaption { font-size:.85rem; color:#5b6673; }
+html body.platform.light-theme .packet-example :is(h2,details),html body.platform.light-theme #packet-feedback-title { scroll-margin-top:120px; }
+.free-example-note { margin-bottom:24px; }
+.free-example-note h2 { font-size:1.3rem; }
+@media(max-width:640px) {
+ html body.platform.light-theme .packet-comparison,html body.platform.light-theme .packet-fit-grid { grid-template-columns:1fr; }
+ html body.platform.light-theme .packet-screen { min-height:0; padding:20px; }
+ html body.platform.light-theme .packet-feedback form { padding:18px; }
+ html body.platform.light-theme .packet-reasoning { padding:16px; }
+ html body.platform.light-theme :is(.packet-example-detail,.packet-faq details) { padding-inline:16px; }
+}
