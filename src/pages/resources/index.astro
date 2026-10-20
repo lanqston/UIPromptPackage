@@ -3,17 +3,16 @@ import Platform from '../../layouts/Platform.astro';
 import FoundingPassTeaser from '../../components/FoundingPassTeaser.astro';
 import EmptyState from '../../components/EmptyState.astro';
 import ResourceCard from '../../components/ResourceCard.astro';
-import { resourceCategories } from '../../data/community.mjs';
 import resources from '../../data/resources.json';
 import { resourcePathInfo } from '../../data/learning-paths.mjs';
 const packet = { id: 'builtin-ui-ux-prompt-packet', url: '/ui-ux-prompt-packet', title: 'UI/UX Prompt Packet', description: '75 practical prompts, workflows, and checklists to help you improve websites and apps with AI.', category: 'Design & UX', packet: true };
 const orderedResources = [...resources.filter(r=>r.status==='published'),packet].sort((a,b)=>resourcePathInfo(a).order-resourcePathInfo(b).order);
+const showDirectoryTools = orderedResources.length > 1;
 ---
 <Platform title="Resources" description="Explore the UI/UX Prompt Packet and try three free prompts.">
 <section class="resources-workspace" aria-labelledby="resources-title">
-<header class="resources-intro"><div><h1 id="resources-title">Resources</h1><p>Explore the UI/UX Prompt Packet. Try three complete prompts for free.</p></div><span>The Digivated library</span></header>
-<FoundingPassTeaser/>
-<nav class="resource-topics" aria-label="Choose a learning goal">
+<header class="resources-intro"><div><h1 id="resources-title">Resources</h1><p>Start with three free prompts. The complete UI/UX packet costs $4 USD once.</p></div><a class="text-link" href="/saved">Saved resources →</a></header>
+{showDirectoryTools && <><nav class="resource-topics" aria-label="Choose a learning goal">
 <button type="button" data-goal-filter="" aria-pressed="true">All resources</button>
 
 <a href="/saved">Saved <span aria-hidden="true">↗</span></a>
@@ -26,7 +25,8 @@ const orderedResources = [...resources.filter(r=>r.status==='published'),packet]
 <div class="resources-layout" role="group" aria-label="Resource layout"><button type="button" data-directory-layout="grid" aria-pressed="true" aria-label="Grid view"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></button><button type="button" data-directory-layout="list" aria-pressed="false" aria-label="List view"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 5h12M8 12h12M8 19h12M3 5h1M3 12h1M3 19h1"/></svg></button></div>
 </div>
 <div class="resources-results"><p id="directory-status" class="results-status" role="status">Loading resources…</p><button type="button" data-directory-clear hidden>Clear filters</button></div>
-<div data-live-resources><div class="resource-grid" data-live-list>
+</>}
+<div data-live-resources><div class="resource-grid" data-single={showDirectoryTools ? 'false' : 'true'} data-live-list>
 {orderedResources.map(resource=><ResourceCard resource={resource}/>)}
-</div><div id="directory-empty" data-live-empty hidden><EmptyState title="The library is taking shape." description="No resources to show yet. Articles and useful tools will appear here as they’re published."/></div><p class="quiet" data-live-status role="status"></p><noscript><p>Enable JavaScript to search and load additional published resources.</p></noscript></div><div class="resources-closing"><p>Three free prompts to try. The full packet is available for $4 USD.</p><a href="/saved">Your saved guides <span aria-hidden="true">↗</span></a></div></section><script>import '../../scripts/directory.js'; import '../../scripts/live-content.js';</script></Platform>
+</div><div id="directory-empty" data-live-empty hidden><EmptyState title="The library is taking shape." description="No resources to show yet. Articles and useful tools will appear here as they’re published."/></div><p class="quiet" data-live-status role="status"></p><noscript><p>Enable JavaScript to load additional published resources.</p></noscript></div><FoundingPassTeaser/></section><script>import '../../scripts/directory.js'; import '../../scripts/live-content.js';</script></Platform>
 

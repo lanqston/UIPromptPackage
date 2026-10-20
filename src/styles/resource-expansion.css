@@ -113,3 +113,6 @@ html body.platform.light-theme .article-body .resource-next .resource-path-link 
  html body.platform.light-theme.resources-dashboard .resource-copy .card-icon { min-width:36px; height:44px; }
  html body.platform.light-theme.resources-dashboard .resource-copy .card-open { min-height:44px; }
 }
+
+/* A one-item library does not need an empty three-column catalog. */
+html body.platform.light-theme.resources-dashboard .resource-grid[data-single=true] { grid-template-columns:minmax(0,760px); }

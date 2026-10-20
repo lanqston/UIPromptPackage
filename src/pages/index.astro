@@ -1,7 +1,6 @@
 ---
 import Platform from '../layouts/Platform.astro';
 import LiveProjects from '../components/LiveProjects.astro';
-import ResourcesLibrary from '../components/ResourcesLibrary.astro';
 ---
 <Platform title="Learn, discover projects, and share your work" description="Digivated brings useful tools and independent projects together. Try the UI/UX Prompt Packet, discover a project, or share what you’re building.">
   <div class="home-container mx-auto px-6">
@@ -14,19 +13,14 @@ import ResourcesLibrary from '../components/ResourcesLibrary.astro';
       </div>
       <aside class="welcome-guide" aria-labelledby="welcome-heading">
         <div class="orbit-stage" data-orbit-stage aria-hidden="true"><div class="orbit-sculpture"><img src="/discovery-orbit.svg" width="560" height="340" alt="" fetchpriority="high"/></div></div><p class="section-kicker welcome-kicker">EXPLORE. BUILD. SHARE.</p>
-        <h2 id="welcome-heading">What would you like to do?</h2>
+        <h2 id="welcome-heading">Choose where to start.</h2>
         
-        <a href="/resources"><span class="welcome-number" aria-hidden="true">01</span><span><strong>Learn something useful</strong><small>Try the free UI/UX prompt samples</small></span><span aria-hidden="true">→</span></a>
+        <a href="/library?sample=1"><span class="welcome-number" aria-hidden="true">01</span><span><strong>Try a free prompt</strong><small>Start with one screen in your website or app</small></span><span aria-hidden="true">→</span></a>
         <a href="/discover"><span class="welcome-number" aria-hidden="true">02</span><span><strong>Discover a project</strong><small>Explore independent projects</small></span><span aria-hidden="true">→</span></a>
         <a href="/submit-project"><span class="welcome-number" aria-hidden="true">03</span><span><strong>Share your work</strong><small>Submit your project for free review</small></span><span aria-hidden="true">→</span></a>
         <p class="welcome-footnote">No account needed to explore.</p>
       </aside>
-      <nav class="home-topics" aria-label="Explore Digivated">
-        <a href="/ui-ux-prompt-packet">UI/UX Prompt Packet <span aria-hidden="true">↗</span></a>
-        <a href="/library?sample=1">Free prompt samples <span aria-hidden="true">↗</span></a>
-        <a href="/discover">Independent projects <span aria-hidden="true">↗</span></a>
-        <a href="/submit-project">Share your project <span aria-hidden="true">↗</span></a>
-      </nav>
+
     </section>
 
     <section id="projects" class="home-section community-builds" aria-labelledby="community-heading">
@@ -34,16 +28,8 @@ import ResourcesLibrary from '../components/ResourcesLibrary.astro';
       <LiveProjects mode="picks" limit={4} compact title="The next discovery is still to come." description="Reviewed community projects will appear here. Have something you’re building? Send it in for free." href="/submit-project" label="Submit your project"/>
     </section>
 
-    <ResourcesLibrary/>
 
-    <section class="journey-section" aria-labelledby="journey-heading">
-      <div class="journey-intro"><p class="section-kicker">HOW DIGIVATED WORKS</p><h2 id="journey-heading">Three ways to <em>get involved.</em></h2><p>There’s no complicated process. Browse what interests you, find people making things, and add your own work when you’re ready.</p></div>
-      <ol class="journey-steps">
-        <li><span class="journey-icon" aria-hidden="true">01</span><div><h3>Learn something useful</h3><p>Try three free UI/UX prompts, then decide whether the full packet fits your next project.</p></div><a href="/resources" aria-label="Browse resources">↗</a></li>
-        <li><span class="journey-icon" aria-hidden="true">02</span><div><h3>Discover a project</h3><p>Meet independent builders and save the projects you want to revisit.</p></div><a href="/discover" aria-label="Explore projects">↗</a></li>
-        <li><span class="journey-icon" aria-hidden="true">03</span><div><h3>Share your work</h3><p>Submit a project for review. Approved work can join the community directory.</p></div><a href="/submit-project" aria-label="Submit a project">↗</a></li>
-      </ol>
-    </section>
+
 
 
 
