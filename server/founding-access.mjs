@@ -7,7 +7,7 @@ export const FOUNDING_COOKIE = '__Host-founding-session';
 export const FOUNDING_MAX_AGE = 30 * 24 * 60 * 60;
 const AUDIENCE = 'founding-collection';
 const SALE_ID = /^[A-Za-z0-9+=/_-]{8,200}$/;
-export const COMING_SOON = 'Full carousel access is coming soon.';
+export const COMING_SOON = 'We can’t check Founding Member Pass purchases right now. Please try again shortly.';
 export const UNAVAILABLE = 'We can’t check founding access right now. Please try again shortly.';
 export const INVALID_PURCHASE = 'We couldn’t verify that purchase. Use the license key or email from your Gumroad receipt.';
 export const FOUNDING_HREF = '/founding-members';
@@ -213,6 +213,15 @@ async function readAccessBody(req) {
   return body;
 }
 
+function allowsSignInUrl(url) {
+  let parsed;
+  try { parsed = new URL(String(url || '/'), 'https://digivated.invalid'); }
+  catch { return false; }
+  const names = [...parsed.searchParams.keys()];
+  if (names.length === 0) return true;
+  return names.length === 1 && names[0] === 'route' && parsed.searchParams.getAll('route').length === 1 && parsed.searchParams.get('route') === 'founding-access';
+}
+
 export function makeFoundingAccessHandler(deps = {}) {
   const fetcher = deps.fetcher || fetch;
   const audit = deps.audit || (event => console.info(JSON.stringify(event)));
@@ -221,7 +230,7 @@ export function makeFoundingAccessHandler(deps = {}) {
     const send = (status, data) => { res.statusCode = status; res.end(JSON.stringify(data)); };
     try {
       if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); throw new FoundingError(405, 'Please use the member sign-in form.'); }
-      if (String(req.url).includes('?')) throw new FoundingError(400, 'Please use the member sign-in form.');
+      if (!allowsSignInUrl(req.url)) throw new FoundingError(400, 'Please use the member sign-in form.');
       const env = deps.env || process.env;
       const cfg = foundingConfig(env);
       if (cfg.state === 'prelaunch') {

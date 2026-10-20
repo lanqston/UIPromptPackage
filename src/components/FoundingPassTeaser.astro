@@ -1,4 +1,5 @@
 ---
 import '../styles/founding-pass.css';
+import { foundingPass } from '../data/founding-pass.mjs';
 ---
-<section class="founding-teaser" aria-label="Founding Member Pass in preparation"><p class="eyebrow">Coming to Digivated</p><h2>The full idea, beyond the X post.</h2><p>A founding collection of full carousels, practical examples, and useful references. Planned launch offer: $2 once for the first 25 passes. Sales aren't open yet.</p><a class="button" href="/founding-members">Explore the Founding Member Pass →</a></section>
+<section class="founding-teaser" aria-label="Founding Member Pass"><p class="eyebrow">Founding Member Pass</p><h2>The full idea, beyond the X post.</h2><p>Full carousels, practical examples, and useful references. {foundingPass.priceUSD} USD once for the first {foundingPass.introductoryLimit} passes. Permanent access to this collection only. The collection grows as carousels are added. The UI/UX Prompt Packet is separate.</p><a class="button" href={foundingPass.checkoutUrl} target="_blank" rel="noopener noreferrer">Get the Founding Member Pass</a><p class="quiet"><a href="/founding-members">Member sign-in and collection details</a></p></section>

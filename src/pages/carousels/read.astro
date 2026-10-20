@@ -3,12 +3,12 @@ import Platform from '../../layouts/Platform.astro';
 import '../../styles/founding-pass.css';
 import '../../styles/carousel-library.css';
 ---
-<Platform title="Educational carousel" description="Preview the first four slides. The rest of a full carousel is available to Founding Members when access opens.">
+<Platform title="Educational carousel" description="Preview the first four slides. The rest of a full carousel is included with the Founding Member Pass.">
   <header class="page-intro carousel-library-intro"><p class="eyebrow">Resources</p><p class="quiet"><a href="/carousels">← All carousels</a></p><h1 id="carousel-title">Educational carousel</h1><p class="lede" id="carousel-summary"></p></header>
   <p id="carousel-status" role="status">Loading carousel…</p>
   <div id="carousel-detail" class="carousel-library"></div>
-  <form id="founding-access-form" class="carousel-access" hidden method="post" action="/api/founding-access"><h2>Open the full carousel</h2><p>Use the license key or the email from your Gumroad receipt for the Founding Member Pass. A Prompt Packet license does not open this collection.</p><label>Gumroad license key<input name="license" type="password" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="35"/></label><p class="quiet">or</p><label>Purchase email<input name="email" type="email" autocomplete="email" maxlength="254"/></label><button class="button primary" type="submit">Open the full carousel</button><p id="founding-access-status" role="status"></p></form>
+  <form id="founding-access-form" class="carousel-access" method="post" action="/api/founding-access"><h2>Open the full carousel</h2><p>Use the license key or the email from your Gumroad receipt for the Founding Member Pass. A Prompt Packet license does not open this collection.</p><label>Gumroad license key<input name="license" type="password" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="35"/></label><p class="quiet">or</p><label>Purchase email<input name="email" type="email" autocomplete="email" maxlength="254"/></label><button class="button primary" type="submit">Open the full carousel</button><p id="founding-access-status" role="status"></p></form>
   <button class="button" id="founding-sign-out" type="button" hidden>Sign out of founding access</button>
-  <noscript><p>Enable JavaScript to load the preview slides. The rest of each carousel is coming soon. <a href="/founding-members">See the Founding Member Pass</a>.</p></noscript>
+  <noscript><p>Enable JavaScript to load the preview slides. The rest of each carousel is for Founding Members. <a href="https://digivated.gumroad.com/l/founding-member-pass">Get the Founding Member Pass</a>.</p></noscript>
   <script>import '../../scripts/carousel-library.js';</script>
 </Platform>
