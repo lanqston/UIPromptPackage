@@ -225,6 +225,10 @@ test('carousel routes stay on the shared function and do not add an API file', a
   const source = readFileSync(new URL('../src/scripts/carousel-library.js', import.meta.url), 'utf8');
   assert.equal(/buy now|join now/i.test(source), false);
   assert.match(source, /https:\/\/digivated\.gumroad\.com\/l\/founding-member-pass/);
+  assert.match(source, /resource-card carousel-resource-card/);
+  assert.match(source, /View carousel/);
+  assert.match(source, /slides free/);
+  assert.equal(source.includes('carousel-card'), false);
   assert.equal(/coming soon/i.test(source), false);
   const pages = readFileSync(new URL('../src/pages/resources/index.astro', import.meta.url), 'utf8');
   assert.match(pages, /The complete UI\/UX packet costs \$4 USD once/);
