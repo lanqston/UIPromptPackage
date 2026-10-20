@@ -1,0 +1,30 @@
+/* Resource formats stay inside the existing article and library layout. */
+html body.platform.light-theme .article-body { min-width:0; overflow-wrap:anywhere; }
+html body.platform.light-theme :is(.resource-linkbook,.resource-steps,.resource-carousel,.resource-fee-chart) { margin:32px 0; padding:24px; border:1px solid #d9dce0; border-radius:18px; background:linear-gradient(135deg,#fff,#f4f5f6); color:#202124; min-width:0; }
+html body.platform.light-theme .article-body :is(h2,h3) { overflow-wrap:normal; }
+html body.platform.light-theme :is(.resource-linkbook,.resource-steps,.resource-carousel,.resource-fee-chart) h2 { margin:0 0 16px; font-size:1.4rem; line-height:1.35; }
+html body.platform.light-theme :is(.resource-linkbook,.resource-steps,.resource-carousel) h3 { margin:8px 0; font-size:1.1rem; line-height:1.4; color:#202124; }
+html body.platform.light-theme .resource-linkbook ul { list-style:none; padding:0; margin:0; }
+html body.platform.light-theme .resource-linkbook li { border-top:1px solid #dfe1e4; padding:18px 0; }
+html body.platform.light-theme .resource-linkbook a { color:#202124; font-weight:650; text-decoration:underline; text-underline-offset:4px; }
+html body.platform.light-theme .resource-linkbook li p { margin:8px 0 0; font-size:.95rem; }
+html body.platform.light-theme .resource-note { font-size:.8rem; line-height:1.6; color:#5d6268; }
+html body.platform.light-theme .resource-steps ol { padding-left:24px; }
+html body.platform.light-theme .resource-steps li { padding-left:8px; margin-block:20px; }
+html body.platform.light-theme .resource-slides { display:flex; position:relative; gap:16px; padding:0 0 12px; margin:0; overflow-x:auto; scroll-snap-type:x mandatory; list-style:none; overscroll-behavior-inline:contain; }
+html body.platform.light-theme .resource-slides li { flex:0 0 100%; box-sizing:border-box; padding:24px; border:1px solid #d6d9dd; border-radius:14px; background:#fff; scroll-snap-align:start; }
+html body.platform.light-theme .resource-slide-controls { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; margin-top:12px; font-size:.85rem; }
+html body.platform.light-theme .resource-slide-controls button { min-height:44px; padding:10px 14px; border:1px solid #c7cbd0; border-radius:10px; background:#fff; color:#202124; }
+html body.platform.light-theme .resource-slide-controls button:disabled { opacity:.45; cursor:default; }
+html body.platform.light-theme .fee-bars { display:grid; gap:18px; margin:24px 0; }
+html body.platform.light-theme .fee-track { margin-top:6px; border-radius:8px; overflow:hidden; background:#e2e5e8; }
+html body.platform.light-theme .fee-bar { background:linear-gradient(90deg,#535a63,#2c323a); color:#fff; padding:10px 12px; box-sizing:border-box; min-width:100px; font-variant-numeric:tabular-nums; }
+html body.platform.light-theme .resource-fee-chart table { width:100%; border-collapse:collapse; font-size:.9rem; }
+html body.platform.light-theme .resource-fee-chart :is(td,th) { text-align:left; padding:10px 0; border-bottom:1px solid #d9dce0; color:#202124; }
+/* Explicit pairs on utility controls prevent inherited dark-on-dark states. */
+html body.platform.light-theme :is(.comment-dialog,.collection-dialog) :is(input,textarea,select) { color:#202124; background:#fff; border:1px solid #bfc4ca; }
+html body.platform.light-theme :is(.comment-dialog-header,.collection-dialog-header) button { color:#202124; background:#f0f1f2; border:1px solid #d1d5da; min-width:44px; min-height:44px; }
+html body.platform.light-theme button svg { color:inherit; }
+html body.platform.light-theme :is(button,a,input,textarea,select,summary,[tabindex="0"]):focus-visible { outline:2px solid #4c5764; outline-offset:3px; }
+html body.platform.light-theme [hidden] { display:none!important; }
+@media(max-width:480px) { html body.platform.light-theme :is(.resource-linkbook,.resource-steps,.resource-carousel,.resource-fee-chart) { padding:16px; } html body.platform.light-theme .resource-slides li { padding:18px; } }

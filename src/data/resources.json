@@ -27,8 +27,17 @@
       {
         "type": "paragraph",
         "text": "If you can test the tool, give it one ordinary task you already understand. Notice the setup time, the quality of the result, and what still needs your attention. A useful product should make that task clearer or easier."
+      },
+      {
+        "type": "heading",
+        "text": "Try it on one launch"
+      },
+      {
+        "type": "paragraph",
+        "text": "Pick a recent tool and write four short answers: the task, the intended user, what it replaces, and the tradeoff. If you cannot find a real example, leave that answer open rather than guessing."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "use-ai-with-better-judgment",
@@ -58,8 +67,17 @@
       {
         "type": "paragraph",
         "text": "Leave private account details, customer information, and secrets out of prompts unless you understand the tool's settings and have permission to use that data. You can often describe the problem with a made-up example instead."
+      },
+      {
+        "type": "heading",
+        "text": "Try this prompt"
+      },
+      {
+        "type": "paragraph",
+        "text": "“Help me compare these two approaches for [task]. Here is my context: [details]. List the tradeoffs, flag anything you cannot verify, and end with three things I should check myself.” Use a made-up example when the real details are private."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "read-market-claims-clearly",
@@ -93,7 +111,20 @@
       {
         "type": "paragraph",
         "text": "Use a headline as a reason to learn more, not as an instruction to trade. This guide is general education, not a recommendation to buy or sell a security."
+      },
+      {
+        "type": "heading",
+        "text": "Keep a claim log"
+      },
+      {
+        "type": "paragraph",
+        "text": "Copy one claim into a note. Add the original source, date, evidence, fees, risks, and what would prove it wrong. If a result came from a backtest, label it as a simulation rather than live performance."
       }
+    ],
+    "updated": "2026-10-20",
+    "related": [
+      "investing-basics-linkbook",
+      "what-investment-fees-change"
     ]
   },
   {
@@ -124,8 +155,17 @@
       {
         "type": "paragraph",
         "text": "Pick one repeatable task and use the tool for it. At the end of the week, ask whether it saved effort, reduced mistakes, or helped you understand the work better. If it did not, you can keep your simpler process."
+      },
+      {
+        "type": "heading",
+        "text": "Run a one-task comparison"
+      },
+      {
+        "type": "paragraph",
+        "text": "Choose a task you do every week. Try it once with your current setup and once with the new tool. Record setup time, mistakes, recurring cost, and whether you would use it again. Keep the tool only if the result earns the extra complexity."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "give-ai-agents-clear-boundaries",
@@ -181,8 +221,17 @@
       {
         "type": "paragraph",
         "text": "Good automation should leave you with more confidence and less cleanup. If you cannot easily review, undo, or stop an action, keep that step in your hands for now."
+      },
+      {
+        "type": "heading",
+        "text": "Write a boundary before you run it"
+      },
+      {
+        "type": "paragraph",
+        "text": "Task: organize a copy of these sample files. Allowed: read names and suggest folders. Check with me before: deleting, sending, or changing access. Done means: a proposed folder list and a record of what changed."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "check-an-ai-answer-before-you-use-it",
@@ -238,8 +287,17 @@
       {
         "type": "paragraph",
         "text": "You do not need to fact-check every brainstorming idea. Spend your attention where a mistake would matter, and treat fluent writing as a starting point rather than proof."
+      },
+      {
+        "type": "heading",
+        "text": "A quick source check"
+      },
+      {
+        "type": "paragraph",
+        "text": "Choose the most important claim in the answer. Open its source, find the supporting passage, and check the date. If the passage says something narrower, rewrite the claim to match it."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "read-a-tech-launch-with-a-clear-head",
@@ -291,8 +349,17 @@
       {
         "type": "paragraph",
         "text": "You can enjoy a clever launch without changing your workflow right away. Save the announcement, wait for real examples, and come back when it meets a need you actually have."
+      },
+      {
+        "type": "heading",
+        "text": "Make a two-column note"
+      },
+      {
+        "type": "paragraph",
+        "text": "On one side, list features available to you today. On the other, list demos, waitlists, or future promises. Try one available feature on a real task before you change your workflow."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "design-one-small-flow-at-a-time",
@@ -344,8 +411,17 @@
       {
         "type": "paragraph",
         "text": "Small, tested improvements add up to a much stronger product. You do not need perfect screens before you learn whether the flow makes sense."
+      },
+      {
+        "type": "heading",
+        "text": "Try a three-screen sketch"
+      },
+      {
+        "type": "paragraph",
+        "text": "Draw the starting screen, the main action, and the success state. Add what happens when the action fails. Ask someone to point to what they would press next, without explaining the screen first."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "make-a-carousel-people-can-follow",
@@ -356,8 +432,8 @@
     "date": "2026-10-14",
     "readingTime": 4,
     "related": [
-      "design-one-small-flow-at-a-time",
-      "grow-a-small-account-with-real-conversations"
+      "turn-a-project-into-a-useful-thread",
+      "build-a-small-game-you-can-finish"
     ],
     "content": [
       {
@@ -397,8 +473,17 @@
       {
         "type": "paragraph",
         "text": "A small visual idea can carry a serious topic. Keep the design recognizably yours and let the information stay in the spotlight."
+      },
+      {
+        "type": "heading",
+        "text": "Try a five-slide outline"
+      },
+      {
+        "type": "paragraph",
+        "text": "Slide 1: the problem. Slide 2: a familiar mistake. Slide 3: a concrete example. Slide 4: the fix. Slide 5: one thing to try. Keep the same example throughout so each swipe builds on the last."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "grow-a-small-account-with-real-conversations",
@@ -444,8 +529,17 @@
       {
         "type": "paragraph",
         "text": "Look at what helped someone, not only what received the most attention. Keep the rhythm that feels sustainable and adjust as you learn."
+      },
+      {
+        "type": "heading",
+        "text": "Make the next conversation easier"
+      },
+      {
+        "type": "paragraph",
+        "text": "Share one thing you learned from building or studying today. End with a question you actually want answered. Reply to the details people share; avoid dropping the same promotional line into every response."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "a-gentle-security-reset-for-your-accounts",
@@ -501,8 +595,17 @@
       {
         "type": "paragraph",
         "text": "You do not have to fix everything today. Pick one account, make one improvement, and return to the rest when you have a little time."
+      },
+      {
+        "type": "heading",
+        "text": "Start with the account that unlocks the others"
+      },
+      {
+        "type": "paragraph",
+        "text": "Review recovery options for your main email, enable an available strong sign-in method, and remove sessions you do not recognize. Keep recovery codes somewhere private and separate from the device you are protecting."
       }
-    ]
+    ],
+    "updated": "2026-10-20"
   },
   {
     "slug": "make-a-digital-product-easier-to-understand",
@@ -554,7 +657,381 @@
       {
         "type": "paragraph",
         "text": "Good product writing respects the reader. Make the value easy to picture, answer the practical questions, and let the work speak for itself."
+      },
+      {
+        "type": "heading",
+        "text": "Try this product description"
+      },
+      {
+        "type": "paragraph",
+        "text": "“I made [product] for [person] who needs to [task]. It includes [specific items]. You can use it to [result]. You will need [requirements], and it does not include [important limitation].” Replace every bracket before sharing it."
       }
+    ],
+    "updated": "2026-10-20"
+  },
+  {
+    "slug": "tech-career-starter-linkbook",
+    "status": "published",
+    "title": "Your tech career starter linkbook",
+    "description": "Choose a direction, find official learning material, and turn the studying into something you can show.",
+    "category": "Technology & AI",
+    "date": "2026-10-20",
+    "readingTime": 3,
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "You do not need ten certifications before you can start learning useful skills. Pick one kind of work you want to try. Spend a little time doing it before you spend money proving you can do it."
+      },
+      {
+        "type": "steps",
+        "title": "Try a route before committing",
+        "items": [
+          {
+            "title": "IT support",
+            "text": "Practice explaining a problem, checking the basics, and documenting a fix. Write a sample ticket for a device that cannot get online: symptoms, checks, result, and next step."
+          },
+          {
+            "title": "Networking or security",
+            "text": "Draw your home network using generic device names. Explain what the router, DNS, and DHCP do. Work only on devices or labs you have permission to use."
+          },
+          {
+            "title": "Cloud or automation",
+            "text": "Follow one beginner module, then write a short explanation of what you configured. Record how to remove test resources and check billing before starting a cloud lab."
+          }
+        ]
+      },
+      {
+        "type": "links",
+        "title": "Keep these official starting points together",
+        "items": [
+          {
+            "label": "Microsoft Learn credentials",
+            "url": "https://learn.microsoft.com/en-us/credentials/",
+            "description": "Compare current certifications and applied skills. Open the official requirements before choosing an exam."
+          },
+          {
+            "label": "Cisco Networking Academy",
+            "url": "https://www.cisco.com/site/us/en/learn/training-certifications/training/netacad/index.html",
+            "description": "Explore free, self-paced networking and security courses. Course completion and certification exams are different things."
+          },
+          {
+            "label": "Microsoft student credentials",
+            "url": "https://learn.microsoft.com/en-us/training/student-hub/credentials/",
+            "description": "Explore student learning and credential routes. Check eligibility, pricing, and current exam information directly."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Choose the credential after the direction"
+      },
+      {
+        "type": "paragraph",
+        "text": "Read a few current job descriptions in your area. List the tasks they repeat, then compare those tasks with the official exam objectives. A credential is useful when it supports the work you want to do. It does not guarantee an interview or a job."
+      },
+      {
+        "type": "heading",
+        "text": "Leave with one piece of evidence"
+      },
+      {
+        "type": "paragraph",
+        "text": "Create a one-page case study: the problem, what you tried, what changed, and what you would check next. Use a practice scenario and remove account details. A clear explanation makes your learning easier to discuss in an interview."
+      }
+    ],
+    "related": [
+      "choose-tools-that-earn-their-place",
+      "use-ai-with-better-judgment"
+    ]
+  },
+  {
+    "slug": "build-a-small-game-you-can-finish",
+    "status": "published",
+    "title": "Build a small game you can actually finish",
+    "description": "A five-card game development plan for turning one mechanic into a playable first version.",
+    "category": "Technology & AI",
+    "date": "2026-10-20",
+    "readingTime": 3,
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "A small game can still feel great. Start with one action worth repeating: return a ball, dodge a hazard, or land one well-timed hit. Give that action a clear result before you add a shop, a story, or a giant map."
+      },
+      {
+        "type": "carousel",
+        "title": "From idea to playable round",
+        "slides": [
+          {
+            "title": "One action",
+            "text": "Write the game in one sentence: “Return the ball and make the other player miss.” If the sentence needs three extra systems, shrink the first version."
+          },
+          {
+            "title": "One round",
+            "text": "Add a start, a win or loss condition, and a restart. A player should be able to finish a round without instructions from you."
+          },
+          {
+            "title": "Make it feel good",
+            "text": "Tune input response, hit feedback, and sound. Test the boring-looking version first. Effects should make the result easier to read."
+          },
+          {
+            "title": "Watch someone play",
+            "text": "Ask a tester to play without coaching. Note where they hesitate, miss feedback, or stop wanting another round. Do not fix everything at once."
+          },
+          {
+            "title": "Change one thing",
+            "text": "Adjust a single variable, such as speed or round length. Test again. Keep a short change log so you know what actually helped."
+          }
+        ]
+      },
+      {
+        "type": "links",
+        "title": "Pick one engine and finish its first project",
+        "items": [
+          {
+            "label": "Roblox Creator Hub tutorials",
+            "url": "https://create.roblox.com/docs/tutorials",
+            "description": "Start with a guided project, then change one mechanic without following the tutorial."
+          },
+          {
+            "label": "Godot: your first 2D game",
+            "url": "https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html",
+            "description": "Build a complete small game. If scripting is new to you, follow the prerequisites linked in the guide."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Your first playtest note"
+      },
+      {
+        "type": "paragraph",
+        "text": "Write down: what the player tried, what the game did, and what confused them. “They pressed restart twice because nothing happened for a second” gives you a fix. “It needs more polish” does not."
+      }
+    ],
+    "related": [
+      "design-one-small-flow-at-a-time",
+      "game-dev-resource-linkbook"
+    ]
+  },
+  {
+    "slug": "game-dev-resource-linkbook",
+    "status": "published",
+    "title": "A game developer’s small, useful linkbook",
+    "description": "Official learning routes for Roblox and Godot, with a clear reason to open each one.",
+    "category": "Technology & AI",
+    "date": "2026-10-20",
+    "readingTime": 3,
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Bookmarking thirty tutorials can feel like progress while your project stays empty. Keep a short list. Open the resource that answers the problem in front of you, then return to the game."
+      },
+      {
+        "type": "links",
+        "title": "Start here",
+        "items": [
+          {
+            "label": "Roblox Creator Hub tutorials",
+            "url": "https://create.roblox.com/docs/tutorials",
+            "description": "Start with a guided project, then change one mechanic without following the tutorial."
+          },
+          {
+            "label": "Godot: your first 2D game",
+            "url": "https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html",
+            "description": "Build a complete small game. If scripting is new to you, follow the prerequisites linked in the guide."
+          },
+          {
+            "label": "Godot: step by step",
+            "url": "https://docs.godotengine.org/en/stable/getting_started/step_by_step/index.html",
+            "description": "Learn nodes, scenes, scripts, input, and signals before taking on a larger project."
+          },
+          {
+            "label": "Roblox: creation overview",
+            "url": "https://create.roblox.com/docs/creation",
+            "description": "Get your bearings across the platform’s creation workflow."
+          }
+        ]
+      },
+      {
+        "type": "steps",
+        "title": "Use a tutorial without getting stuck in it",
+        "items": [
+          {
+            "title": "Follow once",
+            "text": "Complete the smallest working version. Keep notes on what each part does."
+          },
+          {
+            "title": "Change something",
+            "text": "Replace an objective, change the scoring, or add a second kind of obstacle. Explain your change without reading the tutorial."
+          },
+          {
+            "title": "Rebuild one piece",
+            "text": "Start a clean scene or place and recreate the mechanic. Getting stuck shows you exactly what to review."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "A useful stopping point for today: one working mechanic, a short recording, and one bug written down clearly. You can build on that tomorrow."
+      }
+    ],
+    "related": [
+      "build-a-small-game-you-can-finish"
+    ]
+  },
+  {
+    "slug": "investing-basics-linkbook",
+    "status": "published",
+    "title": "Before your first investment: a useful reading list",
+    "description": "A focused linkbook for learning about risk, fees, and investment products before putting money behind an idea.",
+    "category": "Markets & Investing",
+    "date": "2026-10-20",
+    "readingTime": 3,
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "You do not need a hot tip to begin understanding markets. Start with what the money is for, when you may need it, and how a loss would affect you. This is general education, not a recommendation to buy or sell an investment."
+      },
+      {
+        "type": "links",
+        "title": "Read these in order",
+        "items": [
+          {
+            "label": "Investor.gov: introduction to investing",
+            "url": "https://www.investor.gov/introduction-investing",
+            "description": "Start with the basic terms and the questions to ask before investing."
+          },
+          {
+            "label": "Investor.gov: asset allocation",
+            "url": "https://www.investor.gov/introduction-investing/getting-started/asset-allocation",
+            "description": "Read how time horizon, risk tolerance, and diversification fit together."
+          },
+          {
+            "label": "Investor.gov: understanding fees",
+            "url": "https://www.investor.gov/introduction-investing/getting-started/understanding-fees",
+            "description": "Use the questions here to compare ongoing costs and transaction charges."
+          },
+          {
+            "label": "Investor.gov: investment products",
+            "url": "https://www.investor.gov/introduction-investing/investing-basics/investment-products",
+            "description": "Compare common products and their risks. A familiar label does not make an investment safe."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "A short note to write before researching a product"
+      },
+      {
+        "type": "paragraph",
+        "text": "“This money is for ___. I may need it in ___. A loss would mean ___. The costs I understand are ___. The questions I still have are ___.” Empty spaces are useful. They show what you need to learn before making a decision."
+      },
+      {
+        "type": "paragraph",
+        "text": "Diversification can reduce concentration risk, but it cannot guarantee a profit or prevent losses. Two funds can hold many of the same investments, so look at the underlying holdings rather than counting the number of fund names."
+      }
+    ],
+    "related": [
+      "read-market-claims-clearly",
+      "what-investment-fees-change"
+    ]
+  },
+  {
+    "slug": "what-investment-fees-change",
+    "status": "published",
+    "title": "What a small annual fee can change",
+    "description": "A simple, clearly labeled chart showing why recurring investment costs deserve a closer look.",
+    "category": "Markets & Investing",
+    "date": "2026-10-20",
+    "readingTime": 3,
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "A fee that looks small on one statement can matter over time. This example isolates that effect. It assumes $10,000, no added contributions, a steady 5% annual return before fees, and a fee subtracted from that return once a year. It ignores taxes and inflation. Real returns fluctuate and may be negative."
+      },
+      {
+        "type": "fee-chart",
+        "title": "Same starting amount. Different ongoing costs."
+      },
+      {
+        "type": "paragraph",
+        "text": "The calculation is $10,000 × (1 + 0.05 − annual fee)^20. This is a simplified illustration, not a forecast or a comparison of actual products. Fees are often assessed differently in practice. The lowest fee alone does not tell you which product fits your needs."
+      },
+      {
+        "type": "heading",
+        "text": "Ask about the whole cost"
+      },
+      {
+        "type": "paragraph",
+        "text": "Check the expense ratio, advisory fee, account charges, and any trading or exit costs that apply. Ask whether a quoted figure includes every layer. Then compare products with similar objectives and risks."
+      },
+      {
+        "type": "links",
+        "title": "See the official explanation",
+        "items": [
+          {
+            "label": "Investor.gov: understanding fees",
+            "url": "https://www.investor.gov/introduction-investing/getting-started/understanding-fees",
+            "description": "Use the questions here to compare ongoing costs and transaction charges."
+          }
+        ]
+      }
+    ],
+    "related": [
+      "investing-basics-linkbook",
+      "read-market-claims-clearly"
+    ]
+  },
+  {
+    "slug": "turn-a-project-into-a-useful-thread",
+    "status": "published",
+    "title": "Turn a project into a useful thread",
+    "description": "A natural five-part structure for explaining what you built without sounding like an ad.",
+    "category": "Creator Growth",
+    "date": "2026-10-20",
+    "readingTime": 3,
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "People should understand why your project exists before they reach the link. Start with the problem you actually noticed. A small, specific example usually says more than a big claim."
+      },
+      {
+        "type": "steps",
+        "title": "A thread you can adapt",
+        "items": [
+          {
+            "title": "1. The problem",
+            "text": "“I kept losing useful tutorials in my bookmarks, so I made a small page that groups them by what I’m trying to learn.”"
+          },
+          {
+            "title": "2. The actual result",
+            "text": "Show one screenshot or a short clip of the main task. Say what someone can do with it now."
+          },
+          {
+            "title": "3. One decision",
+            "text": "Explain a tradeoff: “I kept the categories small because a giant directory was just another list I would not use.”"
+          },
+          {
+            "title": "4. What still needs work",
+            "text": "Name an honest limitation and what you are testing next. Specifics invite useful feedback."
+          },
+          {
+            "title": "5. A simple invitation",
+            "text": "Ask one question people can answer: “What resource do you keep coming back to?” Put the project link where it naturally helps."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Before you post"
+      },
+      {
+        "type": "paragraph",
+        "text": "Read it out loud. Cut phrases you would never say. Check that the screenshot is readable on a phone and remove private details. When someone responds, answer their point before mentioning your link again."
+      }
+    ],
+    "related": [
+      "make-a-carousel-people-can-follow",
+      "grow-a-small-account-with-real-conversations"
     ]
   }
 ]
