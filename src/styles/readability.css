@@ -5,8 +5,8 @@ html body:is(.platform.light-theme,.packet-workspace) {
 }
 
 /* Packet pages use the same white and silver surfaces as the public site. */
-html body.packet-workspace,
-html body.packet-workspace[data-surface=workspace] {
+html body.packet-workspace[data-section],
+html body.packet-workspace[data-section][data-surface=workspace] {
   --mono-bg:#fff; --mono-surface:#fff; --mono-raised:#f4f4f4;
   --mono-line:#d5d5d5; --mono-text:#171717; --mono-muted:#595959;
   --accent:#171717; --muted:#595959; --line:#d5d5d5; --paper:#fff; --tint:#f4f4f4;
@@ -16,41 +16,46 @@ html body.packet-workspace[data-surface=workspace] {
   --color-brand-muted:#595959; --color-brand-accent:#171717; --color-brand-focus:#171717;
   color-scheme:light; color:var(--read-ink); background:#f7f7f7;
 }
-html body.packet-workspace :is(h1,h2,h3,h4,strong,label,legend,summary) { color:var(--read-ink); }
-html body.packet-workspace :is(p,.lede,.quiet,.tiny,.eyebrow,.prompt-id,.brand-caption,.edition,.breadcrumbs,.packet-context,.stats span) { color:var(--read-muted); }
-html body.packet-workspace a { color:var(--read-copy); }
-html body.packet-workspace :is(.topbar,footer),
-html body.packet-workspace[data-surface=workspace] :is(.topbar,.shell,aside),
-html body.packet-workspace[data-surface=editorial] aside.is-open,
-html body.packet-workspace :is(.panel,.prompt-row,.filters,.stats,dialog,.dialog-header,.starter-card,.preview-window) {
+html body.packet-workspace[data-section] :is(h1,h2,h3,h4,strong,label,legend,summary) { color:var(--read-ink); }
+html body.packet-workspace[data-section] :is(p,.lede,.quiet,.tiny,.eyebrow,.prompt-id,.brand-caption,.edition,.breadcrumbs,.packet-context,.stats span) { color:var(--read-muted); }
+html body.packet-workspace[data-section] a { color:var(--read-copy); }
+html body.packet-workspace[data-section] :is(.topbar,footer),
+html body.packet-workspace[data-section][data-surface=workspace] :is(.topbar,.shell,aside),
+html body.packet-workspace[data-section][data-surface=editorial] aside.is-open,
+html body.packet-workspace[data-section] :is(.panel,.prompt-row,.filters,.stats,dialog,.dialog-header,.starter-card,.preview-window) {
   background:var(--read-paper); color:var(--read-ink); border-color:var(--read-line);
 }
-html body.packet-workspace .shell { background:var(--read-paper); border-color:var(--read-line); }
-html body.packet-workspace[data-surface=editorial] .shell { background:transparent; }
-html body.packet-workspace :is(.prompt-row,.starter-card,.fix-choice):hover { background:#f4f4f4; border-color:#898989; }
-html body.packet-workspace nav a { color:#424242; }
-html body.packet-workspace nav a:hover:not([aria-current=page]) { background:#ededed; color:#171717; }
-html body.packet-workspace nav a[aria-current=page] { background:#e8e8e8; color:#171717; box-shadow:inset 3px 0 #171717; }
-html body.packet-workspace :is(.pill,.pill.locked,.example,.prompt-text,.about-cta,.preview-toolbar,.topic-tags span) {
+html body.packet-workspace[data-section] .shell { background:var(--read-paper); border-color:var(--read-line); }
+html body.packet-workspace[data-section][data-surface=editorial] .shell { background:transparent; }
+html body.packet-workspace[data-section] :is(.prompt-row,.starter-card,.fix-choice):hover { background:#f4f4f4; border-color:#898989; }
+html body.packet-workspace[data-section] nav a { color:#424242; }
+html body.packet-workspace[data-section] nav a:hover:not([aria-current=page]) { background:#ededed; color:#171717; }
+html body.packet-workspace[data-section] nav a[aria-current=page] { background:#e8e8e8; color:#171717; box-shadow:inset 3px 0 #171717; }
+html body.packet-workspace[data-section] :is(.pill,.pill.locked,.example,.prompt-text,.about-cta,.preview-toolbar,.topic-tags span) {
   background:#f4f4f4; color:#424242; border-color:var(--read-line);
 }
-html body.packet-workspace .topic-tags span:nth-child(n) { background:#f4f4f4; color:#424242; }
-html body.packet-workspace :is(.check-item,.preview-outline,.home-library) { border-color:var(--read-line); }
-html body.packet-workspace :is(input,select,textarea),
-html body.packet-workspace[data-surface=workspace] :is(input,select,textarea) {
+html body.packet-workspace[data-section] .topic-tags span:nth-child(n) { background:#f4f4f4; color:#424242; }
+html body.packet-workspace[data-section] :is(.check-item,.preview-outline,.home-library) { border-color:var(--read-line); }
+html body.packet-workspace[data-section] :is(input,select,textarea),
+html body.packet-workspace[data-section][data-surface=workspace] :is(input,select,textarea) {
   background:#fff; color:#171717; border-color:#858585; caret-color:#171717; accent-color:#171717;
 }
 /* Existing builder rule is important; keep the output readable in both layouts. */
-html body.packet-workspace .builder-output textarea { background:#f4f4f4!important; color:#171717; }
-html body.packet-workspace :is(input,textarea)::placeholder { color:#626262; opacity:1; }
-html body.packet-workspace .brand { color:#171717; }
-html body.packet-workspace :is(.brand-logo,.footer-logo) { filter:none; }
-html body.packet-workspace .card-action { color:#333; }
-html body.packet-workspace .toast { background:#171717; color:#fff; border-color:#171717; }
-html body.packet-workspace .toast :is(a,strong) { color:inherit; }
-html body.packet-workspace :focus-visible { outline:2px solid #171717; outline-offset:4px; }
-html body.packet-workspace .skip { background:#171717; color:#fff; }
-html body.packet-workspace dialog::backdrop { background:#17171766; }
+html body.packet-workspace[data-section] .builder-output textarea { background:#f4f4f4!important; color:#171717; }
+html body.packet-workspace[data-section] :is(input,textarea)::placeholder { color:#626262; opacity:1; }
+html body.packet-workspace[data-section] .brand { color:#171717; }
+html body.packet-workspace[data-section] :is(.brand-logo,.footer-logo) { filter:none; }
+html body.packet-workspace[data-section] .card-action { color:#333; }
+html body.packet-workspace[data-section] .toast { background:#171717; color:#fff; border-color:#171717; }
+html body.packet-workspace[data-section] .toast :is(a,strong) { color:inherit; }
+html body.packet-workspace[data-section] :focus-visible { outline:2px solid #171717; outline-offset:4px; }
+html body.packet-workspace[data-section] .skip { background:#171717; color:#fff; }
+html body.packet-workspace[data-section] dialog::backdrop { background:#17171766; }
+
+/* Keep pressed controls distinct without relying only on their text. */
+html body:is(.platform.light-theme,.packet-workspace) .button[aria-pressed=true] {
+  background:#dedede; color:#171717; border-color:#595959;
+}
 
 /* Specify both halves of every button state, including nested text and icons. */
 html body:is(.platform.light-theme,.packet-workspace) .button {
