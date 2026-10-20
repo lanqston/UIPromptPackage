@@ -2,7 +2,7 @@
   {
     "slug": "make-sense-of-new-tech",
     "status": "published",
-    "title": "Decide whether a new tool will help you",
+    "title": "Evaluate a new AI tool before using it",
     "description": "Try an AI meeting assistant on a real task, count the checking it needs, and decide whether it saves useful time.",
     "category": "Technology & AI",
     "date": "2026-10-14",
@@ -82,7 +82,7 @@
   {
     "slug": "use-ai-with-better-judgment",
     "status": "published",
-    "title": "Use AI for a task you can check",
+    "title": "Plan and test a task for AI",
     "description": "Learn to give AI a clear job, handle uncertain answers, and check whether it actually reduces your workload.",
     "category": "Technology & AI",
     "date": "2026-10-14",
@@ -162,7 +162,7 @@
   {
     "slug": "read-market-claims-clearly",
     "status": "published",
-    "title": "Understand what an investment claim really says",
+    "title": "Evaluate investment performance claims",
     "description": "Work through a sample return, learn what a backtest means, and spot the questions a headline leaves unanswered.",
     "category": "Markets & Investing",
     "date": "2026-10-14",
@@ -258,7 +258,7 @@
   {
     "slug": "choose-tools-that-earn-their-place",
     "status": "published",
-    "title": "Work out whether an app is worth using",
+    "title": "Compare an app's costs and time savings",
     "description": "Compare the time, cost, setup, and checking behind a tool before adding it to your routine.",
     "category": "Tools & Security",
     "date": "2026-10-14",
@@ -338,7 +338,7 @@
   {
     "slug": "give-ai-agents-clear-boundaries",
     "status": "published",
-    "title": "Give an AI agent a clear, safe job",
+    "title": "Set clear permissions for an AI agent",
     "description": "Use a file-organizing example to decide what an agent can do, what it should leave alone, and how to check its work.",
     "category": "Technology & AI",
     "date": "2026-10-14",
@@ -422,7 +422,7 @@
   {
     "slug": "check-an-ai-answer-before-you-use-it",
     "status": "published",
-    "title": "Check an AI answer one claim at a time",
+    "title": "Check AI claims against original sources",
     "description": "Learn to tell whether a source supports what an AI answer actually says, using one simple example.",
     "category": "Technology & AI",
     "date": "2026-10-14",
@@ -506,7 +506,7 @@
   {
     "slug": "read-a-tech-launch-with-a-clear-head",
     "status": "published",
-    "title": "Decide what a product launch means for you",
+    "title": "Evaluate a new technology announcement",
     "description": "Separate what's available now from what's promised, then test whether the feature fits your work.",
     "category": "Technology & AI",
     "date": "2026-10-14",
@@ -594,7 +594,7 @@
   {
     "slug": "design-one-small-flow-at-a-time",
     "status": "published",
-    "title": "Make a form easier to finish",
+    "title": "Design a form that's easy to complete",
     "description": "Walk through a project-submission form and learn how to make instructions, errors, and success messages clearer.",
     "category": "Design & UX",
     "date": "2026-10-14",
@@ -693,7 +693,7 @@
   {
     "slug": "make-a-carousel-people-can-follow",
     "status": "published",
-    "title": "Make a carousel that teaches one clear idea",
+    "title": "Create a carousel that explains one idea",
     "description": "Plan a connected six-slide explanation, keep the numbers honest, and check that it makes sense on a phone.",
     "category": "Creator Growth",
     "date": "2026-10-14",
@@ -777,7 +777,7 @@
   {
     "slug": "grow-a-small-account-with-real-conversations",
     "status": "published",
-    "title": "Understand why views aren't becoming interest",
+    "title": "Understand why social media views aren't leading to action",
     "description": "Follow the steps from seeing a post to taking action, then test one improvement you can actually measure.",
     "category": "Creator Growth",
     "date": "2026-10-14",
@@ -865,7 +865,7 @@
   {
     "slug": "a-gentle-security-reset-for-your-accounts",
     "status": "published",
-    "title": "Protect your important accounts without getting locked out",
+    "title": "Secure your accounts and recovery options",
     "description": "Check recovery details, improve sign-in, and review connected apps in a sensible order.",
     "category": "Tools & Security",
     "date": "2026-10-14",
@@ -972,7 +972,7 @@
   {
     "slug": "make-a-digital-product-easier-to-understand",
     "status": "published",
-    "title": "Explain your digital product so people know what they're getting",
+    "title": "Write a clear description for your digital product",
     "description": "Use a prompt-packet example to make the purpose, contents, sample, and next step clearer.",
     "category": "Digital Products",
     "date": "2026-10-14",
@@ -1064,7 +1064,7 @@
   {
     "slug": "tech-career-starter-linkbook",
     "status": "published",
-    "title": "Show what you can do in your first IT role",
+    "title": "Build practical skills for your first IT support role",
     "description": "Work through a beginner-friendly support case, write a useful ticket, and choose training that fills a real gap.",
     "category": "Technology & AI",
     "date": "2026-10-20",
@@ -1225,7 +1225,7 @@
   {
     "slug": "build-a-small-game-you-can-finish",
     "status": "published",
-    "title": "Make a small arcade game worth replaying",
+    "title": "Plan and test a small two-player arcade game",
     "description": "Follow one game idea from its main decision to clear round rules, fair results, and a useful first playtest.",
     "category": "Technology & AI",
     "date": "2026-10-20",
@@ -1389,7 +1389,7 @@
   {
     "slug": "game-dev-resource-linkbook",
     "status": "published",
-    "title": "Turn game-development reading into a working project",
+    "title": "Use game development resources to plan and test your game",
     "description": "Use three focused references to plan a round, check online scoring, and understand whether players return.",
     "category": "Technology & AI",
     "date": "2026-10-20",
@@ -1493,7 +1493,7 @@
   {
     "slug": "investing-basics-linkbook",
     "status": "published",
-    "title": "Understand an investment before choosing it",
+    "title": "Understand an investment's risks, costs, and purpose",
     "description": "Separate the account from what's inside it, check what you would own, and write down the costs and open questions.",
     "category": "Markets & Investing",
     "date": "2026-10-20",
@@ -1602,7 +1602,7 @@
   {
     "slug": "what-investment-fees-change",
     "status": "published",
-    "title": "See how annual investment fees add up",
+    "title": "Understand how annual fees affect investment growth",
     "description": "Follow a simple example, understand why the gap grows, and learn which costs to check in a real product.",
     "category": "Markets & Investing",
     "date": "2026-10-20",
@@ -1713,7 +1713,7 @@
   {
     "slug": "turn-a-project-into-a-useful-thread",
     "status": "published",
-    "title": "Write a project thread people can follow",
+    "title": "Write a clear social media thread about your project",
     "description": "Use a complete example to explain a problem, show your choices, and invite a relevant conversation.",
     "category": "Creator Growth",
     "date": "2026-10-20",
