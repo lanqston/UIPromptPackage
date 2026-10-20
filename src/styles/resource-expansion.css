@@ -28,3 +28,9 @@ html body.platform.light-theme button svg { color:inherit; }
 html body.platform.light-theme :is(button,a,input,textarea,select,summary,[tabindex="0"]):focus-visible { outline:2px solid #4c5764; outline-offset:3px; }
 html body.platform.light-theme [hidden] { display:none!important; }
 @media(max-width:480px) { html body.platform.light-theme :is(.resource-linkbook,.resource-steps,.resource-carousel,.resource-fee-chart) { padding:16px; } html body.platform.light-theme .resource-slides li { padding:18px; } }
+/* Each guide starts with one goal; command examples stay readable on phones. */
+html body.platform.light-theme .article-body .resource-goal { margin:0 0 28px; padding:20px 24px; border:1px solid #d9dce0; border-left:3px solid #69727c; border-radius:12px; background:#f8f9fa; color:#202124; }
+html body.platform.light-theme .article-body .resource-goal strong { display:block; font-size:.8rem; color:#555d66; }
+html body.platform.light-theme .article-body .resource-goal p { margin:8px 0 0; line-height:1.65; color:#202124; }
+html body.platform.light-theme .article-body .resource-command { max-width:100%; margin:20px 0; padding:18px; overflow-x:auto; border:1px solid #d9dce0; border-radius:12px; background:#f4f5f6; color:#202124; font-size:.875rem; line-height:1.8; white-space:pre; }
+html body.platform.light-theme .article-body .resource-command code { padding:0; border:0; background:transparent; color:inherit; }
