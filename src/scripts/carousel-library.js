@@ -1,3 +1,5 @@
+const FOUNDING_CHECKOUT = 'https://digivated.gumroad.com/l/founding-member-pass';
+
 const el = (tag, text, className) => {
   const node = document.createElement(tag);
   if (text !== undefined) node.textContent = text;
@@ -145,12 +147,13 @@ function renderDetail(root, payload) {
   reader.append(transcript);
   const locked = el('section', undefined, 'carousel-locked');
   if (item.locked) {
-    locked.append(el('h2', item.locked.message), el('p', `${item.locked.count} more slides stay on the server until founding member access is open.`));
-    if (item.locked.href === '/founding-members') {
-      const link = el('a', 'See the Founding Member Pass', 'button');
-      link.href = item.locked.href;
-      locked.append(link);
-    }
+    locked.append(el('h2', item.locked.message), el('p', `${item.locked.count} more slides are included with the Founding Member Pass. The collection grows as carousels are added.`));
+    const buy = el('a', 'Get the Founding Member Pass', 'button');
+    buy.href = FOUNDING_CHECKOUT;
+    buy.target = '_blank';
+    buy.rel = 'noopener noreferrer';
+    locked.append(buy);
+    locked.append(el('p', 'Already purchased? Sign in below with your license key or purchase email.'));
   } else locked.hidden = true;
   const references = el('section', undefined, 'carousel-references');
   if (payload.member && item.references?.length) {
@@ -173,7 +176,7 @@ function renderDetail(root, payload) {
   initReader(reader);
   const form = document.getElementById('founding-access-form');
   const signOut = document.getElementById('founding-sign-out');
-  if (form) form.hidden = payload.memberAccess !== 'open' || payload.member;
+  if (form) form.hidden = !!payload.member;
   if (signOut) signOut.hidden = !payload.member;
 }
 
@@ -262,10 +265,15 @@ async function loadFoundingInventory() {
     list.hidden = false;
     const empty = document.getElementById('founding-inventory-empty');
     if (empty) empty.hidden = true;
-  } catch { /* Keep the existing preparation message. */ }
+    const form = document.getElementById('founding-access-form');
+    if (form && data.member) form.hidden = true;
+    const signOut = document.getElementById('founding-sign-out');
+    if (signOut) signOut.hidden = !data.member;
+  } catch { /* Keep the empty collection message when the list cannot load. */ }
 }
 
 loadIndex();
 loadDetail();
 loadShelf();
 loadFoundingInventory();
+bindAccess();

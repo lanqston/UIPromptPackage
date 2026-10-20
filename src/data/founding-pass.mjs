@@ -3,7 +3,8 @@ export const foundingPass = Object.freeze({
   name:'Digivated Founding Member Pass',
   priceUSD:2,
   introductoryLimit:25,
-  status:'prelaunch',
+  status:'live',
+  checkoutUrl:'https://digivated.gumroad.com/l/founding-member-pass',
   scope:'founding-collection',
   includedCarousels:[],
 });
