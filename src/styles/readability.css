@@ -73,7 +73,7 @@ html body.platform.light-theme .platform-header .header-submit:hover {
   background:#303030; color:#fff; border-color:#303030;
 }
 html body:is(.platform.light-theme,.packet-workspace) .button :is(span,strong,small,svg) { color:inherit; }
-html body.platform.light-theme .dashboard-review-note { color:#595959; }
+html body.platform.light-theme.projects-dashboard .dashboard-review-note { color:#595959; }
 /* Artwork labels need a known backing surface, independent of the image. */
 html body.platform.light-theme .product-art-cover { background-color:#303030; }
 html body.platform.light-theme :is(.focus-city-art-label,.focus-city-art-title) {
