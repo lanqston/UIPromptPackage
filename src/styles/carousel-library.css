@@ -11,7 +11,7 @@ html body.platform.light-theme.resources-dashboard .carousel-resource-card .reso
 html body.platform .carousel-resource-card .resource-copy h3,
 html body.platform .carousel-library-grid > .resource-card:first-child .resource-copy h3,
 html body.platform .carousel-shelf-list > .resource-card:first-child .resource-copy h3,
-html body.platform.light-theme.resources-dashboard .carousel-resource-card .resource-copy h3,
+html body.platform.light-theme.resources-dashboard .resource-card.carousel-resource-card .resource-copy h3,
 html body.platform.light-theme.resources-dashboard .carousel-shelf-list > .resource-card:first-child .resource-copy h3 { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; margin:8px 0 6px; min-height:2.6em; max-width:none; font-size:1rem; line-height:1.3; letter-spacing:-.02em; }
 html body.platform .carousel-resource-card .resource-description,
 html body.platform.light-theme.resources-dashboard .carousel-resource-card .resource-description { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; min-height:2.9em; margin:0 0 10px; font-size:.8125rem; line-height:1.45; }
