@@ -1,5 +1,6 @@
 ---
 import Platform from '../../layouts/Platform.astro';
+import FoundingPassTeaser from '../../components/FoundingPassTeaser.astro';
 import EmptyState from '../../components/EmptyState.astro';
 import ResourceCard from '../../components/ResourceCard.astro';
 import { resourceCategories } from '../../data/community.mjs';
@@ -11,6 +12,7 @@ const orderedResources = [...resources.filter(r=>r.status==='published'),packet]
 <Platform title="Resources" description="Explore the UI/UX Prompt Packet and try three free prompts.">
 <section class="resources-workspace" aria-labelledby="resources-title">
 <header class="resources-intro"><div><h1 id="resources-title">Resources</h1><p>Explore the UI/UX Prompt Packet. Try three complete prompts for free.</p></div><span>The Digivated library</span></header>
+<FoundingPassTeaser/>
 <nav class="resource-topics" aria-label="Choose a learning goal">
 <button type="button" data-goal-filter="" aria-pressed="true">All resources</button>
 

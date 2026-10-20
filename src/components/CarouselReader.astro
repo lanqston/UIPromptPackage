@@ -1,0 +1,20 @@
+---
+const {slides,id='carousel-preview'}=Astro.props;
+---
+<section class="carousel-reader" data-carousel-reader aria-label="Carousel reading experience preview" aria-roledescription="carousel">
+  <p class="carousel-format-note">Format preview. These cards explain the reading experience; they aren't the paid collection.</p>
+  <div class="carousel-track" id={id} data-carousel-track tabindex="0" aria-label="Preview slides. Swipe, scroll, or use the arrow buttons.">
+    {slides.map((slide,index)=><article class="carousel-slide" data-carousel-slide aria-roledescription="slide" aria-label={`${index+1} of ${slides.length}`}>
+      <div class="carousel-slide-top"><span>{slide.label}</span><span aria-hidden="true">{String(index+1).padStart(2,'0')} / {String(slides.length).padStart(2,'0')}</span></div>
+      <h3>{slide.title}</h3><p>{slide.text}</p>
+      <ol class="carousel-idea-flow" aria-label={`${slide.label}: steps`}>{slide.visual.map((text,i)=><li><span aria-hidden="true">{i+1}</span>{text}</li>)}</ol>
+      <span class="carousel-slide-brand" aria-hidden="true">Digivated · Read. Understand. Apply.</span>
+    </article>)}
+  </div>
+  <div class="carousel-controls" data-carousel-controls hidden>
+    <button class="button" type="button" data-carousel-prev aria-controls={id} aria-label="Previous preview slide">← Previous</button>
+    <span data-carousel-position role="status" aria-live="polite">Slide 1 of {slides.length}</span>
+    <button class="button" type="button" data-carousel-next aria-controls={id} aria-label="Next preview slide">Next →</button>
+  </div>
+  <details class="carousel-transcript"><summary>Read all preview cards as text</summary>{slides.map(slide=><section><h3>{slide.title}</h3><p>{slide.text}</p></section>)}</details>
+</section>
