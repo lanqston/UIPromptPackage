@@ -14,5 +14,6 @@ export function resourcePathInfo(resource) {
  if(!path)path=learningPaths.find(p=>p.id===categoryGoals[resource.category]);
  const index=path?.slugs.indexOf(slug) ?? -1;
  const paid=Boolean(resource.packet || resource.id==='builtin-ui-ux-prompt-packet');
- return {path,step:index>=0?index+1:null,total:path?.slugs.length||0,next:index>=0?path.slugs[index+1]||null:null,order:paid?100000:path?learningPaths.indexOf(path)*100+(index>=0?index:99):9999};
+ const keywords = slug==='a-gentle-security-reset-for-your-accounts' ? 'security passwords MFA accounts recovery' : path?.keywords || '';
+ return {path,keywords,step:index>=0?index+1:null,total:path?.slugs.length||0,next:index>=0?path.slugs[index+1]||null:null,order:paid?100000:path?learningPaths.indexOf(path)*100+(index>=0?index:99):9999};
 }

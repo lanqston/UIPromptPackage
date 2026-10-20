@@ -22,7 +22,8 @@ test('additional API guides retain category filtering and optional toolkit follo
  assert.equal(resourcePathInfo({url:'/resources/tech-career-starter-linkbook?from=saved',category:'Technology & AI'}).path.id,'it-skills');
 });
 test('beginner search terms find career and game guides without changing their titles',()=>{
- const records=resources.map(r=>({type:'resource',title:r.title,description:r.description,category:r.category,keywords:resourcePathInfo(r).path.keywords,href:`/resources/${r.slug}`}));
- assert.ok(rankDiscovery(records,'certifications').some(r=>r.href.endsWith('/tech-career-starter-linkbook')));
+ const records=resources.map(r=>({type:'resource',title:r.title,description:r.description,category:r.category,keywords:resourcePathInfo(r).keywords,href:`/resources/${r.slug}`}));
+ assert.ok(rankDiscovery(records,'certifications')[0].href.endsWith('/tech-career-starter-linkbook'));
+ assert.ok(!rankDiscovery(records,'certifications').some(r=>r.href.endsWith('/a-gentle-security-reset-for-your-accounts')));
  assert.ok(rankDiscovery(records,'Roblox').some(r=>r.href.endsWith('/build-a-small-game-you-can-finish')));
 });
