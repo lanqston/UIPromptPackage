@@ -4,6 +4,10 @@ import { observeResourceViews } from './resource-views.js';
 import { browseCarousels } from '../lib/carousel-browse.mjs';
 
 const VIEW_LABEL = 'Approximate views. Repeat views from the same network count once every 24 hours.';
+const knownViews = new Map();
+const carouselIds = new Set();
+let refreshingViews = false;
+let viewRefreshTimer;
 
 const FOUNDING_CHECKOUT = 'https://digivated.gumroad.com/l/founding-member-pass';
 
@@ -40,29 +44,49 @@ function icon(name, className) {
 
 function showStoredViews(views) {
   if (!views) return;
+  for (const [id, count] of Object.entries(views)) {
+    if (Number.isSafeInteger(count) && count >= 0) knownViews.set(id, Math.max(knownViews.get(id) ?? 0, count));
+  }
   for (const label of document.querySelectorAll('[data-resource-views]')) {
     const count = views[label.dataset.resourceViews];
     if (!Number.isSafeInteger(count) || count < 0) continue;
-    const shown = Number(label.textContent.replace(/[^\d]/g, ''));
-    if (!Number.isSafeInteger(shown) || count > shown) label.textContent = viewLabel(count);
+    const shown = /\d/.test(label.textContent) ? Number(label.textContent.replace(/[^\d]/g, '')) : -1;
+    if (!Number.isSafeInteger(shown) || count >= shown) label.textContent = viewLabel(knownViews.get(label.dataset.resourceViews));
   }
 }
 
-function bindCarouselViews(ids) {
-  const unique = [...new Set(ids.filter(Boolean))];
-  if (!unique.length) return;
-  observeResourceViews();
-  const query = unique.map(id => `id=${encodeURIComponent(id)}`).join('&');
-  fetch(`/api/resource-views?${query}`, { cache: 'no-store', credentials: 'omit', signal: AbortSignal.timeout(10000) })
-    .then(response => response.ok ? response.json() : null)
-    .then(data => showStoredViews(data?.views))
-    .catch(() => {});
+async function refreshCarouselViews() {
+  if (document.hidden || refreshingViews) return;
+  const ids = [...new Set([...document.querySelectorAll('[data-resource-views]')].map(node => node.dataset.resourceViews).filter(id => carouselIds.has(id)))];
+  if (!ids.length) return;
+  refreshingViews = true;
+  try {
+    // The read endpoint accepts at most 40 IDs per request.
+    for (let offset = 0; offset < ids.length; offset += 40) {
+      const query = ids.slice(offset, offset + 40).map(id => `id=${encodeURIComponent(id)}`).join('&');
+      const response = await fetch(`/api/resource-views?${query}`, { cache: 'no-store', credentials: 'omit', signal: AbortSignal.timeout(10000) });
+      if (response.ok) showStoredViews((await response.json())?.views);
+    }
+  } catch { /* Keep the last known totals while the connection recovers. */ }
+  finally { refreshingViews = false; }
 }
+
+function bindCarouselViews(ids) {
+  ids.filter(Boolean).forEach(id => carouselIds.add(id));
+  observeResourceViews();
+  refreshCarouselViews();
+  if (!viewRefreshTimer) viewRefreshTimer = setInterval(refreshCarouselViews, 60000);
+}
+
+document.addEventListener('visibilitychange', refreshCarouselViews);
+window.addEventListener('focus', refreshCarouselViews);
+window.addEventListener('online', refreshCarouselViews);
+window.addEventListener('pageshow', refreshCarouselViews);
 
 function viewStat(id) {
   const stat = el('span', undefined, 'card-stat');
   stat.title = VIEW_LABEL;
-  const label = el('span', viewLabel(0));
+  const label = el('span', viewLabel(knownViews.get(id)));
   label.dataset.resourceViews = id;
   stat.append(icon('eye', 'stat-icon'), label);
   return stat;
@@ -135,6 +159,12 @@ function renderList(target, items) {
   const sort = controls?.querySelector('select');
   const status = controls?.querySelector('[role=status]');
   const update = () => {
+    // A view recorded by the visibility observer may be newer than the last read.
+    for (const label of target.querySelectorAll('[data-resource-views]')) {
+      if (!/\d/.test(label.textContent)) continue;
+      const count = Number(label.textContent.replace(/[^\d]/g, ''));
+      if (Number.isSafeInteger(count)) knownViews.set(label.dataset.resourceViews, Math.max(knownViews.get(label.dataset.resourceViews) ?? 0, count));
+    }
     const query = (search?.value || '').trim().toLowerCase();
     const visible = browseCarousels(items, query, sort?.value);
     target.replaceChildren(...visible.map(card));
@@ -215,7 +245,7 @@ function renderDetail(root, payload) {
   if (intro) intro.dataset.resourceViewId = item.slug;
   const meta = document.getElementById('carousel-meta');
   if (meta) {
-    const count = el('span', viewLabel(0), 'carousel-reader-views');
+    const count = el('span', viewLabel(knownViews.get(item.slug)), 'carousel-reader-views');
     count.dataset.resourceViews = item.slug;
     count.title = VIEW_LABEL;
     meta.replaceChildren(el('span', item.locked ? `${item.slides.length} of ${item.slideCount} slides free` : `All ${item.slideCount} slides`), count);

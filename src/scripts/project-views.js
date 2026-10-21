@@ -31,6 +31,9 @@ export function observeProjectViews() {
         for (const label of document.querySelectorAll('[data-project-views]')) {
           if (label.dataset.projectViews === id) label.textContent = viewLabel(views);
         }
+        for (const card of cards) {
+          if (card.dataset.projectId === id) card.dataset.projectViewsTotal = String(views);
+        }
       } catch {
         if (!controller.signal.aborted) failures.set(id, Math.min(3, (failures.get(id) || 0) + 1));
         // Preserve the last known count; retry transient errors with a bounded backoff.

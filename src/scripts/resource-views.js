@@ -12,8 +12,8 @@ async function refreshBuiltinCounts() {
     for (const label of document.querySelectorAll('[data-resource-views]')) {
       const count = views?.[label.dataset.resourceViews];
       if (Number.isSafeInteger(count) && count >= 0) {
-        const shown = Number(label.textContent.replace(/[^\d]/g, ''));
-        if (!Number.isSafeInteger(shown) || count > shown) label.textContent = viewLabel(count);
+        const shown = /\d/.test(label.textContent) ? Number(label.textContent.replace(/[^\d]/g, '')) : -1;
+        if (!Number.isSafeInteger(shown) || count >= shown) label.textContent = viewLabel(count);
       }
     }
   } catch { /* Keep the visible count and let the view observer retry independently. */ }
