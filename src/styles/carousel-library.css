@@ -28,6 +28,15 @@ html body.platform .carousel-index-status { margin:0 0 16px; color:#424242; }
 .carousel-viewer-kicker { display:flex; justify-content:space-between; gap:12px; margin:0 0 10px; color:#595959; font-size:.75rem; font-weight:650; }
 .carousel-viewer-slide img { display:block; width:min(100%,520px); height:auto; max-height:min(72vh,720px); margin:0 auto; object-fit:contain; background:#f3f3f3; border:1px solid #dedede; border-radius:12px; }
 .carousel-viewer-copy { max-width:68ch; margin:14px auto 0; color:#171717; font-size:1rem; line-height:1.7; white-space:pre-wrap; }
+.carousel-reading-card { --reading-card-surface:#fff; --reading-card-ink:#242424; --reading-card-muted:#595959; --reading-card-border:#e2e2e2; --reading-card-tint:#f3f3f3; --reading-card-padding:20px; --reading-card-gap:12px; --reading-card-radius:16px; max-width:520px; margin:16px auto 0; padding:var(--reading-card-padding); background:var(--reading-card-surface); border:1px solid var(--reading-card-border); border-radius:var(--reading-card-radius); color:var(--reading-card-ink); overflow-wrap:anywhere; }
+html body.platform .carousel-reading-heading { display:flex; gap:12px; align-items:center; margin-bottom:14px; }
+html body.platform .carousel-reading-number { display:inline-grid; place-items:center; flex:0 0 26px; width:26px; height:26px; border-radius:8px; background:var(--reading-card-tint); color:var(--reading-card-muted); font-size:.75rem; font-weight:600; font-variant-numeric:tabular-nums; }
+html body.platform .carousel-reading-heading h3 { margin:0; color:var(--reading-card-ink); font-size:1.0625rem; font-weight:600; line-height:1.4; letter-spacing:-.015em; text-wrap:pretty; }
+html body.platform .carousel-reading-label { color:var(--reading-card-muted); font-size:.8125rem; }
+html body.platform .carousel-reading-card p { margin:0 0 var(--reading-card-gap); color:var(--reading-card-ink); font-size:1rem; line-height:1.7; white-space:pre-line; }
+html body.platform .carousel-reading-card p:last-child { margin-bottom:0; }
+.carousel-viewer-transcript .carousel-reading-card { padding:20px; margin:12px 0; }
+@media(max-width:480px) { .carousel-reading-card { --reading-card-padding:18px; } }
 .carousel-viewer-controls { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; max-width:520px; margin:16px auto; }
 .carousel-viewer-controls [role=status] { color:#505050; font-size:.85rem; }
 .carousel-viewer-transcript { max-width:68ch; margin:8px auto 0; border-top:1px solid #dedede; }

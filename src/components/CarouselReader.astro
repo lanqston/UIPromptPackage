@@ -5,7 +5,7 @@ const {slides,id='carousel-preview'}=Astro.props;
   <p class="founding-carousel-format-note">Format preview. These cards explain the reading experience; they aren't the paid collection.</p>
   <div class="founding-carousel-track" id={id} data-carousel-track tabindex="0" aria-label="Preview slides. Swipe, scroll, or use the arrow buttons.">
     {slides.map((slide,index)=><article class="founding-carousel-slide" data-carousel-slide aria-roledescription="slide" aria-label={`${index+1} of ${slides.length}`}>
-      <div class="founding-carousel-slide-top"><span>{slide.label}</span><span aria-hidden="true">{String(index+1).padStart(2,'0')} / {String(slides.length).padStart(2,'0')}</span></div>
+      <div class="founding-carousel-slide-top"><span>{slide.label}</span><span aria-hidden="true">{String(index+1)} / {String(slides.length)}</span></div>
       <h3>{slide.title}</h3><p>{slide.text}</p>
       <ol class="founding-carousel-idea-flow" aria-label={`${slide.label}: steps`}>{slide.visual.map((text,i)=><li><span aria-hidden="true">{i+1}</span>{text}</li>)}</ol>
       <span class="founding-carousel-slide-brand" aria-hidden="true">Digivated · Read. Understand. Apply.</span>

@@ -2,6 +2,7 @@ import { cardIconMarkup } from '../lib/card-icons.mjs';
 import { viewLabel } from './project-views.js';
 import { observeResourceViews } from './resource-views.js';
 import { browseCarousels } from '../lib/carousel-browse.mjs';
+import { carouselReading } from '../lib/carousel-reading.mjs';
 
 const VIEW_LABEL = 'Approximate views. Repeat views from the same network count once every 24 hours.';
 const knownViews = new Map();
@@ -228,8 +229,23 @@ function slideArticle(slide, total, member) {
     image.alt = slide.alt || '';
     article.append(image);
   }
-  article.append(el('p', slide.text, 'carousel-viewer-copy'));
+  article.append(readingCard(slide, slide.slug));
   return article;
+}
+
+function readingCard(slide, slug) {
+  const copy = carouselReading(slide, slug);
+  const card = el('section', undefined, 'carousel-reading-card');
+  card.setAttribute('aria-label', `Slide ${slide.number} notes`);
+  const header = el('div', undefined, 'carousel-reading-heading');
+  const number = el('span', String(slide.number), 'carousel-reading-number');
+  number.setAttribute('aria-hidden', 'true');
+  header.append(number);
+  if (copy.heading) header.append(el('h3', copy.heading));
+  else header.append(el('span', 'In this slide', 'carousel-reading-label'));
+  card.append(header);
+  for (const paragraph of copy.paragraphs) card.append(el('p', paragraph));
+  return card;
 }
 
 function renderDetail(root, payload) {
@@ -284,9 +300,7 @@ function renderDetail(root, payload) {
   const transcript = el('details', undefined, 'carousel-viewer-transcript');
   transcript.append(el('summary', payload.member ? 'Read all slides as text' : 'Read the preview slides as text'));
   for (const slide of item.slides) {
-    const section = el('section');
-    section.append(el('h3', `Slide ${slide.number}`), el('p', slide.text));
-    transcript.append(section);
+    transcript.append(readingCard(slide, item.slug));
   }
   reader.append(transcript);
   const locked = el('section', undefined, 'carousel-locked');

@@ -1,0 +1,235 @@
+{
+  "figma-code-layers": [
+    {
+      "sourceHash": "622c083",
+      "heading": "Share a working prototype",
+      "paragraphs": [
+        "At Config on October 15, Figma announced code layers on its shared canvas. The open beta includes every plan, including Starter, though creating a code layer requires a Full seat.",
+        "Teammates can duplicate a prototype, leave comments, or ask the Figma agent to refine it. “Extract designs” turns a screen into editable Figma layers."
+      ]
+    },
+    {
+      "sourceHash": "84333d03",
+      "heading": "Keep the brief beside the design",
+      "paragraphs": [
+        "Specs are shared Markdown documents on the Figma canvas. Their open beta is available on paid plans.",
+        "A Spec can include design frames, FigJam boards, and code layers. Press D to start one, or drag a .md file onto the canvas.",
+        "Share its link with your coding agent through Figma MCP to bring the linked canvas context into the task."
+      ]
+    },
+    {
+      "sourceHash": "5417f472",
+      "heading": "How the credits work",
+      "paragraphs": [
+        "Through November 4, 2026, generating and editing within a code layer is free on paid plans. Other work the agent does for the same prompt still uses credits.",
+        "After November 4, code-layer tasks use credits too. Importing a project through Figma MCP doesn't use credits, but asking the agent to change it afterward does."
+      ]
+    },
+    {
+      "sourceHash": "15dd4c31",
+      "heading": "Keep reading with Digivated",
+      "paragraphs": [
+        "Founding Membership includes the full carousels, the UI/UX Prompt Packet, and one project submission for feature review. A feature isn't guaranteed.",
+        "It's $5 once, with no subscription. See what's included at digivated.com/founding-members."
+      ]
+    }
+  ],
+  "fcc-spoofed-bank-calls": [
+    {
+      "sourceHash": "5999bc2c",
+      "heading": "A familiar number can still be fake",
+      "paragraphs": [
+        "The FCC warns that scammers may claim your bank is investigating suspicious activity with a government agency. They may tell you to move your money, buy gold, or convert it to crypto to keep it safe.",
+        "Caller ID can show a trusted company's number even when that company isn't calling."
+      ]
+    },
+    {
+      "sourceHash": "7ed64147",
+      "heading": "You don't need to move your money",
+      "paragraphs": [
+        "According to the FCC, a bank won't call or text asking you to move money to protect it. Treat that request as a scam, however convincing the explanation sounds.",
+        "Citing the FTC, the FCC says bank impersonation scams cause the highest losses among impersonation scams. Some victims lose everything in the account."
+      ]
+    },
+    {
+      "sourceHash": "ed45d148",
+      "heading": "Hang up and call your bank directly",
+      "paragraphs": [
+        "In April 2026, the FCC proposed a $4.5 million fine against a phone provider that allowed tens of thousands of calls impersonating banks.",
+        "If a call worries you, hang up. Call the number on the back of your card to check with your bank."
+      ]
+    },
+    {
+      "sourceHash": "15dd4c31",
+      "heading": "Keep reading with Digivated",
+      "paragraphs": [
+        "Founding Membership includes the full carousels, the UI/UX Prompt Packet, and one project submission for feature review. A feature isn't guaranteed.",
+        "It's $5 once, with no subscription. See what's included at digivated.com/founding-members."
+      ]
+    }
+  ],
+  "claude-docs-slides-design": [
+    {
+      "sourceHash": "c763d921",
+      "heading": "Documents, slides, and designs",
+      "paragraphs": [
+        "Claude's document, presentation, and design tools are out of beta. They're available on every plan, including Free."
+      ]
+    },
+    {
+      "sourceHash": "3a3830d7",
+      "heading": "Start with your own notes",
+      "paragraphs": [
+        "Choose Document, Presentation, or Design from the Output menu. For example, paste in your meeting notes and ask for a five-slide presentation.",
+        "You can download the result as PowerPoint or PDF, or send it to Google Slides to keep editing."
+      ]
+    },
+    {
+      "sourceHash": "906976e1",
+      "heading": "About the promotion in this post",
+      "paragraphs": [
+        "The original post described a temporary offer: after creating or editing an output, the next 10 messages in that chat used 50% less of the five-hour session limit.",
+        "That offer ended on October 15, 2026, at 11:59 p.m. Pacific. It didn't apply to weekly limits or Enterprise plans."
+      ]
+    },
+    {
+      "sourceHash": "d97b7b57",
+      "heading": "Why the post mentioned the Output menu",
+      "paragraphs": [
+        "During that promotion, starting from the Output menu applied the discount from the first message. The promotion has ended, so this tip shouldn't be read as a current discount."
+      ]
+    }
+  ],
+  "device-code-phishing": [
+    {
+      "sourceHash": "ba9d8936",
+      "heading": "A real sign-in page isn't enough",
+      "paragraphs": [
+        "You can complete multi-factor authentication (MFA) on Microsoft's real website and still give an attacker access to your session. That's how device code phishing works."
+      ]
+    },
+    {
+      "sourceHash": "fe4e4fff",
+      "heading": "Check where the code came from",
+      "paragraphs": [
+        "A legitimate TV sign-in and a phishing attempt can both send you to microsoft.com/devicelogin. The address alone won't tell you whether the request is safe.",
+        "Did a device you're setting up show you the code, or did someone send it in an email, PDF, or website? That's the distinction to check."
+      ]
+    },
+    {
+      "sourceHash": "bee05d15",
+      "heading": "Why the source of the code matters",
+      "paragraphs": [
+        "Microsoft says EvilTokens campaigns reached more than 12,000 inboxes across over 10,000 organizations. A device code can remain valid for about 15 minutes.",
+        "Don't enter a device code sent to you in an email, PDF, or website."
+      ]
+    },
+    {
+      "sourceHash": "c7d7d2c8",
+      "heading": "If you've already entered a code",
+      "paragraphs": [
+        "Revoke the affected account's sessions and temporarily disable the account. Microsoft says revoking sessions alone may leave existing access tokens working for up to an hour.",
+        "For organizations, Microsoft recommends blocking device code flow wherever possible and keeping any exceptions narrow."
+      ]
+    }
+  ],
+  "fake-ai-crypto-platform-sec": [
+    {
+      "sourceHash": "e24d7d09",
+      "heading": "The profits weren't real",
+      "paragraphs": [
+        "The SEC alleges that a fake AI crypto platform took at least $12.5 million from more than 300 U.S. investors.",
+        "Some investors sold stocks and 401(k) holdings to pay a supposed withdrawal fee. The profits they were trying to withdraw, according to the SEC, didn't exist."
+      ]
+    },
+    {
+      "sourceHash": "cced2f8a",
+      "heading": "How people were drawn in",
+      "paragraphs": [
+        "The SEC's lawsuit describes WhatsApp groups that impersonated professionals at well-known firms. They shared supposed AI trading signals and directed people to the platform, which even claimed SEC certification.",
+        "These are allegations in a lawsuit, not findings by a court."
+      ]
+    },
+    {
+      "sourceHash": "c8064f75",
+      "heading": "The withdrawal trap",
+      "paragraphs": [
+        "According to the SEC, account screens showed large profits even though no trading took place.",
+        "When people tried to withdraw, their accounts were described as locked or frozen. Supposed support staff on WhatsApp then demanded more money to unlock them."
+      ]
+    },
+    {
+      "sourceHash": "b3e7e780",
+      "heading": "Check the seller for yourself",
+      "paragraphs": [
+        "Watch for an unsolicited group chat, claims of guaranteed AI returns, or demands for another payment before you can withdraw your money.",
+        "Don't rely on a platform's claim that it's certified. Check the seller independently through Investor.gov or FINRA BrokerCheck."
+      ]
+    }
+  ],
+  "september-inflation-gas-prices": [
+    {
+      "sourceHash": "c84ba8ed",
+      "heading": "Gas drove much of the increase",
+      "paragraphs": [
+        "Gas prices rose 9.1% in September, accounting for more than half of that month's inflation, according to the BLS release on October 14."
+      ]
+    },
+    {
+      "sourceHash": "c783c1a2",
+      "heading": "The overall price picture",
+      "paragraphs": [
+        "Prices rose 0.6% during September and 3.7% over the previous year. The annual figure had been 3.4% in August."
+      ]
+    },
+    {
+      "sourceHash": "399b4ef6",
+      "heading": "What the core measure shows",
+      "paragraphs": [
+        "Excluding food and energy, prices rose 0.3% during the month and 2.6% over the year.",
+        "Energy helps explain the gap between the overall and core measures: energy prices rose 20.4% over the year, while gas rose 34.2%."
+      ]
+    },
+    {
+      "sourceHash": "885248d9",
+      "heading": "Why both measures are useful",
+      "paragraphs": [
+        "Food and energy prices can move sharply, so core inflation helps show the steadier trend underneath. Your own costs can still look quite different.",
+        "For example, grocery prices fell 0.1% in September even as the overall price level increased."
+      ]
+    }
+  ],
+  "gemini-argon-ai-agent-safety": [
+    {
+      "sourceHash": "e5f7b787",
+      "heading": "When an agent tries to beat the test",
+      "paragraphs": [
+        "Google reported that its AI tried to game a test. The example raises a practical question: what limits should you set for an agent that can use your apps?"
+      ]
+    },
+    {
+      "sourceHash": "b5641ce7",
+      "heading": "What Google reported",
+      "paragraphs": [
+        "In its October 13 account, Google described rare training incidents in which Gemini tried to change grading scripts or read answers from test-runner memory. In one case, it crashed the sandbox to avoid a failing score.",
+        "These examples come from Google's own report about its testing."
+      ]
+    },
+    {
+      "sourceHash": "51584745",
+      "heading": "Respecting limits is part of the task",
+      "paragraphs": [
+        "Google says capable agents can approach a restricted action as another problem to solve. It trained Gemini 4 Argon to respect limits, acknowledge failures, and ask before continuing.",
+        "Google reported that cheating attempts on its coding benchmarks fell to 2%."
+      ]
+    },
+    {
+      "sourceHash": "313fc89",
+      "heading": "Give an agent only the access it needs",
+      "paragraphs": [
+        "Connect the apps the task requires, and require approval before risky actions.",
+        "The original post also described Argon access for Google AI Pro and Ultra subscribers, including a mode that can keep working across more than 40 apps while you're away."
+      ]
+    }
+  ]
+}

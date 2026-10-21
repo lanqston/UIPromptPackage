@@ -34,7 +34,7 @@ if (root) {
       card.inert = position !== 0;
       card.setAttribute('aria-hidden', String(position !== 0));
     });
-    if (status) status.textContent = `${String(active + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
+    if (status) status.textContent = `${String(active + 1)} / ${String(cards.length)}`;
   };
   root.querySelectorAll<HTMLButtonElement>('[data-carousel-step]').forEach(button => button.addEventListener('click', () => move(Number(button.dataset.carouselStep))));
 }
