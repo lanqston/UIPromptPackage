@@ -1,10 +1,11 @@
 ---
 import Platform from '../../layouts/Platform.astro';
+import CarouselBrowse from '../../components/CarouselBrowse.astro';
 import '../../styles/founding-pass.css';
 import '../../styles/carousel-library.css';
 ---
 <Platform title="Educational carousels" description="Educational carousels on Digivated. Titles, summaries, and the first four slides are open to everyone. Full carousels are included with Founding Membership.">
   <header class="page-intro carousel-library-intro"><p class="eyebrow">Founding Membership</p><h1>Educational carousels</h1><p class="lede">Each carousel explains one idea. The title, summary, and first four slides are open to everyone. The rest of a full carousel is included with Founding Membership, along with the full Prompt Packet and one reviewed feature. The collection grows as carousels are added.</p><div class="actions"><a class="button primary" href="https://digivated.gumroad.com/l/founding-member-pass" target="_blank" rel="noopener noreferrer">Get Founding Membership</a><a class="button" href="/founding-members#member-sign-in">Already purchased? Sign in</a></div><p class="quiet"><a href="/resources">← All resources</a></p></header>
-  <section class="carousel-library" aria-labelledby="carousel-library-title"><h2 id="carousel-library-title" class="sr-only">Published carousels</h2><p id="carousel-index-status" class="carousel-index-status" role="status">Loading carousels…</p><div id="carousel-index" class="resource-grid carousel-library-grid"></div><noscript><p>Enable JavaScript to load carousel previews. Full carousels are included with Founding Membership. <a href="https://digivated.gumroad.com/l/founding-member-pass">Get Founding Membership</a>.</p></noscript></section>
+  <section class="carousel-library" aria-labelledby="carousel-library-title"><h2 id="carousel-library-title" class="sr-only">Published carousels</h2><p id="carousel-index-status" class="carousel-index-status" role="status">Loading carousels…</p><CarouselBrowse/><div id="carousel-index" class="resource-grid carousel-library-grid"></div><noscript><p>Enable JavaScript to load carousel previews. Full carousels are included with Founding Membership. <a href="https://digivated.gumroad.com/l/founding-member-pass">Get Founding Membership</a>.</p></noscript></section>
   <script>import '../../scripts/carousel-library.js';</script>
 </Platform>

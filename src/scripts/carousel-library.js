@@ -1,6 +1,7 @@
 import { cardIconMarkup } from '../lib/card-icons.mjs';
 import { viewLabel } from './project-views.js';
 import { observeResourceViews } from './resource-views.js';
+import { browseCarousels } from '../lib/carousel-browse.mjs';
 
 const VIEW_LABEL = 'Approximate views. Repeat views from the same network count once every 24 hours.';
 
@@ -94,6 +95,12 @@ function card(item) {
   stat.title = 'Slides open without Founding Membership';
   stat.append(icon('layers', 'stat-icon'), el('span', `${item.previewCount} of ${item.slideCount} slides free`));
   stats.append(stat, viewStat(item.slug));
+  const timestamp = Date.parse(item.created);
+  if (Number.isFinite(timestamp)) {
+    const date = el('time', `Added ${new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(timestamp)}`, 'carousel-added');
+    date.dateTime = new Date(timestamp).toISOString();
+    copy.append(date);
+  }
   const footer = el('div', undefined, 'card-footer');
   const actions = el('div', undefined, 'card-actions');
   actions.setAttribute('role', 'group');
@@ -123,8 +130,20 @@ function card(item) {
 }
 
 function renderList(target, items) {
-  target.replaceChildren(...items.map(card));
-  bindCarouselViews(items.map(item => item.slug));
+  const controls = target.closest('section')?.querySelector('[data-carousel-browse]');
+  const search = controls?.querySelector('input');
+  const sort = controls?.querySelector('select');
+  const status = controls?.querySelector('[role=status]');
+  const update = () => {
+    const query = (search?.value || '').trim().toLowerCase();
+    const visible = browseCarousels(items, query, sort?.value);
+    target.replaceChildren(...visible.map(card));
+    if (status) status.textContent = visible.length ? `${visible.length} ${visible.length === 1 ? 'carousel' : 'carousels'} · ${sort?.value === 'title' ? 'Title A–Z' : 'Newest first'}` : 'No matching carousels. Try another search.';
+    bindCarouselViews(visible.map(item => item.slug));
+  };
+  search?.addEventListener('input', update);
+  sort?.addEventListener('change', update);
+  update();
 }
 
 function initReader(root) {

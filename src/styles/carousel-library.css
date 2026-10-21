@@ -69,3 +69,21 @@ html body.platform.resources-dashboard .resources-intro-links { display:flex; fl
 html body.platform .carousel-resource-card .resource-copy h3 a { display:block; color:#171717; font:inherit; letter-spacing:inherit; text-decoration:none; }
 html body.platform .carousel-resource-card .resource-copy h3 a:hover { text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:4px; }
 html body.platform .carousel-resource-card .resource-copy h3 a:focus-visible { outline:2px solid #171717; outline-offset:4px; border-radius:3px; }
+
+.carousel-browse { display:flex; flex-wrap:wrap; align-items:end; gap:12px; margin:18px 0; }
+.carousel-browse label { flex:1 1 200px; margin:0; color:#424242; font-size:.8rem; }
+.carousel-browse label+label { flex:0 1 160px; margin:0; }
+.carousel-browse input,.carousel-browse select { display:block; width:100%; min-height:44px; margin-top:6px; }
+.carousel-browse p { flex-basis:100%; margin:0; font-size:.8rem; color:#595959; }
+html body.platform .carousel-added { order:-1; margin-bottom:8px; color:#595959; font-size:.75rem; line-height:1.5; }
+@media(max-width:767px) {
+  html body.platform .carousel-resource-card { display:grid; grid-template-columns:88px minmax(0,1fr); align-items:start; height:auto; }
+  html body.platform .carousel-resource-card .carousel-cover { width:88px; margin:14px 0 0 10px; border-radius:6px; }
+  html body.platform .carousel-resource-card .resource-copy { padding:12px 12px 12px 20px; min-width:0; }
+  html body.platform .carousel-resource-card .resource-copy h3 { font-size:1rem; line-height:1.4; margin:8px 0; }
+  html body.platform .carousel-resource-card .card-topic { min-height:0; font-size:.7rem; }
+  html body.platform .carousel-resource-card .card-topic .topic-icon { display:none; }
+  html body.platform .carousel-resource-card .card-footer { flex-wrap:wrap; gap:6px; }
+  html body.platform .carousel-resource-card .card-open { min-height:44px; padding:8px 10px; font-size:.8rem; }
+  html body.platform .carousel-resource-card .card-stats { flex-wrap:wrap; gap:6px 12px; }
+}
