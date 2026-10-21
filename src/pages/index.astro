@@ -4,8 +4,7 @@ import LiveProjects from '../components/LiveProjects.astro';
 ---
 <Platform title="Independent projects worth discovering" description="Discover featured independent projects on Digivated. Open Explore for resources, full carousels, membership, and project submissions.">
   <div class="compact-home">
-    <header class="compact-home-intro"><p class="eyebrow">Independent ideas. A closer look.</p><h1 id="home-heading">Independent projects.<br/>Worth discovering.</h1><p>Explore featured work from independent creators. Find resources, membership, and more in <strong>Explore</strong>.</p></header>
-    <section id="projects" class="compact-home-projects" aria-labelledby="community-heading"><div class="compact-project-heading"><h2 id="community-heading">Featured projects</h2><a href="/discover">View all projects <span aria-hidden="true">→</span></a></div>
+    <section id="projects" class="compact-home-projects" aria-labelledby="home-heading"><div class="compact-project-heading"><h1 id="home-heading">Featured projects</h1><a href="/discover">View all projects <span aria-hidden="true">→</span></a></div>
       <LiveProjects mode="spotlight" limit={4} compact title="The next discovery is still to come." description="Featured projects and Digivated Picks will appear here after review." href="/submit-project" label="Submit your project"/>
     </section>
   </div>

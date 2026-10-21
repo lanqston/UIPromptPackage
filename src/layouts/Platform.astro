@@ -34,7 +34,7 @@ import '../styles/compact-navigation.css';
 <body class:list={['platform', 'light-theme', { 'home-refresh': path === '/', 'projects-dashboard': path === '/discover', 'resources-dashboard': path === '/resources', 'community-page': path.startsWith('/community') }]}><div class="site-atmosphere" aria-hidden="true"></div><a class="skip" href="#main">Skip to content</a>
 <SiteHeader/>
 <main id="main" tabindex="-1">{path !== '/' && <nav class="site-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>{(path.startsWith('/projects/') || path === '/launch-template') && <><a href="/discover">Projects</a><span aria-hidden="true">/</span></>}{path.startsWith('/resources/') && <><a href="/resources">Resources</a><span aria-hidden="true">/</span></>}{path.startsWith('/carousels/') && <><a href="/carousels">Carousels</a><span aria-hidden="true">/</span></>}<span aria-current="page">{breadcrumb}</span></nav>}<slot/></main>
-<SiteFooter compact={path === '/'}/>
+<SiteFooter/>
 <DiscoveryTools/>
 <script is:inline src="/analytics.js"></script>
 <script is:inline defer src="/_vercel/insights/script.js"></script><script>import '../scripts/monitoring.js'; import '../scripts/platform-ui.js'; import '../scripts/collections.js';</script>
