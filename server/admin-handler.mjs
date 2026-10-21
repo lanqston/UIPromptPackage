@@ -1,3 +1,4 @@
+import { ownerCarouselList, ownerCarouselPreview } from './owner-carousels.mjs';
 import { renderLaunch, launchPublic } from './launch-pages.mjs';
 import { createHmac } from 'node:crypto';
 import { redisClient } from './submissions.mjs';
@@ -59,6 +60,18 @@ export function makeAdminHandler(deps = {}) {
         const offset=Number(url.searchParams.get('offset')||0);
         if(!Number.isInteger(offset)||offset<0||offset>100000)throw new AdminError(400,'Invalid page.');
         return send(200,await listPendingComments(redis,offset));
+      }
+      if(action==='carousels'){
+        const offset=Number(url.searchParams.get('offset')||0);
+        if(!Number.isInteger(offset)||offset<0||offset>100000)throw new AdminError(400,'Invalid page.');
+        return send(200,await ownerCarouselList(redis,offset));
+      }
+      if(action==='preview'&&url.searchParams.get('kind')==='carousel'){
+        const html=await ownerCarouselPreview(redis,url.searchParams.get('id'));
+        res.setHeader('Content-Type','text/html; charset=utf-8');
+        res.setHeader('X-Robots-Tag','noindex, nofollow');
+        res.setHeader('Content-Security-Policy',"default-src 'none'; img-src data:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'");
+        res.statusCode=200;return res.end(html);
       }
       const kind = url.searchParams.get('kind');
       if (!['submission', 'resource', 'product'].includes(kind)) throw new AdminError(400, 'Invalid content type.');

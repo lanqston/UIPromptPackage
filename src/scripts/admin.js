@@ -1,8 +1,8 @@
 import { projectCategories, resourceCategories, normalizeResourceCategory } from '../data/community.mjs';
 const $ = id => document.getElementById(id);
 const state = { csrf: '', kind: 'submission', items: [], next: null, record: null, dirty: false, busy: false, request: 0, editorRequest: 0 };
-const labels = { submission: 'Submissions', resource: 'Articles', product: 'Products', comments: 'Comments' };
-const statusOptions = { submission: ['pending','approved','featured','rejected','archived'], resource: ['draft','published','archived'], product: ['draft','published','archived'], comments: ['pending','approved','rejected'] };
+const labels = { submission: 'Submissions', resource: 'Articles', product: 'Products', comments: 'Comments', carousel: 'Full carousels' };
+const statusOptions = { submission: ['pending','approved','featured','rejected','archived'], resource: ['draft','published','archived'], product: ['draft','published','archived'], comments: ['pending','approved','rejected'], carousel: ['available'] };
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 function message(text, editor = false) { const node = $(editor ? 'owner-editor-status' : 'owner-status'); node.textContent = text; }
 function signedOut() { state.csrf = ''; state.items = []; state.record = null; state.dirty = false; $('owner-editor').close(); $('owner-fields').replaceChildren(); $('owner-private-details').replaceChildren(); $('owner-list').replaceChildren(); $('owner-dashboard').hidden = true; $('owner-login').hidden = false; $('owner-logout').hidden = true; }
@@ -16,8 +16,9 @@ function errorText(error) { return error.name === 'TimeoutError' ? 'The request 
 function filters() {
   const select = $('owner-filter'); select.replaceChildren(new Option('All statuses',''));
   statusOptions[state.kind].forEach(status => select.add(new Option(status[0].toUpperCase()+status.slice(1),status)));
-  $('owner-create').hidden = state.kind === 'submission' || state.kind === 'comments';
+  $('owner-create').hidden = state.kind === 'submission' || state.kind === 'comments' || state.kind === 'carousel';
   $('owner-create').textContent = state.kind === 'resource' ? 'New article' : 'New product';
+  $('owner-carousel-note').hidden = state.kind !== 'carousel';
   $('owner-protected').hidden = state.kind !== 'product';
 }
 function renderList() {
@@ -26,6 +27,10 @@ function renderList() {
   const list = $('owner-list'); list.replaceChildren();
   for (const record of items) {
     const row = element('article', undefined, 'owner-row'); const copy = element('div');
+    if(state.kind==='carousel'){
+      copy.append(element('span','Owner access','tag'),element('h2',record.title),element('p',`${record.slideCount} slides · ${record.summary}`,'quiet'));
+      const read=element('a','Read full carousel','button');read.href=`/api/admin?action=preview&kind=carousel&id=${encodeURIComponent(record.id)}`;read.target='_blank';read.rel='noopener';row.append(copy,read);list.append(row);continue;
+    }
     if(state.kind==='comments'){
       const packetFeedback=record.purpose==='packet-feedback';
       copy.append(element('span',record.status,'tag'),element('h2',packetFeedback?'Packet trial feedback':`${record.type==='project'?'Project':'Resource'} comment`),element('p',`${record.name} · ${record.itemId} · ${record.date?.slice(0,10)}`,'quiet'),element('p',record.body));
@@ -40,13 +45,15 @@ function renderList() {
     row.append(copy,edit); list.append(row);
   }
   $('owner-count').textContent = `${items.length} shown · ${state.items.length} ${labels[state.kind].toLowerCase()} loaded`;
-  $('owner-empty').hidden = items.length > 0; $('owner-more').hidden = state.next === null;
+  $('owner-empty').hidden = items.length > 0;
+  $('owner-empty').querySelector('h2').textContent=state.kind==='carousel'?'No full carousels found.':'Nothing here just yet.';
+  $('owner-empty').querySelector('p').textContent=state.kind==='carousel'?'Published carousels will appear here automatically. If you just added one, choose Refresh.':'New submissions and saved content will appear here.'; $('owner-more').hidden = state.next === null;
 }
 async function load(more = false) {
   const request = ++state.request; const kind = state.kind;
   message('Loading your content…'); $('owner-more').disabled = true;
   try {
-    const data = await api(kind==='comments'?`?action=comments&offset=${more ? state.next : 0}`:`?action=list&kind=${kind}&offset=${more ? state.next : 0}`);
+    const data = await api(kind==='carousel'?`?action=carousels&offset=${more ? state.next : 0}`:kind==='comments'?`?action=comments&offset=${more ? state.next : 0}`:`?action=list&kind=${kind}&offset=${more ? state.next : 0}`);
     if (request !== state.request) return;
     state.items = more ? [...state.items,...data.items] : data.items; state.next = data.next; renderList(); message('');
   } catch (error) { message(errorText(error)); }

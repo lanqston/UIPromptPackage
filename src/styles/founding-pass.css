@@ -51,3 +51,5 @@ html body.platform.light-theme .founding-carousel-slide p { max-width:660px; col
  .founding-carousel-controls [role=status] { font-size:.75rem; }
  .founding-section { padding-block:30px; }
 }
+
+.founding-purchase-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-left:24px}.founding-purchase-steps li{padding-left:8px}.founding-purchase-steps p{margin-top:10px}@media(max-width:700px){.founding-purchase-steps{grid-template-columns:1fr}}

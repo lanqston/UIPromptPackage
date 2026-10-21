@@ -233,7 +233,7 @@ function renderDetail(root, payload) {
   controls.append(previous, position, next);
   reader.append(track, controls);
   const transcript = el('details', undefined, 'carousel-viewer-transcript');
-  transcript.append(el('summary', 'Read the preview slides as text'));
+  transcript.append(el('summary', payload.member ? 'Read all slides as text' : 'Read the preview slides as text'));
   for (const slide of item.slides) {
     const section = el('section');
     section.append(el('h3', `Slide ${slide.number}`), el('p', slide.text));
@@ -289,20 +289,25 @@ async function bindAccess() {
       if (status) status.textContent = 'Enter a license key or a purchase email.';
       return;
     }
+    const button=form.querySelector('button[type=submit]');
+    if(button.disabled)return;
+    button.disabled=true;
     if (status) status.textContent = 'Checking your purchase…';
     try {
       const response = await fetch('/api/founding-access', {
         method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(license ? { license } : { email }),
+        body: JSON.stringify(license ? { license } : { email }), signal:AbortSignal.timeout(20000),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) { if (status) status.textContent = data.error || 'That purchase could not be verified.'; return; }
       location.reload();
     } catch { if (status) status.textContent = 'We couldn’t check founding access right now. Please try again shortly.'; }
+    finally { button.disabled=false; }
   });
   document.getElementById('founding-sign-out')?.addEventListener('click', async () => {
-    await fetch('/api/founding-logout', { method: 'POST', credentials: 'same-origin' });
-    location.reload();
+    const status=document.getElementById('founding-access-status');
+    try{const response=await fetch('/api/founding-logout', { method: 'POST', credentials: 'same-origin', signal:AbortSignal.timeout(15000) });if(!response.ok)throw new Error();location.reload();}
+    catch{if(status)status.textContent='We couldn’t sign you out. Please try again.';}
   });
 }
 
