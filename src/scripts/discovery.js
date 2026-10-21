@@ -13,7 +13,7 @@ function renderSearch() {
     const arrow=make('span','↗','unified-result-arrow');arrow.setAttribute('aria-hidden','true');a.append(mark,copy,arrow);return a;
   }));
   $('#unified-search-empty').hidden=found.length>0;
-  $('#unified-search-status').textContent=(input.value.trim()?`${found.length} result${found.length===1?'':'s'}${found.length===8?' shown':''}`:'Start somewhere interesting')+(loading?' · Loading projects…':projectsUnavailable?' · Additional content is temporarily unavailable.':'');
+  $('#unified-search-status').textContent=(input.value.trim()?`${found.length} result${found.length===1?'':'s'}${found.length===8?' shown':''}`:'Start somewhere interesting')+(loading?' · Loading content…':projectsUnavailable?' · Additional content is temporarily unavailable.':'');
   for(const button of search.querySelectorAll('[data-search-type]'))button.setAttribute('aria-pressed',String(button.dataset.searchType===scope));
 }
 async function collection(url) {
@@ -24,11 +24,12 @@ async function collection(url) {
 let requested=false;
 async function enrichSearch() {
   if(requested)return;requested=true;loading=true;renderSearch();
-  const [projects,resources] = await Promise.allSettled([collection('/api/projects'),collection('/api/content?type=resource')]);
+  const [projects,resources,carousels] = await Promise.allSettled([collection('/api/projects'),collection('/api/content?type=resource'),collection('/api/carousels')]);
   const extra=[];
   if(projects.status==='fulfilled')for(const p of projects.value)if(p.id&&p.name)extra.push({type:'project',title:p.name,description:p.description,category:p.category||'Independent project',href:safeSearchHref(p.pageUrl)||safeSearchHref(p.url)});
   if(resources.status==='fulfilled')for(const r of resources.value)if(safeSearchHref(r.url))extra.push({type:'resource',title:r.title,description:r.description,category:r.category,href:r.url});
-  projectsUnavailable=projects.status==='rejected'||resources.status==='rejected';records=dedupe([...extra,...records]);loading=false;renderSearch();
+  if(carousels.status==='fulfilled')for(const item of carousels.value)if(item.slug&&item.title)extra.push({type:'resource',title:item.title,description:item.summary,category:'Educational carousel',href:`/carousels/${encodeURIComponent(item.slug)}`});
+  projectsUnavailable=[projects,resources,carousels].some(result=>result.status==='rejected');records=dedupe([...extra,...records]);loading=false;renderSearch();
 }
 function openSearch(trigger) {if(document.querySelector('dialog[open]'))return;searchTrigger=trigger||document.activeElement;search.showModal();input.focus();renderSearch();enrichSearch();}
 document.querySelectorAll('[data-open-search]').forEach(button=>button.addEventListener('click',()=>openSearch(button)));

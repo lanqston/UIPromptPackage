@@ -12,7 +12,7 @@ export function validateCollections(data) {
     if(!c||typeof c.id!=='string'||!/^[a-zA-Z0-9-]{1,100}$/.test(c.id)||ids.has(c.id)||!Array.isArray(c.items))throw new Error('Invalid collection in backup.');
     ids.add(c.id);const seen=new Set();const items=[];
     for(const item of c.items){
-      if(!item||!['project','resource'].includes(item.type)||typeof item.id!=='string'||!/^[a-z0-9][a-z0-9-]{0,99}$/.test(item.id))throw new Error('Invalid saved item in backup.');
+      if(!item||!['project','resource','carousel'].includes(item.type)||typeof item.id!=='string'||!/^[a-z0-9][a-z0-9-]{0,99}$/.test(item.id))throw new Error('Invalid saved item in backup.');
       const key=itemKey(item);if(!seen.has(key)){seen.add(key);items.push({type:item.type,id:item.id});count++;}
     }
     return {id:c.id,name:c.id==='saved'?'Saved items':collectionName(c.name),items};

@@ -33,7 +33,7 @@ test('Digivated discovery, view counts, free prompt, and purchase access', async
   expect(viewsResponse.status()).toBe(200);
   expect((await viewsResponse.json()).views).toBeNull();
   await page.goto('https://digivated.com/ui-ux-prompt-packet');
-  await page.getByRole('link', { name: 'Try 3 free prompts', exact: true }).click();
+  await page.getByRole('link', { name: 'Try 3 free prompts', exact: true }).first().click();
   await expect(page.locator('#prompt-list .prompt-row')).toHaveCount(3);
   await page.locator('[data-open="1"]').click();
   await expect(page.locator('#prompt-dialog')).toBeVisible();
