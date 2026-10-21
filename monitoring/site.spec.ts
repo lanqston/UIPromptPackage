@@ -8,7 +8,14 @@ test('Digivated discovery, view counts, free prompt, and purchase access', async
   const response = await page.goto('https://digivated.com/');
   expect(response?.status()).toBe(200);
   await expect(page.locator('#home-heading')).toBeVisible();
-  await expect(page.locator('.hero-copy').getByRole('link', { name: /^Browse (?:free guides|resources)$/ })).toHaveAttribute('href', '/resources');
+  if(await page.locator('.explore-menu').count()){
+    await page.locator('.explore-menu summary').click();
+    await expect(page.locator('#explore-navigation').getByRole('link',{name:/^Resources/})).toHaveAttribute('href','/resources');
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.explore-menu')).not.toHaveAttribute('open','');
+  }else{
+    await expect(page.locator('.hero-copy').getByRole('link', { name: /^Browse (?:free guides|resources)$/ })).toHaveAttribute('href', '/resources');
+  }
   const resourcesResponse = await page.goto('https://digivated.com/resources');
   expect(resourcesResponse?.status()).toBe(200);
   await expect(page.getByRole('heading', { name: 'Resources', exact: true })).toBeVisible();

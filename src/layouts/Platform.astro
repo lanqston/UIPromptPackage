@@ -27,13 +27,14 @@ import '../styles/studio.css';
 import '../styles/discovery.css';
 import '../styles/resource-expansion.css';
 import '../styles/readability.css';
+import '../styles/compact-navigation.css';
 ---
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><title>{title} · Digivated</title><meta name="description" content={description}/><meta name="theme-color" content="#ffffff"/><link rel="icon" href="/favicon.svg"/><link rel="canonical" href={new URL(path, 'https://digivated.com')}/><meta property="og:title" content={`${title} · Digivated`}/><meta property="og:description" content={description}/><meta property="og:image" content="https://digivated.com/digivated-tech-markets-banner.png"/></head>
 <body class:list={['platform', 'light-theme', { 'home-refresh': path === '/', 'projects-dashboard': path === '/discover', 'resources-dashboard': path === '/resources', 'community-page': path.startsWith('/community') }]}><div class="site-atmosphere" aria-hidden="true"></div><a class="skip" href="#main">Skip to content</a>
 <SiteHeader/>
 <main id="main" tabindex="-1">{path !== '/' && <nav class="site-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>{(path.startsWith('/projects/') || path === '/launch-template') && <><a href="/discover">Projects</a><span aria-hidden="true">/</span></>}{path.startsWith('/resources/') && <><a href="/resources">Resources</a><span aria-hidden="true">/</span></>}{path.startsWith('/carousels/') && <><a href="/carousels">Carousels</a><span aria-hidden="true">/</span></>}<span aria-current="page">{breadcrumb}</span></nav>}<slot/></main>
-<SiteFooter/>
+<SiteFooter compact={path === '/'}/>
 <DiscoveryTools/>
 <script is:inline src="/analytics.js"></script>
 <script is:inline defer src="/_vercel/insights/script.js"></script><script>import '../scripts/monitoring.js'; import '../scripts/platform-ui.js'; import '../scripts/collections.js';</script>

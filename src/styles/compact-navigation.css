@@ -1,0 +1,37 @@
+/* One shared menu, with the same destinations on desktop and mobile. */
+html body.platform.light-theme .compact-site-header { position:sticky; inset:auto; top:12px; z-index:100; width:calc(100% - 32px); max-width:1120px; margin:12px auto 0; padding:0; border:1px solid #dedede; border-radius:16px; background:#ffffffed; backdrop-filter:blur(16px); box-shadow:0 4px 20px #00000005; }
+html body.platform.light-theme .compact-site-header .header-inner { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:68px; padding:12px 20px; }
+.compact-header-actions { display:flex; align-items:center; gap:10px; }
+html body.platform.light-theme .compact-site-header .header-search { display:flex; align-items:center; justify-content:center; width:44px; min-width:44px; height:44px; padding:0; margin:0; border:1px solid #d5d5d5; border-radius:11px; background:#fff; color:#333; }
+.explore-menu { position:relative; }
+.explore-menu>summary { display:flex; align-items:center; justify-content:center; gap:12px; min-height:44px; padding:10px 16px; border:1px solid #bdbdbd; border-radius:11px; background:linear-gradient(#fff,#f1f1f1); color:#171717; font-size:.9rem; font-weight:600; cursor:pointer; list-style:none; }
+.explore-menu>summary::-webkit-details-marker { display:none; }
+.explore-menu[open]>summary svg { transform:rotate(180deg); }
+html body.platform.light-theme .explore-menu nav { position:absolute; right:0; top:calc(100% + 16px); display:block; width:min(420px,calc(100vw - 48px)); max-height:calc(100dvh - 116px); overflow-y:auto; overscroll-behavior:contain; padding:18px; border:1px solid #d5d5d5; border-radius:16px; background:#fff; box-shadow:0 18px 48px #00000012; color:#171717; }
+.explore-label { margin:0 8px 10px; color:#595959; font-size:.65rem; font-weight:650; text-transform:uppercase; letter-spacing:.08em; }
+html body.platform.light-theme .explore-features>a { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 10px; min-height:66px; text-decoration:none; border-radius:10px; background:transparent; color:#171717; }
+.explore-features strong { display:block; font-size:.9rem; font-weight:600; }
+.explore-features small { display:block; color:#595959; font-size:.78rem; line-height:1.5; margin-top:3px; }
+html body.platform.light-theme .explore-features>a:hover,html body.platform.light-theme .explore-features>a[aria-current=page] { background:#f3f3f3; color:#171717; }
+html body.platform.light-theme .explore-menu .explore-member-access { padding:14px 10px; margin-top:8px; min-height:44px; border-top:1px solid #e2e2e2; border-radius:0; font-size:.8rem; line-height:1.5; font-weight:600; color:#171717; }
+.explore-utilities { display:flex; gap:2px 12px; flex-wrap:wrap; border-top:1px solid #e2e2e2; padding-top:8px; }
+html body.platform.light-theme .explore-utilities>a { display:flex; min-height:40px; padding:8px; font-size:.75rem; color:#505050; background:transparent; }
+.explore-menu :focus-visible { outline:2px solid #333; outline-offset:3px; }
+/* Compact homepage retains the existing project cards and live data source. */
+html body.platform.light-theme.home-refresh main { max-width:1120px; padding:38px 24px 36px; }
+.compact-home { max-width:100%; }
+.compact-home-intro { max-width:640px; margin:0 0 34px; }
+html body.platform.light-theme .compact-home-intro .eyebrow { font-size:.65rem; margin:0 0 12px; color:#595959; }
+html body.platform.light-theme .compact-home-intro h1 { font-size:clamp(1.9rem,3.6vw,2.8rem); line-height:1.16; font-weight:550; letter-spacing:-.04em; margin:0 0 14px; color:#171717; }
+html body.platform.light-theme .compact-home-intro>p:last-child { max-width:550px; font-size:.92rem; line-height:1.7; color:#505050; margin:0; }
+.compact-project-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px; }
+html body.platform.light-theme .compact-project-heading h2 { font-size:1.25rem; margin:0; letter-spacing:-.025em; }
+.compact-project-heading>a { flex-shrink:0; font-size:.8rem; text-decoration:none; color:#424242; }
+html body.platform.light-theme .compact-home-projects .project-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin:0; }
+html body.platform.light-theme .compact-home-projects .project-card { min-height:0; }
+html body.platform.light-theme .compact-home-projects .project-card h3 { font-size:1.1rem; line-height:1.4; }
+.compact-home-footer { max-width:1120px; margin:0 auto; padding:22px 24px 30px; display:flex; justify-content:space-between; align-items:center; gap:12px 24px; flex-wrap:wrap; border-top:1px solid #dedede; color:#595959; font-size:.75rem; }
+.compact-home-footer nav { display:flex; flex-wrap:wrap; gap:8px 20px; }
+.compact-home-footer nav a { padding:4px 0; min-height:32px; font-size:.75rem; color:#505050; }
+@media(max-width:760px) { html body.platform.light-theme .compact-home-projects .project-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:520px) { html body.platform.light-theme .compact-site-header .header-inner { min-height:62px; padding:9px 12px; } html body.platform.light-theme .compact-site-header .platform-brand { font-size:1.05rem; } html body.platform.light-theme.home-refresh main { padding:28px 20px 28px; } .compact-home-intro { margin-bottom:28px; } html body.platform.light-theme .compact-home-projects .project-grid { grid-template-columns:1fr; } .compact-project-heading { gap:10px; } .compact-project-heading>a { font-size:.75rem; } .compact-home-footer { margin:0 20px; padding:18px 0 28px; } }

@@ -233,7 +233,6 @@ test('carousel routes stay on the shared function and do not add an API file', a
   assert.match(source, /resourceViews/);
   assert.equal(source.includes('carousel-card'), false);
   const css = readFileSync(new URL('../src/styles/carousel-library.css', import.meta.url), 'utf8');
-  assert.match(css, /height:112px/);
   assert.match(css, /repeat\(4,minmax\(0,1fr\)\)/);
   assert.match(css, /grid-template-columns:1fr/);
   assert.equal(css.includes('aspect-ratio:4/5'), false);

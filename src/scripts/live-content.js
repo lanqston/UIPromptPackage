@@ -100,7 +100,7 @@ async function loadProjects(){
  const shelves=[...document.querySelectorAll('[data-live-projects]')];if(!shelves.length)return;
  try{
   const projects=await collection('/api/projects');
-  for(const shelf of shelves){const mode=shelf.dataset.liveProjects;let selected=projects;if(mode==='featured')selected=projects.filter(p=>p.status==='featured');if(mode==='picks')selected=projects.filter(p=>p.pick);renderShelf(shelf,selected,projectCard);if(shelf.hasAttribute('data-project-filters'))setupProjectFilters(shelf);}
+  for(const shelf of shelves){const mode=shelf.dataset.liveProjects;let selected=projects;if(mode==='featured')selected=projects.filter(p=>p.status==='featured');if(mode==='picks')selected=projects.filter(p=>p.pick);if(mode==='spotlight')selected=projects.filter(p=>p.status==='featured'||p.pick);renderShelf(shelf,selected,projectCard);if(shelf.hasAttribute('data-project-filters'))setupProjectFilters(shelf);}
   document.dispatchEvent(new Event('digivated:collection-updated'));
   observeProjectViews();
  }catch{for(const shelf of shelves){shelf.removeAttribute('aria-busy');const empty=shelf.querySelector('[data-live-empty]');empty.hidden=true;const status=shelf.querySelector('[data-live-status]');if(status)status.textContent='Projects are temporarily unavailable. Please try again shortly.';}}
