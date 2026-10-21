@@ -4,15 +4,15 @@ html body.platform .carousel-library-grid,
 html body.platform .carousel-shelf-list,
 html body.platform.light-theme.resources-dashboard .carousel-shelf-list { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; align-items:stretch; margin-top:0; }
 html body.platform .carousel-resource-card { position:relative; display:flex; flex-direction:column; grid-column:auto; min-width:0; height:100%; overflow:hidden; }
-html body.platform .carousel-cover { display:block; height:112px; aspect-ratio:auto; overflow:hidden; flex:none; background:#ececec; }
-html body.platform .carousel-cover img { display:block; width:100%; height:100%; object-fit:cover; object-position:center top; }
+html body.platform .carousel-cover { display:block; height:auto; aspect-ratio:1 / 1; overflow:hidden; flex:none; background:#fff; }
+html body.platform .carousel-cover img { display:block; width:100%; height:100%; object-fit:contain; object-position:center; }
 html body.platform .carousel-resource-card .resource-copy,
 html body.platform.light-theme.resources-dashboard .carousel-resource-card .resource-copy { display:flex; flex-direction:column; flex:1; padding:14px 14px 12px; }
 html body.platform .carousel-resource-card .resource-copy h3,
 html body.platform .carousel-library-grid > .resource-card:first-child .resource-copy h3,
 html body.platform .carousel-shelf-list > .resource-card:first-child .resource-copy h3,
 html body.platform.light-theme.resources-dashboard .resource-card.carousel-resource-card .resource-copy h3,
-html body.platform.light-theme.resources-dashboard .carousel-shelf-list > .resource-card:first-child .resource-copy h3 { display:block; -webkit-line-clamp:unset; overflow:visible; margin:12px 0 10px; min-height:0; max-width:none; font-size:1.0625rem; font-weight:600; line-height:1.45; letter-spacing:-.015em; overflow-wrap:anywhere; text-wrap:pretty; }
+html body.platform.light-theme.resources-dashboard .carousel-shelf-list > .resource-card:first-child .resource-copy h3 { display:block; -webkit-line-clamp:unset; overflow:visible; margin:12px 0 10px; min-height:0; max-height:none; height:auto; white-space:normal; max-width:none; font-size:1.0625rem; font-weight:600; line-height:1.45; letter-spacing:-.015em; overflow-wrap:anywhere; text-wrap:pretty; }
 html body.platform .carousel-resource-card .resource-description,
 html body.platform.light-theme.resources-dashboard .carousel-resource-card .resource-description { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; min-height:2.9em; margin:0 0 10px; font-size:.8125rem; line-height:1.45; }
 html body.platform .carousel-resource-card .card-stats,
@@ -58,7 +58,7 @@ html body.platform.resources-dashboard .resources-intro-links { display:flex; fl
   html body.platform .carousel-library-grid,
   html body.platform .carousel-shelf-list,
   html body.platform.light-theme.resources-dashboard .carousel-shelf-list { grid-template-columns:1fr; }
-  html body.platform .carousel-cover { height:168px; }
+  html body.platform .carousel-cover { height:auto; }
   .carousel-locked,.carousel-access { padding:18px; }
   .carousel-viewer-slide img { width:100%; }
 }
