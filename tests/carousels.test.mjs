@@ -233,7 +233,10 @@ test('carousel routes stay on the shared function and do not add an API file', a
   assert.match(source, /resourceViews/);
   assert.equal(source.includes('carousel-card'), false);
   const css = readFileSync(new URL('../src/styles/carousel-library.css', import.meta.url), 'utf8');
-  assert.match(css, /height:112px/);
+  // Covers now show the full square artwork instead of the old 112px crop.
+  assert.match(css, /\.carousel-cover\s*\{[^}]*height:auto;[^}]*aspect-ratio:1\s*\/\s*1;/);
+  assert.match(css, /\.carousel-cover img\s*\{[^}]*object-fit:contain;/);
+  assert.match(css, /\.resource-copy h3\s*\{[^}]*-webkit-line-clamp:unset;[^}]*overflow:visible;/);
   assert.match(css, /repeat\(4,minmax\(0,1fr\)\)/);
   assert.match(css, /grid-template-columns:1fr/);
   assert.equal(css.includes('aspect-ratio:4/5'), false);
