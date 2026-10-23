@@ -11,7 +11,7 @@ if(state){
  async function boot(){
   const {state:authState,client,session,email}=await accountSession();
   if(location.hash)history.replaceState(null,'',location.pathname+location.search);
-  document.getElementById('account-sign-out').onclick=async()=>{await client.auth.signOut();location.replace('/login');};
+  document.getElementById('account-sign-out').onclick=async()=>{const {error}=await client.auth.signOut();if(error){show('Could not sign out. Please try again.');return;}location.replace('/login');};
   if(authState==='signed-out'||authState==='unverified'){
    form.hidden=false;
    show(callbackError?'That link has expired or was already used. Request a new one below.':authState==='unverified'?'Use an emailed sign-in link to finish verifying this account.':'Sign in to view your projects. You can browse the site without an account.');
@@ -29,5 +29,5 @@ if(state){
    list.innerHTML=data.submissions.length?data.submissions.map(item=>`<article class="account-item"><h3>${escape(item.name)}</h3><p class="quiet">Submitted ${escape(new Date(item.date).toLocaleDateString())} · ${escape(item.status==='featured'?'Featured':item.status==='approved'?'Published':item.status==='rejected'?'Not selected':item.status==='archived'?'Archived':'In review')}</p>${item.feedback?`<p class="review-feedback"><strong>Review feedback</strong><br>${escape(item.feedback)}</p>`:'<p>There is no review feedback yet.</p>'}</article>`).join(''):'<p>No submissions are linked to this account yet. Browse featured projects or submit with this verified email to track your work here.</p>';
   }catch{list.textContent='Your submissions could not be loaded. Try again shortly.';}
  }
- boot().catch(error=>{if(location.hash)history.replaceState(null,'',location.pathname+location.search);form.hidden=true;show(error.message||'Accounts are temporarily unavailable.');});
+ boot().catch(error=>{if(location.hash)history.replaceState(null,'',location.pathname+location.search);form.hidden=false;show(error.message||'Accounts are temporarily unavailable.');});
 }
