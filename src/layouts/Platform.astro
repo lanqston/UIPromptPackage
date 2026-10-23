@@ -28,11 +28,13 @@ import '../styles/discovery.css';
 import '../styles/resource-expansion.css';
 import '../styles/readability.css';
 import '../styles/compact-navigation.css';
+import '../styles/account-announcement.css';
 ---
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><title>{title} · Digivated</title><meta name="description" content={description}/><meta name="theme-color" content="#ffffff"/><link rel="icon" href="/favicon.svg"/><link rel="canonical" href={new URL(path, 'https://digivated.com')}/><meta property="og:title" content={`${title} · Digivated`}/><meta property="og:description" content={description}/><meta property="og:image" content="https://digivated.com/digivated-tech-markets-banner.png"/></head>
 <body class:list={['platform', 'light-theme', { 'home-refresh': path === '/', 'projects-dashboard': path === '/discover', 'resources-dashboard': path === '/resources', 'community-page': path.startsWith('/community') }]}><div class="site-atmosphere" aria-hidden="true"></div><a class="skip" href="#main">Skip to content</a>
 <SiteHeader/>
+{path !== '/login' && path !== '/account' && <aside id="account-announcement" class="account-announcement" aria-label="Digivated accounts announcement" hidden><div class="account-announcement-copy"><span class="account-announcement-tag">NEW ON DIGIVATED</span><strong>Accounts are live.</strong><span>Sign up to track your projects and see feedback in one place. You can still browse without an account.</span></div><div class="account-announcement-actions"><a href="/login?mode=signup">Create an account <span aria-hidden="true">→</span></a><button type="button" id="account-announcement-close" aria-label="Dismiss accounts announcement">×</button></div></aside>}
 <main id="main" tabindex="-1">{path !== '/' && <nav class="site-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span>{(path.startsWith('/projects/') || path === '/launch-template') && <><a href="/discover">Projects</a><span aria-hidden="true">/</span></>}{path.startsWith('/resources/') && <><a href="/resources">Resources</a><span aria-hidden="true">/</span></>}{path.startsWith('/carousels/') && <><a href="/carousels">Carousels</a><span aria-hidden="true">/</span></>}<span aria-current="page">{breadcrumb}</span></nav>}<slot/></main>
 <SiteFooter/>
 <DiscoveryTools/>
@@ -40,6 +42,7 @@ import '../styles/compact-navigation.css';
 <script is:inline defer src="/_vercel/insights/script.js"></script><script>import '../scripts/monitoring.js'; import '../scripts/platform-ui.js'; import '../scripts/collections.js';</script>
 <script>import '../scripts/motion.js'; import '../scripts/card-actions.js';</script>
 <script>import '../scripts/resource-views.js';</script>
+<script>import '../scripts/account-announcement.js';</script>
 {path === '/' && <script is:inline>if(location.hash.includes('access_token='))location.replace('/account'+location.hash);</script>}
 <script>import '../scripts/studio.js';</script>
 </body></html>
