@@ -5,6 +5,7 @@ import { redisClient } from './submissions.mjs';
 import { AdminError, adminConfig, verifyPassword, createSession, requireSession, jsonBody, cookie, tokenFrom, digest } from './admin-auth.mjs';
 import { isDigivatedPick, listRecords, saveRecord, storageKey, validId } from './admin-store.mjs';
 import { listPendingComments, moderateComment } from './card-interactions.mjs';
+import { listAccounts, setAccountBan } from './admin-accounts.mjs';
 const LIMIT = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],900) end; return n`;
 export function makeAdminHandler(deps = {}) {
   return async (req, res) => {
@@ -48,6 +49,7 @@ export function makeAdminHandler(deps = {}) {
           if(result!==1)throw new AdminError(result===-2?400:404,result===-2?'This item is no longer published.':'This comment is no longer pending. Refresh the list.');
           return send(200,{ok:true});
         }
+        if (body.action === 'account-status') return send(200, await setAccountBan(env, body.id, body.operation, deps.accountClient));
         if (body.action !== 'save' || !['submission', 'resource', 'product'].includes(body.kind) || !body.record || typeof body.record !== 'object') throw new AdminError(400, 'Invalid dashboard action.');
         const record = await saveRecord(redis, body.kind, body.record);
         return send(200, { ok: true, record });
@@ -61,6 +63,7 @@ export function makeAdminHandler(deps = {}) {
         if(!Number.isInteger(offset)||offset<0||offset>100000)throw new AdminError(400,'Invalid page.');
         return send(200,await listPendingComments(redis,offset));
       }
+      if (action === 'accounts') return send(200, await listAccounts(env, Number(url.searchParams.get('page') || 1), deps.accountClient));
       if(action==='carousels'){
         const offset=Number(url.searchParams.get('offset')||0);
         if(!Number.isInteger(offset)||offset<0||offset>100000)throw new AdminError(400,'Invalid page.');

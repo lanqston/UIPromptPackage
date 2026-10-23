@@ -1,8 +1,8 @@
 import { projectCategories, resourceCategories, normalizeResourceCategory } from '../data/community.mjs';
 const $ = id => document.getElementById(id);
 const state = { csrf: '', kind: 'submission', items: [], next: null, record: null, dirty: false, busy: false, request: 0, editorRequest: 0 };
-const labels = { submission: 'Submissions', resource: 'Articles', product: 'Products', comments: 'Comments', carousel: 'Full carousels' };
-const statusOptions = { submission: ['pending','approved','featured','rejected','archived'], resource: ['draft','published','archived'], product: ['draft','published','archived'], comments: ['pending','approved','rejected'], carousel: ['available'] };
+const labels = { submission: 'Submissions', resource: 'Articles', product: 'Products', comments: 'Comments', carousel: 'Full carousels', accounts: 'Accounts' };
+const statusOptions = { submission: ['pending','approved','featured','rejected','archived'], resource: ['draft','published','archived'], product: ['draft','published','archived'], comments: ['pending','approved','rejected'], carousel: ['available'], accounts: ['verified','unverified','blocked'] };
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 function message(text, editor = false) { const node = $(editor ? 'owner-editor-status' : 'owner-status'); node.textContent = text; }
 function signedOut() { state.csrf = ''; state.items = []; state.record = null; state.dirty = false; $('owner-editor').close(); $('owner-fields').replaceChildren(); $('owner-private-details').replaceChildren(); $('owner-list').replaceChildren(); $('owner-dashboard').hidden = true; $('owner-login').hidden = false; $('owner-logout').hidden = true; }
@@ -16,17 +16,32 @@ function errorText(error) { return error.name === 'TimeoutError' ? 'The request 
 function filters() {
   const select = $('owner-filter'); select.replaceChildren(new Option('All statuses',''));
   statusOptions[state.kind].forEach(status => select.add(new Option(status[0].toUpperCase()+status.slice(1),status)));
-  $('owner-create').hidden = state.kind === 'submission' || state.kind === 'comments' || state.kind === 'carousel';
+  $('owner-create').hidden = state.kind === 'submission' || state.kind === 'comments' || state.kind === 'carousel' || state.kind === 'accounts';
   $('owner-create').textContent = state.kind === 'resource' ? 'New article' : 'New product';
   $('owner-carousel-note').hidden = state.kind !== 'carousel';
   $('owner-protected').hidden = state.kind !== 'product';
+  $('owner-search-note').hidden = state.kind !== 'accounts';
+  $('owner-search').placeholder = state.kind === 'accounts' ? 'Email or account ID' : 'Name, title, or creator';
 }
+function accountStatus(record) { return record.bannedUntil && new Date(record.bannedUntil) > new Date() ? 'blocked' : record.confirmedAt ? 'verified' : 'unverified'; }
 function renderList() {
   const query = $('owner-search').value.trim().toLowerCase(); const status = $('owner-filter').value;
-  const items = state.items.filter(r => (!status || r.status === status) && `${r.title || r.name || ''} ${r.creator || ''} ${r.body || ''} ${r.itemId || ''}`.toLowerCase().includes(query));
+  const items = state.items.filter(r => (!status || (state.kind === 'accounts' ? accountStatus(r) : r.status) === status) && `${r.title || r.name || ''} ${r.creator || ''} ${r.body || ''} ${r.itemId || ''} ${r.email || ''} ${r.id || ''}`.toLowerCase().includes(query));
   const list = $('owner-list'); list.replaceChildren();
   for (const record of items) {
     const row = element('article', undefined, 'owner-row'); const copy = element('div');
+    if(state.kind==='accounts'){
+      const blocked=accountStatus(record)==='blocked';
+      copy.append(element('span',accountStatus(record),'tag'),element('h2',record.email || 'No email address'),element('p',`Joined ${record.createdAt?.slice(0,10) || 'unknown'} · Last sign-in ${record.lastSignInAt?.slice(0,10) || 'never'}`,'quiet'),element('p',`ID: ${record.id}${record.providers.length ? ` · ${record.providers.join(', ')}` : ''}`,'quiet'));
+      const button=element('button',blocked?'Restore sign-in':'Block sign-in','button');button.type='button';
+      button.addEventListener('click',async()=>{
+        if(!confirm(`${blocked?'Restore sign-in for':'Block future sign-ins for'} ${record.email || record.id}?`))return;
+        button.disabled=true;message('Updating account…');
+        try{const data=await api('',{action:'account-status',id:record.id,operation:blocked?'unblock':'block'});state.items=state.items.map(item=>item.id===record.id?data.user:item);renderList();message(blocked?'Sign-in restored.':'Future sign-ins blocked. Existing access tokens may remain valid until they expire.');}
+        catch(error){button.disabled=false;message(errorText(error));}
+      });
+      row.append(copy,button);list.append(row);continue;
+    }
     if(state.kind==='carousel'){
       copy.append(element('span','Owner access','tag'),element('h2',record.title),element('p',`${record.slideCount} slides · ${record.summary}`,'quiet'));
       const read=element('a','Read full carousel','button');read.href=`/api/admin?action=preview&kind=carousel&id=${encodeURIComponent(record.id)}`;read.target='_blank';read.rel='noopener';row.append(copy,read);list.append(row);continue;
@@ -46,14 +61,14 @@ function renderList() {
   }
   $('owner-count').textContent = `${items.length} shown · ${state.items.length} ${labels[state.kind].toLowerCase()} loaded`;
   $('owner-empty').hidden = items.length > 0;
-  $('owner-empty').querySelector('h2').textContent=state.kind==='carousel'?'No full carousels found.':'Nothing here just yet.';
-  $('owner-empty').querySelector('p').textContent=state.kind==='carousel'?'Published carousels will appear here automatically. If you just added one, choose Refresh.':'New submissions and saved content will appear here.'; $('owner-more').hidden = state.next === null;
+  $('owner-empty').querySelector('h2').textContent=state.kind==='carousel'?'No full carousels found.':state.kind==='accounts'?'No accounts found in this page.':'Nothing here just yet.';
+  $('owner-empty').querySelector('p').textContent=state.kind==='carousel'?'Published carousels will appear here automatically. If you just added one, choose Refresh.':state.kind==='accounts'?'Clear filters or load more accounts.':'New submissions and saved content will appear here.'; $('owner-more').hidden = state.next === null;
 }
 async function load(more = false) {
   const request = ++state.request; const kind = state.kind;
-  message('Loading your content…'); $('owner-more').disabled = true;
+  message(kind==='accounts'?'Loading accounts…':'Loading your content…'); $('owner-more').disabled = true;
   try {
-    const data = await api(kind==='carousel'?`?action=carousels&offset=${more ? state.next : 0}`:kind==='comments'?`?action=comments&offset=${more ? state.next : 0}`:`?action=list&kind=${kind}&offset=${more ? state.next : 0}`);
+    const data = await api(kind==='accounts'?`?action=accounts&page=${more ? state.next : 1}`:kind==='carousel'?`?action=carousels&offset=${more ? state.next : 0}`:kind==='comments'?`?action=comments&offset=${more ? state.next : 0}`:`?action=list&kind=${kind}&offset=${more ? state.next : 0}`);
     if (request !== state.request) return;
     state.items = more ? [...state.items,...data.items] : data.items; state.next = data.next; renderList(); message('');
   } catch (error) { message(errorText(error)); }
