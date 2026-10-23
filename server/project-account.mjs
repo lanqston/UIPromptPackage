@@ -5,6 +5,27 @@ import { redisClient } from './submissions.mjs';
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 export const accountIndex = (email, secret) => `digivated:account:submissions:${createHmac('sha256', secret).update(email.trim().toLowerCase()).digest('hex')}`;
 
+// Older guest submissions predate the email index. Scan them once for each
+// verified mailbox; never overwrite an existing accountId or grant edit rights.
+async function indexLegacySubmissions(redis, account, key) {
+  if(await redis(['GET',`${key}:legacy-scanned`])==='1')return;
+  const entries=await redis(['ZREVRANGE','digivated:submissions',0,9999,'WITHSCORES']);
+  if(!Array.isArray(entries)||entries.length===20000)throw new Error('Legacy submission index is too large for an account request.');
+  for(let offset=0;offset<entries.length;offset+=40){
+    const page=entries.slice(offset,offset+40);
+    const ids=page.filter((_,index)=>index%2===0);
+    const records=await redis(['MGET',...ids.map(id=>`digivated:submission:${id}`)]);
+    if(!Array.isArray(records))throw new Error('Could not load legacy submissions.');
+    const matches=[];
+    for(let i=0;i<ids.length;i++){
+      let row;try{row=JSON.parse(records[i]);}catch{continue;}
+      if(row?.email?.trim().toLowerCase()===account.email&&(!row.accountId||row.accountId===account.id))matches.push(page[i*2+1],ids[i]);
+    }
+    if(matches.length)await redis(['ZADD',key,...matches]);
+  }
+  await redis(['SET',`${key}:legacy-scanned`,'1']);
+}
+
 export async function verifiedAccount(req, env, fetcher = fetch) {
   const cfg = memberConfig(env);
   if (!cfg) return null;
@@ -47,9 +68,11 @@ export function makeProjectAccountHandler(deps={}) {
       if(accountStatus)return send(200,{email:account.email});
       if(!env.SUBMISSIONS_REDIS_REST_TOKEN)return send(503,{error:'Your submissions could not be loaded. Try again shortly.'});
       const redis=deps.redis||redisClient(env);
-      const ids=await redis(['ZREVRANGE',accountIndex(account.email,env.SUBMISSIONS_REDIS_REST_TOKEN),0,99]);
+      const key=accountIndex(account.email,env.SUBMISSIONS_REDIS_REST_TOKEN);
+      await indexLegacySubmissions(redis,account,key);
+      const ids=await redis(['ZREVRANGE',key,0,99]);
       const rows=ids.length?await redis(['MGET',...ids.map(id=>`digivated:submission:${id}`)]):[];
-      const submissions=rows.filter(Boolean).map(raw=>JSON.parse(raw)).filter(row=>row.email?.trim().toLowerCase()===account.email).map(row=>({id:row.id,name:row.name,url:row.url,date:row.date,status:row.status,feedback:row.reviewFeedback||'',reviewedAt:row.reviewedAt||null}));
+      const submissions=rows.filter(Boolean).map(raw=>JSON.parse(raw)).filter(row=>row.email?.trim().toLowerCase()===account.email&&(!row.accountId||row.accountId===account.id)).map(row=>({id:row.id,name:row.name,url:row.url,date:row.date,status:row.status,feedback:row.reviewFeedback||'',reviewedAt:row.reviewedAt||null}));
       return send(200,{email:account.email,submissions});
     } catch {return send(503,{error:'Your submissions could not be loaded. Try again shortly.'});}
   };

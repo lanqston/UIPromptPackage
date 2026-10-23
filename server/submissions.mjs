@@ -46,8 +46,8 @@ export function redisClient(env=process.env,fetcher=fetch) {
   if(url.protocol!=='https:'||!token)throw new SubmissionError(503,'Submissions are not open yet. Please check back soon.');
   return async command=>{const response=await fetcher(url,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify(command),signal:AbortSignal.timeout(8000),redirect:'error'});if(!response.ok)throw new Error('Storage unavailable');const result=await response.json();if(result.error)throw new Error('Storage unavailable');return result.result;};
 }
-const SAVE = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],3600) end; if n>5 then return 0 end; redis.call('SET',KEYS[2],ARGV[1]); redis.call('ZADD',KEYS[3],ARGV[2],ARGV[3]); if ARGV[4]=='1' then redis.call('ZADD',KEYS[4],ARGV[2],ARGV[3]) end; return 1`;
-const SAVE_MEMBER_FEATURE = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],3600) end; if n>5 then return 0 end; if redis.call('SET',KEYS[4],ARGV[3],'NX') then redis.call('SET',KEYS[2],ARGV[1]); redis.call('ZADD',KEYS[3],ARGV[2],ARGV[3]); if ARGV[5]=='1' then redis.call('ZADD',KEYS[5],ARGV[2],ARGV[3]) end; return 1 end; return -1`;
+const SAVE = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],3600) end; if n>5 then return 0 end; redis.call('SET',KEYS[2],ARGV[1]); redis.call('ZADD',KEYS[3],ARGV[2],ARGV[3]); redis.call('ZADD',KEYS[4],ARGV[2],ARGV[3]); return 1`;
+const SAVE_MEMBER_FEATURE = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],3600) end; if n>5 then return 0 end; if redis.call('SET',KEYS[4],ARGV[3],'NX') then redis.call('SET',KEYS[2],ARGV[1]); redis.call('ZADD',KEYS[3],ARGV[2],ARGV[3]); redis.call('ZADD',KEYS[5],ARGV[2],ARGV[3]); return 1 end; return -1`;
 const MEMBER_FEATURE_MESSAGE = 'Sign in with your Founding Membership before using the included feature.';
 const MEMBER_FEATURE_USED = 'This membership already includes one featured submission. It stays in review, and a feature is not guaranteed.';
 
@@ -93,8 +93,8 @@ export function makeSubmissionHandler(deps={}) {
       const stored={...record,...(account?{accountId:account.id}:{}),id,date:now.toISOString(),consentedAt:now.toISOString()};
       const accountKey=accountIndex(record.email,env.SUBMISSIONS_REDIS_REST_TOKEN||'test-only');
       const saved=record.promotion?.included==='founding-membership'
-        ? await redis(['EVAL',SAVE_MEMBER_FEATURE,5,`digivated:limit:${hash}`,`digivated:submission:${id}`,'digivated:submissions',`digivated:founding-feature:${record.promotion.memberSaleId}`,accountKey,JSON.stringify(stored),now.getTime(),id,account?'1':'0'])
-        : await redis(['EVAL',SAVE,4,`digivated:limit:${hash}`,`digivated:submission:${id}`,'digivated:submissions',accountKey,JSON.stringify(stored),now.getTime(),id,account?'1':'0']);
+        ? await redis(['EVAL',SAVE_MEMBER_FEATURE,5,`digivated:limit:${hash}`,`digivated:submission:${id}`,'digivated:submissions',`digivated:founding-feature:${record.promotion.memberSaleId}`,accountKey,JSON.stringify(stored),now.getTime(),id])
+        : await redis(['EVAL',SAVE,4,`digivated:limit:${hash}`,`digivated:submission:${id}`,'digivated:submissions',accountKey,JSON.stringify(stored),now.getTime(),id]);
       if(saved===-1)throw new SubmissionError(409,MEMBER_FEATURE_USED);
       if(saved!==1){res.setHeader('Retry-After','3600');throw new SubmissionError(429,'You’ve reached the submission limit. Please try again in an hour.');}
       send(201,{ok:true,id,status:'pending'});

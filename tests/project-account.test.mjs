@@ -14,13 +14,45 @@ test('verified submissions are indexed by email and visible only to that account
  assert.equal(saved.status,201);
  const command=commands[0];assert.equal(command[6],accountIndex(account.email,env.SUBMISSIONS_REDIS_REST_TOKEN));
  const stored=JSON.parse(command[7]);assert.equal(stored.accountId,account.id);
- const redis=async c=>c[0]==='ZREVRANGE'?[stored.id]:[JSON.stringify({...stored,notes:'private',promotion:{receiptReference:'secret'},reviewFeedback:'Please clarify your audience.'})];
+ const redis=async c=>c[0]==='GET'?'1':c[0]==='ZREVRANGE'?[stored.id]:[JSON.stringify({...stored,notes:'private',promotion:{receiptReference:'secret'},reviewFeedback:'Please clarify your audience.'})];
  const handler=makeProjectAccountHandler({env,verifyAccount:async()=>account,redis});
  const result=await invoke(handler,{method:'GET',url:'/api/project-account?route=project-account',headers:{authorization:'Bearer fixture'}});
  assert.equal(result.status,200);assert.equal(result.body.submissions[0].feedback,'Please clarify your audience.');
  assert.equal(JSON.stringify(result.body).includes('private'),false);assert.equal(JSON.stringify(result.body).includes('secret'),false);
  const anonymous=await invoke(makeProjectAccountHandler({env,verifyAccount:async()=>null,redis}),{method:'GET',url:'/api/project-account',headers:{}});
  assert.equal(anonymous.status,401);
+});
+test('verified mailbox sees earlier guest submissions and other accounts stay isolated',async()=>{
+ const earlier={...submission,id:'legacy-id',date:'2026-10-01T00:00:00Z',status:'pending',reviewFeedback:'A private review.',notes:'hidden'};
+ const another={...earlier,id:'owned-by-other',accountId:'different-account-id'};
+ const redisCommands=[];const index=new Map();let scanned=false;
+ const redis=async c=>{
+  redisCommands.push(c);
+  if(c[0]==='GET')return scanned?'1':null;
+  if(c[0]==='SET'){scanned=true;return 'OK';}
+  if(c[0]==='ZREVRANGE'&&c[1]==='digivated:submissions')return [earlier.id,'100',another.id,'90'];
+  if(c[0]==='ZADD'){for(let i=2;i<c.length;i+=2)index.set(c[i+1],c[i]);return 1;}
+  if(c[0]==='ZREVRANGE')return [...index.keys()];
+  if(c[0]==='MGET')return c.slice(1).map(key=>JSON.stringify(key.endsWith(another.id)?another:earlier));
+  throw Error(`Unexpected command: ${c[0]}`);
+ };
+ const handler=makeProjectAccountHandler({env,verifyAccount:async()=>account,redis});
+ const req={method:'GET',url:'/api/project-account',headers:{authorization:'Bearer fixture'}};
+ const result=await invoke(handler,req);
+ assert.equal(result.status,200);assert.deepEqual(result.body.submissions.map(row=>row.id),[earlier.id]);
+ assert.equal(result.body.submissions[0].feedback,'A private review.');
+ assert.equal(JSON.stringify(result.body).includes('hidden'),false);
+ assert.deepEqual([...index.keys()],[earlier.id]);
+ await invoke(handler,req);
+ assert.equal(redisCommands.filter(c=>c[1]==='digivated:submissions').length,1);
+});
+test('new guest submissions are indexed for a later verified account',async()=>{
+ const commands=[];
+ const result=await invoke(makeSubmissionHandler({env,redis:async c=>{commands.push(c);return 1;}}),{method:'POST',url:'/api/submissions',headers:{origin:env.SUBMISSIONS_ORIGIN,'content-type':'application/json','x-real-ip':'127.0.0.1'},body:submission});
+ assert.equal(result.status,201);
+ assert.equal(commands[0][6],accountIndex(account.email,env.SUBMISSIONS_REDIS_REST_TOKEN));
+ assert.equal(JSON.parse(commands[0][7]).accountId,undefined);
+ assert.doesNotMatch(commands[0][1],/ARGV\[4\]/);
 });
 test('a verified account cannot submit using another email',async()=>{
  const result=await invoke(makeSubmissionHandler({env,verifyAccount:async()=>account,redis:async()=>{throw Error('should not write');}}),{method:'POST',url:'/api/submissions',headers:{origin:env.SUBMISSIONS_ORIGIN,authorization:'Bearer fixture','content-type':'application/json','x-real-ip':'127.0.0.1'},body:{...submission,email:'someone@example.com'}});
