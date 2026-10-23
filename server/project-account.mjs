@@ -32,7 +32,7 @@ export function makeProjectAccountHandler(deps={}) {
       if(url.pathname!=='/api/project-account')return send(404,{error:'Not found.'});
       const cfg=memberConfig(env);
       if(url.searchParams.get('action')==='config')return send(200,{ready:!!cfg,...(cfg?{url:cfg.url,key:cfg.key}:{})});
-      if(url.search)return send(400,{error:'Invalid request.'});
+      if([...url.searchParams.keys()].some(key=>key!=='route'))return send(400,{error:'Invalid request.'});
       if(!cfg || !env.SUBMISSIONS_REDIS_REST_TOKEN)return send(503,{error:'Accounts are temporarily unavailable.'});
       const account=await (deps.verifyAccount||verifiedAccount)(req,env,deps.fetcher||fetch);
       if(!account)return send(401,{error:'Sign in with a verified email to see your submissions.'});
