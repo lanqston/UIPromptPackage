@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { accountIndex, makeProjectAccountHandler } from '../server/project-account.mjs';
+import { accountIndex, makeProjectAccountHandler, verifiedAccount } from '../server/project-account.mjs';
 import { makeSubmissionHandler } from '../server/submissions.mjs';
+import { validateEdit, projectPublic } from '../server/admin-store.mjs';
 
 const env={COMMUNITY_SUPABASE_URL:'https://cglkjclolglwizwepvmy.supabase.co',COMMUNITY_SUPABASE_PUBLISHABLE_KEY:'sb_publishable_test',SUBMISSIONS_REDIS_REST_TOKEN:'test-secret',SUBMISSIONS_ORIGIN:'https://digivated.com'};
 const account={id:'4ad90c9b-5666-482d-899c-d0d3ef41ee46',email:'creator@example.com'};
@@ -24,4 +25,22 @@ test('verified submissions are indexed by email and visible only to that account
 test('a verified account cannot submit using another email',async()=>{
  const result=await invoke(makeSubmissionHandler({env,verifyAccount:async()=>account,redis:async()=>{throw Error('should not write');}}),{method:'POST',url:'/api/submissions',headers:{origin:env.SUBMISSIONS_ORIGIN,authorization:'Bearer fixture','content-type':'application/json','x-real-ip':'127.0.0.1'},body:{...submission,email:'someone@example.com'}});
  assert.equal(result.status,403);
+});
+test('account tokens require provider verification and confirmed email',async()=>{
+ const payload={sub:account.id,email:account.email,amr:[{method:'magiclink'}]};
+ const token=['e30',Buffer.from(JSON.stringify(payload)).toString('base64url'),'signature'].join('.');
+ const req={headers:{authorization:`Bearer ${token}`}};
+ const fetcher=async(_url,options)=>({ok:true,json:async()=>({...account,email_confirmed_at:'2026-10-23T00:00:00Z'})});
+ assert.deepEqual(await verifiedAccount(req,env,fetcher),account);
+ assert.equal(await verifiedAccount({headers:{authorization:'Bearer forged'}},env,fetcher),null);
+ const password=['e30',Buffer.from(JSON.stringify({...payload,amr:[{method:'password'}]})).toString('base64url'),'signature'].join('.');
+ assert.equal(await verifiedAccount({headers:{authorization:`Bearer ${password}`}},env,fetcher),null);
+ assert.equal(await verifiedAccount(req,env,async()=>({ok:false})),null);
+ assert.equal(await verifiedAccount(req,env,async()=>({ok:true,json:async()=>({...account,email_confirmed_at:null})})),null);
+});
+test('owner feedback stays private through review and public projection',()=>{
+ const previous={...submission,id:'4ad90c9b-5666-482d-899c-d0d3ef41ee46',date:'2026-10-23T00:00:00Z',status:'pending',revision:0};
+ const edit=validateEdit('submission',{id:previous.id,revision:0,name:previous.name,creator:previous.creator,url:previous.url,description:previous.description,category:previous.category,status:'approved',socialUrl:'',reviewFeedback:'Please clarify the audience.'},previous);
+ assert.equal(edit.reviewFeedback,'Please clarify the audience.');
+ assert.equal('reviewFeedback' in projectPublic(edit),false);
 });

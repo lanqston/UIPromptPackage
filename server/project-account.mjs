@@ -10,10 +10,17 @@ export async function verifiedAccount(req, env, fetcher = fetch) {
   if (!cfg) return null;
   const token = req.headers.authorization;
   if (typeof token !== 'string' || !/^Bearer [\w.-]{20,8192}$/.test(token)) return null;
+  // This Auth project currently auto-confirms email addresses. A password signup
+  // can therefore have email_confirmed_at without proving mailbox ownership.
+  // Require a session established through an emailed link or code as well.
+  let claims;
+  try { claims=JSON.parse(Buffer.from(token.slice(7).split('.')[1],'base64url').toString('utf8')); }
+  catch { return null; }
+  if(!Array.isArray(claims.amr)||!claims.amr.some(entry=>['magiclink','otp'].includes(entry?.method)))return null;
   const response = await fetcher(`${cfg.url}/auth/v1/user`, {headers:{apikey:cfg.key,Authorization:token},redirect:'error',signal:AbortSignal.timeout(8000)});
   if (!response.ok) return null;
   const user = await response.json();
-  if (!UUID.test(user.id) || !user.email_confirmed_at || user.is_anonymous || typeof user.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email)) return null;
+  if (!UUID.test(user.id) || claims.sub!==user.id || !user.email_confirmed_at || user.is_anonymous || typeof user.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email) || claims.email?.toLowerCase()!==user.email.toLowerCase()) return null;
   return {id:user.id,email:user.email.trim().toLowerCase()};
 }
 
@@ -35,7 +42,7 @@ export function makeProjectAccountHandler(deps={}) {
       if([...url.searchParams.keys()].some(key=>key!=='route'))return send(400,{error:'Invalid request.'});
       if(!cfg || !env.SUBMISSIONS_REDIS_REST_TOKEN)return send(503,{error:'Accounts are temporarily unavailable.'});
       const account=await (deps.verifyAccount||verifiedAccount)(req,env,deps.fetcher||fetch);
-      if(!account)return send(401,{error:'Sign in with a verified email to see your submissions.'});
+      if(!account)return send(401,{error:'Use an emailed sign-in link to see your submissions.'});
       const redis=deps.redis||redisClient(env);
       const ids=await redis(['ZREVRANGE',accountIndex(account.email,env.SUBMISSIONS_REDIS_REST_TOKEN),0,99]);
       const rows=ids.length?await redis(['MGET',...ids.map(id=>`digivated:submission:${id}`)]):[];
