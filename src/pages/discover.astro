@@ -3,11 +3,13 @@ import Platform from '../layouts/Platform.astro';
 import LiveProjects from '../components/LiveProjects.astro';
 import { projectCategories } from '../data/community.mjs';
 import '../styles/projects-dashboard.css';
+import '../styles/project-account.css';
 ---
 <Platform title="Projects" description="An open dashboard for discovering independent projects, tools, and the people building them.">
 <div class="projects-workspace">
   <section class="projects-content" aria-labelledby="projects-title">
     <header class="dashboard-intro"><div><h1 id="projects-title">Projects</h1><p>Independent ideas. Worth your attention.</p></div><span class="dashboard-curation">Reviewed by Digivated</span></header>
+    <div class="account-welcome" id="account-welcome" role="status" hidden><strong id="account-welcome-message"></strong><a href="/account">View your account →</a></div>
     <nav class="project-collections" aria-label="Project collections">
       <button type="button" data-directory-view="newest" aria-pressed="true">All projects <span data-project-total>—</span></button>
       <button type="button" data-directory-view="featured" aria-pressed="false">Featured <span data-project-featured>—</span></button>
@@ -26,5 +28,5 @@ import '../styles/projects-dashboard.css';
     <p class="dashboard-review-note">Every project is reviewed before appearing here.</p>
   </section>
 </div>
-<script>import '../scripts/directory.js'; import '../scripts/live-content.js';</script>
+<script>import '../scripts/directory.js'; import '../scripts/live-content.js'; import '../scripts/account-welcome.js';</script>
 </Platform>

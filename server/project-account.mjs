@@ -39,10 +39,13 @@ export function makeProjectAccountHandler(deps={}) {
       if(url.pathname!=='/api/project-account')return send(404,{error:'Not found.'});
       const cfg=memberConfig(env);
       if(url.searchParams.get('action')==='config')return send(200,{ready:!!cfg,...(cfg?{url:cfg.url,key:cfg.key}:{})});
-      if([...url.searchParams.keys()].some(key=>key!=='route'))return send(400,{error:'Invalid request.'});
-      if(!cfg || !env.SUBMISSIONS_REDIS_REST_TOKEN)return send(503,{error:'Accounts are temporarily unavailable.'});
+      const accountStatus=url.searchParams.get('action')==='me';
+      if([...url.searchParams.keys()].some(key=>key!=='route'&&!(accountStatus&&key==='action')))return send(400,{error:'Invalid request.'});
+      if(!cfg)return send(503,{error:'Accounts are temporarily unavailable.'});
       const account=await (deps.verifyAccount||verifiedAccount)(req,env,deps.fetcher||fetch);
       if(!account)return send(401,{error:'Use an emailed sign-in link to see your submissions.'});
+      if(accountStatus)return send(200,{email:account.email});
+      if(!env.SUBMISSIONS_REDIS_REST_TOKEN)return send(503,{error:'Your submissions could not be loaded. Try again shortly.'});
       const redis=deps.redis||redisClient(env);
       const ids=await redis(['ZREVRANGE',accountIndex(account.email,env.SUBMISSIONS_REDIS_REST_TOKEN),0,99]);
       const rows=ids.length?await redis(['MGET',...ids.map(id=>`digivated:submission:${id}`)]):[];

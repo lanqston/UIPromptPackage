@@ -10,7 +10,7 @@ if (form) {
     if(session?.user?.email_confirmed_at){
       const response=await fetch('/api/project-account',{headers:{Authorization:`Bearer ${session.access_token}`},cache:'no-store'});
       if(response.ok){accountVerified=true;form.elements.email.value=session.user.email;form.elements.email.readOnly=true;document.getElementById('submission-account-status').textContent=`Signed in as ${session.user.email}. This project will appear in your account.`;}
-      else document.getElementById('submission-account-status').innerHTML='To track this project, <a href="/account">sign in with an emailed link</a> before submitting. You can still submit without an account.';
+      else document.getElementById('submission-account-status').innerHTML='To track this project, <a href="/login">sign in with an emailed link</a> before submitting. You can still submit without an account.';
     }
   }).catch(()=>{});
   const button = form.querySelector('button[type=submit]');

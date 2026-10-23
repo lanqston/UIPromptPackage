@@ -1,5 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-import { communityAuthOptions } from './community-auth.js';
+import { accountSession } from './account-session.js';
 
 const form=document.getElementById('login-email-form');
 if(form){
@@ -16,15 +15,10 @@ if(form){
  tabs.forEach((tab,index)=>{tab.onclick=()=>{mode=index===0?'signin':'signup';render();};tab.onkeydown=event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();const next=tabs[index===0?1:0];next.click();next.focus();};});
  render();
  async function boot(){
-  const response=await fetch('/api/project-account?action=config',{cache:'no-store'});
-  const config=await response.json();
-  if(!config.ready)throw Error('Account sign-in is temporarily unavailable.');
-  const client=createClient(config.url,config.key,{auth:communityAuthOptions});
-  const {data:{session}}=await client.auth.getSession();
-  if(session?.access_token){
-   const account=await fetch('/api/project-account',{headers:{Authorization:`Bearer ${session.access_token}`},cache:'no-store'});
-   if(account.ok){location.replace('/discover?view=featured');return;}
-  }
+  const {state:authState,client}=await accountSession();
+  if(authState==='signed-in'){location.replace('/discover?view=featured&signed_in=1');return;}
+  if(authState==='unverified')status.textContent='Finish verifying your account with an emailed sign-in link.';
+  if(authState==='unavailable')status.textContent='Account verification is temporarily unavailable. You can request a fresh email link.';
   form.onsubmit=async event=>{
    event.preventDefault();const email=form.elements.email.value.trim();submit.disabled=true;status.textContent='Sending your email link…';
    try{

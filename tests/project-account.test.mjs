@@ -26,6 +26,15 @@ test('a verified account cannot submit using another email',async()=>{
  const result=await invoke(makeSubmissionHandler({env,verifyAccount:async()=>account,redis:async()=>{throw Error('should not write');}}),{method:'POST',url:'/api/submissions',headers:{origin:env.SUBMISSIONS_ORIGIN,authorization:'Bearer fixture','content-type':'application/json','x-real-ip':'127.0.0.1'},body:{...submission,email:'someone@example.com'}});
  assert.equal(result.status,403);
 });
+test('account status is independent of submission storage and rejects other sessions',async()=>{
+ const withoutRedis={...env,SUBMISSIONS_REDIS_REST_TOKEN:''};
+ const ok=await invoke(makeProjectAccountHandler({env:withoutRedis,verifyAccount:async()=>account}),{method:'GET',url:'/api/project-account?action=me',headers:{authorization:'Bearer fixture'}});
+ assert.equal(ok.status,200);assert.deepEqual(ok.body,{email:account.email});
+ const denied=await invoke(makeProjectAccountHandler({env:withoutRedis,verifyAccount:async()=>null}),{method:'GET',url:'/api/project-account?action=me'});
+ assert.equal(denied.status,401);
+ const submissions=await invoke(makeProjectAccountHandler({env:withoutRedis,verifyAccount:async()=>account}),{method:'GET',url:'/api/project-account',headers:{authorization:'Bearer fixture'}});
+ assert.equal(submissions.status,503);
+});
 test('account tokens require provider verification and confirmed email',async()=>{
  const payload={sub:account.id,email:account.email,amr:[{method:'magiclink'}]};
  const token=['e30',Buffer.from(JSON.stringify(payload)).toString('base64url'),'signature'].join('.');
