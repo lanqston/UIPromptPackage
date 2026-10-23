@@ -81,8 +81,8 @@ export function contentPublic(kind, record) {
   if (kind === 'resource') return { id: record.id, slug: record.id, title: record.title, description: record.description, category: normalizeResourceCategory(record.category), date: record.publishedDate, readingTime: record.readingTime, content: record.content, related: record.related, coverImage: image, url: `/resources/read?slug=${record.id}` };
   return { id: record.id, name: record.name, description: record.description, label: record.label, url: record.url, image };
 }
-// Compare-and-save, public index update, and exclusive Featured Build selection
-// happen in one Redis script. Concurrent editors cannot silently overwrite work.
+// Compare-and-save and public index update happen in one Redis script.
+// Featured status belongs to each submission, so several projects can be featured.
 export const SAVE_EDIT = `
 local old=redis.call('GET',KEYS[1]); local revision=0
 if old then revision=cjson.decode(old).revision or 0 end
@@ -93,21 +93,6 @@ if ARGV[5]=='submission' and record.slug then
  if owner and owner~=id then return -1 end
  redis.call('SET',key,id)
 end
-if ARGV[5]=='submission' then
- local featured=redis.call('GET',KEYS[5])
- if record.status=='featured' then
-  if featured and featured~=id then
-   local otherKey='digivated:submission:'..featured; local otherRaw=redis.call('GET',otherKey)
-   if otherRaw then
-    local other=cjson.decode(otherRaw); other.status='approved'; other.revision=(other.revision or 0)+1; other.reviewedAt=record.reviewedAt
-    redis.call('SET',otherKey,cjson.encode(other))
-    local publicKey='digivated:public:submission:'..featured; local p=redis.call('GET',publicKey)
-    if p then local data=cjson.decode(p); data.status='approved'; redis.call('SET',publicKey,cjson.encode(data)) end
-   end
-  end
-  redis.call('SET',KEYS[5],id)
- elseif featured==id then redis.call('DEL',KEYS[5]) end
-end
 redis.call('SET',KEYS[1],ARGV[2]); redis.call('ZADD',KEYS[2],ARGV[4],id)
 if ARGV[3]~='' then redis.call('SET',KEYS[3],ARGV[3]); redis.call('ZADD',KEYS[4],ARGV[4],id)
 else redis.call('DEL',KEYS[3]); redis.call('ZREM',KEYS[4],id) end
@@ -117,7 +102,7 @@ export async function saveRecord(redis, kind, input) {
   const raw = await redis(['GET', storageKey(kind, input.id)]);
   const record = validateEdit(kind, input, raw ? JSON.parse(raw) : null);
   const projection = kind === 'submission' ? projectPublic(record) : contentPublic(kind, record);
-  const result = await redis(['EVAL', SAVE_EDIT, 5, storageKey(kind, input.id), indexKey(kind), `digivated:public:${kind}:${input.id}`, `digivated:public:${kind}s`, 'digivated:featured', input.revision, JSON.stringify(record), projection ? JSON.stringify(projection) : '', Date.parse(record.date), kind]);
+  const result = await redis(['EVAL', SAVE_EDIT, 4, storageKey(kind, input.id), indexKey(kind), `digivated:public:${kind}:${input.id}`, `digivated:public:${kind}s`, input.revision, JSON.stringify(record), projection ? JSON.stringify(projection) : '', Date.parse(record.date), kind]);
   if (result !== 1) throw new AdminError(409, 'This item changed elsewhere. Reload it before saving.');
   return record;
 }

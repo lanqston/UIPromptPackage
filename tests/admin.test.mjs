@@ -47,9 +47,11 @@ test('real Redis: owner security, atomic moderation, publishing, withdrawal and 
  if(after.status!=='featured'){after=await saveRecord(redis,'submission',{...after,status:'approved'});await saveRecord(redis,'submission',{...after,status:'featured'});}
  const submitted2=await invoke(submission,{method:'POST',body:{...input,name:'Second fixture'},url:'/api/submissions'});const id2=submitted2.body.id;const pending2=JSON.parse(await redis(['GET',`digivated:submission:${id2}`]));
  const approved2=await saveRecord(redis,'submission',{...pending2,revision:0,status:'approved'});await saveRecord(redis,'submission',{...approved2,status:'featured'});
- assert.equal(await redis(['GET','digivated:featured']),id2);
- const previous=JSON.parse(await redis(['GET',`digivated:submission:${id}`]));assert.notEqual(previous.status,'featured');
+ const featured=(await invoke(projects,{url:'/api/projects?view=featured'})).body.items;
+ assert.deepEqual(new Set(featured.map(item=>item.id)),new Set([id,id2]));
+ const previous=JSON.parse(await redis(['GET',`digivated:submission:${id}`]));assert.equal(previous.status,'featured');
  await saveRecord(redis,'submission',{...previous,status:'archived'});assert.equal((await invoke(projects,{url:`/api/projects?image=${id}`})).status,404);
+ assert.deepEqual((await invoke(projects,{url:'/api/projects?view=featured'})).body.items.map(item=>item.id),[id2]);
  const resource={id:'test-article',revision:0,status:'draft',title:'Fixture article',description:'A fixture summary',category:'Tech',publishedDate:'2026-10-05',readingTime:3,content:'## A section\n\nEscaped <script> text.',related:'',image:png};
  let article=await saveRecord(redis,'resource',resource);const content=makePublicHandler('content',{redis});assert.equal((await invoke(content,{url:'/api/content?type=resource&id=test-article'})).status,404);
  article=await saveRecord(redis,'resource',{...article,related:'',status:'published'});assert.equal((await invoke(content,{url:'/api/content?type=resource&id=test-article'})).status,404);assert.deepEqual((await invoke(content,{url:'/api/content?type=resource'})).body.items,[]);

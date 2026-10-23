@@ -42,11 +42,13 @@ export function makePublicHandler(type, deps = {}) {
         res.statusCode = 200; return res.end(Buffer.from(match[2], 'base64'));
       }
       if (type === 'projects' && url.searchParams.get('view') === 'featured') {
-        const featuredId = await redis(['GET', 'digivated:featured']);
-        const raw = featuredId ? await redis(['GET', `digivated:public:submission:${featuredId}`]) : null;
-        const source=featuredId?await redis(['GET',storageKey('submission',featuredId)]):null;
-        const item=source?projectPublic(JSON.parse(source)):null;
-        return send(200, { items: await withProjectViews(redis, item ? [item] : []), next: null });
+        const featured=[];
+        const total=await redis(['ZCARD','digivated:public:submissions']);
+        for (let offset=0; offset<total; offset+=100) {
+          const page=await publicRecords(redis,'submission',offset,100);
+          featured.push(...page.filter(project=>project.status==='featured'));
+        }
+        return send(200, { items: await withProjectViews(redis, featured), next: null });
       }
       const offset = Number(url.searchParams.get('offset') || 0);
       if (!Number.isInteger(offset) || offset < 0 || offset > 100000) return send(400, { error: 'Invalid page.' });

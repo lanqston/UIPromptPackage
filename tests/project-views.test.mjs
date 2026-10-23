@@ -38,7 +38,8 @@ test('real Redis: atomic counts, expiry, private projects and public API',{skip:
  const read=async url=>{let data;await publicApi({method:'GET',url},{setHeader(){},end(b){data=JSON.parse(b);}});return data;};
  assert.equal((await read('/api/projects')).items[0].views,3);
  assert.equal((await read('/api/projects?id=test-project')).item.views,3);
- await redis(['SET','digivated:featured','test-project']);assert.equal((await read('/api/projects?view=featured')).items[0].views,3);
+ assert.equal((await read('/api/projects?view=featured')).items.length,0);
+ await redis(['SET','digivated:submission:test-project',JSON.stringify({...record,status:'featured'})]);assert.equal((await read('/api/projects?view=featured')).items[0].views,3);
  await redis(['SET','digivated:submission:test-project',JSON.stringify({...record,status:'pending'})]);assert.equal((await invoke(handler)).status,404);
  await redis(['SET','digivated:submission:test-project',JSON.stringify({...record,consent:false})]);assert.equal((await invoke(handler)).status,404);
  await redis(['DEL','digivated:submission:test-project']);assert.equal((await invoke(handler)).status,404);
