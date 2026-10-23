@@ -4,8 +4,9 @@
 .account-announcement-copy strong{font-size:19px;line-height:1.2;color:#111}
 .account-announcement-tag{font-size:10px;font-weight:750;letter-spacing:.12em;color:#666}
 .account-announcement-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.account-announcement-actions a{display:inline-flex;align-items:center;gap:8px;padding:11px 13px;border-radius:10px;background:#171717;color:#fff;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap}
-.account-announcement-actions a:hover,.account-announcement-actions a:focus-visible{background:#3a3a3a;color:#fff}
+.account-announcement-actions a{display:inline-flex;align-items:center;gap:8px;padding:11px 13px;border-radius:10px;background:#171717;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap}
+html body.platform .account-announcement .account-announcement-actions a,html body.platform .account-announcement .account-announcement-actions a:hover,html body.platform .account-announcement .account-announcement-actions a:focus-visible{color:#fff}
+.account-announcement-actions a:hover,.account-announcement-actions a:focus-visible{background:#3a3a3a}
 .account-announcement-actions button{display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:8px;background:transparent;color:#555;cursor:pointer;font-size:24px;line-height:1}
 .account-announcement-actions button:hover,.account-announcement-actions button:focus-visible{background:#eee;color:#111}
 @media(max-width:540px){.account-announcement{align-items:stretch;flex-direction:column;gap:12px;padding:17px}.account-announcement-actions{justify-content:space-between}.account-announcement-actions a{justify-content:center;flex:1}.account-announcement-actions button{align-self:center}}
