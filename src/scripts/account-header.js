@@ -7,9 +7,9 @@ if(link&&!(location.pathname.replace(/\/$/,'')==='/account'&&location.hash.inclu
   if(state==='signed-in'){
    link.textContent='My account';link.href='/account';link.setAttribute('aria-label',`My account, signed in as ${email}`);if(location.pathname.replace(/\/$/,'')==='/account')link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
   }else if(session){
-   link.textContent='Account';link.href='/account';link.setAttribute('aria-label','Account sign-in needs attention');link.removeAttribute('aria-current');
+   link.textContent='Log In';link.href='/login';link.setAttribute('aria-label','Account sign-in needs attention');if(location.pathname.replace(/\/$/,'')==='/login')link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
   }else{
-   link.textContent='Log in';link.href='/login';link.removeAttribute('aria-label');
+   link.textContent='Log In';link.href='/login';link.removeAttribute('aria-label');
   }
  }).catch(()=>{});
 }
