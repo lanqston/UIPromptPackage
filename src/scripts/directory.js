@@ -45,7 +45,7 @@ if (directory) {
     let count = 0;
     const query = search.value.trim().toLowerCase();
     for (const card of cards) {
-      const visible = (!goal || card.dataset.learningGoal === goal) && card.dataset.search.includes(query) && (!category.value || card.dataset.category === category.value) && (!view || view.value === 'newest' || (view.value === 'featured' && card.dataset.featured === 'true') || (view.value === 'picks' && card.dataset.pick === 'true'));
+      const visible = (!goal || card.dataset.learningGoal === goal) && card.dataset.search.includes(query) && (!category.value || card.dataset.category === category.value) && (!view || view.value === 'newest' || (view.value === 'featured' && card.dataset.featured === 'true'));
       card.hidden = !visible;
       if (visible) count++;
     }
@@ -55,7 +55,6 @@ if (directory) {
     if (isProjects) {
       const values = {
         'data-project-total': cards.length,
-        'data-project-picks': cards.filter(card => card.dataset.pick === 'true').length,
         'data-project-featured': cards.filter(card => card.dataset.featured === 'true').length,
         'data-project-categories': new Set(cards.map(card => card.dataset.category)).size,
       };
@@ -71,7 +70,7 @@ if (directory) {
       }
       for (const button of document.querySelectorAll('[data-directory-view]')) button.setAttribute('aria-pressed', String(button.dataset.directoryView === view?.value));
       const heading = document.getElementById('directory-heading');
-      if (heading) heading.textContent = view?.value === 'picks' ? 'Digivated Picks' : view?.value === 'featured' ? 'Featured projects' : category.value || 'All projects';
+      if (heading) heading.textContent = view?.value === 'featured' ? 'Featured projects' : category.value || 'All projects';
     }
     if (clear) clear.hidden = !query && !category.value && !goal && (!view || view.value === 'newest');
     const goalDescription = document.getElementById('directory-goal-description');
@@ -102,7 +101,7 @@ if (directory) {
   for(const button of goalButtons) button.addEventListener('click',()=>{setGoal(button.dataset.goalFilter);category.value='';syncFilters();update();});
   for (const chip of document.querySelectorAll('[data-category-filter]')) chip.addEventListener('click', () => { category.value = chip.dataset.categoryFilter; syncFilters(); update(); });
   const requestedView = new URLSearchParams(location.search).get('view');
-  if (view && ['featured', 'picks'].includes(requestedView)) view.value = requestedView;
+  if (view && requestedView === 'featured') view.value = requestedView;
   for (const button of document.querySelectorAll('[data-directory-view]')) button.addEventListener('click', () => { if (view) view.value = button.dataset.directoryView; syncFilters(); update(); });
   for (const button of document.querySelectorAll('[data-directory-layout]')) button.addEventListener('click', () => {
     setLayout(button.dataset.directoryLayout);

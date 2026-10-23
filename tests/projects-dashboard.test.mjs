@@ -20,11 +20,11 @@ function setup(kind = 'projects', query = '') {
   for (const [index,card] of cards.entries()) Object.assign(card.dataset,{resourceName:card.dataset.projectName,resourceDate:card.dataset.projectDate,resourceReadingTime:String(index ? 2 : 4),learningGoal:index?'markets':'ai-tools',resourceOrder:String(index?1:2)});
   const clear=node();
   const list=node();list.order=[...cards];list.moves=0;list.appendChild=card=>{list.moves++;list.order=list.order.filter(c=>c!==card);list.order.push(card);};
-  const views=['newest','picks','featured'].map(value=>node({directoryView:value}));
+  const views=['newest','featured'].map(value=>node({directoryView:value}));
   const layouts=['grid','list'].map(value=>node({directoryLayout:value}));
   const chips=['','AI','SaaS'].map(value=>node({categoryFilter:value}));
   const goals=['','ai-tools','markets'].map(value=>node({goalFilter:value}));
-  const stats=Object.fromEntries(['total','picks','featured','categories'].map(key=>['data-project-'+key,node()]));
+  const stats=Object.fromEntries(['total','featured','categories'].map(key=>['data-project-'+key,node()]));
   const counts=['AI','SaaS'].map(value=>node({categoryCount:value}));
   const document=node();
   document.getElementById=id=>ids[id]||null;
@@ -43,7 +43,7 @@ function setup(kind = 'projects', query = '') {
   runInNewContext(readFileSync('src/scripts/directory.js','utf8'),{document,location,history,URL,URLSearchParams});
   return {document,ids,cards,clear,list,views,layouts,chips,stats,counts,goals,location,emptyParts};
 }
-test('approved non-picks remain visible; collection/category filters and reset combine correctly',()=>{
+test('approved projects remain visible; featured/category filters and reset combine correctly',()=>{
   const h=setup();assert.equal(h.ids['directory-status'].textContent,'Loading projects…');
   h.document.fire('digivated:collection-updated');
   assert.deepEqual(h.cards.map(c=>c.hidden),[false,false]);
@@ -122,7 +122,7 @@ test('project results preserve collection, category and search without changing 
  h.views[1].fire('click');h.chips[2].fire('click');
  h.ids['directory-search'].value='alpha';h.ids['directory-search'].fire('input');
  const reopened=setup('projects',h.location.search);reopened.document.fire('digivated:collection-updated');
- assert.equal(reopened.ids['directory-view'].value,'picks');
+ assert.equal(reopened.ids['directory-view'].value,'featured');
  assert.equal(reopened.ids['directory-category'].value,'SaaS');
  assert.deepEqual(reopened.cards.map(c=>c.hidden),[true,false]);
 });

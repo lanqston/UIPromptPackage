@@ -77,16 +77,16 @@ function setupProjectFilters(shelf) {
  const update = mode => {
   let total = 0;
   for (const card of cards) {
-   const matches = mode === 'all' || (mode === 'featured' && card.dataset.featured === 'true') || (mode === 'picks' && card.dataset.pick === 'true');
+   const matches = mode === 'all' || (mode === 'featured' && card.dataset.featured === 'true');
    card.hidden = !matches || total >= limit;
    if (matches) total++;
   }
   buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.projectFilter === mode)));
   list.hidden = total === 0;
   empty.hidden = total > 0;
-  title.textContent = mode === 'all' ? original.title : mode === 'featured' ? 'Featured builds are on their way.' : 'The first picks are on their way.';
+  title.textContent = mode === 'all' ? original.title : 'Featured builds are on their way.';
   description.textContent = mode === 'all' ? original.description : 'Check back as more community projects are reviewed, or explore all builds.';
-  shelf.querySelector('[data-filter-description]').textContent = mode === 'all' ? 'Browse the latest projects from independent creators.' : mode === 'featured' ? 'Projects in the community spotlight.' : 'A selection chosen by Digivated.';
+  shelf.querySelector('[data-filter-description]').textContent = mode === 'all' ? 'Browse the latest projects from independent creators.' : 'Projects in the community spotlight.';
   status.textContent = total ? (total > limit ? `Showing ${limit} of ${total} projects` : `${total} project${total === 1 ? '' : 's'}`) : 'No projects in this collection yet.';
  };
  for (const button of buttons) {
@@ -100,7 +100,7 @@ async function loadProjects(){
  const shelves=[...document.querySelectorAll('[data-live-projects]')];if(!shelves.length)return;
  try{
   const projects=await collection('/api/projects');
-  for(const shelf of shelves){const mode=shelf.dataset.liveProjects;let selected=projects;if(mode==='featured')selected=projects.filter(p=>p.status==='featured');if(mode==='picks')selected=projects.filter(p=>p.pick);if(mode==='spotlight')selected=projects.filter(p=>p.status==='featured'||p.pick);renderShelf(shelf,selected,projectCard);if(shelf.hasAttribute('data-project-filters'))setupProjectFilters(shelf);}
+  for(const shelf of shelves){const mode=shelf.dataset.liveProjects;const selected=mode==='featured'?projects.filter(p=>p.status==='featured'):projects;renderShelf(shelf,selected,projectCard);if(shelf.hasAttribute('data-project-filters'))setupProjectFilters(shelf);}
   document.dispatchEvent(new Event('digivated:collection-updated'));
   observeProjectViews();
  }catch{for(const shelf of shelves){shelf.removeAttribute('aria-busy');const empty=shelf.querySelector('[data-live-empty]');empty.hidden=true;const status=shelf.querySelector('[data-live-status]');if(status)status.textContent='Projects are temporarily unavailable. Please try again shortly.';}}

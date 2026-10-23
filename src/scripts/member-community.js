@@ -16,7 +16,7 @@ async function boot(){
  const dialogs=document.querySelectorAll('.community-dialog');
  dialogs.forEach(d=>d.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>d.close())));
  const welcome=$('#community-welcome');let step=0;
- const steps=[['Explore Digivated','Stay curious about what’s next.','Find useful ideas in technology, AI, markets, and the tools that move you forward.'],['Digivated Picks','Meet the people making things.','Discover selected projects and the independent creators behind them.'],['The community','Your next idea starts here.','Share what you know, ask a question, and find people who are curious about the same things.']];
+ const steps=[['Explore Digivated','Stay curious about what’s next.','Find useful ideas in technology, AI, markets, and the tools that move you forward.'],['Discover projects','Meet the people making things.','Browse independent projects and the creators behind them.'],['The community','Your next idea starts here.','Share what you know, ask a question, and find people who are curious about the same things.']];
  welcome.addEventListener('close',()=>{try{localStorage.setItem('digivated-community-welcome','seen');}catch{}});
  $('#welcome-next').onclick=()=>{if(step===2){welcome.close();$('#community-auth').showModal();return;}step++;$('#welcome-kicker').textContent=steps[step][0];$('#welcome-title').textContent=steps[step][1];$('#welcome-copy').textContent=steps[step][2];$('#welcome-next').textContent=step===2?'Join the community ↗':'Continue ↗';welcome.querySelectorAll('i').forEach((i,n)=>i.classList.toggle('active',n===step));};
  try{if(view==='feed'&&(!localStorage.getItem('digivated-community-welcome')||location.search.includes('welcome=1')))welcome.showModal();}catch{}
