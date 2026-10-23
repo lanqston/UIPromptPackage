@@ -21,6 +21,7 @@ function filters() {
   $('owner-carousel-note').hidden = state.kind !== 'carousel';
   $('owner-protected').hidden = state.kind !== 'product';
   $('owner-search-note').hidden = state.kind !== 'accounts';
+  $('owner-search-label').textContent = state.kind === 'accounts' ? 'Search loaded accounts' : 'Search loaded items';
   $('owner-search').placeholder = state.kind === 'accounts' ? 'Email or account ID' : 'Name, title, or creator';
 }
 function accountStatus(record) { return record.bannedUntil && new Date(record.bannedUntil) > new Date() ? 'blocked' : record.confirmedAt ? 'verified' : 'unverified'; }
@@ -59,7 +60,8 @@ function renderList() {
     const edit = element('button', state.kind === 'submission' ? 'Review project' : 'Edit', 'button'); edit.type = 'button'; edit.addEventListener('click', () => openRecord(record.id));
     row.append(copy,edit); list.append(row);
   }
-  $('owner-count').textContent = `${items.length} shown · ${state.items.length} ${labels[state.kind].toLowerCase()} loaded`;
+  const loadedLabel = state.kind === 'accounts' ? `account${state.items.length === 1 ? '' : 's'}` : labels[state.kind].toLowerCase();
+  $('owner-count').textContent = `${items.length} shown · ${state.items.length} ${loadedLabel} loaded`;
   $('owner-empty').hidden = items.length > 0;
   $('owner-empty').querySelector('h2').textContent=state.kind==='carousel'?'No full carousels found.':state.kind==='accounts'?'No accounts found in this page.':'Nothing here just yet.';
   $('owner-empty').querySelector('p').textContent=state.kind==='carousel'?'Published carousels will appear here automatically. If you just added one, choose Refresh.':state.kind==='accounts'?'Clear filters or load more accounts.':'New submissions and saved content will appear here.'; $('owner-more').hidden = state.next === null;
