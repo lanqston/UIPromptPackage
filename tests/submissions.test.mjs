@@ -21,7 +21,7 @@ async function invoke({body=valid,method='POST',origin='https://digivated.com',r
  await makeSubmissionHandler({redis})(req,res);return {status:res.statusCode,data,headers:responseHeaders};
 }
 test('successful save is private and pending, storage is required',async()=>{
- let command;const response=await invoke({redis:async c=>{command=c;return 1;}});assert.equal(response.status,201);assert.equal(response.data.status,'pending');assert.equal(JSON.parse(command[6]).status,'pending');
+ let command;const response=await invoke({redis:async c=>{command=c;return 1;}});assert.equal(response.status,201);assert.equal(response.data.status,'pending');assert.equal(JSON.parse(command[7]).status,'pending');
  assert.equal((await invoke({redis:async()=>{throw Error('private secret upstream detail');}})).status,503);
  assert.equal((await invoke({redis:async()=>0})).status,429);
 });

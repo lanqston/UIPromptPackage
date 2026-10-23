@@ -5,6 +5,7 @@ import { makeResourceViewHandler } from './resource-views.mjs';
 import { makeCardInteractionHandler } from './card-interactions.mjs';
 import { makeCarouselHandler, makeCarouselPublishHandler } from './carousels.mjs';
 import { makeFoundingAccessHandler, makeFoundingLogoutHandler } from './founding-access.mjs';
+import { makeProjectAccountHandler } from './project-account.mjs';
 
 // Share one deployment entry point; each handler retains its validation and response.
 // Carousel routes stay on this router so the deployment does not add a serverless function.
@@ -19,6 +20,7 @@ export function defaultPublicHandlers(overrides = {}) {
     'carousel-publish': makeCarouselPublishHandler(),
     'founding-access': makeFoundingAccessHandler(),
     'founding-logout': makeFoundingLogoutHandler(),
+    'project-account': makeProjectAccountHandler(),
     ...overrides,
   };
 }

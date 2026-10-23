@@ -164,7 +164,7 @@ function featureRedis() {
     const limit = Number(kv.get(keys[0]) || 0) + 1;
     kv.set(keys[0], String(limit));
     if (limit > 5) return 0;
-    if (keyCount === 4) {
+    if (keyCount === 5) {
       if (kv.has(keys[3])) return -1;
       kv.set(keys[3], argv[2]);
     }
@@ -207,7 +207,7 @@ test('one founding membership can submit one reviewed feature, and existing subm
   const saved = await submit({ ...project, submissionType: 'founding-feature', promotionVerified: true, memberSaleId: 'client-sale', verified: true, status: 'approved' }, { cookie, redis: store.redis });
   assert.equal(saved.status, 201);
   assert.equal(saved.data.status, 'pending');
-  const stored = JSON.parse(store.commands[0][7]);
+  const stored = JSON.parse(store.commands[0][8]);
   assert.equal(stored.status, 'pending');
   assert.deepEqual(stored.promotion, { requested: true, included: 'founding-membership', verified: false, memberSaleId: saleId, receiptReference: 'founding-membership' });
   assert.equal(store.commands[0][6], `digivated:founding-feature:${saleId}`);
@@ -218,11 +218,11 @@ test('one founding membership can submit one reviewed feature, and existing subm
   assert.equal(other.status, 201);
   const free = await submit(project, { redis: store.redis });
   assert.equal(free.status, 201);
-  assert.equal(store.commands.at(-1)[2], 3);
-  assert.equal(JSON.parse(store.commands.at(-1)[6]).promotion, undefined);
+  assert.equal(store.commands.at(-1)[2], 4);
+  assert.equal(JSON.parse(store.commands.at(-1)[7]).promotion, undefined);
   const paid = await submit({ ...project, submissionType: 'promotion', promotionPurchased: true, promotionReceipt: 'ORDER-TEST' }, { redis: store.redis });
   assert.equal(paid.status, 201);
-  assert.deepEqual(JSON.parse(store.commands.at(-1)[6]).promotion, { requested: true, receiptReference: 'ORDER-TEST', verified: false });
+  assert.deepEqual(JSON.parse(store.commands.at(-1)[7]).promotion, { requested: true, receiptReference: 'ORDER-TEST', verified: false });
 });
 
 test('a member feature stays private until review, then publishes without the sale id', () => {
