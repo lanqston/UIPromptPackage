@@ -1,0 +1,43 @@
+/* A visible project action; resource comments retain the compact icon. */
+html body.platform.light-theme [data-live-projects] .card-icon.card-feedback-trigger,
+html body.platform.light-theme.home-refresh [data-live-projects] .card-icon.card-feedback-trigger,
+html body.platform.light-theme.projects-dashboard [data-live-projects] .card-icon.card-feedback-trigger,
+html body.platform.light-theme .project-card .card-icon.card-feedback-trigger {
+  width:auto;min-width:0;height:38px;padding:0 11px;gap:7px;border:1px solid #d7d7d7;border-radius:9px;background:#fff;color:#202020;box-shadow:none;
+}
+html body.platform.light-theme [data-live-projects] .card-icon.card-feedback-trigger:hover,
+html body.platform.light-theme .project-card .card-icon.card-feedback-trigger:hover {background:#f2f2f2;border-color:#bdbdbd;color:#111}
+.platform .card-feedback-label{font-size:12px;font-weight:700;line-height:1;white-space:nowrap}
+
+html body.platform.light-theme .comment-dialog{width:min(560px,calc(100% - 24px));max-height:min(90dvh,760px);border:1px solid #d8d8d8;border-radius:20px;background:#fff;color:#1a1a1a;box-shadow:0 28px 100px #0003}
+html body.platform.light-theme .comment-dialog::backdrop{background:#151515a6;backdrop-filter:blur(3px)}
+html body.platform.light-theme .comment-dialog-header{align-items:flex-start;padding:25px 28px 19px;border-bottom:1px solid #ececec}
+.platform .feedback-heading{min-width:0}
+.platform .feedback-eyebrow{display:block;margin-bottom:8px;color:#6b6b6b;font-size:10px;font-weight:800;letter-spacing:.12em}
+html body.platform.light-theme .comment-dialog-header h2{font-size:clamp(1.2rem,4vw,1.5rem);letter-spacing:-.025em;line-height:1.2}
+.platform .feedback-intro{margin:8px 0 0;color:#666;font-size:13px;line-height:1.5}
+html body.platform.light-theme .comment-dialog-header button{display:grid;place-items:center;width:34px;height:34px;min-width:34px;min-height:34px;margin:0;border:0;border-radius:9px;background:#f3f3f3;color:#333;line-height:1}
+html body.platform.light-theme .comment-dialog-body{padding:22px 28px 26px}
+.platform .comment-form{gap:0}
+.platform .comment-form label{display:block;margin:0 0 7px;font-size:13px;font-weight:700;color:#242424}
+html body.platform.light-theme .comment-form textarea{min-height:126px;margin:0;padding:14px 15px;border:1px solid #c9c9c9;border-radius:12px;background:#fafafa;color:#171717;font:inherit;font-size:14px;line-height:1.5;resize:vertical}
+html body.platform.light-theme .comment-form textarea:focus,
+html body.platform.light-theme .comment-form input:focus{outline:2px solid #262626;outline-offset:2px;border-color:#262626;background:#fff}
+.platform .feedback-counter{justify-self:end;margin:6px 0 17px;color:#777;font-size:11px;font-variant-numeric:tabular-nums}
+html body.platform.light-theme .comment-form input{min-height:44px;margin:0 0 17px;padding:10px 13px;border:1px solid #d0d0d0;border-radius:10px;background:#fff;color:#171717;font:inherit;font-size:14px}
+.platform .feedback-form-actions{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.platform .feedback-note{max-width:285px;margin:0;color:#686868;font-size:11px;line-height:1.45}
+html body.platform.light-theme .comment-form button[type=submit]{justify-self:auto;flex:none;min-height:42px;margin:0;padding:10px 16px;border:1px solid #171717;border-radius:10px;background:#171717;color:#fff;font-size:12px;font-weight:700;box-shadow:none}
+html body.platform.light-theme .comment-form button[type=submit]:hover{background:#393939;color:#fff}
+.platform .comment-form button[type=submit]:disabled{opacity:.6;cursor:wait}
+.platform .comment-status{margin:9px 0 0;min-height:0;font-size:12px;line-height:1.5}
+.platform .comment-status:empty{display:none}
+.platform .feedback-responses{margin-top:22px;padding-top:20px;border-top:1px solid #ededed}
+.platform .feedback-responses h3{margin:0 0 11px;color:#242424;font-size:14px;letter-spacing:-.01em}
+.platform .feedback-empty{margin:0 0 4px;color:#777;font-size:13px;line-height:1.5}
+.platform .feedback-empty:empty{display:none}
+.platform .comment-list{max-height:190px;margin:0;gap:9px}
+html body.platform.light-theme .comment-list li{padding:12px 14px;border:1px solid #ececec;border-radius:10px;background:#fafafa}
+html body.platform.light-theme .comment-list strong{color:#222}
+html body.platform.light-theme .comment-list p{color:#555;line-height:1.5}
+@media(max-width:540px){html body.platform.light-theme .comment-dialog{width:calc(100% - 20px);max-height:calc(100dvh - 20px);border-radius:16px}html body.platform.light-theme .comment-dialog-header{padding:20px 18px 17px}html body.platform.light-theme .comment-dialog-body{padding:18px 18px 22px}.platform .feedback-form-actions{align-items:stretch;flex-direction:column-reverse;gap:10px}.platform .feedback-note{max-width:none}html body.platform.light-theme .comment-form button[type=submit]{width:100%;justify-content:center}}

@@ -79,16 +79,18 @@ export function makeCardInteractionHandler(deps={}) {
         return send(200,{liked:Boolean(Number(liked)),likes:Number(likes)});
       }
       const isFeedback=body.action==='feedback';
-      if(body.action!=='comment'&&!isFeedback)return send(400,{error:'Unknown action.'});
+      const isProjectFeedback=body.action==='project-feedback';
+      if(body.action!=='comment'&&!isFeedback&&!isProjectFeedback)return send(400,{error:'Unknown action.'});
+      if(isProjectFeedback&&type!=='project')return send(400,{error:'Choose a project to give feedback.'});
       if(isFeedback && (type!=='resource'||id!=='builtin-ui-ux-prompt-packet'))return send(400,{error:'Use the packet feedback form.'});
       if(isFeedback && typeof body.quoteConsent!=='boolean')return send(400,{error:'Choose whether your feedback may be quoted.'});
       if(body.company)return send(400,{error:'Check the form and try again.'});
       const name=typeof body.name==='string'?body.name.trim():'',comment=typeof body.comment==='string'?body.comment.trim():'';
-      if(name.length>40||comment.length<4||comment.length>500)return send(400,{error:'Use up to 40 characters for your name and 4 to 500 for your comment.'});
-      const entry={id:randomUUID(),type,itemId:id,name:name||(isFeedback?'Anonymous tester':'Guest'),body:comment,date:new Date().toISOString(),status:'pending',...(isFeedback?{purpose:'packet-feedback',quoteConsent:body.quoteConsent}:{})};
+      if(name.length>40||comment.length<4||comment.length>500)return send(400,{error:`Use up to 40 characters for your name and 4 to 500 for your ${isProjectFeedback?'feedback':'comment'}.`});
+      const entry={id:randomUUID(),type,itemId:id,name:name||(isFeedback?'Anonymous tester':'Guest'),body:comment,date:new Date().toISOString(),status:'pending',...(isFeedback?{purpose:'packet-feedback',quoteConsent:body.quoteConsent}:isProjectFeedback?{purpose:'project-feedback'}:{})};
       const saved=await redis(['EVAL',COMMENT,3,`digivated:card:comment-limit:${visitor}`,commentKey(entry.id),'digivated:card:comments:all',JSON.stringify(entry),Date.parse(entry.date),entry.id]);
-      if(saved!==1){res.setHeader('Retry-After','86400');return send(429,{error:'You’ve reached today’s comment limit. Please try again tomorrow.'});}
-      return send(201,{ok:true,message:isFeedback ? body.quoteConsent ? 'Thanks. Your feedback is saved for review. You have allowed a public quote; nothing is published automatically.' : 'Thanks. Your feedback is saved privately for review and will not be published.' : 'Thanks for sharing your thoughts. Your comment will appear after review.'});
+      if(saved!==1){res.setHeader('Retry-After','86400');return send(429,{error:`You’ve reached today’s ${isProjectFeedback?'feedback':'comment'} limit. Please try again tomorrow.`});}
+      return send(201,{ok:true,message:isFeedback ? body.quoteConsent ? 'Thanks. Your feedback is saved for review. You have allowed a public quote; nothing is published automatically.' : 'Thanks. Your feedback is saved privately for review and will not be published.' : isProjectFeedback?'Thanks for helping this creator. Your feedback was sent for review and will appear here if approved.':'Thanks for sharing your thoughts. Your comment will appear after review.'});
     }catch{return send(503,{error:'This action is temporarily unavailable. Please try again later.'});}
   };
 }

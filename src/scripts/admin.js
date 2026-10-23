@@ -33,7 +33,7 @@ function renderList() {
     }
     if(state.kind==='comments'){
       const packetFeedback=record.purpose==='packet-feedback';
-      copy.append(element('span',record.status,'tag'),element('h2',packetFeedback?'Packet trial feedback':`${record.type==='project'?'Project':'Resource'} comment`),element('p',`${record.name} · ${record.itemId} · ${record.date?.slice(0,10)}`,'quiet'),element('p',record.body));
+      copy.append(element('span',record.status,'tag'),element('h2',packetFeedback?'Packet trial feedback':record.type==='project'?'Project feedback':'Resource comment'),element('p',`${record.name} · ${record.itemId} · ${record.date?.slice(0,10)}`,'quiet'),element('p',record.body));
       if(packetFeedback)copy.append(element('p',record.quoteConsent?'Author permits a public quote. Approve only genuine feedback you have reviewed.':'Private feedback. No permission to publish.','quiet'));
       const actions=element('div',undefined,'actions');
       if(record.status==='pending')for(const [value,label] of [['approved',packetFeedback?'Approve public quote':'Approve'],['rejected','Reject']]){if(value==='approved'&&packetFeedback&&!record.quoteConsent)continue;const button=element('button',label,'button');button.type='button';button.addEventListener('click',async()=>{button.disabled=true;try{await api('',{action:'moderate-comment',id:record.id,status:value});message(value==='approved'?'Comment published.':'Comment rejected.');await load();}catch(error){button.disabled=false;message(errorText(error));}});actions.append(button);}

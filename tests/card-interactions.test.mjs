@@ -58,6 +58,17 @@ test('cross-site writes and invalid requests fail before any interaction is stor
  assert.equal((await call(handler,'POST','../private',{action:'like'})).status,404);
  assert.equal((await call(handler,'GET','project-one')).data.likes,0);
 });
+test('project feedback stays pending until moderation and cannot be sent to resources',async()=>{
+ const {redis,values}=fixtureRedis(),handler=makeCardInteractionHandler({redis,env:{SUBMISSIONS_ORIGIN:origin}});
+ values.set('digivated:submission:project-one',JSON.stringify({id:'project-one',status:'approved',consent:true}));
+ const sent=await call(handler,'POST','project-one',{action:'project-feedback',name:'Visitor',comment:'The onboarding is clear; a pricing example would help.'});
+ assert.equal(sent.status,201);assert.match(sent.data.message,/feedback was sent for review/);
+ assert.deepEqual((await call(handler,'GET','project-one')).data.comments,[]);
+ const pending=(await listPendingComments(redis)).items[0];assert.equal(JSON.parse(values.get(`digivated:card:comment:${pending.id}`)).purpose,'project-feedback');
+ assert.equal(await moderateComment(redis,pending.id,'approved'),1);
+ assert.equal((await call(handler,'GET','project-one')).data.comments[0].body,'The onboarding is clear; a pricing example would help.');
+ assert.equal((await call(handler,'POST','builtin-ui-ux-prompt-packet',{action:'project-feedback',comment:'A useful note'},{},'resource')).status,400);
+});
 
 test('private packet feedback cannot be published and never appears in public responses',async()=>{
  const {redis,values,sorted}=fixtureRedis(),handler=makeCardInteractionHandler({redis,env:{SUBMISSIONS_ORIGIN:origin}}),id='builtin-ui-ux-prompt-packet';
