@@ -14,7 +14,7 @@ import SiteFooter from '../components/SiteFooter.astro';
 import DiscoveryTools from '../components/DiscoveryTools.astro';
 const { title = 'Tech. AI. Markets. What’s next.', description = 'Digivated explores technology, AI, markets, useful tools, and independent projects.' } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const sectionNames: Record<string,string> = { '/discover':'Projects', '/resources':'Resources', '/carousels':'Carousels', '/products':'Digital Products', '/ui-ux-prompt-packet':'Prompt Packet', '/submit-project':'Submit Project', '/account':'Your Projects', '/promote':'Promote your project', '/about':'About', '/privacy':'Privacy & Data', '/terms':'Terms of Use' };
+const sectionNames: Record<string,string> = { '/discover':'Projects', '/resources':'Resources', '/carousels':'Carousels', '/products':'Digital Products', '/ui-ux-prompt-packet':'Prompt Packet', '/submit-project':'Submit Project', '/account':'Your Projects', '/login':'Log in', '/promote':'Promote your project', '/about':'About', '/privacy':'Privacy & Data', '/terms':'Terms of Use' };
 const breadcrumb = sectionNames[path] || title;
 import '../styles/monochrome.css';
 import '../styles/projects-refined.css';
