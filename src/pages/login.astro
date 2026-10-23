@@ -4,7 +4,7 @@ import '../styles/project-account.css';
 ---
 <Platform title="Log in" description="Sign in or create a Digivated account with a secure email link to track project submissions and feedback.">
   <section class="login-page" aria-labelledby="login-title">
-    <header class="login-heading"><p class="eyebrow">DIGIVATED ACCOUNT</p><h1 id="login-title">Welcome to Digivated.</h1><p>Sign in to manage your submissions and see private review feedback.</p></header>
+    <header class="login-heading"><p class="eyebrow">DIGIVATED ACCOUNT</p><h1 id="login-title">Welcome to Digivated.</h1><p>Sign in to save your place and see private feedback if you submit a project.</p></header>
     <div class="login-panel">
       <div class="login-tabs" role="tablist" aria-label="Account access">
         <button id="login-tab-signin" role="tab" type="button" aria-selected="true" aria-controls="login-form-panel">Sign in</button>
@@ -14,10 +14,11 @@ import '../styles/project-account.css';
         <p class="login-explanation" id="login-explanation">Enter your email and we’ll send you a one-click sign-in link. No password needed.</p>
         <form id="login-email-form"><label for="login-email">Email address</label><input id="login-email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com" required/><button class="button primary" id="login-submit" type="submit">Email me a sign-in link</button></form>
         <p id="login-status" role="status" aria-live="polite"></p>
-        <p class="login-help">Use the same email address you submit projects with. Your account opens after you follow the link in your inbox.</p>
+        <p class="login-help">You don’t need to submit a project to have an account. If you do submit one later, use this email to track it.</p>
       </div>
       <div id="login-signed-in" hidden><p>You’re signed in as <strong id="login-account-email"></strong>.</p><a class="button primary" href="/account">View your projects</a></div>
     </div>
+    <p class="login-browse">Just looking around? <a href="/discover?view=featured">Browse featured projects</a> without signing in.</p>
   </section>
   <script>import '../scripts/login.js';</script>
 </Platform>

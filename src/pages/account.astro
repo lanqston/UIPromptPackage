@@ -7,7 +7,7 @@ import '../styles/project-account.css';
   <section class="project-account-card" aria-label="Project account">
     <p id="account-state" role="status" aria-live="polite">Connecting to account sign-in…</p>
     <form id="account-sign-in" hidden><label>Email address<input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com"/></label><button class="button primary" type="submit">Email me a sign-in link</button><p class="field-help">The link verifies your email and opens this page. Use the same address you use when submitting a project.</p></form>
-    <div id="account-signed-in" hidden><p>Signed in as <strong id="account-email"></strong></p><div class="account-actions"><a class="button primary" href="/submit-project">Submit a project</a><button class="button" id="account-sign-out" type="button">Sign out</button></div><h2>My submissions</h2><div id="account-submissions"></div></div>
+    <div id="account-signed-in" hidden><p>Signed in as <strong id="account-email"></strong></p><div class="account-actions"><a class="button primary" href="/discover?view=featured">Browse featured projects</a><a class="button" href="/submit-project">Submit a project</a><button class="button" id="account-sign-out" type="button">Sign out</button></div><h2>My submissions</h2><div id="account-submissions"></div></div>
   </section>
   <script>import '../scripts/project-account.js';</script>
 </Platform>

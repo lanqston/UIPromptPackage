@@ -7,6 +7,10 @@ test('login entry point exposes sign-in and sign-up email flows', async ({ page 
   await page.getByRole('link', { name: 'Log in' }).click();
   await expect(page).toHaveURL(/\/login\/?$/);
   await expect(page.getByRole('heading', { name: 'Welcome to Digivated.' })).toBeVisible();
+  await page.getByRole('link', { name: 'Browse featured projects' }).click();
+  await expect(page).toHaveURL(/\/discover\?view=featured$/);
+  await expect(page.getByRole('button', { name: /Featured/ })).toHaveAttribute('aria-pressed', 'true');
+  await page.goto('http://127.0.0.1:4321/login');
   await expect(page.getByRole('tab', { name: 'Sign in' })).toHaveAttribute('aria-selected', 'true');
   await page.getByRole('tab', { name: 'Sign up' }).click();
   await expect(page.getByRole('tab', { name: 'Sign up' })).toHaveAttribute('aria-selected', 'true');

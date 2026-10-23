@@ -23,7 +23,7 @@ if(form){
   const {data:{session}}=await client.auth.getSession();
   if(session?.access_token){
    const account=await fetch('/api/project-account',{headers:{Authorization:`Bearer ${session.access_token}`},cache:'no-store'});
-   if(account.ok){document.getElementById('login-account-email').textContent=session.user.email;document.getElementById('login-form-panel').hidden=true;document.querySelector('.login-tabs').hidden=true;document.getElementById('login-signed-in').hidden=false;return;}
+   if(account.ok){location.replace('/discover?view=featured');return;}
   }
   form.onsubmit=async event=>{
    event.preventDefault();const email=form.elements.email.value.trim();submit.disabled=true;status.textContent='Sending your email link…';
