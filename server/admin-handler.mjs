@@ -6,6 +6,7 @@ import { AdminError, adminConfig, verifyPassword, createSession, requireSession,
 import { isDigivatedPick, listRecords, saveRecord, storageKey, validId } from './admin-store.mjs';
 import { listPendingComments, moderateComment } from './card-interactions.mjs';
 import { listAccounts, setAccountBan } from './admin-accounts.mjs';
+import { sendProjectUpdate } from './account-mail.mjs';
 const LIMIT = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],900) end; return n`;
 export function makeAdminHandler(deps = {}) {
   return async (req, res) => {
@@ -51,8 +52,14 @@ export function makeAdminHandler(deps = {}) {
         }
         if (body.action === 'account-status') return send(200, await setAccountBan(env, body.id, body.operation, deps.accountClient));
         if (body.action !== 'save' || !['submission', 'resource', 'product'].includes(body.kind) || !body.record || typeof body.record !== 'object') throw new AdminError(400, 'Invalid dashboard action.');
+        const previous = body.kind === 'submission' ? await redis(['GET',storageKey('submission',body.record.id)]) : null;
         const record = await saveRecord(redis, body.kind, body.record);
-        return send(200, { ok: true, record });
+        let notification = 'skipped';
+        if (body.kind === 'submission') {
+          try { notification = await (deps.notifyProjectUpdate || sendProjectUpdate)(previous ? JSON.parse(previous) : null,record,env,deps.fetcher||fetch,deps.accountClient); }
+          catch { notification = 'failed'; }
+        }
+        return send(200, { ok: true, record, notification });
       }
       const session = await requireSession(req, redis, cfg);
       const url = new URL(req.url, cfg.origin);

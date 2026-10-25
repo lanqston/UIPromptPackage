@@ -185,7 +185,10 @@ $('owner-editor-form').addEventListener('submit',async event=>{
       record.page={bio:formData.get('pageBio'),alt:formData.get('pageAlt'),ctaLabel:formData.get('pageCtaLabel'),ctaUrl:formData.get('pageCtaUrl'),consent:formData.get('pageConsent')==='on',gallery:gallery.filter(Boolean)};
     }
     const file=formData.get('upload');if(file?.size){if(file.size>500*1024||!['image/jpeg','image/png','image/webp'].includes(file.type))throw new Error('Use a JPG, PNG, or WebP image up to 500 KB.');record.image=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Could not read image.'));reader.readAsDataURL(file);});}
-    const data=await api('',{action:'save',kind:state.kind,record});renderEditor(data.record);state.dirty=false;message(record.pageAction ? (data.record.pagePublished?'Saved. Launch page is published.':'Saved. Launch page is private.') : ['approved','featured','published'].includes(data.record.status)?'Saved. This item is now public.':'Saved. This item is not public.',true);await load();
+    const data=await api('',{action:'save',kind:state.kind,record});renderEditor(data.record);state.dirty=false;
+    const savedMessage=record.pageAction ? (data.record.pagePublished?'Saved. Launch page is published.':'Saved. Launch page is private.') : ['approved','featured','published'].includes(data.record.status)?'Saved. This item is now public.':'Saved. This item is not public.';
+    const emailMessage=data.notification==='sent'?' The creator was emailed.':data.notification==='unavailable'?' Email notifications are not configured yet.':data.notification==='failed'?' The creator email could not be sent. The project was saved.':'';
+    message(savedMessage+emailMessage,true);await load();
   }catch(error){message(errorText(error),true);if(!state.csrf)message(errorText(error));}
   finally{state.busy=false;$('owner-editor-form').querySelectorAll('button[type=submit]').forEach(button=>button.disabled=button.value==='featured'&&!['approved','featured'].includes(state.record?.status));}
 });
