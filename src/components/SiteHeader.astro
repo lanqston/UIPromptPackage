@@ -1,8 +1,9 @@
 ---
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const features = [
-  ['/resources','Resources','Free previews and learning resources'],
   ['/discover','Projects','Discover independent work'],
+  ['/resources','Resources','Read practical guides and news'],
+  ['/carousels','Carousels','Quick visual explainers'],
   ['/submit-project','Submit a project','Share your work for free review'],
 ];
 const paidOptions = [
@@ -15,11 +16,12 @@ const active = (href: string) => path === href || path.startsWith(href + '/') ||
 <header class="platform-header compact-site-header">
   <div class="header-inner">
     <a class="platform-brand" href="/" aria-label="Digivated home"><span class="x-brand-mark" aria-hidden="true"></span><span>Digivated</span></a>
+    <nav class="header-primary" aria-label="Primary navigation">{features.map(([href,label])=><a href={href} aria-current={active(href)?'page':undefined}>{label}</a>)}</nav>
     <div class="compact-header-actions">
-      <a class="header-login" id="header-account-link" href="/login" aria-current={active('/login')?'page':undefined}>Log In</a>
       <button class="header-search" type="button" data-open-search aria-label="Search Digivated"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button>
-      <details class="explore-menu"><summary aria-controls="explore-navigation"><span>Explore</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <nav id="explore-navigation" aria-label="Main navigation"><p class="explore-label">Browse for free</p><div class="explore-features">{features.map(([href,label,description])=><a href={href} aria-current={active(href)?'page':undefined}><span><strong>{label}</strong><small>{description}</small></span><span aria-hidden="true">→</span></a>)}</div><section class="explore-paid" aria-labelledby="paid-options-title"><h2 class="explore-label" id="paid-options-title">Paid options</h2><div class="explore-features">{paidOptions.map(([href,label,description])=><a href={href} aria-current={active(href)?'page':undefined}><span><strong>{label}</strong><small>{description}</small></span><span aria-hidden="true">→</span></a>)}</div></section><a class="explore-member-access" href="/founding-members#member-sign-in">Member access →</a><div class="explore-utilities"><a href="/account">Your projects</a><a href="/access">Packet access</a><a href="/saved">Saved items</a><a href="/about">About</a></div></nav>
+      <a class="header-login" id="header-account-link" href="/login" aria-current={active('/login')?'page':undefined}>Log In</a>
+      <details class="explore-menu"><summary aria-controls="explore-navigation"><span class="menu-label-desktop">More</span><span class="menu-label-mobile">Menu</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <nav id="explore-navigation" aria-label="More navigation"><p class="explore-label">Browse Digivated</p><div class="explore-features">{features.map(([href,label,description])=><a href={href} aria-current={active(href)?'page':undefined}><span><strong>{label}</strong><small>{description}</small></span><span aria-hidden="true">→</span></a>)}</div><section class="explore-paid" aria-labelledby="paid-options-title"><h2 class="explore-label" id="paid-options-title">Products and paid options</h2><div class="explore-features">{paidOptions.map(([href,label,description])=><a href={href} aria-current={active(href)?'page':undefined}><span><strong>{label}</strong><small>{description}</small></span><span aria-hidden="true">→</span></a>)}</div></section><div class="explore-utilities"><button type="button" data-open-search>Search Digivated</button><a href="/account">Your projects</a><a href="/login">Log in or sign up</a><a href="/saved">Saved items</a><a href="/access">Packet access</a><a href="/about">About</a></div></nav>
       </details>
     </div>
   </div>
