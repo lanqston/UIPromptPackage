@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { makeReturnEmailHandler, makeWeeklyDigestHandler } from '../server/return-emails.mjs';
 
 const id='a5b2b29e-1aa2-4000-8000-63cfcc6be725',email='owner@example.com';
-const env={SUBMISSIONS_REDIS_REST_TOKEN:'fixture-redis-secret',RESEND_API_KEY:'fixture-resend',ACCOUNT_EMAIL_FROM:'Digivated <hello@digivated.com>',COMMUNITY_SUPABASE_SECRET_KEY:'fixture',WEEKLY_EMAIL_POSTAL_ADDRESS:'123 Example St, Test City, NY 10001',CRON_SECRET:'fixture-cron-secret'};
+const env={SUBMISSIONS_REDIS_REST_TOKEN:'fixture-redis-secret',RESEND_API_KEY:'fixture-resend',ACCOUNT_EMAIL_FROM:'Digivated <hello@digivated.com>',WEEKLY_EMAIL_FROM:'Digivated <updates@digivated.com>',COMMUNITY_SUPABASE_SECRET_KEY:'fixture',WEEKLY_EMAIL_POSTAL_ADDRESS:'123 Example St, Test City, NY 10001',CRON_SECRET:'fixture-cron-secret'};
 function fixture(){
  const entries=new Map(),members=new Map(),sent=[];
  const redis=async ([command,...args])=>{
@@ -56,5 +56,6 @@ test('digest sends only recent published projects and stops at ten recipients',a
  assert.equal(result.body.sent,10);assert.equal(f.sent.length,10);
  assert.match(f.sent[0].text,/New tool/);assert.doesNotMatch(f.sent[0].text,/Private project/);
  assert.match(f.sent[0].text,/Unsubscribe:/);assert.match(f.sent[0].text,/123 Example St/);
+ assert.equal(f.sent[0].from,'Digivated <updates@digivated.com>');
  assert.equal([...f.members.values()].filter(score=>score>0).length,10);
 });
