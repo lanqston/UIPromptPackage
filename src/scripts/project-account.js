@@ -22,6 +22,12 @@ if(state){
   if(authState==='unavailable'){show('You have a session, but we could not verify your account right now. Please try again shortly.');list.textContent='Your submissions could not be loaded.';return;}
   if(arrivingFromEmail){location.replace('/discover?view=featured&signed_in=1');return;}
   show(`You're logged in as ${email}.`);
+  const weekly=document.getElementById('weekly-email'),toggle=document.getElementById('weekly-toggle'),weeklyStatus=document.getElementById('weekly-status');
+  try{
+   const headers={Authorization:`Bearer ${session.access_token}`};
+   const response=await fetch('/api/return-emails?action=status',{headers,cache:'no-store'});
+   if(response.ok){let subscribed=(await response.json()).subscribed;weekly.hidden=false;const update=()=>{toggle.textContent=subscribed?'Stop weekly emails':'Get weekly emails';};update();toggle.onclick=async()=>{toggle.disabled=true;weeklyStatus.textContent='Saving…';try{const result=await fetch(`/api/return-emails?action=${subscribed?'off':'on'}`,{method:'POST',headers:{...headers,'Content-Type':'application/json'},body:'{}'}),data=await result.json();if(!result.ok)throw Error(data.error||'Try again.');subscribed=data.subscribed;update();weeklyStatus.textContent=data.pending?'Check your inbox and confirm your subscription.':subscribed?'Weekly emails are on.':'Weekly emails are off.';}catch(error){weeklyStatus.textContent=error.message;}finally{toggle.disabled=false;}};}
+  }catch{}
   try{
    const response=await fetch('/api/project-account',{headers:{Authorization:`Bearer ${session.access_token}`},cache:'no-store'});
    const data=await response.json();
