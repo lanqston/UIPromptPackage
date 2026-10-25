@@ -2,7 +2,7 @@
 import Platform from '../layouts/Platform.astro';
 import '../styles/project-account.css';
 ---
-<Platform title="Log in" description="Sign in or create a Digivated account with a secure email link to track project submissions and feedback.">
+<Platform title="Log in" description="Sign in or create a Digivated account to track project submissions and feedback.">
   <section class="login-page" aria-labelledby="login-title">
     <header class="login-heading"><p class="eyebrow">DIGIVATED ACCOUNT</p><h1 id="login-title">Welcome to Digivated.</h1><p>Sign in to save your place and see private feedback if you submit a project.</p></header>
     <div class="login-panel">
@@ -11,8 +11,9 @@ import '../styles/project-account.css';
         <button id="login-tab-signup" role="tab" type="button" aria-selected="false" aria-controls="login-form-panel">Sign up</button>
       </div>
       <div id="login-form-panel" role="tabpanel" aria-labelledby="login-tab-signin">
-        <p class="login-explanation" id="login-explanation">Enter your email and we’ll send you a one-click sign-in link. No password needed.</p>
-        <form id="login-email-form"><label for="login-email">Email address</label><input id="login-email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com" required/><button class="button primary" id="login-submit" type="submit">Email me a sign-in link</button></form>
+        <p class="login-explanation" id="login-explanation">Enter your email and password to sign in.</p>
+        <form id="login-email-form"><label for="login-email">Email address</label><input id="login-email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com" required/><label for="login-password" id="login-password-label">Password</label><input id="login-password" name="password" type="password" autocomplete="current-password" minlength="1" required/><button class="button primary" id="login-submit" type="submit">Sign in</button></form>
+        <p class="login-help"><button type="button" id="login-email-link" class="button">Email me a sign-in link</button> <button type="button" id="login-reset" class="button">Set or reset password</button></p>
         <p id="login-status" role="status" aria-live="polite"></p>
         <p class="login-help">You don’t need to submit a project to have an account. If you do submit one later, use this email to track it.</p>
       </div>
