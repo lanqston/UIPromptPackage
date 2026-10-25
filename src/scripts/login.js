@@ -5,6 +5,7 @@ if(form){
  const tabs=[document.getElementById('login-tab-signin'),document.getElementById('login-tab-signup')];
  const status=document.getElementById('login-status'),submit=document.getElementById('login-submit'),explanation=document.getElementById('login-explanation'),password=form.elements.password;
  let mode=new URLSearchParams(location.search).get('mode')==='signup'?'signup':'signin';
+ let pendingSignup=null;const confirmed=document.getElementById('login-confirmed');
  const render=()=>{
   tabs.forEach((tab,index)=>{const selected=(index===0?'signin':'signup')===mode;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;});
   document.getElementById('login-form-panel').setAttribute('aria-labelledby',mode==='signin'?'login-tab-signin':'login-tab-signup');
@@ -13,7 +14,7 @@ if(form){
   password.autocomplete=mode==='signin'?'current-password':'new-password';password.minLength=mode==='signin'?1:8;
   status.textContent='';
  };
- tabs.forEach((tab,index)=>{tab.onclick=()=>{mode=index===0?'signin':'signup';render();};tab.onkeydown=event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();const next=tabs[index===0?1:0];next.click();next.focus();};});
+ tabs.forEach((tab,index)=>{tab.onclick=()=>{mode=index===0?'signin':'signup';pendingSignup=null;confirmed.hidden=true;render();};tab.onkeydown=event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();const next=tabs[index===0?1:0];next.click();next.focus();};});
  render();
  async function boot(){
   const {state:authState,client}=await accountSession();
@@ -26,11 +27,13 @@ if(form){
    try{
     const {data,error}=mode==='signup'?await client.auth.signUp({email,password:password.value,options:{emailRedirectTo:`${location.origin}/account`}}):await client.auth.signInWithPassword({email,password:password.value});
     if(error)throw error;
-    password.value='';if(data.session){location.replace('/account');return;}
-    status.textContent=mode==='signup'?`Check ${email} for a verification link. Then sign in with your password.`:'Please check your email and try again.';
+    if(data.session){password.value='';location.replace('/account');return;}
+    if(mode==='signup'){pendingSignup={email,password:password.value};confirmed.hidden=false;password.value='';status.textContent=`Check ${email} for a verification link. After opening it, return to this tab and select “I verified my email — continue here.” Keep this tab open.`;}
+    else status.textContent='Please check your email and try again.';
    }catch(error){throw error;}
    });
   };
+  confirmed.onclick=event=>action(event.currentTarget,async()=>{if(!pendingSignup)return;const {data,error}=await client.auth.signInWithPassword(pendingSignup);if(error){if(error.code==='email_not_confirmed'){status.textContent='Your email is not verified yet. Open the verification link, then try again here.';return;}throw error;}pendingSignup=null;confirmed.hidden=true;if(data.session)location.replace('/account');});
   document.getElementById('login-email-link').onclick=event=>action(event.currentTarget,async email=>{const {error}=await client.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:`${location.origin}/account`}});if(error)throw error;status.textContent=`If ${email} has an account, a sign-in link is on its way.`;});
   document.getElementById('login-reset').onclick=event=>action(event.currentTarget,async email=>{const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:`${location.origin}/community/settings`});if(error)throw error;status.textContent=`If ${email} has an account, a password setup link is on its way.`;});
  }
