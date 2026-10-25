@@ -42,11 +42,12 @@ export function makeReturnEmailHandler(deps={}){return async(req,res)=>{
   if(!['GET','POST'].includes(req.method))return json(res,405,{error:'Method not allowed.'});
   if(req.method==='POST'&&(req.headers.origin!=='https://digivated.com'||!/^application\/json(?:;|$)/i.test(req.headers['content-type']||'')))return json(res,403,{error:'Open Digivated to change preferences.'});
   const account=await (deps.verifyAccount||verifiedAccount)(req,env,deps.fetcher||fetch);if(!account)return json(res,401,{error:'Sign in to manage email preferences.'});
-  if(req.method==='GET'&&action==='status'){const stored=await redis(['GET',preference(account.id)]);return json(res,200,{subscribed:stored?JSON.parse(stored).email===account.email:false});}
+  if(req.method==='GET'&&action==='status'){const stored=await redis(['GET',preference(account.id)]);return json(res,200,{subscribed:stored?JSON.parse(stored).email===account.email:false,available:!!env.WEEKLY_EMAIL_POSTAL_ADDRESS});}
   if(req.method==='POST'&&action==='off'){
    await redis(['DEL',preference(account.id)]);await redis(['ZREM',MEMBERS,account.id]);return json(res,200,{subscribed:false});
   }
   if(req.method==='POST'&&action==='on'){
+   if(!env.WEEKLY_EMAIL_POSTAL_ADDRESS)return json(res,503,{error:'Weekly emails are being set up. Please check back soon.'});
    const previous=await redis(['GET',preference(account.id)]);if(previous&&JSON.parse(previous).email===account.email)return json(res,200,{subscribed:true});
    const limit=`digivated:weekly:request:${account.id}`;
    if(Number(await redis(['INCR',limit]))>3)return json(res,429,{error:'Please try again tomorrow.'});
