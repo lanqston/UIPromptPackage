@@ -41,6 +41,10 @@ test('digest requires the cron secret and configured mailing address',async()=>{
  const result=await f.invoke(handler,'GET','/api/weekly-digest',undefined,{authorization:`Bearer ${env.CRON_SECRET}`});assert.equal(result.status,200);assert.equal(result.body.sent,0);
  const noAddress=makeWeeklyDigestHandler({...f.deps,env:{...env,WEEKLY_EMAIL_POSTAL_ADDRESS:''}});
  assert.equal((await f.invoke(noAddress,'GET','/api/weekly-digest',undefined,{authorization:`Bearer ${env.CRON_SECRET}`})).status,503);
+ const preference=makeReturnEmailHandler({...f.deps,env:{...env,WEEKLY_EMAIL_POSTAL_ADDRESS:''}});
+ assert.equal((await f.invoke(preference,'GET','/api/return-emails?action=status')).body.available,false);
+ assert.equal((await f.invoke(preference,'POST','/api/return-emails?action=on',{})).status,503);
+ assert.equal(f.sent.length,0);
 });
 
 test('digest sends only recent published projects and stops at ten recipients',async()=>{
