@@ -83,7 +83,7 @@ export function makeWeeklyDigestHandler(deps={}){return async(req,res)=>{
    if(error||data?.user?.email?.toLowerCase()!==email){await redis(['DEL',preference(id)]);await redis(['ZREM',MEMBERS,id]);continue;}
    const unsubscribe=`https://digivated.com/api/return-emails?action=unsubscribe&id=${encodeURIComponent(id)}&signature=${sign(id,env.SUBMISSIONS_REDIS_REST_TOKEN)}`;
    const text=`New on Digivated this week:\n\n${projects.map(p=>`${p.name} — ${p.url}`).join('\n\n')}\n\nBrowse more: https://digivated.com/discover?view=featured\n\nUnsubscribe: ${unsubscribe}\n\nDigivated\n${env.WEEKLY_EMAIL_POSTAL_ADDRESS}`;
-   const response=await (deps.fetcher||fetch)('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json','Idempotency-Key':`weekly-${id}-${new Date(now).toISOString().slice(0,10)}`},body:JSON.stringify({from:env.ACCOUNT_EMAIL_FROM,to:[email],subject:'New projects on Digivated',text,headers:{'List-Unsubscribe':`<${unsubscribe}>`}}),signal:AbortSignal.timeout(8000),redirect:'error'});
+   const response=await (deps.fetcher||fetch)('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json','Idempotency-Key':`weekly-${id}-${new Date(now).toISOString().slice(0,10)}`},body:JSON.stringify({from:env.WEEKLY_EMAIL_FROM||env.ACCOUNT_EMAIL_FROM,to:[email],subject:'New projects on Digivated',text,headers:{'List-Unsubscribe':`<${unsubscribe}>`}}),signal:AbortSignal.timeout(8000),redirect:'error'});
    if(response.ok){await redis(['ZADD',MEMBERS,now,id]);sent++;}
   }
   return json(res,200,{sent});
