@@ -9,6 +9,7 @@ if (menu) {
   document.addEventListener('click', event => { if (menu.open && !menu.contains(event.target)) close(); });
   document.addEventListener('focusin', event => { if (menu.open && !menu.contains(event.target)) close(); });
   menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => close()));
+  menu.querySelectorAll('[data-open-search]').forEach(button => button.addEventListener('click', () => close()));
 
 }
 
