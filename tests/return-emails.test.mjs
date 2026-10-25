@@ -14,8 +14,8 @@ function fixture(){
   if(command==='EXPIRE')return 1;
   if(command==='ZADD'){members.set(args[2],Number(args[1]));return 1;}
   if(command==='ZREM'){members.delete(args[1]);return 1;}
-  if(command==='ZRANGEBYSCORE')return [...members].filter(([,score])=>score<=Number(args[2])).map(([key])=>key);
-  if(command==='ZREVRANGE')return [];
+  if(command==='ZRANGEBYSCORE')return [...members].filter(([,score])=>score<=Number(args[2])).map(([key])=>key).slice(Number(args[4]),Number(args[4])+Number(args[5]));
+  if(command==='ZREVRANGE')return [...entries.keys()].filter(key=>key.startsWith('digivated:submission:')).map(key=>key.slice('digivated:submission:'.length));
   if(command==='MGET')return args.map(key=>entries.get(key)||null);
   throw Error(command);
  };
@@ -41,4 +41,16 @@ test('digest requires the cron secret and configured mailing address',async()=>{
  const result=await f.invoke(handler,'GET','/api/weekly-digest',undefined,{authorization:`Bearer ${env.CRON_SECRET}`});assert.equal(result.status,200);assert.equal(result.body.sent,0);
  const noAddress=makeWeeklyDigestHandler({...f.deps,env:{...env,WEEKLY_EMAIL_POSTAL_ADDRESS:''}});
  assert.equal((await f.invoke(noAddress,'GET','/api/weekly-digest',undefined,{authorization:`Bearer ${env.CRON_SECRET}`})).status,503);
+});
+
+test('digest sends only recent published projects and stops at ten recipients',async()=>{
+ const f=fixture(),handler=makeWeeklyDigestHandler(f.deps),now=Date.now();
+ f.entries.set('digivated:submission:recent',JSON.stringify({status:'featured',name:'New tool',url:'https://example.com',reviewedAt:new Date(now).toISOString()}));
+ f.entries.set('digivated:submission:private',JSON.stringify({status:'pending',name:'Private project',url:'https://private.example',reviewedAt:new Date(now).toISOString()}));
+ for(let n=0;n<12;n++){const member=`member-${n}`;f.entries.set(`digivated:weekly:preference:${member}`,JSON.stringify({email}));f.members.set(member,0);}
+ const result=await f.invoke(handler,'GET','/api/weekly-digest',undefined,{authorization:`Bearer ${env.CRON_SECRET}`});
+ assert.equal(result.body.sent,10);assert.equal(f.sent.length,10);
+ assert.match(f.sent[0].text,/New tool/);assert.doesNotMatch(f.sent[0].text,/Private project/);
+ assert.match(f.sent[0].text,/Unsubscribe:/);assert.match(f.sent[0].text,/123 Example St/);
+ assert.equal([...f.members.values()].filter(score=>score>0).length,10);
 });
