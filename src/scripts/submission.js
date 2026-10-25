@@ -9,10 +9,10 @@ if (form) {
     const {data:{session}}=await accountClient.auth.getSession();
     if(session?.user?.email_confirmed_at){
       const response=await fetch('/api/project-account',{headers:{Authorization:`Bearer ${session.access_token}`},cache:'no-store'});
-      if(response.ok){accountVerified=true;form.elements.email.value=session.user.email;form.elements.email.readOnly=true;document.getElementById('submission-account-status').textContent=`Signed in as ${session.user.email}. This project will appear in your account.`;}
-      else document.getElementById('submission-account-status').innerHTML='To track this project, <a href="/login">sign in with an emailed link</a> before submitting. You can still submit without an account.';
+      if(response.ok){accountVerified=true;form.elements.email.value=session.user.email;form.elements.email.readOnly=true;document.getElementById('submission-account-status').textContent=`Signed in as ${session.user.email}. This project will appear in your account.`;updateButton();}
+      else document.getElementById('submission-account-status').innerHTML='To submit a project, <a href="/login">sign in or create an account</a> first.';
     }
-  }).catch(()=>{});
+  }).catch(()=>{document.getElementById('submission-account-status').textContent='Accounts are temporarily unavailable. Please try again shortly.';});
   const button = form.querySelector('button[type=submit]');
   const status = document.getElementById('submission-status');
   const intent = document.getElementById('submission-type');
@@ -28,9 +28,11 @@ if (form) {
   if (query.get('promotion') === '1') intent.value = 'promotion';
   if (query.get('membership') === '1') intent.value = 'founding-feature';
   intent.addEventListener('change',syncIntent); syncIntent();
-  button.disabled = false;
+  const updateButton = () => { button.disabled = !accountVerified; };
+  updateButton();
   form.addEventListener('submit', async event => {
     event.preventDefault();
+    if (!accountVerified) { status.innerHTML='Please <a href="/login">sign in or create an account</a> before submitting.'; return; }
     if (!form.reportValidity()) return;
     button.disabled = true;
     status.textContent = 'Sending your project for review…';
@@ -44,7 +46,8 @@ if (form) {
         if (file.size > 500 * 1024 || !['image/jpeg','image/png','image/webp'].includes(file.type)) throw new Error('Choose a JPG, PNG, or WebP image smaller than 500 KB.');
         payload.image = await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('The image could not be read. Try another file.'));reader.readAsDataURL(file);});
       }
-      const {data:{session}}=accountClient&&accountVerified?await accountClient.auth.getSession():{data:{session:null}};
+      const {data:{session}}=await accountClient.auth.getSession();
+      if(!session?.user?.email_confirmed_at)throw new Error('Your session expired. Sign in again before submitting.');
       const response = await fetch('/api/submissions', {method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json',...(session?.user?.email_confirmed_at?{Authorization:`Bearer ${session.access_token}`}:{})},body:JSON.stringify(payload),signal:AbortSignal.timeout(20000)});
       const data = await response.json().catch(()=>({}));
       if (!response.ok) throw new Error(data.error || 'Your project could not be submitted. Your details are still here; please try again.');
@@ -55,6 +58,6 @@ if (form) {
       status.focus();
     } catch (error) {
       status.textContent = error.name === 'TimeoutError' ? 'The response took too long. Your submission may have been received; please wait before trying again.' : (error.message || 'Unable to submit. Please try again.');
-    } finally { button.disabled = false; }
+    } finally { updateButton(); }
   });
 }

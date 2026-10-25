@@ -82,7 +82,7 @@ export function makeSubmissionHandler(deps={}) {
       if(Buffer.byteLength(JSON.stringify(body)||'')>max)throw new SubmissionError(413,'The submission is too large.');
       let record=validateSubmission(body);
       const account=req.headers.authorization?await (deps.verifyAccount||verifiedAccount)(req,env,deps.fetcher||fetch):null;
-      if(req.headers.authorization&&!account)throw new SubmissionError(401,'Your sign-in expired. Sign in again before submitting.');
+      if(!account)throw new SubmissionError(401,'Create an account or sign in before submitting your project.');
       if(account&&record.email.toLowerCase()!==account.email)throw new SubmissionError(403,'Use the same email as your verified account.');
       if (record.promotion?.included === 'founding-membership') record = { ...record, promotion: await memberFeature(req, env, deps) };
       const redis=deps.redis||redisClient(env);

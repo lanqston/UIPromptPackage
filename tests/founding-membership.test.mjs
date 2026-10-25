@@ -185,9 +185,9 @@ async function submit(body, { cookie = '', redis, fetcher = foundingFetcher() } 
   let data = '';
   const responseHeaders = {};
   const res = { statusCode: 0, setHeader: (key, value) => { responseHeaders[key.toLowerCase()] = value; }, end: value => { data = value; } };
-  await makeSubmissionHandler({ env: submissionEnv, redis, fetcher })({
+  await makeSubmissionHandler({ env: submissionEnv, redis, fetcher, verifyAccount: async () => ({ id: 'member-account', email: body.email.toLowerCase() }) })({
     method: 'POST',
-    headers: { origin: submissionEnv.SUBMISSIONS_ORIGIN, 'content-type': 'application/json', 'x-real-ip': '127.0.0.1', cookie },
+    headers: { origin: submissionEnv.SUBMISSIONS_ORIGIN, authorization: 'Bearer member-fixture', 'content-type': 'application/json', 'x-real-ip': '127.0.0.1', cookie },
     body,
   }, res);
   return { status: res.statusCode, data: JSON.parse(data), headers: responseHeaders };

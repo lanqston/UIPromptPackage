@@ -46,13 +46,11 @@ test('verified mailbox sees earlier guest submissions and other accounts stay is
  await invoke(handler,req);
  assert.equal(redisCommands.filter(c=>c[1]==='digivated:submissions').length,1);
 });
-test('new guest submissions are indexed for a later verified account',async()=>{
+test('new guest submissions are rejected without writing',async()=>{
  const commands=[];
  const result=await invoke(makeSubmissionHandler({env,redis:async c=>{commands.push(c);return 1;}}),{method:'POST',url:'/api/submissions',headers:{origin:env.SUBMISSIONS_ORIGIN,'content-type':'application/json','x-real-ip':'127.0.0.1'},body:submission});
- assert.equal(result.status,201);
- assert.equal(commands[0][6],accountIndex(account.email,env.SUBMISSIONS_REDIS_REST_TOKEN));
- assert.equal(JSON.parse(commands[0][7]).accountId,undefined);
- assert.doesNotMatch(commands[0][1],/ARGV\[4\]/);
+ assert.equal(result.status,401);
+ assert.equal(commands.length,0);
 });
 test('a verified account cannot submit using another email',async()=>{
  const result=await invoke(makeSubmissionHandler({env,verifyAccount:async()=>account,redis:async()=>{throw Error('should not write');}}),{method:'POST',url:'/api/submissions',headers:{origin:env.SUBMISSIONS_ORIGIN,authorization:'Bearer fixture','content-type':'application/json','x-real-ip':'127.0.0.1'},body:{...submission,email:'someone@example.com'}});

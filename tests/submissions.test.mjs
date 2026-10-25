@@ -16,10 +16,14 @@ test('validate consent, category, URL, lengths, and image content',()=>{
  assert.equal(validateSubmission(valid).url,'https://example.com/');
 });
 async function invoke({body=valid,method='POST',origin='https://digivated.com',redis=async()=>1,headers={}}={}){
- const req={method,headers:{origin,'content-type':'application/json','x-real-ip':'127.0.0.1',...headers},body};let data;const responseHeaders={};
+ const req={method,headers:{origin,'content-type':'application/json','x-real-ip':'127.0.0.1',authorization:'Bearer fixture',...headers},body};let data;const responseHeaders={};
  const res={setHeader:(k,v)=>responseHeaders[k]=v,end:value=>data=JSON.parse(value)};
- await makeSubmissionHandler({redis})(req,res);return {status:res.statusCode,data,headers:responseHeaders};
+ await makeSubmissionHandler({redis,verifyAccount:async()=>({id:'account-fixture',email:valid.email})})(req,res);return {status:res.statusCode,data,headers:responseHeaders};
 }
+test('an account is required even for a direct submission request',async()=>{
+ const result=await invoke({headers:{authorization:''},redis:async()=>{throw Error('should not write');}});
+ assert.equal(result.status,401);assert.match(result.data.error,/account or sign in/i);
+});
 test('successful save is private and pending, storage is required',async()=>{
  let command;const response=await invoke({redis:async c=>{command=c;return 1;}});assert.equal(response.status,201);assert.equal(response.data.status,'pending');assert.equal(JSON.parse(command[7]).status,'pending');
  assert.equal((await invoke({redis:async()=>{throw Error('private secret upstream detail');}})).status,503);
