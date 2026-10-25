@@ -52,6 +52,9 @@ export function makeReturnEmailHandler(deps={}){return async(req,res)=>{
    const limit=`digivated:weekly:request:${account.id}`;
    if(Number(await redis(['INCR',limit]))>3)return json(res,429,{error:'Please try again tomorrow.'});
    await redis(['EXPIRE',limit,86400]);
+   const daily=`digivated:weekly:confirmation-day:${new Date().toISOString().slice(0,10)}`;
+   const count=Number(await redis(['INCR',daily]));if(count===1)await redis(['EXPIRE',daily,172800]);
+   if(count>20)return json(res,429,{error:'Email confirmations are busy today. Please try again tomorrow.'});
    const token=randomBytes(24).toString('hex');await redis(['SET',tokenKey(token),JSON.stringify({id:account.id,email:account.email}),'EX',86400]);
    const link=`https://digivated.com/email-preferences?token=${token}`;
    const response=await (deps.fetcher||fetch)('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from:env.ACCOUNT_EMAIL_FROM,to:[account.email],subject:'Confirm your Digivated weekly email',text:`Confirm that you want a weekly email about new featured projects. Open this link and press Confirm: ${link}\n\nIf you did not request this, ignore this email.\n\nDigivated`}),signal:AbortSignal.timeout(8000),redirect:'error'});
