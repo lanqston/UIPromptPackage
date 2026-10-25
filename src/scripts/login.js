@@ -9,8 +9,9 @@ if(form){
  const render=()=>{
   tabs.forEach((tab,index)=>{const selected=(index===0?'signin':'signup')===mode;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;});
   document.getElementById('login-form-panel').setAttribute('aria-labelledby',mode==='signin'?'login-tab-signin':'login-tab-signup');
-  explanation.textContent=mode==='signin'?'Enter your email and password to sign in. If you joined with an email link, set a password below.':'Create an account with an email and password. Confirm your email using the link we send.';
+  explanation.textContent=mode==='signin'?'Sign in with your email and password.':'Create your account with an email and password.';
   submit.textContent=mode==='signin'?'Sign in':'Create account';
+  document.getElementById('login-reset').hidden=mode!=='signin';document.getElementById('login-alternative').hidden=mode!=='signin';
   password.autocomplete=mode==='signin'?'current-password':'new-password';password.minLength=mode==='signin'?1:8;
   status.textContent='';
  };
@@ -20,15 +21,15 @@ if(form){
   const {state:authState,client}=await accountSession();
   if(authState==='signed-in'){location.replace('/discover?view=featured&signed_in=1');return;}
   if(authState==='unverified')status.textContent='Finish verifying your email with the link we sent.';
-  if(authState==='unavailable')status.textContent='Account verification is temporarily unavailable. You can request a fresh email link.';
-  async function action(button,work){const email=form.elements.email.value.trim();if(!form.elements.email.reportValidity())return;button.disabled=true;status.textContent='Working…';try{await work(email);}catch(error){status.textContent=error.code==='invalid_credentials'?'Email or password is incorrect. If you joined with an email link, set a password below.':error.code==='email_not_confirmed'?'Confirm your email with the verification link first.':error.message||'Please try again.';}finally{button.disabled=false;}}
+  if(authState==='unavailable')status.textContent='Account verification is temporarily unavailable. Please try again.';
+  async function action(button,work){const email=form.elements.email.value.trim();if(!form.elements.email.reportValidity())return;button.disabled=true;status.textContent='Working…';try{await work(email);}catch(error){status.textContent=error.code==='invalid_credentials'?'Email or password is incorrect. Use Forgot password if you need to set one.':error.code==='email_not_confirmed'?'Confirm your email with the verification link first.':error.message||'Please try again.';}finally{button.disabled=false;}}
   form.onsubmit=async event=>{
    event.preventDefault();await action(submit,async email=>{
    try{
     const {data,error}=mode==='signup'?await client.auth.signUp({email,password:password.value,options:{emailRedirectTo:`${location.origin}/account`}}):await client.auth.signInWithPassword({email,password:password.value});
     if(error)throw error;
     if(data.session){password.value='';location.replace('/account');return;}
-    if(mode==='signup'){pendingSignup={email,password:password.value};confirmed.hidden=false;password.value='';status.textContent=`Check ${email} for a verification link. After opening it, return to this tab and select “I verified my email — continue here.” Keep this tab open.`;}
+    if(mode==='signup'){pendingSignup={email,password:password.value};confirmed.hidden=false;password.value='';status.textContent=`Check ${email} to verify your address. Then return here and select “I verified my email — continue here.”`;}
     else status.textContent='Please check your email and try again.';
    }catch(error){throw error;}
    });
