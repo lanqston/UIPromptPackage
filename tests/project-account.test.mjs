@@ -7,7 +7,7 @@ import { validateEdit, projectPublic } from '../server/admin-store.mjs';
 const env={COMMUNITY_SUPABASE_URL:'https://cglkjclolglwizwepvmy.supabase.co',COMMUNITY_SUPABASE_PUBLISHABLE_KEY:'sb_publishable_test',SUBMISSIONS_REDIS_REST_TOKEN:'test-secret',SUBMISSIONS_ORIGIN:'https://digivated.com'};
 const account={id:'4ad90c9b-5666-482d-899c-d0d3ef41ee46',email:'creator@example.com'};
 async function invoke(handler,req){let body;const res={setHeader(){},end(value){body=JSON.parse(value);}};await handler(req,res);return {status:res.statusCode,body};}
-const submission={creator:'Creator',email:account.email,name:'Sample',url:'https://example.com',description:'A sample project for account testing.',category:'Apps',consent:true};
+const submission={creator:'Creator',email:account.email,name:'Sample',url:'https://example.com',description:'A sample project for account testing.',category:'Apps',consent:true,image:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aFJkAAAAASUVORK5CYII='};
 test('verified submissions are indexed by email and visible only to that account without private fields',async()=>{
  const commands=[];
  const saved=await invoke(makeSubmissionHandler({env,verifyAccount:async()=>account,redis:async c=>{commands.push(c);return 1;}}),{method:'POST',url:'/api/submissions',headers:{origin:env.SUBMISSIONS_ORIGIN,authorization:'Bearer fixture','content-type':'application/json','x-real-ip':'127.0.0.1'},body:submission});

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { validateSubmission, makeSubmissionHandler } from '../server/submissions.mjs';
 import { publicRecord } from '../server/community-publication.mjs';
 import { publicProjects } from '../src/data/community.mjs';
-const valid={creator:'Test creator',email:'creator@example.com',name:'Test project',url:'https://example.com',description:'A project description used only in automated tests.',category:'Apps',consent:true};
+const valid={creator:'Test creator',email:'creator@example.com',name:'Test project',url:'https://example.com',description:'A project description used only in automated tests.',category:'Apps',consent:true,image:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aFJkAAAAASUVORK5CYII='};
 test('submissions cannot self-approve or publish private fields',()=>{
  const record=validateSubmission({...valid,status:'featured',pick:true,email:'private@example.com',notes:'Private review notes'});
  assert.equal(record.status,'pending');assert.equal(record.pick,false);assert.equal(publicRecord(record),null);
@@ -12,8 +12,14 @@ test('submissions cannot self-approve or publish private fields',()=>{
  assert.equal(publicProjects([{...result,status:'pending'},{...result,status:'rejected'},result]).length,1);
 });
 test('validate consent, category, URL, lengths, and image content',()=>{
- for(const patch of [{consent:false},{category:'Invented'},{url:'javascript:alert(1)'},{url:'https://user:password@example.com'},{email:'bad'},{description:'short'},{creator:'x'.repeat(101)},{image:'data:image/svg+xml;base64,PHN2Zz4='},{image:'data:image/png;base64,aGVsbG8='}])assert.throws(()=>validateSubmission({...valid,...patch}));
+ for(const patch of [{consent:false},{category:'Invented'},{url:'javascript:alert(1)'},{url:'https://user:password@example.com'},{email:'bad'},{description:'short'},{creator:'x'.repeat(101)},{image:''},{image:'data:image/svg+xml;base64,PHN2Zz4='},{image:'data:image/png;base64,aGVsbG8='}])assert.throws(()=>validateSubmission({...valid,...patch}));
+ const {image,...withoutImage}=valid;
+ assert.throws(()=>validateSubmission(withoutImage),/at least one project image/i);
  assert.equal(validateSubmission(valid).url,'https://example.com/');
+});
+test('an image is required before a submission can be saved',async()=>{
+ const result=await invoke({body:{...valid,image:''},redis:async()=>{throw Error('should not write');}});
+ assert.equal(result.status,400);assert.match(result.data.error,/at least one project image/i);
 });
 async function invoke({body=valid,method='POST',origin='https://digivated.com',redis=async()=>1,headers={}}={}){
  const req={method,headers:{origin,'content-type':'application/json','x-real-ip':'127.0.0.1',authorization:'Bearer fixture',...headers},body};let data;const responseHeaders={};

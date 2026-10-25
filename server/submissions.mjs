@@ -27,6 +27,7 @@ export function validateSubmission(body) {
     // The handler replaces this after checking the founding session. Callers cannot mark it paid or verified.
     promotion = { requested:true, included:'founding-membership', verified:false };
   }
+  if (!body.image) fail('Add at least one project image.');
   let image='';
   if (body.image) {
     if (typeof body.image!=='string') fail('Invalid image.');

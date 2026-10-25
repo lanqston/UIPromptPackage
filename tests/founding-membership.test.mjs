@@ -32,7 +32,7 @@ const accessEnv = {
 };
 const packetPurchase = { product_id: PRODUCT_ID, sale_id: 'packet-sale', refunded: false, chargebacked: false, disputed: false, dispute_won: false, test: false };
 const foundingPurchase = (id, key) => ({ product_id: productId, sale_id: id, license_key: key, refunded: false, chargebacked: false, disputed: false, dispute_won: false, test: false });
-const project = { creator: 'Creator', email: 'checkout@example.com', name: 'Project', url: 'https://example.com', description: 'A useful independent project for testing.', category: 'Apps', consent: true };
+const project = { creator: 'Creator', email: 'checkout@example.com', name: 'Project', url: 'https://example.com', description: 'A useful independent project for testing.', category: 'Apps', consent: true,image:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aFJkAAAAASUVORK5CYII=' };
 
 function purchaseResponse(purchase, status = 200) {
   return new Response(JSON.stringify({ success: status === 200, purchase }), { status });

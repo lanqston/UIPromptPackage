@@ -4,7 +4,7 @@ import {validateSubmission} from '../server/submissions.mjs';
 import {validateEdit,projectPublic} from '../server/admin-store.mjs';
 import {launchPublic} from '../server/launch-pages.mjs';
 import {publicRecord} from '../server/community-publication.mjs';
-const input={creator:'Creator',email:'checkout@example.com',name:'Project',url:'https://example.com',description:'A useful independent project for testing.',category:'Apps',consent:true};
+const input={creator:'Creator',email:'checkout@example.com',name:'Project',url:'https://example.com',description:'A useful independent project for testing.',category:'Apps',consent:true,image:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aFJkAAAAASUVORK5CYII='};
 const promo={...input,submissionType:'promotion',promotionPurchased:true,promotionReceipt:'ORDER-TEST'};
 test('promotion purchase claims remain private and cannot self-verify',()=>{
  const r=validateSubmission({...promo,status:'approved',promotionVerified:true,promotion:{verified:true}});

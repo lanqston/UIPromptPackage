@@ -42,6 +42,7 @@ if (form) {
       payload.promotionPurchased = values.get('promotionPurchased') === 'on';
       payload.consent = values.get('consent') === 'on';
       const file = values.get('image');
+      if (!file?.size) throw new Error('Add at least one project image.');
       if (file?.size) {
         if (file.size > 500 * 1024 || !['image/jpeg','image/png','image/webp'].includes(file.type)) throw new Error('Choose a JPG, PNG, or WebP image smaller than 500 KB.');
         payload.image = await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('The image could not be read. Try another file.'));reader.readAsDataURL(file);});
