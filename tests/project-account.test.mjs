@@ -46,6 +46,12 @@ test('verified mailbox sees earlier guest submissions and other accounts stay is
  await invoke(handler,req);
  assert.equal(redisCommands.filter(c=>c[1]==='digivated:submissions').length,1);
 });
+test('password account cannot claim an earlier guest submission by email alone',async()=>{
+ const legacy={...submission,id:'old',date:'2026-10-01',status:'pending',reviewFeedback:'private'};
+ const redis=async c=>c[0]==='ZREVRANGE'?['old']:c[0]==='MGET'?[JSON.stringify(legacy)]:null;
+ const result=await invoke(makeProjectAccountHandler({env,verifyAccount:async()=>({...account,mailboxVerified:false}),redis}),{method:'GET',url:'/api/project-account',headers:{authorization:'Bearer fixture'}});
+ assert.equal(result.status,200);assert.deepEqual(result.body.submissions,[]);
+});
 test('new guest submissions are rejected without writing',async()=>{
  const commands=[];
  const result=await invoke(makeSubmissionHandler({env,redis:async c=>{commands.push(c);return 1;}}),{method:'POST',url:'/api/submissions',headers:{origin:env.SUBMISSIONS_ORIGIN,'content-type':'application/json','x-real-ip':'127.0.0.1'},body:submission});
@@ -73,9 +79,15 @@ test('account tokens require provider verification and confirmed email',async()=
  assert.deepEqual(await verifiedAccount(req,env,fetcher),account);
  assert.equal(await verifiedAccount({headers:{authorization:'Bearer forged'}},env,fetcher),null);
  const password=['e30',Buffer.from(JSON.stringify({...payload,amr:[{method:'password'}]})).toString('base64url'),'signature'].join('.');
- assert.equal(await verifiedAccount({headers:{authorization:`Bearer ${password}`}},env,fetcher),null);
+ assert.deepEqual(await verifiedAccount({headers:{authorization:`Bearer ${password}`}},env,fetcher),{...account,mailboxVerified:false});
  assert.equal(await verifiedAccount(req,env,async()=>({ok:false})),null);
  assert.equal(await verifiedAccount(req,env,async()=>({ok:true,json:async()=>({...account,email_confirmed_at:null})})),null);
+});
+test('immediate signup creates a confirmed account with a rate limit',async()=>{
+ const commands=[];let created;
+ const handler=makeProjectAccountHandler({env:{...env,COMMUNITY_SUPABASE_SECRET_KEY:'test-secret',VERCEL:'1'},redis:async c=>{commands.push(c);return c[0]==='INCR'?1:1;},adminClient:{auth:{admin:{createUser:async input=>{created=input;return {data:{user:{id:account.id}},error:null};}}}}});
+ const result=await invoke(handler,{method:'POST',url:'/api/project-account?action=signup',headers:{origin:'https://digivated.com','content-type':'application/json','x-real-ip':'127.0.0.1'},body:{email:account.email,password:'long-safe-password'}});
+ assert.equal(result.status,201);assert.equal(result.body.ok,true);assert.deepEqual(created,{email:account.email,password:'long-safe-password',email_confirm:true});assert.deepEqual(commands.map(c=>c[0]),['INCR','EXPIRE']);
 });
 test('owner feedback stays private through review and public projection',()=>{
  const previous={...submission,id:'4ad90c9b-5666-482d-899c-d0d3ef41ee46',date:'2026-10-23T00:00:00Z',status:'pending',revision:0};
