@@ -8,7 +8,7 @@ test('submissions cannot self-approve or publish private fields',()=>{
  const record=validateSubmission({...valid,status:'featured',pick:true,email:'private@example.com',notes:'Private review notes'});
  assert.equal(record.status,'pending');assert.equal(record.pick,false);assert.equal(publicRecord(record),null);
  const result=publicRecord({...record,id:'fixture',date:'2026-10-05',status:'approved'});
- for(const field of ['email','notes','consent','consentVersion','consentedAt','social'])assert.equal(field in result,false);
+ for(const field of ['email','notes','consent','consentVersion','consentedAt','emailOutreachConsent','emailOutreachConsentedAt','social'])assert.equal(field in result,false);
  assert.equal(publicProjects([{...result,status:'pending'},{...result,status:'rejected'},result]).length,1);
 });
 test('validate consent, category, URL, lengths, and image content',()=>{
@@ -16,6 +16,19 @@ test('validate consent, category, URL, lengths, and image content',()=>{
  const {image,...withoutImage}=valid;
  assert.throws(()=>validateSubmission(withoutImage),/at least one project image/i);
  assert.equal(validateSubmission(valid).url,'https://example.com/');
+});
+test('email outreach requires a separate explicit choice and records it only for opted-in submissions',async()=>{
+ assert.equal(validateSubmission(valid).emailOutreachConsent,false);
+ assert.equal(validateSubmission({...valid,emailOutreachConsent:'true'}).emailOutreachConsent,false);
+ let saved;
+ const opted=await invoke({body:{...valid,emailOutreachConsent:true},redis:async command=>{saved=JSON.parse(command[7]);return 1;}});
+ assert.equal(opted.status,201);
+ assert.equal(saved.emailOutreachConsent,true);
+ assert.equal(saved.emailOutreachConsentVersion,1);
+ assert.match(saved.emailOutreachConsentedAt,/^\d{4}-\d\d-\d\dT/);
+ await invoke({redis:async command=>{saved=JSON.parse(command[7]);return 1;}});
+ assert.equal(saved.emailOutreachConsent,false);
+ assert.equal('emailOutreachConsentedAt' in saved,false);
 });
 test('an image is required before a submission can be saved',async()=>{
  const result=await invoke({body:{...valid,image:''},redis:async()=>{throw Error('should not write');}});

@@ -106,7 +106,7 @@ export async function saveRecord(redis, kind, input) {
   if (result !== 1) throw new AdminError(409, 'This item changed elsewhere. Reload it before saving.');
   return record;
 }
-export const LIST = `local ids=redis.call('ZREVRANGE',KEYS[1],ARGV[1],ARGV[2]); local rows={}; for _,id in ipairs(ids) do local raw=redis.call('GET',ARGV[3]..id); if raw then local r=cjson.decode(raw); r.hasImage=(r.image and r.image~='') and true or false; r.image=nil; r.content=nil; r.notes=nil; r.email=nil; if r.promotion then r.promotion.receiptReference=nil end; r.consentedAt=nil; r.consentVersion=nil; table.insert(rows,cjson.encode(r)) end end; return rows`;
+export const LIST = `local ids=redis.call('ZREVRANGE',KEYS[1],ARGV[1],ARGV[2]); local rows={}; for _,id in ipairs(ids) do local raw=redis.call('GET',ARGV[3]..id); if raw then local r=cjson.decode(raw); r.hasImage=(r.image and r.image~='') and true or false; r.image=nil; r.content=nil; r.notes=nil; r.email=nil; if r.promotion then r.promotion.receiptReference=nil end; r.consentedAt=nil; r.consentVersion=nil; r.emailOutreachConsentedAt=nil; r.emailOutreachConsentVersion=nil; table.insert(rows,cjson.encode(r)) end end; return rows`;
 export async function listRecords(redis, kind, offset = 0) {
   const prefix = kind === 'submission' ? 'digivated:submission:' : `digivated:${kind}:`;
   const rows = await redis(['EVAL', LIST, 1, indexKey(kind), offset, offset + 24, prefix]);

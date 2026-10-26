@@ -57,6 +57,7 @@ if (form) {
       const payload = Object.fromEntries([...values].filter(([key])=>key!=='image'));
       payload.promotionPurchased = values.get('promotionPurchased') === 'on';
       payload.consent = values.get('consent') === 'on';
+      payload.emailOutreachConsent = values.get('emailOutreachConsent') === 'on';
       const file = values.get('image');
       if (!file?.size) throw new Error('Add at least one project image.');
       if (file?.size) {
