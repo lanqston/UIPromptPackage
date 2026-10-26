@@ -1,0 +1,41 @@
+.platform .submission-intro{max-width:760px;padding-bottom:28px}
+.platform .submission-intro h1{margin-bottom:15px;font-size:clamp(2.6rem,5vw,4.25rem)}
+.platform .submission-intro .lede{max-width:58ch;font-size:1rem;line-height:1.7}
+.platform .submission-layout{grid-template-columns:minmax(0,1.65fr) minmax(270px,.85fr);gap:28px;align-items:start}
+.platform .submission-form{gap:0;padding:0;border-radius:14px;overflow:hidden;box-shadow:none}
+.platform .submission-form>.submission-account-callout{margin:0;padding:26px 32px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:#f4f4f4}
+.platform .submission-account-callout strong{margin-top:7px;font-size:1.2rem;letter-spacing:-.02em}
+.platform .submission-account-callout p{margin:8px 0 17px}
+.platform .submission-account-status{margin:0;padding:12px 32px;font-size:.78rem;line-height:1.5;color:#555;background:#fafafa;border-bottom:1px solid var(--line)}
+.platform .submission-form fieldset{padding:28px 32px 32px;gap:18px;border:0;border-bottom:1px solid var(--line)}
+.platform .submission-form fieldset+fieldset{padding-top:28px}
+.platform .submission-form legend{float:left;width:100%;padding:0;margin:0;font-size:1.25rem;line-height:1.3;font-weight:700;letter-spacing:-.025em}
+.platform .submission-form legend::after{content:'';display:block;clear:both}
+.platform .submission-form legend .submission-step-label,.platform .submission-step-label{display:block;margin:0 0 8px;color:#777;font-size:.66rem;font-weight:700;line-height:1.4;letter-spacing:.13em;text-transform:uppercase}
+.platform .submission-form .submission-section-help{margin:-6px 0 2px;color:#666;font-size:.85rem;line-height:1.6}
+.platform .submission-form label{font-size:.82rem}
+.platform .submission-form input,.platform .submission-form select,.platform .submission-form textarea{margin-top:8px}
+.platform .submission-form .field-help{margin-top:6px;font-size:.75rem}
+.platform .submission-option-detail{padding:18px;border:1px solid var(--line);border-radius:10px;background:#f7f7f7}
+.platform #promotion-fields{padding:18px;border-color:var(--line);background:#f7f7f7}
+.platform .submission-option-detail p{margin:0;font-size:.82rem;line-height:1.6}
+.platform .submission-option-detail a,.platform .submission-note a{text-decoration:underline;text-underline-offset:3px}
+.platform .submission-image-preview{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fafafa;min-width:0}
+.platform .submission-image-preview img{width:80px;height:60px;object-fit:cover;border-radius:6px;background:#eee}
+.platform .submission-image-preview span{min-width:0;overflow-wrap:anywhere;font-size:.78rem;color:#555}
+.platform .submission-review{display:grid;gap:17px;padding:30px 32px 32px}
+.platform .submission-review h2{margin:0;font-size:1.25rem}
+.platform .submission-review>p:not(.form-status){margin:0;color:#666;font-size:.82rem;line-height:1.65}
+.platform .submission-review .consent{font-size:.82rem}
+.platform .submission-review .button{width:100%;border-radius:9px}
+.platform .submission-note{position:sticky;top:110px;padding:26px;border-radius:14px;box-shadow:none}
+.platform .submission-note .eyebrow{margin-bottom:10px}
+.platform .submission-note h2{margin:0;font-size:1.35rem}
+.platform .submission-note ul{margin:18px 0 0;padding-left:21px}
+.platform .submission-note li{padding:0 0 8px;color:#555;font-size:.85rem;line-height:1.6}
+.platform .submission-note-divider{border-top:1px solid var(--line);margin-top:16px;padding-top:20px}
+.platform .submission-note h3{margin:0 0 8px;font-size:.9rem}
+.platform .submission-note p{font-size:.82rem;line-height:1.65}
+.platform .submission-options-link{border-top:1px solid var(--line);padding-top:18px;margin:20px 0 0}
+@media(max-width:780px){.platform .submission-layout{grid-template-columns:1fr}.platform .submission-note{position:static;order:-1}.platform .submission-note ul{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}}
+@media(max-width:540px){.platform .submission-intro{padding-top:38px}.platform .submission-intro h1{font-size:2.65rem}.platform .submission-note{padding:22px}.platform .submission-note ul{grid-template-columns:1fr}.platform .submission-form>.submission-account-callout,.platform .submission-form fieldset,.platform .submission-review{padding-left:22px;padding-right:22px}.platform .submission-account-status{padding-inline:22px}.platform .submission-form .form-row{grid-template-columns:1fr}.platform .submission-account-actions .button{width:100%}}
