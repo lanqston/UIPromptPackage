@@ -18,6 +18,22 @@ if (form) {
   const intent = document.getElementById('submission-type');
   const promotionFields = document.getElementById('promotion-fields');
   const membershipFields = document.getElementById('membership-fields');
+  const imageInput = document.getElementById('project-image');
+  const imagePreview = document.getElementById('project-image-preview');
+  const imagePreviewPicture = imagePreview?.querySelector('img');
+  const imageName = document.getElementById('project-image-name');
+  let imagePreviewUrl;
+  const updateImagePreview = () => {
+    if (imagePreviewUrl) URL.revokeObjectURL(imagePreviewUrl);
+    imagePreviewUrl = undefined;
+    const file = imageInput?.files?.[0];
+    imagePreview.hidden = !file;
+    if (!file) { imagePreviewPicture.removeAttribute('src'); imageName.textContent = ''; return; }
+    imageName.textContent = file.name;
+    imagePreviewUrl = URL.createObjectURL(file);
+    imagePreviewPicture.src = imagePreviewUrl;
+  };
+  imageInput?.addEventListener('change', updateImagePreview);
   const syncIntent = () => {
     const promotion = intent.value === 'promotion';
     promotionFields.hidden = !promotion;
@@ -54,7 +70,7 @@ if (form) {
       if (!response.ok) throw new Error(data.error || 'Your project could not be submitted. Your details are still here; please try again.');
       const promotion = intent.value === 'promotion';
       const membership = intent.value === 'founding-feature';
-      form.reset();if(session?.user?.email_confirmed_at)form.elements.email.value=session.user.email;syncIntent();
+      form.reset();if(session?.user?.email_confirmed_at)form.elements.email.value=session.user.email;syncIntent();updateImagePreview();
       status.textContent = (membership ? 'Your included feature request has been received. It is not public yet. Review is required, and a feature is not guaranteed.' : promotion ? 'Your promotion request has been received. We will check your Gumroad purchase and review your project before preparing a feature. Keep your receipt and watch your email for any questions. Your project is not public yet.' : 'Thank you — your project has been received for review. It is not public yet. Submitting does not guarantee a feature or repost.') + (session ? ' View its status and private feedback in Your Projects.' : ' To track future submissions, sign in before submitting.');
       status.focus();
     } catch (error) {
