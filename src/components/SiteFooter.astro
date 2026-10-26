@@ -1,16 +1,16 @@
 ---
 const { compact = false } = Astro.props;
 const groups = [
-  { title:'Explore', links:[['All Resources','/resources'],['UI/UX Prompt Packet','/ui-ux-prompt-packet'],['Try Free Prompts','/library?sample=1']] },
-  { title:'Community', links:[['Browse Projects','/discover'],['Submit a Project','/submit-project'],['Your Projects','/account'],['Saved Items','/saved'],['Paid Promotion','/promote']] },
-  { title:'Digivated', links:[['About','/about'],['Products','/products'],['Founding Membership','/founding-members'],['Packet Access','/access'],['Support Digivated','https://digivated.gumroad.com/l/support-digivated']] },
+  { title:'Explore', links:[['Browse Projects','/discover'],['All Resources','/resources'],['Carousels','/carousels'],['Try Free Prompts','/library?sample=1']] },
+  { title:'Community', links:[['Submit a Project','/submit-project'],['Your Projects','/account'],['Saved Items','/saved'],['Paid Promotion','/promote']] },
+  { title:'Digivated', links:[['About','/about'],['Products','/products'],['UI/UX Prompt Packet','/ui-ux-prompt-packet'],['Founding Membership','/founding-members'],['Packet Access','/access'],['Support Digivated','https://digivated.gumroad.com/l/support-digivated']] },
   { title:'Connect', links:[['X / Twitter','https://x.com/digivatedx'],['Threads','https://www.threads.com/@digivated'],['Instagram','https://www.instagram.com/digivated/'],['Pinterest','https://www.pinterest.com/digivated/']] },
   { title:'Legal', links:[['Privacy & Data','/privacy'],['Terms of Use','/terms']] },
 ];
 ---
 {compact ? <footer class="compact-home-footer"><span>© {new Date().getFullYear()} Digivated.</span><nav aria-label="Footer"><a href="/about">About</a><a href="https://x.com/digivatedx" target="_blank" rel="noopener noreferrer">Contact on X</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav></footer> : <footer class="platform-footer">
-  <div class="footer-inner mx-auto px-6"><div class="footer-columns grid grid-cols-2 md:grid-cols-4 lg:grid-cols-[2fr_repeat(4,1fr)] gap-8">
-    <div class="footer-intro col-span-2 md:col-span-4 lg:col-span-1"><a class="platform-brand" href="/"><span class="x-brand-mark" aria-hidden="true"></span>Digivated</a><p>Learn something. Discover a project. Share your work.</p><p class="quiet">Useful tools and independent projects, in one place.</p></div>
-    {[ [groups[0],groups[2],groups[4]], [groups[1],groups[3]] ].map(column => <div class="footer-link-stack">{column.map(group => <nav class={`footer-group-${group.title.toLowerCase()}`} aria-label={`${group.title} footer links`}><h2>{group.title}</h2>{group.links.map(([label, href]) => <a href={href} target={href.startsWith('https:') ? '_blank' : undefined} rel={href.startsWith('https:') ? 'noopener noreferrer' : undefined}>{label}</a>)}</nav>)}</div>)}
+  <div class="footer-inner mx-auto px-6"><div class="footer-columns">
+    <div class="footer-intro"><a class="platform-brand" href="/"><span class="x-brand-mark" aria-hidden="true"></span>Digivated</a><p>Useful tools and independent projects, in one place.</p></div>
+    {groups.map(group => <nav class={`footer-group-${group.title.toLowerCase()}`} aria-label={`${group.title} footer links`}><h2>{group.title}</h2><div class="footer-group-links">{group.links.map(([label, href]) => <a href={href} target={href.startsWith('https:') ? '_blank' : undefined} rel={href.startsWith('https:') ? 'noopener noreferrer' : undefined}>{label}</a>)}</div></nav>)}
   </div><div class="footer-bottom flex flex-wrap items-center justify-between gap-4"><span>© {new Date().getFullYear()} Digivated.</span><span>Keep looking forward.</span></div></div>
 </footer>}
