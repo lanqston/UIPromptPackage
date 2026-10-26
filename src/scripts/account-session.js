@@ -2,7 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import { communityAuthOptions } from './community-auth.js';
 
 let pending;
-export function accountSession(){
+export function accountSession({fresh=false}={}){
+ if(fresh)pending=null;
  if(!pending)pending=(async()=>{
   const response=await fetch('/api/project-account?action=config',{cache:'no-store'});
   if(!response.ok)throw Error('Account sign-in is temporarily unavailable.');
