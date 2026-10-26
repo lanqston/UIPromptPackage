@@ -33,6 +33,7 @@ html body.platform.light-theme .comment-form button[type=submit]:hover{backgroun
 .platform .comment-status{margin:9px 0 0;min-height:0;font-size:12px;line-height:1.5}
 .platform .comment-status:empty{display:none}
 .platform .feedback-responses{margin-top:22px;padding-top:20px;border-top:1px solid #ededed}
+.platform .comment-dialog-body>.feedback-responses:first-child{margin:0 0 22px;padding:0 0 20px;border-top:0;border-bottom:1px solid #ededed}
 .platform .feedback-responses h3{margin:0 0 11px;color:#242424;font-size:14px;letter-spacing:-.01em}
 .platform .feedback-empty{margin:0 0 4px;color:#777;font-size:13px;line-height:1.5}
 .platform .feedback-empty:empty{display:none}
