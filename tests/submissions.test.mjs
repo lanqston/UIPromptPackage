@@ -24,7 +24,7 @@ test('email outreach requires a separate explicit choice and records it only for
  const opted=await invoke({body:{...valid,emailOutreachConsent:true},redis:async command=>{saved=JSON.parse(command[7]);return 1;}});
  assert.equal(opted.status,201);
  assert.equal(saved.emailOutreachConsent,true);
- assert.equal(saved.emailOutreachConsentVersion,1);
+ assert.equal(saved.emailOutreachConsentVersion,2);
  assert.match(saved.emailOutreachConsentedAt,/^\d{4}-\d\d-\d\dT/);
  await invoke({redis:async command=>{saved=JSON.parse(command[7]);return 1;}});
  assert.equal(saved.emailOutreachConsent,false);

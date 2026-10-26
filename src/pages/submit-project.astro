@@ -7,22 +7,20 @@ import '../styles/submission-flow.css';
   <header class="page-intro submission-intro">
     <p class="eyebrow">Share your work</p>
     <h1>Submit a project.</h1>
-    <p class="lede">Tell us what you built. Submissions are free to send and reviewed before anything appears on Digivated.</p>
+    <p class="lede">Share what you built. We review projects before they appear on Digivated.</p>
   </header>
 
   <div class="submission-layout">
     <form class="submission-form" id="project-form" action="/api/submissions" method="post">
       <div id="submission-account-callout" class="submission-account-callout">
-        <span class="submission-step-label">Before you begin</span>
         <strong>Create a free account to submit</strong>
-        <p>Sign in to send your project, track its review, and read private feedback. You can complete the form after signing in.</p>
+        <p>Sign in to submit, track your review, and see private feedback.</p>
         <div class="submission-account-actions"><a class="button primary" href="/login?mode=signup">Create an account</a><a href="/login">Already have one? Sign in</a></div>
       </div>
-      <p id="submission-account-status" class="submission-account-status" role="status" aria-live="polite">An account is required to submit a project.</p>
+      <p id="submission-account-status" class="submission-account-status" role="status" aria-live="polite" hidden></p>
 
       <fieldset class="submission-intent">
         <legend><span class="submission-step-label">01 / Submission</span>Choose how to share</legend>
-        <p class="submission-section-help">Free directory review is the standard option. Select a membership feature or paid promotion only if you already have one.</p>
         <label>Submission type
           <select name="submissionType" id="submission-type">
             <option value="directory">Free directory review</option>
@@ -42,7 +40,6 @@ import '../styles/submission-flow.css';
 
       <fieldset>
         <legend><span class="submission-step-label">02 / Project details</span>Tell us about your project</legend>
-        <p class="submission-section-help">A working link and a plain description help people understand what you made.</p>
         <label>Project name<input name="name" placeholder="What’s your project called?" maxlength="120" required/></label>
         <label>Project URL<input name="url" type="url" placeholder="https://your-project.com" maxlength="500" required/></label>
         <label>Project description<textarea name="description" rows="4" minlength="20" maxlength="600" required placeholder="What does it do, and who is it for?"></textarea><span class="field-help">20–600 characters. Describe what someone can use it for.</span></label>
@@ -51,8 +48,7 @@ import '../styles/submission-flow.css';
 
       <fieldset>
         <legend><span class="submission-step-label">03 / Image</span>Add a project image</legend>
-        <p class="submission-section-help">At least one image is required for your project card.</p>
-        <label>Project image <span class="quiet">(required)</span><input name="image" id="project-image" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="project-image-help" required/><span class="field-help" id="project-image-help">JPG, PNG, or WebP, up to 500 KB. Use an image you have permission to share.</span></label>
+        <label>Project image<input name="image" id="project-image" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="project-image-help" required/><span class="field-help" id="project-image-help">Required. JPG, PNG, or WebP, up to 500 KB. Use an image you can share.</span></label>
         <div id="project-image-preview" class="submission-image-preview" hidden><img alt="Selected project image preview"/><span id="project-image-name"></span></div>
       </fieldset>
 
@@ -66,23 +62,16 @@ import '../styles/submission-flow.css';
 
       <div class="submission-review">
         <h2>Ready to send?</h2>
-        <p>We review every submission. Your project is private until approved; submitting does not guarantee a feature or repost.</p>
+        <p>Your project stays private until approved. Track its status and private feedback in <a href="/account">Your Projects</a>.</p>
         <label class="honeypot" aria-hidden="true">Leave this empty<input name="company" tabindex="-1" autocomplete="off"/></label>
         <label class="consent"><input name="consent" type="checkbox" required/><span>I confirm that I own or am authorized to submit this project and allow Digivated to display the submitted information and project image.</span></label>
-        <label class="consent"><input name="emailOutreachConsent" type="checkbox"/><span>Email me a thank-you for my submission, information about my Digivated account, and an invitation to opt in to the weekly project email. This is optional and does not subscribe me to weekly emails.</span></label>
+        <label class="consent"><input name="emailOutreachConsent" type="checkbox"/><span>Send me one follow-up email about my submission, my account, and how to opt in to weekly updates. I will not be subscribed automatically.</span></label>
         <button class="button primary" type="submit" disabled>Sign in to submit your project</button>
         <noscript>Enable JavaScript to submit your project securely.</noscript>
         <p class="form-status" id="submission-status" role="status" aria-live="polite" tabindex="-1"></p>
       </div>
     </form>
 
-    <aside class="submission-note" aria-labelledby="submission-guide-title">
-      <p class="eyebrow">Quick guide</p>
-      <h2 id="submission-guide-title">What you’ll need</h2>
-      <ul><li>A free Digivated account</li><li>A working project link</li><li>A clear description and category</li><li>One JPG, PNG, or WebP image under 500 KB</li></ul>
-      <div class="submission-note-divider"><h3>After you send it</h3><p>We review your project before it appears in Discover. You can track its status and private feedback in <a href="/account">Your Projects</a>.</p></div>
-      <p class="submission-options-link">Have a membership or promo purchase? <a href="/promote">See the options →</a></p>
-    </aside>
   </div>
   <script>import '../scripts/submission.js';</script>
 </Platform>

@@ -91,7 +91,7 @@ export function makeSubmissionHandler(deps={}) {
       if(!deps.redis && (env.VERCEL!=='1'||typeof ip!=='string'||!ip))throw new SubmissionError(503,'Submissions are temporarily unavailable. Please try again later.');
       const hash=createHmac('sha256',env.SUBMISSIONS_REDIS_REST_TOKEN||'test-only').update(String(ip||'fixture')).digest('hex');
       const id=randomUUID();const now=new Date();
-      const stored={...record,...(account?{accountId:account.id}:{}),id,date:now.toISOString(),consentedAt:now.toISOString(),...(record.emailOutreachConsent?{emailOutreachConsentedAt:now.toISOString(),emailOutreachConsentVersion:1}:{})};
+      const stored={...record,...(account?{accountId:account.id}:{}),id,date:now.toISOString(),consentedAt:now.toISOString(),...(record.emailOutreachConsent?{emailOutreachConsentedAt:now.toISOString(),emailOutreachConsentVersion:2}:{})};
       const accountKey=accountIndex(record.email,env.SUBMISSIONS_REDIS_REST_TOKEN||'test-only');
       const saved=record.promotion?.included==='founding-membership'
         ? await redis(['EVAL',SAVE_MEMBER_FEATURE,5,`digivated:limit:${hash}`,`digivated:submission:${id}`,'digivated:submissions',`digivated:founding-feature:${record.promotion.memberSaleId}`,accountKey,JSON.stringify(stored),now.getTime(),id])
