@@ -18,7 +18,7 @@ if(form){
  render();
  async function boot(){
   const {state:authState,client}=await accountSession();
-  if(authState==='signed-in'){location.replace('/discover?view=featured&signed_in=1');return;}
+  if(authState==='signed-in'){location.replace('/account');return;}
   if(authState==='unverified')status.textContent='Finish verifying your email with the link we sent.';
   if(authState==='unavailable')status.textContent='Account verification is temporarily unavailable. Please try again.';
   async function action(button,work){const email=form.elements.email.value.trim();if(!form.elements.email.reportValidity())return;button.disabled=true;status.textContent='Working…';try{await work(email);}catch(error){status.textContent=error.code==='invalid_credentials'?'Email or password is incorrect. Use Forgot password if you need to set one.':error.code==='email_not_confirmed'?'Confirm your email with the verification link first.':error.message||'Please try again.';}finally{button.disabled=false;}}
