@@ -9,7 +9,7 @@ if (form) {
     const {data:{session}}=await accountClient.auth.getSession();
     if(session?.user?.email_confirmed_at){
       const response=await fetch('/api/project-account',{headers:{Authorization:`Bearer ${session.access_token}`},cache:'no-store'});
-      if(response.ok){accountVerified=true;form.elements.email.value=session.user.email;form.elements.email.readOnly=true;document.getElementById('submission-account-status').textContent=`Signed in as ${session.user.email}. This project will appear in your account.`;updateButton();}
+      if(response.ok){accountVerified=true;form.elements.email.value=session.user.email;form.elements.email.readOnly=true;document.getElementById('submission-account-callout').hidden=true;document.getElementById('submission-account-status').textContent=`Signed in as ${session.user.email}. This project will appear in your account.`;updateButton();}
       else document.getElementById('submission-account-status').innerHTML='To submit a project, <a href="/login">sign in or create an account</a> first.';
     }
   }).catch(()=>{document.getElementById('submission-account-status').textContent='Accounts are temporarily unavailable. Please try again shortly.';});
@@ -28,7 +28,7 @@ if (form) {
   if (query.get('promotion') === '1') intent.value = 'promotion';
   if (query.get('membership') === '1') intent.value = 'founding-feature';
   intent.addEventListener('change',syncIntent); syncIntent();
-  const updateButton = () => { button.disabled = !accountVerified; };
+  const updateButton = () => { button.disabled = !accountVerified; button.textContent=accountVerified?'Submit Your Project':'Sign in to submit your project'; };
   updateButton();
   form.addEventListener('submit', async event => {
     event.preventDefault();
