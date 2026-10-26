@@ -39,6 +39,18 @@ html body.platform.light-theme .compact-home-projects .project-card h3 { font-si
 html body.platform.light-theme .explore-paid h2.explore-label { font-size:.65rem; font-weight:650; line-height:1.5; letter-spacing:.08em; margin:0 8px 6px; color:#595959; }
 html body.platform.light-theme .explore-features>a { min-height:56px; padding:9px 10px; }
 html body.platform.light-theme .home-refresh .platform-footer { margin-top:0; }
+.platform-footer .footer-link-stack{display:contents}
+.platform-footer .footer-group-explore{order:1}
+.platform-footer .footer-group-community{order:2}
+.platform-footer .footer-group-digivated{order:3}
+.platform-footer .footer-group-connect{order:4}
+.platform-footer .footer-group-legal{order:5}
+@media(max-width:767px){
+  .platform-footer .footer-columns{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;column-gap:24px;row-gap:24px}
+  .platform-footer .footer-intro{grid-column:1/-1}
+  .platform-footer .footer-link-stack{display:flex;flex-direction:column;gap:28px;min-width:0}
+  .platform-footer .footer-link-stack nav{min-width:0}
+}
 @media(max-width:760px) { html body.platform.light-theme .compact-home-projects .project-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:520px) { html body.platform.light-theme .compact-site-header .header-inner { min-height:62px; padding:9px 12px; } html body.platform.light-theme .compact-site-header .platform-brand { font-size:1.05rem; } .compact-header-actions .header-login { padding:8px 11px; font-size:.8rem; } html body.platform.light-theme.home-refresh main { padding:28px 20px 28px; } .compact-home-intro { margin-bottom:28px; } html body.platform.light-theme .compact-home-projects .project-grid { grid-template-columns:1fr; } .compact-project-heading { gap:10px; } .compact-project-heading>a { font-size:.75rem; } .compact-home-footer { margin:0 20px; padding:18px 0 28px; } }
 /* The four common paths stay visible on desktop; the same links remain in Menu on small screens. */
