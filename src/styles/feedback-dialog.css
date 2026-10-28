@@ -8,6 +8,7 @@ html body.platform.light-theme .project-card .card-icon.card-feedback-trigger {
 html body.platform.light-theme [data-live-projects] .card-icon.card-feedback-trigger:hover,
 html body.platform.light-theme .project-card .card-icon.card-feedback-trigger:hover {background:#f2f2f2;border-color:#bdbdbd;color:#111}
 .platform .card-feedback-label{font-size:12px;font-weight:700;line-height:1;white-space:nowrap}
+.platform .card-feedback-count{font-size:11px;font-weight:700;line-height:1;min-width:1.4em;text-align:center;border-radius:999px;padding:3px 5px;background:#e9e9e9;color:#222}
 
 html body.platform.light-theme .comment-dialog{width:min(560px,calc(100% - 24px));max-height:min(90dvh,760px);border:1px solid #d8d8d8;border-radius:20px;background:#fff;color:#1a1a1a;box-shadow:0 28px 100px #0003}
 html body.platform.light-theme .comment-dialog::backdrop{background:#151515a6;backdrop-filter:blur(3px)}
