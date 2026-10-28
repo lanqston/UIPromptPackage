@@ -9,8 +9,8 @@ const likeKey = (type,id) => `digivated:card:likes:${itemKey(type,id)}`;
 const commentIndex = (type,id) => `digivated:card:comments:${itemKey(type,id)}`;
 export const commentKey = id => `digivated:card:comment:${id}`;
 const LIKE = `local liked=redis.call('GET',KEYS[1]); local count=tonumber(redis.call('GET',KEYS[2]) or '0'); if ARGV[1]=='like' then if liked then redis.call('PERSIST',KEYS[1]); return {count,1} end; redis.call('SET',KEYS[1],'1'); return {redis.call('INCR',KEYS[2]),1} end; if ARGV[1]=='unlike' then if liked then redis.call('DEL',KEYS[1]); if count>0 then count=redis.call('DECR',KEYS[2]) end end; return {count,0} end; return {-1,0}`;
-const COMMENT = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],86400) end; if n>3 then return 0 end; redis.call('SET',KEYS[2],ARGV[1]); redis.call('ZADD',KEYS[3],ARGV[2],ARGV[3]); return 1`;
-const MODERATE = `local raw=redis.call('GET',KEYS[1]); if not raw then return -1 end; local entry=cjson.decode(raw); if entry.status~='pending' then return 0 end; if ARGV[1]=='approved' and entry.purpose=='packet-feedback' and entry.quoteConsent~=true then return -3 end; entry.status=ARGV[1]; redis.call('SET',KEYS[1],cjson.encode(entry)); if ARGV[1]=='approved' then redis.call('ZADD',KEYS[2],ARGV[2],entry.id) else redis.call('ZREM',KEYS[2],entry.id) end; return 1`;
+const COMMENT = `local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],86400) end; if n>3 then return 0 end; redis.call('SET',KEYS[2],ARGV[1]); redis.call('ZADD',KEYS[3],ARGV[2],ARGV[3]); if ARGV[4]=='approved' then redis.call('ZADD',KEYS[4],ARGV[2],ARGV[3]) end; return 1`;
+const MODERATE = `local raw=redis.call('GET',KEYS[1]); if not raw then return -1 end; local entry=cjson.decode(raw); if entry.status~='pending' and not (entry.status=='approved' and entry.purpose=='project-feedback' and ARGV[1]=='rejected') then return 0 end; if ARGV[1]=='approved' and entry.purpose=='packet-feedback' and entry.quoteConsent~=true then return -3 end; entry.status=ARGV[1]; redis.call('SET',KEYS[1],cjson.encode(entry)); if ARGV[1]=='approved' then redis.call('ZADD',KEYS[2],ARGV[2],entry.id) else redis.call('ZREM',KEYS[2],entry.id) end; return 1`;
 
 export async function isPublicItem(redis,type,id) {
   if (type === 'resource' && builtinResources.has(id)) return true;
@@ -27,7 +27,7 @@ export async function listComments(redis,type,id) {
 export async function listPendingComments(redis,offset=0) {
   const ids=await redis(['ZREVRANGE','digivated:card:comments:all',offset,offset+49]);
   const raws=ids.length ? await redis(['MGET',...ids.map(commentKey)]) : [];
-  return {items:raws.filter(Boolean).map(raw=>JSON.parse(raw)).map(({id,type,itemId,name,body,date,status,purpose,quoteConsent})=>({id,type,itemId,name,body,date,status,...(purpose==='packet-feedback'?{purpose,quoteConsent:quoteConsent===true}:{})})),next:ids.length===50?offset+50:null};
+  return {items:raws.filter(Boolean).map(raw=>JSON.parse(raw)).map(({id,type,itemId,name,body,date,status,purpose,quoteConsent})=>({id,type,itemId,name,body,date,status,...(purpose==='packet-feedback'?{purpose,quoteConsent:quoteConsent===true}:purpose==='project-feedback'?{purpose}:{})})),next:ids.length===50?offset+50:null};
 }
 export async function moderateComment(redis,id,status) {
   if(!validId(id)||!['approved','rejected'].includes(status))return 0;
@@ -87,10 +87,10 @@ export function makeCardInteractionHandler(deps={}) {
       if(body.company)return send(400,{error:'Check the form and try again.'});
       const name=typeof body.name==='string'?body.name.trim():'',comment=typeof body.comment==='string'?body.comment.trim():'';
       if(name.length>40||comment.length<4||comment.length>500)return send(400,{error:`Use up to 40 characters for your name and 4 to 500 for your ${isProjectFeedback?'feedback':'comment'}.`});
-      const entry={id:randomUUID(),type,itemId:id,name:name||(isFeedback?'Anonymous tester':'Guest'),body:comment,date:new Date().toISOString(),status:'pending',...(isFeedback?{purpose:'packet-feedback',quoteConsent:body.quoteConsent}:isProjectFeedback?{purpose:'project-feedback'}:{})};
-      const saved=await redis(['EVAL',COMMENT,3,`digivated:card:comment-limit:${visitor}`,commentKey(entry.id),'digivated:card:comments:all',JSON.stringify(entry),Date.parse(entry.date),entry.id]);
+      const entry={id:randomUUID(),type,itemId:id,name:name||(isFeedback?'Anonymous tester':'Guest'),body:comment,date:new Date().toISOString(),status:isProjectFeedback?'approved':'pending',...(isFeedback?{purpose:'packet-feedback',quoteConsent:body.quoteConsent}:isProjectFeedback?{purpose:'project-feedback'}:{})};
+      const saved=await redis(['EVAL',COMMENT,4,`digivated:card:comment-limit:${visitor}`,commentKey(entry.id),'digivated:card:comments:all',commentIndex(type,id),JSON.stringify(entry),Date.parse(entry.date),entry.id,entry.status]);
       if(saved!==1){res.setHeader('Retry-After','86400');return send(429,{error:`You’ve reached today’s ${isProjectFeedback?'feedback':'comment'} limit. Please try again tomorrow.`});}
-      return send(201,{ok:true,message:isFeedback ? body.quoteConsent ? 'Thanks. Your feedback is saved for review. You have allowed a public quote; nothing is published automatically.' : 'Thanks. Your feedback is saved privately for review and will not be published.' : isProjectFeedback?'Thanks for helping this creator. Your feedback was sent for review and will appear here if approved.':'Thanks for sharing your thoughts. Your comment will appear after review.'});
+      return send(201,{ok:true,message:isFeedback ? body.quoteConsent ? 'Thanks. Your feedback is saved for review. You have allowed a public quote; nothing is published automatically.' : 'Thanks. Your feedback is saved privately for review and will not be published.' : isProjectFeedback?'Thanks for sharing your feedback. It is now visible on this project.':'Thanks for sharing your thoughts. Your comment will appear after review.'});
     }catch{return send(503,{error:'This action is temporarily unavailable. Please try again later.'});}
   };
 }

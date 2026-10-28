@@ -16,8 +16,8 @@ function fixtureRedis(){
    const [script,n,...rest]=args,keys=rest.slice(0,Number(n)),argv=rest.slice(Number(n));
    if(script.includes("ARGV[1]=='like'")){let count=Number(values.get(keys[1])||0),liked=values.has(keys[0]);if(argv[0]==='like'&&!liked){values.set(keys[0],'1');count++;values.set(keys[1],String(count));liked=true;}else if(argv[0]==='unlike'&&liked){values.delete(keys[0]);count=Math.max(0,count-1);values.set(keys[1],String(count));liked=false;}return [count,liked?1:0];}
    if(script.includes('comment-limit')){throw Error('unexpected script');}
-   if(script.includes('local n=redis.call')){const count=Number(values.get(keys[0])||0)+1;values.set(keys[0],String(count));if(count>3)return 0;values.set(keys[1],argv[0]);const set=members(keys[2]);set.set(argv[2],Number(argv[1]));sorted.set(keys[2],set);return 1;}
-   const record=JSON.parse(values.get(keys[0]));if(record.status!=='pending')return 0;record.status=argv[0];values.set(keys[0],JSON.stringify(record));if(argv[0]==='approved'){const set=members(keys[1]);set.set(record.id,Number(argv[1]));sorted.set(keys[1],set);}return 1;
+   if(script.includes('local n=redis.call')){const count=Number(values.get(keys[0])||0)+1;values.set(keys[0],String(count));if(count>3)return 0;values.set(keys[1],argv[0]);const set=members(keys[2]);set.set(argv[2],Number(argv[1]));sorted.set(keys[2],set);if(argv[3]==='approved'){const publicSet=members(keys[3]);publicSet.set(argv[2],Number(argv[1]));sorted.set(keys[3],publicSet);}return 1;}
+   const record=JSON.parse(values.get(keys[0]));if(record.status!=='pending'&&!(record.status==='approved'&&record.purpose==='project-feedback'&&argv[0]==='rejected'))return 0;record.status=argv[0];values.set(keys[0],JSON.stringify(record));const set=members(keys[1]);if(argv[0]==='approved')set.set(record.id,Number(argv[1]));else set.delete(record.id);sorted.set(keys[1],set);return 1;
   }
   throw Error(`Unexpected Redis command ${command}`);
  };
@@ -58,15 +58,20 @@ test('cross-site writes and invalid requests fail before any interaction is stor
  assert.equal((await call(handler,'POST','../private',{action:'like'})).status,404);
  assert.equal((await call(handler,'GET','project-one')).data.likes,0);
 });
-test('project feedback stays pending until moderation and cannot be sent to resources',async()=>{
+test('project feedback appears immediately and cannot be sent to resources',async()=>{
  const {redis,values}=fixtureRedis(),handler=makeCardInteractionHandler({redis,env:{SUBMISSIONS_ORIGIN:origin}});
  values.set('digivated:submission:project-one',JSON.stringify({id:'project-one',status:'approved',consent:true}));
  const sent=await call(handler,'POST','project-one',{action:'project-feedback',name:'Visitor',comment:'The onboarding is clear; a pricing example would help.'});
- assert.equal(sent.status,201);assert.match(sent.data.message,/feedback was sent for review/);
+ assert.equal(sent.status,201);assert.match(sent.data.message,/now visible/);
+ const publicResult=(await call(handler,'GET','project-one')).data;
+ assert.equal(publicResult.commentCount,1);
+ assert.equal(publicResult.comments[0].body,'The onboarding is clear; a pricing example would help.');
+ const entry=(await listPendingComments(redis)).items[0];assert.equal(JSON.parse(values.get(`digivated:card:comment:${entry.id}`)).purpose,'project-feedback');
+ assert.equal(entry.status,'approved');
+ assert.equal(await moderateComment(redis,entry.id,'approved'),0);
+ assert.equal(await moderateComment(redis,entry.id,'rejected'),1);
+ assert.equal((await call(handler,'GET','project-one')).data.commentCount,0);
  assert.deepEqual((await call(handler,'GET','project-one')).data.comments,[]);
- const pending=(await listPendingComments(redis)).items[0];assert.equal(JSON.parse(values.get(`digivated:card:comment:${pending.id}`)).purpose,'project-feedback');
- assert.equal(await moderateComment(redis,pending.id,'approved'),1);
- assert.equal((await call(handler,'GET','project-one')).data.comments[0].body,'The onboarding is clear; a pricing example would help.');
  assert.equal((await call(handler,'POST','builtin-ui-ux-prompt-packet',{action:'project-feedback',comment:'A useful note'},{},'resource')).status,400);
 });
 
