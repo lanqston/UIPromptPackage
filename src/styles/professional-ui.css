@@ -1,0 +1,174 @@
+/* Shared public design system. Presentation only; preserve routes, forms and data hooks. */
+html body.platform.light-theme,
+html body.platform.light-theme.home-refresh {
+  --ui-canvas:#f7f8fa; --ui-paper:#fff; --ui-ink:#181a1e; --ui-copy:#4e535c;
+  --ui-muted:#656b75; --ui-line:#e1e4e8; --ui-soft:#f0f2f4;
+  --ui-radius:12px; --ui-control-radius:8px; --ui-content:1200px;
+  --mono-bg:var(--ui-canvas); --mono-surface:var(--ui-paper); --mono-line:var(--ui-line);
+  --mono-text:var(--ui-ink); --mono-muted:var(--ui-muted);
+  --refined-bg:var(--ui-canvas); --refined-surface:var(--ui-paper); --refined-line:var(--ui-line);
+  --refined-ink:var(--ui-ink); --refined-muted:var(--ui-copy); --refined-soft:var(--ui-muted);
+  --line:var(--ui-line); --paper:var(--ui-paper); --muted:var(--ui-muted);
+  --color-brand-bg:var(--ui-canvas); --color-brand-surface:var(--ui-paper);
+  --color-brand-card:var(--ui-paper); --color-brand-line:var(--ui-line);
+  --studio-radius:var(--ui-radius); --studio-shadow:none; --studio-hover-shadow:0 4px 16px #181a1e08;
+  background:var(--ui-canvas); color:var(--ui-ink); padding-top:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+html body.platform.light-theme .site-atmosphere { display:none; }
+html body.platform.light-theme main,
+html body.platform.light-theme.home-refresh main,
+html body.platform.light-theme.projects-dashboard main,
+html body.platform.light-theme.resources-dashboard main {
+  width:100%; max-width:var(--ui-content); margin-inline:auto; padding:36px 32px 72px;
+}
+html body.platform.light-theme :is(h1,h2,h3,h4) { color:var(--ui-ink); }
+html body.platform.light-theme :is(p,.lede,.quiet) { color:var(--ui-copy); }
+html body.platform.light-theme .eyebrow { color:var(--ui-muted); font-size:11px; font-weight:650; letter-spacing:.12em; }
+html body.platform.light-theme .page-intro { padding-block:24px 32px; }
+html body.platform.light-theme .page-intro h1 { font-size:clamp(2rem,4vw,3rem); line-height:1.15; font-weight:650; letter-spacing:-.045em; }
+html body.platform.light-theme :is(.page-intro .lede,.dashboard-intro p) { font-size:15px; line-height:1.7; }
+html body.platform.light-theme .site-breadcrumbs { margin:0 0 24px; font-size:12px; }
+/* A steady, full-width header across every public page. */
+html body.platform.light-theme .platform-header.compact-site-header {
+  position:sticky; top:0; inset-inline:auto; width:100%; max-width:none; margin:0; padding:0;
+  border:0; border-bottom:1px solid var(--ui-line); border-radius:0;
+  background:#fff; box-shadow:none; backdrop-filter:none;
+}
+html body.platform.light-theme .compact-site-header .header-inner {
+  width:100%; max-width:var(--ui-content); min-height:76px; padding:12px 32px; margin:auto; gap:24px;
+}
+html body.platform.light-theme .compact-site-header .platform-brand { font-size:19px; letter-spacing:-.045em; font-weight:700; gap:9px; }
+html body.platform.light-theme .compact-site-header .header-primary { margin-left:32px; margin-right:auto; gap:2px; }
+html body.platform.light-theme .compact-site-header .header-primary a { font-size:13px; font-weight:500; padding:10px 12px; border-radius:6px; }
+html body.platform.light-theme .compact-site-header .header-primary a[aria-current=page] { background:var(--ui-soft); color:var(--ui-ink); }
+html body.platform.light-theme .compact-site-header :is(.header-login,.header-search,.explore-menu>summary) { min-height:44px; border-radius:var(--ui-control-radius); box-shadow:none; background:#fff; border:1px solid var(--ui-line); font-size:13px; font-weight:550; }
+html body.platform.light-theme .compact-site-header .compact-header-actions .header-login { background:var(--ui-ink); border-color:var(--ui-ink); color:#fff; padding-inline:18px; }
+html body.platform.light-theme .compact-site-header .compact-header-actions .header-login:hover { background:#30343b; color:#fff; }
+html body.platform.light-theme .compact-site-header .header-search { border-color:transparent; }
+html body.platform.light-theme .explore-menu nav { border-radius:var(--ui-radius); border-color:var(--ui-line); box-shadow:0 12px 40px #181a1e1a; }
+/* Flat controls, with consistent focus and touch targets. */
+html body.platform.light-theme .button { min-height:44px; padding:11px 18px; border:1px solid #cdd1d7; border-radius:var(--ui-control-radius); background:#fff; color:var(--ui-ink); font-weight:550; font-size:13px; box-shadow:none; transition:background .15s,border-color .15s; }
+html body.platform.light-theme .button:not(:disabled):hover { background:var(--ui-soft); border-color:#a7adb6; box-shadow:none; transform:none; translate:none; }
+html body.platform.light-theme .button.primary { background:var(--ui-ink); color:#fff; border-color:var(--ui-ink); box-shadow:none; }
+html body.platform.light-theme .button.primary:not(:disabled):hover { background:#30343b; color:#fff; border-color:#30343b; }
+html body.platform.light-theme :is(input,select,textarea) { border-color:#cdd1d7; border-radius:var(--ui-control-radius); background:#fff; box-shadow:none; }
+html body.platform.light-theme :is(input,select,textarea):focus-visible { outline:2px solid var(--ui-ink); outline-offset:3px; box-shadow:none; }
+/* Homepage: direct introduction, then clear browsing paths. */
+html body.platform.light-theme.home-refresh main { padding-top:0; }
+html body.platform.light-theme .home-start { margin:0; padding:72px 0 52px; max-width:760px; }
+html body.platform.light-theme .home-start .eyebrow { margin-bottom:22px; }
+html body.platform.light-theme .home-start h1 { margin:0 0 22px; font-size:clamp(2.8rem,5.3vw,4.5rem); font-weight:650; line-height:1.04; letter-spacing:-.055em; text-wrap:initial; }
+html body.platform.light-theme .home-start h1>span { color:#737983; }
+html body.platform.light-theme .home-start>p:not(.eyebrow) { max-width:520px; font-size:16px; line-height:1.75; margin-bottom:26px; }
+.home-primary-actions { display:flex; gap:12px; flex-wrap:wrap; }
+html body.platform.light-theme .home-start>p.home-trust-note:not(.eyebrow) { margin:16px 0 0; font-size:12px; color:var(--ui-muted); }
+html body.platform.light-theme .home-paths { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; padding:0; margin:0 0 64px; border:1px solid var(--ui-line); border-radius:var(--ui-radius); overflow:hidden; background:#fff; }
+html body.platform.light-theme .home-paths>a { min-height:210px; padding:24px; border:0; border-right:1px solid var(--ui-line); border-radius:0; background:#fff; }
+html body.platform.light-theme .home-paths>a:last-child { border-right:0; }
+html body.platform.light-theme .home-paths>a:hover { background:#fafbfc; }
+html body.platform.light-theme .home-paths .home-path-number { margin:0 0 18px; font-size:11px; font-variant-numeric:tabular-nums; color:var(--ui-muted); }
+html body.platform.light-theme .home-paths strong { font-size:16px; font-weight:600; letter-spacing:-.02em; }
+html body.platform.light-theme .home-paths span { font-size:13px; color:var(--ui-copy); line-height:1.65; }
+html body.platform.light-theme .home-paths b { font-size:12px; font-weight:550; padding-top:22px; }
+html body.platform.light-theme .compact-project-heading { margin-bottom:24px; align-items:end; }
+html body.platform.light-theme .compact-project-heading .eyebrow { margin:0 0 10px; font-size:10px; }
+html body.platform.light-theme .compact-project-heading h2 { font-size:26px; font-weight:600; letter-spacing:-.035em; }
+html body.platform.light-theme .compact-project-heading>a { font-size:12px; min-height:44px; display:flex; align-items:center; gap:6px; }
+/* Keep card hierarchy and actions consistent on the homepage and directory. */
+html body.platform.light-theme :is(.compact-home-projects,.projects-content) [data-live-projects] .project-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+html body.platform.light-theme [data-live-projects] .project-card[data-project],
+html body.platform.light-theme.resources-dashboard .resource-grid>.resource-card[data-resource] { border:1px solid var(--ui-line); border-radius:var(--ui-radius); background:#fff; box-shadow:none; transform:none; transition:border-color .15s,box-shadow .15s; }
+html body.platform.light-theme [data-live-projects] .project-card[data-project]:hover,
+html body.platform.light-theme.resources-dashboard .resource-grid>.resource-card[data-resource]:hover { transform:none; border-color:#b8bec7; box-shadow:0 4px 16px #181a1e08; }
+html body.platform.light-theme [data-live-projects] .project-card[data-project]::after,
+html body.platform.light-theme.resources-dashboard .resource-grid>.resource-card[data-resource]::after { content:none; }
+html body.platform.light-theme [data-live-projects] .project-card .project-copy { display:flex; flex-direction:column; padding:22px; gap:0; }
+html body.platform.light-theme [data-live-projects] .project-identity { gap:12px; margin-bottom:20px; }
+html body.platform.light-theme [data-live-projects] .project-image.card-visual { width:56px; height:56px; min-height:56px; aspect-ratio:1; border-radius:10px; background:var(--ui-soft); border:1px solid var(--ui-line); box-shadow:none; }
+html body.platform.light-theme [data-live-projects] .project-image img { object-fit:contain; border-radius:9px; }
+html body.platform.light-theme [data-live-projects] .project-card h3 { font-size:19px; font-weight:600; margin:0 0 5px; line-height:1.4; letter-spacing:-.025em; }
+html body.platform.light-theme [data-live-projects] .project-meta :is(a,.quiet) { color:var(--ui-muted); font-size:12px; }
+html body.platform.light-theme [data-live-projects] .project-card .project-description { font-size:14px; line-height:1.7; min-height:48px; color:var(--ui-copy); }
+html body.platform.light-theme [data-live-projects] .project-card .project-details summary { font-size:12px; min-height:36px; }
+html body.platform.light-theme [data-live-projects] .project-card .card-stat { font-size:11px; color:var(--ui-muted); gap:6px; }
+html body.platform.light-theme [data-live-projects] .project-card .card-stat svg { width:13px; height:13px; }
+html body.platform.light-theme [data-live-projects] .project-card .card-links.card-footer { gap:10px; padding-top:16px; border-color:var(--ui-line); }
+html body.platform.light-theme [data-live-projects] .project-card .card-actions { gap:2px; }
+html body.platform.light-theme [data-live-projects] .project-card .card-icon { min-width:34px; height:44px; }
+html body.platform.light-theme [data-live-projects] .project-card .card-icon.card-feedback-trigger { height:44px; border-color:var(--ui-line); border-radius:8px; padding:0 10px; }
+html body.platform.light-theme [data-live-projects] .project-card .card-feedback-label { font-weight:550; }
+html body.platform.light-theme [data-live-projects] .project-card .card-feedback-count { font-weight:550; background:var(--ui-soft); font-variant-numeric:tabular-nums; }
+/* Existing card-open rules are important; keep these paired declarations explicit. */
+html body.platform.light-theme .project-card .project-copy .card-open,
+html body.platform.light-theme .resource-copy .card-open { background:transparent!important; border:0!important; padding:0 4px!important; border-radius:6px!important; color:var(--ui-ink); box-shadow:none; font-size:12px; }
+html body.platform.light-theme .project-card .project-copy .card-open:hover,
+html body.platform.light-theme .resource-copy .card-open:hover { background:var(--ui-soft)!important; color:var(--ui-ink); text-decoration:none; }
+html body.platform.light-theme .dashboard-intro { padding:8px 0 32px; }
+html body.platform.light-theme .dashboard-intro h1 { font-size:36px; }
+html body.platform.light-theme :is(.dashboard-controls,.resources-controls) { padding:0; background:transparent; border:0; border-radius:0; box-shadow:none; }
+html body.platform.light-theme :is(.dashboard-controls,.resources-controls) :is(input,select) { background:#fff; font-size:13px; }
+html body.platform.light-theme .refined-submit { background:#fff; border-color:var(--ui-line); border-radius:var(--ui-radius); }
+/* Forms use the same surfaces and dimensions as discovery. */
+html body.platform.light-theme .login-page { margin:24px auto 48px; }
+html body.platform.light-theme .login-heading h1 { font-size:32px; font-weight:650; }
+html body.platform.light-theme .login-panel { padding:28px; border:1px solid var(--ui-line); border-radius:var(--ui-radius); background:#fff; box-shadow:0 4px 16px #181a1e04; }
+html body.platform.light-theme .login-tabs { border:0; background:var(--ui-soft); padding:4px; border-radius:8px; }
+html body.platform.light-theme .login-tabs button { font-size:13px; min-height:44px; border-radius:6px; }
+html body.platform.light-theme .login-tabs button[aria-selected=true] { background:#fff; color:var(--ui-ink); box-shadow:0 1px 4px #181a1e14; }
+html body.platform.light-theme .login-panel form input { font-size:16px; }
+html body.platform.light-theme :is(.submission-form,.project-account-card) { background:#fff; border-color:var(--ui-line); border-radius:var(--ui-radius); box-shadow:none; }
+html body.platform.light-theme .submission-form>.submission-account-callout { background:#f0f2f4; }
+html body.platform.light-theme .submission-form fieldset { border-color:var(--ui-line); }
+html body.platform.light-theme .submission-form legend { font-size:18px; font-weight:600; }
+html body.platform.light-theme .submission-form .submission-step-label { font-size:10px; letter-spacing:.1em; color:var(--ui-muted); }
+html body.platform.light-theme :is(.comment-dialog,.collection-dialog,.discovery-dialog) { border-radius:var(--ui-radius); border-color:var(--ui-line); }
+html body.platform.light-theme .comment-dialog-header button { width:44px; height:44px; min-width:44px; }
+html body.platform.light-theme .account-announcement { border-color:var(--ui-line); border-radius:var(--ui-radius); box-shadow:0 8px 32px #181a1e1a; }
+html body.platform.light-theme .account-announcement-actions button { width:44px; height:44px; }
+html body.platform.light-theme .platform-footer { background:#fff; border-color:var(--ui-line); padding-top:48px; }
+html body.platform.light-theme .footer-inner { max-width:var(--ui-content); }
+html body.platform.light-theme .platform-footer nav h2 { font-size:12px; font-weight:600; color:var(--ui-ink); }
+html body.platform.light-theme .platform-footer .footer-group-links a { font-size:12px; color:var(--ui-muted); line-height:1.5; }
+@media(min-width:768px) {
+  html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] { grid-template-columns:1fr; }
+  html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-copy { display:grid; grid-template-columns:72px minmax(130px,1fr) minmax(220px,2fr) auto; gap:4px 20px; }
+}
+@media(max-width:1100px) {
+  html body.platform.light-theme :is(.compact-home-projects,.projects-content) [data-live-projects] .project-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  html body.platform.light-theme .compact-site-header .header-inner { gap:16px; }
+}
+@media(max-width:767px) {
+  html body.platform.light-theme main,
+  html body.platform.light-theme.home-refresh main,
+  html body.platform.light-theme.projects-dashboard main,
+  html body.platform.light-theme.resources-dashboard main { padding:24px 20px 48px; }
+  html body.platform.light-theme.home-refresh main { padding-top:0; }
+  html body.platform.light-theme .compact-site-header .header-inner { min-height:68px; padding:12px 20px; gap:12px; }
+  html body.platform.light-theme .home-start { padding:48px 0 36px; }
+  html body.platform.light-theme .home-start h1 { font-size:clamp(2.7rem,10vw,4rem); }
+  html body.platform.light-theme .home-start>p:not(.eyebrow) { font-size:15px; }
+  html body.platform.light-theme .home-paths { grid-template-columns:1fr; margin-bottom:40px; }
+  html body.platform.light-theme .home-paths>a { min-height:0; padding:20px; border-right:0; border-bottom:1px solid var(--ui-line); }
+  html body.platform.light-theme .home-paths>a:last-child { border-bottom:0; }
+  html body.platform.light-theme .home-paths .home-path-number { margin-bottom:10px; }
+  html body.platform.light-theme .home-paths b { padding-top:12px; }
+  html body.platform.light-theme .compact-project-heading h2 { font-size:23px; }
+  html body.platform.light-theme .compact-project-heading { align-items:center; gap:12px; }
+  html body.platform.light-theme .compact-project-heading>a { max-width:100px; font-size:11px; }
+  html body.platform.light-theme .dashboard-intro { padding-top:0; }
+  html body.platform.light-theme .dashboard-intro h1 { font-size:30px; }
+  html body.platform.light-theme .login-panel { padding:22px; }
+  html body.platform.light-theme .login-heading h1 { font-size:28px; }
+  html body.platform.light-theme [data-live-projects] .project-card .project-copy { padding:20px; }
+  html body.platform.light-theme .submission-intro { padding-top:8px; }
+}
+@media(max-width:600px) {
+  html body.platform.light-theme :is(.compact-home-projects,.projects-content) [data-live-projects] .project-grid { grid-template-columns:1fr; }
+  html body.platform.light-theme .compact-site-header .header-inner { padding-inline:16px; }
+  html body.platform.light-theme .home-primary-actions .button { flex:1; padding-inline:12px; font-size:12px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  html body.platform.light-theme :is(.button,.project-card,.resource-card) { transition:none; }
+}

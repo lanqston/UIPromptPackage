@@ -4,9 +4,20 @@ import LiveProjects from '../components/LiveProjects.astro';
 ---
 <Platform title="Discover, learn, and share" description="Explore independent projects, practical resources, carousels, and share your work on Digivated.">
   <div class="compact-home">
-    <section class="home-start" aria-labelledby="home-start-heading"><p class="eyebrow">WELCOME TO DIGIVATED</p><h1 id="home-start-heading">Discover. Learn. Build.</h1><p>Explore independent projects and useful technology resources, or share what you’re making.</p><div class="home-paths"><a href="/discover"><strong>Explore projects</strong><span>Find independent tools and ideas.</span><b>Browse projects <span aria-hidden="true">→</span></b></a><a href="/resources"><strong>Learn something</strong><span>Read practical resources and carousels.</span><b>View resources <span aria-hidden="true">→</span></b></a><a href="/submit-project"><strong>Share your work</strong><span>Submit a project for review.</span><b>Submit a project <span aria-hidden="true">→</span></b></a></div></section>
-    <section id="projects" class="compact-home-projects" aria-labelledby="home-heading"><div class="compact-project-heading"><h2 id="home-heading">Featured projects</h2><a href="/discover">View all projects <span aria-hidden="true">→</span></a></div>
-      <LiveProjects mode="featured" limit={4} compact title="The next discovery is still to come." description="Featured projects will appear here after review." href="/submit-project" label="Submit your project"/>
+    <section class="home-start" aria-labelledby="home-start-heading">
+      <p class="eyebrow">A PLACE FOR INDEPENDENT IDEAS</p>
+      <h1 id="home-start-heading">Discover your next<br/><span>great find.</span></h1>
+      <p>Explore useful products, meet the people building them, and share something of your own.</p>
+      <div class="home-primary-actions"><a class="button primary" href="/discover">Explore projects <span aria-hidden="true">→</span></a><a class="button" href="/submit-project">Submit a project</a></div>
+      <p class="home-trust-note">Free to explore. Built for curious people.</p>
+    </section>
+    <nav class="home-paths" aria-label="Explore Digivated">
+      <a href="/discover"><span class="home-path-number" aria-hidden="true">01</span><strong>Explore projects</strong><span>Independent tools and ideas, reviewed by Digivated.</span><b>Find your next discovery <span aria-hidden="true">↗</span></b></a>
+      <a href="/resources"><span class="home-path-number" aria-hidden="true">02</span><strong>Learn something new</strong><span>Practical resources and visual explainers for your next step.</span><b>Browse resources <span aria-hidden="true">↗</span></b></a>
+      <a href="/submit-project"><span class="home-path-number" aria-hidden="true">03</span><strong>Put your work out there</strong><span>Share what you’re building and hear what people think.</span><b>Submit a project <span aria-hidden="true">↗</span></b></a>
+    </nav>
+    <section id="projects" class="compact-home-projects" aria-labelledby="home-heading"><div class="compact-project-heading"><div><p class="eyebrow">WORTH A CLOSER LOOK</p><h2 id="home-heading">Featured projects</h2></div><a href="/discover">View all projects <span aria-hidden="true">→</span></a></div>
+      <LiveProjects mode="featured" limit={6} compact title="The next discovery is still to come." description="Featured projects will appear here after review." href="/submit-project" label="Submit your project"/>
     </section>
   </div>
   <script>import '../scripts/live-content.js';</script>
