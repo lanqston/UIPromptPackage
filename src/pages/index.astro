@@ -1,13 +1,14 @@
 ---
 import Platform from '../layouts/Platform.astro';
-import LiveProjects from '../components/LiveProjects.astro';
+import NotebookIntro from '../components/NotebookIntro.astro';
+import DiscoveryPreview from '../components/DiscoveryPreview.astro';
+import UiIcon from '../components/UiIcon.astro';
 ---
-<Platform title="Discover, learn, and share" description="Explore independent projects, practical resources, carousels, and share your work on Digivated.">
-  <div class="compact-home">
-    <section class="home-start" aria-labelledby="home-start-heading"><p class="eyebrow">WELCOME TO DIGIVATED</p><h1 id="home-start-heading">Discover. Learn. Build.</h1><p>Explore independent projects and useful technology resources, or share what you’re making.</p><div class="home-paths"><a href="/discover"><strong>Explore projects</strong><span>Find independent tools and ideas.</span><b>Browse projects <span aria-hidden="true">→</span></b></a><a href="/resources"><strong>Learn something</strong><span>Read practical resources and carousels.</span><b>View resources <span aria-hidden="true">→</span></b></a><a href="/submit-project"><strong>Share your work</strong><span>Submit a project for review.</span><b>Submit a project <span aria-hidden="true">→</span></b></a></div></section>
-    <section id="projects" class="compact-home-projects" aria-labelledby="home-heading"><div class="compact-project-heading"><h2 id="home-heading">Featured projects</h2><a href="/discover">View all projects <span aria-hidden="true">→</span></a></div>
-      <LiveProjects mode="featured" limit={4} compact title="The next discovery is still to come." description="Featured projects will appear here after review." href="/submit-project" label="Submit your project"/>
-    </section>
-  </div>
-  <script>import '../scripts/live-content.js';</script>
+<Platform title="Discover projects. Meet the makers." description="Discover useful tools and independent projects, connect with builders, and share what you’re making on Digivated.">
+  <NotebookIntro/>
+  <DiscoveryPreview/>
+  <section class="notebook-benefits" aria-label="Explore, share, and connect"><div><UiIcon name="grid" size={20}/><strong>Find your next useful tool</strong><span>Explore projects across apps, AI, design, and more.</span></div><div><UiIcon name="upload" size={20}/><strong>Share what you’re building</strong><span>Submit your project for a free directory review.</span></div><div><UiIcon name="message" size={20}/><strong>Start a conversation</strong><span>Leave thoughtful feedback for the people behind it.</span></div></section>
+  <section class="notebook-feature-section" aria-labelledby="features-title"><header><p class="notebook-overline">SMALL IDEAS. REAL POSSIBILITIES.</p><h2 id="features-title">Made for people who<br/>like making things.</h2><p>Whether you’re looking for a better tool or sharing your first project,<br class="desktop-break"/> there’s a place for you here.</p></header><div class="notebook-feature-grid"><article><UiIcon name="layers" size={28}/><h3>A little less searching.<br/>A little more discovering.</h3><p>Browse by category, find something new, and save the projects you want to come back to.</p><a href="/discover">Browse the directory <UiIcon size={16}/></a></article><article><UiIcon name="message" size={28}/><h3>Good work gets better<br/>with a conversation.</h3><p>Give a creator a useful suggestion, ask a question, or tell them what worked for you.</p><a href="/discover">Meet the projects <UiIcon size={16}/></a></article><article><UiIcon name="book" size={28}/><h3>Bring a curious mind.<br/>Leave with a new idea.</h3><p>Explore practical resources and visual explainers for what you’re working on next.</p><a href="/resources">Explore resources <UiIcon size={16}/></a></article><article><UiIcon name="upload" size={28}/><h3>You made something.<br/>Let people find it.</h3><p>Create an account, submit your project, and keep track of its review and feedback.</p><a href="/submit-project">Share your project <UiIcon size={16}/></a></article></div></section>
+  <section class="notebook-closing" aria-labelledby="closing-title"><p class="notebook-overline">YOUR NEXT STEP</p><h2 id="closing-title">Something worth sharing?</h2><p>Give your project a place to be discovered.</p><a class="button primary" href="/submit-project">Submit your project <UiIcon/></a><p class="notebook-helper">Free to submit. Every project is reviewed.</p></section>
+  <script>import '../scripts/directory.js'; import '../scripts/live-content.js';</script>
 </Platform>
