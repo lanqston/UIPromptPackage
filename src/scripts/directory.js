@@ -72,7 +72,7 @@ if (directory) {
       const heading = document.getElementById('directory-heading');
       if (heading) heading.textContent = view?.value === 'featured' ? 'Featured projects' : category.value || 'All projects';
     }
-    if (clear) clear.hidden = !query && !category.value && !goal && (!view || view.value === 'newest');
+    if (clear) clear.hidden = !query && !category.value && !goal;
     const goalDescription = document.getElementById('directory-goal-description');
     if (goalDescription) {
       goalDescription.textContent = goalButtons.find(button => button.dataset.goalFilter === goal)?.dataset.goalDescription || '';
@@ -81,6 +81,10 @@ if (directory) {
     const empty = document.getElementById('directory-empty');
     if (isProjects && directory.dataset.loaded !== 'true') {
       document.getElementById('directory-status').textContent = 'Loading projects…';
+      if (empty) empty.hidden = true;
+    }
+    if (directory.dataset.failed === 'true') {
+      document.getElementById('directory-status').textContent = 'Projects are temporarily unavailable. Please refresh to try again.';
       if (empty) empty.hidden = true;
     }
     if (empty && count === 0) {
@@ -107,11 +111,12 @@ if (directory) {
     setLayout(button.dataset.directoryLayout);
     syncFilters();
   });
-  clear?.addEventListener('click', () => { search.value = ''; category.value = ''; setGoal(''); if (view) view.value = 'newest'; syncFilters(); update(); });
+  clear?.addEventListener('click', () => { search.value = ''; category.value = ''; setGoal(''); syncFilters(); update(); });
   sort?.addEventListener('change', () => {syncFilters(); update();});
   search.addEventListener('input', () => {syncFilters(); update();});
   category.addEventListener('change', () => {setGoal(''); syncFilters(); update();});
   view?.addEventListener('change', () => {syncFilters(); update();});
+  document.addEventListener('digivated:collection-failed', () => { if (isProjects) { directory.dataset.failed = 'true'; update(); } });
   document.addEventListener('digivated:collection-updated', () => { directory.dataset.loaded = 'true'; update(); });
   update();
 }

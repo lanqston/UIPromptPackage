@@ -103,7 +103,7 @@ async function loadProjects(){
   for(const shelf of shelves){const mode=shelf.dataset.liveProjects;const selected=mode==='featured'?projects.filter(p=>p.status==='featured'):projects;renderShelf(shelf,selected,projectCard);if(shelf.hasAttribute('data-project-filters'))setupProjectFilters(shelf);}
   document.dispatchEvent(new Event('digivated:collection-updated'));
   observeProjectViews();
- }catch{for(const shelf of shelves){shelf.removeAttribute('aria-busy');const empty=shelf.querySelector('[data-live-empty]');empty.hidden=true;const status=shelf.querySelector('[data-live-status]');if(status)status.textContent='Projects are temporarily unavailable. Please try again shortly.';}}
+ }catch{document.dispatchEvent(new Event('digivated:collection-failed'));for(const shelf of shelves){shelf.removeAttribute('aria-busy');const empty=shelf.querySelector('[data-live-empty]');empty.hidden=true;const status=shelf.querySelector('[data-live-status]');if(status)status.textContent='Projects are temporarily unavailable. Please try again shortly.';}}
 }
 async function loadResources(){
  const shelves=[...document.querySelectorAll('[data-live-resources]')];if(!shelves.length)return;

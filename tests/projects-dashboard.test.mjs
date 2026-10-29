@@ -53,7 +53,7 @@ test('approved projects remain visible; featured/category filters and reset comb
   assert.equal(h.views[1].attrs['aria-pressed'],'true');
   h.chips[1].fire('click');assert.equal(h.ids['directory-status'].textContent,'0 projects found');
   assert.equal(h.clear.hidden,false);h.clear.fire('click');
-  assert.deepEqual(h.cards.map(c=>c.hidden),[false,false]);assert.equal(h.clear.hidden,true);
+  assert.deepEqual(h.cards.map(c=>c.hidden),[true,false]);assert.equal(h.clear.hidden,true);
 });
 test('sorts all cards by views, name, and date and switches list layout',()=>{
   const h=setup();h.document.fire('digivated:collection-updated');
@@ -161,3 +161,16 @@ test('typing a search does not rebuild cards when their order has not changed',(
  assert.equal(reopened.ids['directory-view'].value,'newest');
  assert.deepEqual(reopened.cards.map(c=>c.hidden),[false,false]);
  });
+
+test('default collection is not a clearable filter and reset preserves collection',()=>{
+ const h=setup('projects','');h.document.fire('digivated:collection-updated');
+ assert.equal(h.clear.hidden,true);h.chips[1].fire('click');assert.equal(h.clear.hidden,false);
+ h.clear.fire('click');assert.equal(h.ids['directory-view'].value,'featured');
+ assert.deepEqual(h.cards.map(c=>c.hidden),[true,false]);
+});
+test('failed project requests replace loading and remain errors when filters change',()=>{
+ const h=setup('projects','');h.document.fire('digivated:collection-failed');
+ assert.match(h.ids['directory-status'].textContent,/temporarily unavailable/);
+ h.chips[1].fire('click');assert.match(h.ids['directory-status'].textContent,/temporarily unavailable/);
+ assert.equal(h.ids['directory-empty'].hidden,true);
+});

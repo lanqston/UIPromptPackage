@@ -207,3 +207,5 @@ html body.platform.light-theme .platform-footer .footer-group-links a { font-siz
 .notebook-browser-body:has([data-directory]:not([data-loaded=true])) [data-live-empty] { display:none!important; }
 @media(max-width:1100px) { .notebook-skeleton { grid-template-columns:repeat(2,minmax(0,1fr)); } .notebook-skeleton>div:last-child { display:none; } }
 @media(max-width:600px) { .notebook-skeleton { grid-template-columns:1fr; } .notebook-skeleton>div:nth-child(n+2) { display:none; } }
+
+.notebook-browser-body:has([data-directory][data-failed=true]) .notebook-skeleton { display:none; }

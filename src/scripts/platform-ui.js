@@ -22,14 +22,14 @@ if (menu) {
     menu.open = false;
     sync();
     closing = false;
-    if (restoreFocus) trigger.focus();
+    if (restoreFocus && menu.contains(document.activeElement)) trigger.focus();
   };
   menu.addEventListener('toggle', sync);
   trigger.addEventListener('click', event => {
     if (menu.open) { event.preventDefault(); close(true); }
   });
   trigger.addEventListener('keydown', event => {
-    if (event.key === 'ArrowDown') {
+    if (event.key === 'ArrowDown' && !closing) {
       event.preventDefault();
       menu.open = true;
       sync();
