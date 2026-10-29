@@ -11,18 +11,18 @@ import '../styles/project-account.css';
     <header class="dashboard-intro"><div><h1 id="projects-title">Projects</h1><p>Independent ideas. Worth your attention.</p></div><span class="dashboard-curation">Reviewed by Digivated</span></header>
     <div class="account-welcome" id="account-welcome" role="status" hidden><strong id="account-welcome-message"></strong><a href="/account">View your account →</a></div>
     <nav class="project-collections" aria-label="Project collections">
-      <button type="button" data-directory-view="newest" aria-pressed="true">All projects <span data-project-total>—</span></button>
-      <button type="button" data-directory-view="featured" aria-pressed="false">Featured <span data-project-featured>—</span></button>
+      <button type="button" data-directory-view="featured" aria-pressed="true">Featured <span data-project-featured>—</span></button>
+      <button type="button" data-directory-view="newest" aria-pressed="false">All projects <span data-project-total>—</span></button>
       <a href="/saved">Saved projects <span aria-hidden="true">↗</span></a>
     </nav>
     <div class="dashboard-controls" data-directory="projects">
       <label class="project-search"><span class="sr-only">Search projects</span><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><input id="directory-search" type="search" placeholder="Search projects, creators, or ideas"/></label>
       <label class="mobile-category"><span class="sr-only">Category</span><select id="directory-category"><option value="">All categories</option>{projectCategories.map(c=><option>{c}</option>)}</select></label>
-      <select id="directory-view" hidden aria-label="Collection"><option value="newest">All projects</option><option value="featured">Featured</option></select>
+      <select id="directory-view" hidden aria-label="Collection"><option value="featured">Featured</option><option value="newest">All projects</option></select>
       <label class="project-sort"><span class="sr-only">Sort projects</span><select id="directory-sort"><option value="newest">Newest first</option><option value="views">Most viewed</option><option value="name">Name A–Z</option></select></label>
       <div class="project-layout-toggle" role="group" aria-label="Project layout"><button type="button" data-directory-layout="grid" aria-pressed="true" aria-label="Grid view"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></button><button type="button" data-directory-layout="list" aria-pressed="false" aria-label="List view"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 5h12M8 12h12M8 19h12M3 5h1M3 12h1M3 19h1"/></svg></button></div>
     </div>
-    <div class="dashboard-results"><h2 id="directory-heading" class="sr-only">All projects</h2><p id="directory-status" class="results-status" role="status">Loading projects…</p><button class="clear-project-filters" type="button" data-directory-clear hidden>Clear filters</button></div>
+    <div class="dashboard-results"><h2 id="directory-heading" class="sr-only">Featured projects</h2><p id="directory-status" class="results-status" role="status">Loading projects…</p><button class="clear-project-filters" type="button" data-directory-clear hidden>Clear filters</button></div>
     <LiveProjects mode="all" directory title="Your next discovery is still to come." description="Reviewed projects will appear here. Share your work for review." href="/submit-project" label="Submit Your Project"/>
     <aside class="refined-submit" aria-label="Share your project"><div><h2>Working on something worth sharing?</h2><p>Submit your project for free.</p></div><a href="/submit-project">Get discovered <span aria-hidden="true">↗</span></a></aside>
     <p class="dashboard-review-note">Every project is reviewed before appearing here.</p>

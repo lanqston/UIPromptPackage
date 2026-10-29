@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 
 // A minimal event-driven DOM harness exercises the real directory script.
-function setup(kind = 'projects', query = '') {
+function setup(kind = 'projects', query = '?view=newest') {
   const node = (dataset = {}, value = '') => ({dataset, value, hidden:false, textContent:'', attrs:{}, handlers:{}, options:[], setAttribute(k,v){this.attrs[k]=v;}, addEventListener(k,fn){this.handlers[k]=fn;}, fire(k){this.handlers[k]?.();}});
   const directory=node({directory:kind});
   const ids=Object.fromEntries(['search','category','view','sort','status','empty','heading'].map(id=>['directory-'+id,node()]));
@@ -151,3 +151,13 @@ test('typing a search does not rebuild cards when their order has not changed',(
  h.ids['directory-sort'].value='name';h.ids['directory-sort'].fire('change');
  assert.ok(h.list.moves>moves);assert.equal(h.list.order[0].dataset.resourceName,'Alpha');
 });
+
+ test('projects default to Featured and an explicit All projects link survives reopening',()=>{
+ const h=setup('projects','');h.document.fire('digivated:collection-updated');
+ assert.equal(h.ids['directory-view'].value,'featured');
+ assert.deepEqual(h.cards.map(c=>c.hidden),[true,false]);
+ h.views[0].fire('click');
+ const reopened=setup('projects',h.location.search);reopened.document.fire('digivated:collection-updated');
+ assert.equal(reopened.ids['directory-view'].value,'newest');
+ assert.deepEqual(reopened.cards.map(c=>c.hidden),[false,false]);
+ });
