@@ -5,6 +5,7 @@ export default defineConfig({
   output: 'static',
   vite: {
     plugins: [tailwindcss()],
+    server: { allowedHosts: ['terminal.local'] },
     // Keep bundled scripts external so the existing self-only CSP can run them.
     build: { assetsInlineLimit: 0 },
     define: {

@@ -2,12 +2,23 @@
 import Platform from '../layouts/Platform.astro';
 import LiveProjects from '../components/LiveProjects.astro';
 ---
-<Platform title="Discover, learn, and share" description="Explore independent projects, practical resources, carousels, and share your work on Digivated.">
-  <div class="compact-home">
-    <section class="home-start" aria-labelledby="home-start-heading"><p class="eyebrow">WELCOME TO DIGIVATED</p><h1 id="home-start-heading">Discover. Learn. Build.</h1><p>Explore independent projects and useful technology resources, or share what you’re making.</p><div class="home-paths"><a href="/discover"><strong>Explore projects</strong><span>Find independent tools and ideas.</span><b>Browse projects <span aria-hidden="true">→</span></b></a><a href="/resources"><strong>Learn something</strong><span>Read practical resources and carousels.</span><b>View resources <span aria-hidden="true">→</span></b></a><a href="/submit-project"><strong>Share your work</strong><span>Submit a project for review.</span><b>Submit a project <span aria-hidden="true">→</span></b></a></div></section>
-    <section id="projects" class="compact-home-projects" aria-labelledby="home-heading"><div class="compact-project-heading"><h2 id="home-heading">Featured projects</h2><a href="/discover">View all projects <span aria-hidden="true">→</span></a></div>
-      <LiveProjects mode="featured" limit={4} compact title="The next discovery is still to come." description="Featured projects will appear here after review." href="/submit-project" label="Submit your project"/>
+<Platform title="Independent minds. Unexpected finds." description="Discover independent projects, useful tools, and the people making them. Share your work and exchange feedback on Digivated.">
+  <div class="catalogue-home">
+    <section class="catalogue-intro" aria-labelledby="catalogue-title">
+      <div class="catalogue-edition"><span>THE INDEPENDENT PROJECT INDEX</span><span>EXPLORE / LEARN / BUILD</span></div>
+      <div class="catalogue-hero-copy"><h1 id="catalogue-title">Independent minds.<br/><span>Unexpected finds.</span></h1><div class="catalogue-hero-aside"><p>A good idea deserves<br/>to be discovered.</p><p>Find useful tools, explore new projects, and meet the people behind them.</p><a class="catalogue-action" href="/discover">Explore the index <span aria-hidden="true">↗</span></a></div></div>
+      <div class="catalogue-hero-foot"><span>MADE BY PEOPLE. FOUND BY YOU.</span><a href="/submit-project">Building something? Share it here <span aria-hidden="true">↗</span></a></div>
     </section>
+    <section class="catalogue-spotlight" aria-labelledby="home-heading">
+      <header class="catalogue-section-heading"><div><span class="catalogue-index">01 / IN THE SPOTLIGHT</span><h2 id="home-heading">Featured projects</h2></div><a href="/discover?view=featured">Explore featured <span aria-hidden="true">↗</span></a></header>
+      <LiveProjects mode="featured" limit={1} compact title="A space for your next discovery." description="Featured projects appear here after review." href="/submit-project" label="Share your project"/>
+    </section>
+    <section class="catalogue-latest" aria-labelledby="latest-heading">
+      <header class="catalogue-section-heading"><div><span class="catalogue-index">02 / THE COMMUNITY INDEX</span><h2 id="latest-heading">New things. Real people.</h2></div><a href="/discover">All projects <span aria-hidden="true">↗</span></a></header>
+      <LiveProjects mode="all" limit={6} compact title="The index starts with an idea." description="Reviewed projects will appear here. Share what you’re making." href="/submit-project" label="Submit a project"/>
+    </section>
+    <section class="catalogue-resources" aria-labelledby="resources-heading"><span class="catalogue-index">03 / KEEP EXPLORING</span><div><h2 id="resources-heading">A little curiosity<br/>goes a long way.</h2><p>Practical guides, useful resources, and visual explainers for whatever you’re working on next.</p><a class="catalogue-action" href="/resources">Open the reading room <span aria-hidden="true">↗</span></a></div><nav aria-label="Learning formats"><a href="/resources"><span>Resources</span><span aria-hidden="true">↗</span></a><a href="/carousels"><span>Visual explainers</span><span aria-hidden="true">↗</span></a><a href="/ui-ux-prompt-packet"><span>UI/UX Prompt Packet</span><span aria-hidden="true">↗</span></a></nav></section>
+    <section class="catalogue-invitation" aria-labelledby="invitation-heading"><p class="catalogue-index">YOUR TURN</p><div><h2 id="invitation-heading">What are you building?</h2><a class="catalogue-action" href="/submit-project">Put it on the map <span aria-hidden="true">↗</span></a></div><p>Submit a project for free review. Give it a place to be found.</p></section>
   </div>
   <script>import '../scripts/live-content.js';</script>
 </Platform>

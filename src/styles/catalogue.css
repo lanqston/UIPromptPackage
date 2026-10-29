@@ -1,0 +1,205 @@
+/* Digivated catalogue. Reference decisions and adaptations live in /DESIGN.md. */
+html body.platform.light-theme,
+html body.platform.light-theme.home-refresh {
+ --catalogue-canvas:#f6f8f7; --catalogue-paper:#fff; --catalogue-ink:#171717; --catalogue-carbon:#0f0e12;
+ --catalogue-muted:#595959; --catalogue-rule:#dedede; --catalogue-width:1320px;
+ --catalogue-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+ --mono-bg:var(--catalogue-canvas); --mono-surface:#fff; --mono-text:var(--catalogue-ink); --mono-muted:var(--catalogue-muted); --mono-line:var(--catalogue-rule);
+ --refined-bg:var(--catalogue-canvas); --refined-surface:#fff; --refined-ink:var(--catalogue-ink); --refined-muted:var(--catalogue-muted); --refined-line:var(--catalogue-rule);
+ --line:var(--catalogue-rule); --paper:#fff; --muted:var(--catalogue-muted); --studio-radius:0px;
+ background:var(--catalogue-canvas); color:var(--catalogue-ink); padding-top:0;
+ font-family:Arial,Helvetica,ui-sans-serif,system-ui,sans-serif; -webkit-font-smoothing:antialiased;
+}
+html body.platform.light-theme .site-atmosphere { display:none; }
+html body.platform.light-theme main,
+html body.platform.light-theme.home-refresh main,
+html body.platform.light-theme.projects-dashboard main,
+html body.platform.light-theme.resources-dashboard main { max-width:var(--catalogue-width); width:100%; padding:32px 40px 72px; margin:auto; }
+html body.platform.light-theme.home-refresh main { padding-top:0; }
+html body.platform.light-theme :is(h1,h2,h3) { font-weight:400; color:var(--catalogue-ink); }
+html body.platform.light-theme :is(p,.quiet,.lede) { color:var(--catalogue-muted); }
+html body.platform.light-theme .eyebrow,
+html body.platform.light-theme .catalogue-index { font-family:var(--catalogue-mono); font-size:11px; font-weight:400; letter-spacing:.025em; color:var(--catalogue-muted); }
+/* The masthead is one calm band, with the same account and search hooks. */
+html body.platform.light-theme .platform-header.compact-site-header { position:sticky; top:0; inset-inline:0; width:100%; max-width:none; margin:0; padding:0; border:0; border-bottom:1px solid var(--catalogue-rule); border-radius:0; background:#f6f8f7f5; box-shadow:none; backdrop-filter:blur(12px); }
+html body.platform.light-theme .compact-site-header .header-inner { max-width:var(--catalogue-width); min-height:82px; margin:auto; padding:16px 40px; gap:24px; }
+html body.platform.light-theme .compact-site-header .platform-brand { font-size:23px; font-weight:600; letter-spacing:-.055em; gap:8px; }
+html body.platform.light-theme .compact-site-header .header-primary { margin-left:auto; margin-right:32px; gap:8px; }
+html body.platform.light-theme .compact-site-header .header-primary a { font-size:13px; font-weight:400; border-radius:0; padding:10px; }
+html body.platform.light-theme .compact-site-header .header-primary a[aria-current=page] { background:transparent; color:var(--catalogue-ink); text-decoration:underline; text-underline-offset:7px; }
+html body.platform.light-theme .compact-header-actions .header-login { min-height:44px; padding:10px 16px; font-size:13px; font-weight:400; color:var(--catalogue-ink); background:transparent; border:1px solid #999; border-radius:0; }
+html body.platform.light-theme .compact-site-header .header-search { border:0; border-radius:0; background:transparent; }
+html body.platform.light-theme .compact-site-header .explore-menu>summary { border:0; border-radius:0; background:transparent; font-size:13px; font-weight:400; padding:10px 0 10px 10px; }
+html body.platform.light-theme .explore-menu nav { border-radius:0; border-color:var(--catalogue-rule); box-shadow:0 12px 30px #00000012; }
+/* Editorial hierarchy rather than a stack of promotional cards. */
+.catalogue-edition,.catalogue-hero-foot { display:flex; justify-content:space-between; gap:20px; font-family:var(--catalogue-mono); font-size:10px; font-weight:400; letter-spacing:.03em; }
+.catalogue-edition { padding-top:28px; color:var(--catalogue-muted); }
+.catalogue-hero-copy { display:grid; grid-template-columns:minmax(0,3fr) minmax(230px,1fr); align-items:end; gap:40px; padding:66px 0 52px; }
+html body.platform.light-theme .catalogue-intro h1 { font-family:Arial,Helvetica,system-ui,sans-serif; font-size:clamp(42px,6.5vw,92px); font-weight:400; line-height:1.02; letter-spacing:-.065em; text-wrap:initial; margin:0; }
+html body.platform.light-theme .catalogue-intro h1>span { color:#878b89; }
+html body.platform.light-theme .catalogue-hero-aside>p:first-child { color:var(--catalogue-ink); font-size:22px; line-height:1.25; letter-spacing:-.035em; margin:0 0 18px; }
+html body.platform.light-theme .catalogue-hero-aside>p { font-size:14px; line-height:1.6; margin:0 0 20px; max-width:28ch; }
+html body.platform.light-theme .catalogue-action { display:inline-flex; align-items:center; justify-content:space-between; gap:28px; min-height:48px; padding:12px 0; border-bottom:1px solid var(--catalogue-ink); font-size:14px; font-weight:400; text-decoration:none; color:var(--catalogue-ink); }
+.catalogue-action>span { font-size:21px; transition:translate .18s; }
+.catalogue-action:hover>span { translate:2px -2px; }
+.catalogue-hero-foot { border-top:1px solid var(--catalogue-rule); padding:18px 0; align-items:center; }
+.catalogue-hero-foot>a { text-transform:none; font-family:Arial,Helvetica,sans-serif; font-size:12px; text-decoration:none; min-height:36px; display:flex; align-items:center; gap:16px; }
+.catalogue-section-heading { display:flex; align-items:end; justify-content:space-between; gap:24px; padding:0 0 24px; }
+.catalogue-section-heading .catalogue-index { display:block; margin-bottom:14px; }
+html body.platform.light-theme .catalogue-section-heading h2 { font-size:34px; font-weight:400; line-height:1.15; letter-spacing:-.04em; margin:0; }
+.catalogue-section-heading>a { min-height:44px; display:flex; align-items:center; gap:20px; font-size:12px; text-decoration:none; flex:none; }
+.catalogue-spotlight { padding:48px 0 66px; }
+.catalogue-latest { padding:0 0 66px; }
+/* One image-led card system. Existing card DOM, actions, and live API stay intact. */
+html body.platform.light-theme [data-live-projects] .project-card[data-project],
+html body.platform.light-theme.resources-dashboard .resource-grid>.resource-card[data-resource] { border:0; border-radius:0; box-shadow:none; background:transparent; transform:none; transition:none; overflow:visible; }
+html body.platform.light-theme [data-live-projects] .project-card[data-project]:hover,
+html body.platform.light-theme.resources-dashboard .resource-grid>.resource-card[data-resource]:hover { transform:none; box-shadow:none; background:transparent; }
+html body.platform.light-theme [data-live-projects] .project-card[data-project]::after,
+html body.platform.light-theme.resources-dashboard .resource-grid>.resource-card[data-resource]::after { content:none; }
+html body.platform.light-theme [data-live-projects] .project-card .project-copy { display:flex; flex-direction:column; padding:0; gap:0; }
+html body.platform.light-theme [data-live-projects] .project-card .project-copy>* { order:initial; }
+html body.platform.light-theme [data-live-projects] .project-card .project-identity { display:contents; }
+html body.platform.light-theme [data-live-projects] .project-card .project-image.card-visual { display:grid; place-items:center; width:100%; height:auto; min-height:0; aspect-ratio:16/10; border:1px solid var(--catalogue-rule); border-radius:0; margin:0 0 20px; background:#eaeceb; box-shadow:none; overflow:hidden; }
+html body.platform.light-theme [data-live-projects] .project-card .project-image img { width:100%; height:100%; max-height:none; object-fit:contain; border-radius:0; transition:scale .35s ease; }
+html body.platform.light-theme [data-live-projects] .project-card:hover .project-image img { scale:1.025; }
+html body.platform.light-theme [data-live-projects] .project-card .project-monogram { font-size:clamp(40px,5vw,72px); font-weight:400; color:#838986; }
+html body.platform.light-theme [data-live-projects] .project-card .card-topic { min-height:0; margin:0 0 12px; }
+html body.platform.light-theme [data-live-projects] .project-card .card-topic .tag { font-family:var(--catalogue-mono); font-weight:400; font-size:10px; line-height:1.5; text-transform:uppercase; background:transparent; padding:0; border:0; border-radius:0; color:var(--catalogue-muted); }
+html body.platform.light-theme [data-live-projects] .project-card h3 { margin:0 0 5px; font-size:23px; font-weight:400; line-height:1.2; letter-spacing:-.035em; }
+html body.platform.light-theme [data-live-projects] .project-card h3 a { text-decoration:none; }
+html body.platform.light-theme [data-live-projects] .project-card h3 a:hover { text-decoration:underline; text-underline-offset:4px; }
+html body.platform.light-theme [data-live-projects] .project-card .project-meta { margin:0 0 16px; }
+html body.platform.light-theme [data-live-projects] .project-card .project-meta :is(a,.quiet) { font-size:12px; color:var(--catalogue-muted); }
+html body.platform.light-theme [data-live-projects] .project-card .project-description { font-size:14px; line-height:1.65; min-height:46px; margin:0 0 10px; color:var(--catalogue-muted); }
+html body.platform.light-theme [data-live-projects] .project-card .project-details summary { min-height:36px; font-size:12px; }
+html body.platform.light-theme [data-live-projects] .project-card .project-stats { gap:16px; margin:0 0 12px; }
+html body.platform.light-theme [data-live-projects] .project-card .card-stat { font:10px/1.5 var(--catalogue-mono); color:var(--catalogue-muted); }
+html body.platform.light-theme [data-live-projects] .project-card .card-stat svg { width:13px; height:13px; }
+html body.platform.light-theme [data-live-projects] .project-card .card-footer { border-top:1px solid var(--catalogue-rule); padding-top:12px; gap:8px; flex-wrap:wrap; margin-top:auto; }
+html body.platform.light-theme [data-live-projects] .project-card .card-actions { gap:2px; background:transparent; border:0; }
+html body.platform.light-theme [data-live-projects] .project-card .card-icon { min-width:32px; width:32px; height:44px; border:0; background:transparent; box-shadow:none; border-radius:0; color:var(--catalogue-muted); }
+html body.platform.light-theme [data-live-projects] .project-card .card-icon.card-feedback-trigger { width:auto; padding:0 8px; height:44px; min-width:0; border:0; background:transparent; }
+html body.platform.light-theme [data-live-projects] .project-card .card-feedback-label { font-size:12px; font-weight:400; }
+html body.platform.light-theme [data-live-projects] .project-card .card-feedback-count { border-radius:0; background:#e5e8e6; font-family:var(--catalogue-mono); font-weight:400; }
+html body.platform.light-theme .project-card .project-copy .card-links .card-open,
+html body.platform.light-theme .project-card .project-copy .card-links .card-open:hover { background:transparent!important; border:0!important; border-radius:0!important; padding:0!important; min-height:44px; font-size:12px; font-weight:400; color:var(--catalogue-ink); box-shadow:none; }
+html body.platform.light-theme :is(.catalogue-home,.projects-content) [data-live-projects] .project-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px 24px; margin:0; }
+/* Featured project gets a full-size visual, rather than a logo-sized thumbnail. */
+html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-grid { grid-template-columns:1fr; }
+html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-copy { display:grid; grid-template-columns:minmax(0,1.8fr) minmax(0,1fr); column-gap:48px; align-content:start; }
+html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-copy>* { grid-column:2; }
+html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-image.card-visual { grid-column:1; grid-row:1/10; margin:0; min-height:350px; aspect-ratio:16/10; }
+html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .card-topic { margin-top:28px; }
+html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card h3 { font-size:44px; margin-top:12px; }
+html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-description { font-size:16px; line-height:1.7; margin-top:10px; -webkit-line-clamp:4; }
+html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .card-footer { align-self:end; margin-top:24px; }
+html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-stats { margin-top:18px; }
+/* Two editorial sections keep Resources and submission accessible. */
+.catalogue-resources { display:grid; grid-template-columns:1fr 2fr 1.2fr; gap:40px; padding:40px 0 66px; border-top:1px solid var(--catalogue-rule); }
+html body.platform.light-theme .catalogue-resources h2 { font-size:42px; line-height:1.1; letter-spacing:-.045em; margin:0 0 24px; }
+html body.platform.light-theme .catalogue-resources p { max-width:34ch; font-size:15px; line-height:1.7; margin-bottom:22px; }
+.catalogue-resources nav { align-self:start; gap:0; }
+html body.platform.light-theme .catalogue-resources nav a { display:flex; justify-content:space-between; gap:20px; min-height:64px; border-bottom:1px solid var(--catalogue-rule); border-radius:0; padding:12px 0; font-size:14px; background:transparent; }
+.catalogue-invitation { padding:40px; background:#e8ebe9; }
+.catalogue-invitation>div { display:flex; align-items:center; justify-content:space-between; gap:24px; }
+html body.platform.light-theme .catalogue-invitation h2 { font-size:44px; line-height:1.15; letter-spacing:-.045em; margin:12px 0; }
+html body.platform.light-theme .catalogue-invitation>p:last-child { margin:16px 0 0; font-size:14px; }
+/* Secondary public surfaces follow the catalogue's geometry and type. */
+html body.platform.light-theme .button { min-height:44px; border-radius:0; box-shadow:none; font-size:13px; font-weight:400; background:#fff; color:var(--catalogue-ink); border-color:#aaa; transition:background .16s; }
+html body.platform.light-theme .button:not(:disabled):hover { translate:none; transform:none; box-shadow:none; background:#e8ebe9; }
+html body.platform.light-theme .button.primary,
+html body.platform.light-theme .button.primary:not(:disabled):hover { background:var(--catalogue-carbon); color:#fff; border-color:var(--catalogue-carbon); box-shadow:none; }
+html body.platform.light-theme :is(input,textarea,select) { border-radius:0; background:#fff; border-color:#aaa; }
+html body.platform.light-theme :is(input,textarea,select):focus-visible { outline:2px solid var(--catalogue-ink); outline-offset:3px; box-shadow:none; }
+html body.platform.light-theme .page-intro { padding:20px 0 36px; }
+html body.platform.light-theme .page-intro h1 { font-size:clamp(36px,5vw,56px); font-weight:400; }
+html body.platform.light-theme :is(.dashboard-controls,.resources-controls) { background:transparent; border:0; border-radius:0; padding:0; box-shadow:none; }
+html body.platform.light-theme :is(.dashboard-controls,.resources-controls) :is(input,select) { border-radius:0; background:#fff; }
+html body.platform.light-theme .dashboard-intro h1 { font-weight:400; font-size:44px; }
+html body.platform.light-theme .dashboard-intro { padding-top:12px; }
+html body.platform.light-theme :is(.project-layout-toggle,.resources-layout) { border-radius:0; background:transparent; }
+html body.platform.light-theme :is(.project-layout-toggle,.resources-layout) button { border-radius:0; }
+html body.platform.light-theme :is(.submission-form,.project-account-card,.refined-submit,.login-panel,.login-tabs,.login-tabs button,.account-announcement,.comment-dialog,.collection-dialog,.discovery-dialog) { border-radius:0; box-shadow:none; }
+html body.platform.light-theme .login-panel { background:#fff; padding:28px; border:1px solid var(--catalogue-rule); }
+html body.platform.light-theme .login-heading h1 { font-weight:400; }
+html body.platform.light-theme :is(.submission-form legend,.submission-review h2) { font-weight:400; }
+html body.platform.light-theme .comment-dialog { box-shadow:0 20px 80px #0003; }
+html body.platform.light-theme .comment-dialog-header button { width:44px; min-width:44px; height:44px; border-radius:0; }
+html body.platform.light-theme .account-announcement { box-shadow:0 10px 40px #0001; }
+html body.platform.light-theme .account-announcement-actions button { width:44px; height:44px; }
+html body.platform.light-theme .platform-footer { background:var(--catalogue-canvas); border-top:0; padding-top:66px; }
+html body.platform.light-theme .footer-inner { max-width:var(--catalogue-width); }
+html body.platform.light-theme .platform-footer .footer-intro .platform-brand { font-size:23px; letter-spacing:-.05em; font-weight:600; }
+html body.platform.light-theme .platform-footer nav h2 { font:11px/1.5 var(--catalogue-mono); text-transform:uppercase; color:var(--catalogue-ink); }
+html body.platform.light-theme .platform-footer .footer-group-links a { font-size:12px; color:var(--catalogue-muted); }
+@media(min-width:768px) {
+ html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] { grid-template-columns:1fr; }
+ html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-copy { display:grid; grid-template-columns:180px minmax(140px,1fr) minmax(180px,1.5fr) auto; gap:8px 24px; padding:24px 0; border-top:1px solid var(--catalogue-rule); }
+ html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-image.card-visual { grid-column:1; grid-row:1/8; margin:0; width:180px; aspect-ratio:16/10; }
+ html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .card-topic { grid-column:2; grid-row:1; }
+ html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] h3 { grid-column:2; grid-row:2; }
+ html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .project-meta { grid-column:2; grid-row:3; }
+ html body.platform.light-theme.projects-dashboard [data-live-projects] .project-grid[data-layout=list] .card-footer { grid-column:4; }
+}
+@media(max-width:1100px) {
+ html body.platform.light-theme :is(.catalogue-home,.projects-content) [data-live-projects] .project-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-grid { grid-template-columns:1fr; }
+ .catalogue-hero-copy { grid-template-columns:minmax(0,2.5fr) minmax(200px,1fr); gap:24px; }
+ html body.platform.light-theme .catalogue-intro h1 { font-size:clamp(42px,6.4vw,72px); }
+ .catalogue-resources { grid-template-columns:1.7fr 1fr; gap:24px; }
+ .catalogue-resources>.catalogue-index { grid-column:1/-1; }
+ html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-copy { column-gap:28px; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); }
+}
+@media(max-width:767px) {
+ html body.platform.light-theme main,
+ html body.platform.light-theme.home-refresh main,
+ html body.platform.light-theme.projects-dashboard main,
+ html body.platform.light-theme.resources-dashboard main { padding:24px 20px 48px; }
+ html body.platform.light-theme.home-refresh main { padding-top:0; }
+ html body.platform.light-theme .compact-site-header .header-inner { padding:12px 20px; min-height:72px; gap:12px; }
+ html body.platform.light-theme .compact-site-header .platform-brand { font-size:22px; }
+ .catalogue-edition { font-size:9px; padding-top:22px; gap:12px; }
+ .catalogue-edition>span:last-child { display:none; }
+ .catalogue-hero-copy { display:block; padding:36px 0 28px; }
+ html body.platform.light-theme .catalogue-intro h1 { font-size:clamp(37px,7.8vw,59px); line-height:1.08; letter-spacing:-.055em; }
+ .catalogue-hero-aside { display:grid; grid-template-columns:1fr auto; gap:0 24px; align-items:end; margin-top:28px; }
+ html body.platform.light-theme .catalogue-hero-aside>p:first-child { font-size:17px; margin-bottom:0; }
+ html body.platform.light-theme .catalogue-hero-aside>p:nth-child(2) { display:none; }
+ html body.platform.light-theme .catalogue-hero-aside .catalogue-action { min-height:44px; font-size:12px; gap:12px; }
+ .catalogue-hero-foot { font-size:9px; gap:12px; align-items:flex-start; }
+ .catalogue-hero-foot>a { font-size:11px; min-height:32px; max-width:155px; line-height:1.5; }
+ .catalogue-spotlight { padding:28px 0 44px; }
+ .catalogue-section-heading { gap:12px; padding-bottom:20px; }
+ html body.platform.light-theme .catalogue-section-heading h2 { font-size:27px; }
+ .catalogue-section-heading .catalogue-index { margin-bottom:10px; font-size:9px; }
+ .catalogue-section-heading>a { font-size:11px; gap:12px; }
+ html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-copy { display:flex; gap:0; }
+ html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-image.card-visual { min-height:0; margin:0 0 22px; }
+ html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .card-topic { margin-top:0; }
+ html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card h3 { margin-top:0; font-size:30px; }
+ html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-description { margin-top:0; font-size:14px; }
+ html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .project-stats { margin-top:0; }
+ html body.platform.light-theme .catalogue-spotlight [data-live-projects] .project-card .card-footer { margin-top:12px; }
+ .catalogue-latest { padding-bottom:44px; }
+ .catalogue-resources { grid-template-columns:1fr; padding:28px 0 44px; }
+ html body.platform.light-theme .catalogue-resources h2 { font-size:36px; }
+ .catalogue-resources nav { margin-top:8px; }
+ .catalogue-invitation { padding:24px; }
+ .catalogue-invitation>div { display:block; }
+ html body.platform.light-theme .catalogue-invitation h2 { font-size:32px; }
+ html body.platform.light-theme .catalogue-invitation .catalogue-action { margin:8px 0; }
+ html body.platform.light-theme .catalogue-invitation>p:last-child { font-size:13px; }
+ html body.platform.light-theme .login-panel { padding:22px; }
+ html body.platform.light-theme .dashboard-intro h1 { font-size:36px; }
+ html body.platform.light-theme .platform-footer { padding-top:44px; }
+}
+@media(max-width:600px) {
+ html body.platform.light-theme :is(.catalogue-home,.projects-content) [data-live-projects] .project-grid { grid-template-columns:1fr; gap:36px; }
+ html body.platform.light-theme [data-live-projects] .project-card .project-description { min-height:0; }
+ html body.platform.light-theme .compact-header-actions .header-login { min-height:40px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ html body.platform.light-theme [data-live-projects] .project-card .project-image img,.catalogue-action>span { transition:none; }
+ html body.platform.light-theme [data-live-projects] .project-card:hover .project-image img { scale:1; }
+}
