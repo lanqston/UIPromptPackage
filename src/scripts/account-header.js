@@ -19,7 +19,7 @@ if(link&&!(location.pathname.replace(/\/$/,'')==='/account'&&location.hash.inclu
    else link.removeAttribute('aria-label');
    if(location.pathname.replace(/\/$/,'')===link.getAttribute('href'))link.setAttribute('aria-current','page');
    else link.removeAttribute('aria-current');
-   if(menuAccount)menuAccount.textContent=hasAccount?'My account':'Your projects';
+   if(menuAccount)(menuAccount.querySelector('span')||menuAccount).textContent=hasAccount?'My account':'Your projects';
    if(menuLogin)menuLogin.hidden=hasAccount;
   }catch{
    // Keep the visible sign-in route available during a temporary outage.

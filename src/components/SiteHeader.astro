@@ -1,4 +1,5 @@
 ---
+import UiIcon from './UiIcon.astro';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const features = [
   ['/discover','Projects','Discover independent work'],
@@ -20,8 +21,21 @@ const active = (href: string) => path === href || path.startsWith(href + '/') ||
     <div class="compact-header-actions">
       <button class="header-search" type="button" data-open-search aria-label="Search Digivated"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button>
       <a class="header-login" id="header-account-link" href="/login" aria-current={active('/login')?'page':undefined}>Log In</a>
-      <details class="explore-menu"><summary aria-controls="explore-navigation"><span class="menu-label-desktop">More</span><span class="menu-label-mobile">Menu</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <nav id="explore-navigation" aria-label="More navigation"><p class="explore-label">Browse Digivated</p><div class="explore-features">{features.map(([href,label,description])=><a href={href} aria-current={active(href)?'page':undefined}><span><strong>{label}</strong><small>{description}</small></span><span aria-hidden="true">→</span></a>)}</div><section class="explore-paid" aria-labelledby="paid-options-title"><h2 class="explore-label" id="paid-options-title">Products and paid options</h2><div class="explore-features">{paidOptions.map(([href,label,description])=><a href={href} aria-current={active(href)?'page':undefined}><span><strong>{label}</strong><small>{description}</small></span><span aria-hidden="true">→</span></a>)}</div></section><div class="explore-utilities"><button type="button" data-open-search>Search Digivated</button><a id="menu-account-link" href="/account">Your projects</a><a id="menu-login-link" href="/login">Log in or sign up</a><a href="/saved">Saved items</a><a href="/access">Packet access</a><a href="/about">About</a></div></nav>
+      <details class="explore-menu notebook-navigation" data-navigation>
+        <summary aria-controls="explore-navigation" aria-label="Open navigation menu" aria-expanded="false"><span class="navigation-trigger-label">Explore</span><span class="navigation-trigger-chevron"><UiIcon name="chevron" size={16}/></span><span class="navigation-trigger-menu"><UiIcon name="menu" size={21}/></span><span class="navigation-trigger-close"><UiIcon name="close" size={21}/></span></summary>
+        <nav id="explore-navigation" class="navigation-panel" aria-label="Explore Digivated">
+          <div class="navigation-panel-grid">
+            <section class="navigation-main" aria-labelledby="navigation-explore-title"><h2 id="navigation-explore-title">Explore Digivated</h2>
+              <div class="navigation-destinations">{features.map(([href,label,description],index)=><a href={href} aria-current={active(href)?'page':undefined}><span class="navigation-icon"><UiIcon name={['grid','book','layers','upload'][index]} size={20}/></span><span class="navigation-link-copy"><strong>{label}</strong><small>{description}</small></span><span class="navigation-link-arrow"><UiIcon size={16}/></span></a>)}</div>
+            </section>
+            <section class="navigation-builder" aria-labelledby="navigation-builder-title"><h2 id="navigation-builder-title">For builders</h2>
+              <a class="navigation-feature" href="/submit-project"><span class="navigation-feature-art" aria-hidden="true"><UiIcon name="upload" size={26}/><span class="navigation-feature-line"></span><span class="navigation-feature-line short"></span></span><strong>Made something good?</strong><span>Give your project a place to be discovered.</span><b>Submit for free <UiIcon size={15}/></b></a>
+              <details class="navigation-products"><summary>Products & paid options <UiIcon name="chevron" size={14}/></summary><div>{paidOptions.map(([href,label,description])=><a href={href} aria-current={active(href)?'page':undefined}><strong>{label}</strong><small>{description}</small></a>)}</div></details>
+            </section>
+          </div>
+          <div class="navigation-account-row"><a id="menu-account-link" href="/account"><UiIcon name="user" size={17}/><span>Your projects</span></a><a href="/saved"><UiIcon name="bookmark" size={17}/><span>Saved items</span></a><button type="button" data-open-search><UiIcon name="search" size={17}/><span>Search Digivated</span><kbd>/</kbd></button></div>
+          <div class="navigation-bottom-row"><div><a href="/about">About</a><a href="/access">Packet access</a></div><a id="menu-login-link" href="/login">Log in or sign up <UiIcon size={15}/></a></div>
+        </nav>
       </details>
     </div>
   </div>
