@@ -11,6 +11,7 @@ html body.platform.light-theme.home-refresh {
  font-family:Arial,Helvetica,ui-sans-serif,system-ui,sans-serif; -webkit-font-smoothing:antialiased;
 }
 html body.platform.light-theme .site-atmosphere { display:none; }
+html body.platform.light-theme .studio-reveal.reveal-pending { opacity:1; translate:none; }
 html body.platform.light-theme main,
 html body.platform.light-theme.home-refresh main,
 html body.platform.light-theme.projects-dashboard main,
