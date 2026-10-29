@@ -18,3 +18,6 @@ Original generated illustration: monochrome editorial pen drawing of a curious m
 
 ## Verification and boundaries
 Keep account, submission, moderation, feedback, likes, saves, views, notifications, and email logic intact. Existing script hooks remain unchanged. Verify search, collection filters, menu opening, feedback panels, 390px layout, build, and existing automated checks. Use only temporary public catalogue snapshots for local visual QA; exclude fixtures and review wrappers from commits. This is a separate review branch, not a production release.
+
+## Navigation implementation
+[Twenty desktop/mobile menus on Navbar Gallery](https://www.navbar.gallery/navbar/twenty) are the actual flyout reference: icon-led destination rows, separated secondary pane, pale featured action, and large mobile destinations. Digivated uses its own links and notebook colors. Mobile opens a viewport-height panel beneath the header with independent scrolling. Products and pricing remain accessible in a subordinate disclosure. Account-link IDs remain intact for session updates. The 60fps Circle reference informs an anchored 220ms scale/fade entrance, small item stagger, and a 140ms exit; reduced motion disables these. Escape, outside click, focus leaving the panel, ArrowDown entry, native keyboard toggling, and focus restoration are supported.
