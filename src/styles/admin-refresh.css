@@ -74,7 +74,9 @@ html body.owner .community-empty h2 { font-size:24px; }
 html body.owner .owner-publish-note { max-width:800px; margin-top:36px; font-size:11px; line-height:1.65; }
 html body.owner .owner-login { margin:64px auto 24px; padding:36px; border:1px solid #e4e4e0; border-radius:10px; background:#fff; box-shadow:0 8px 24px #37352f08; }
 html body.owner .owner-login h1 { margin:0 0 12px; font-size:32px; font-weight:750; letter-spacing:-.035em; }
-html body.owner .owner-login>p:not(.quiet) { font-size:14px; line-height:1.65; }
+html body.owner .owner-login>p:not(.quiet) { color:var(--owner-copy); font-size:14px; line-height:1.65; }
+html body.owner .owner-login .button.primary,html body.owner .owner-login .button.primary:hover:not(:disabled) { background:#37352f; border-color:#37352f; color:#fff; box-shadow:none; }
+html body.owner .owner-login .button.primary:hover:not(:disabled) { background:#514f48; border-color:#514f48; }
 html body.owner .owner-login form { margin-top:26px; }
 html body.owner .owner-login input { min-height:44px; }
 html body.owner .owner-editor { max-height:min(92dvh,960px); border:1px solid #dededb; border-radius:10px; background:#fff; color:var(--owner-text); box-shadow:0 24px 80px #37352f30; }
