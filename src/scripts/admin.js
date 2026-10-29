@@ -32,6 +32,8 @@ function renderList() {
   const list = $('owner-list'); list.replaceChildren();
   for (const record of items) {
     const row = element('article', undefined, 'owner-row'); const copy = element('div');
+    row.dataset.status = state.kind === 'accounts' ? accountStatus(record) : record.status || 'available';
+    row.dataset.kind = state.kind;
     if(state.kind==='accounts'){
       const blocked=accountStatus(record)==='blocked';
       copy.append(element('span',accountStatus(record),'tag'),element('h2',record.email || 'No email address'),element('p',`Joined ${record.createdAt?.slice(0,10) || 'unknown'} · Last sign-in ${record.lastSignInAt?.slice(0,10) || 'never'}`,'quiet'),element('p',`ID: ${record.id}${record.providers.length ? ` · ${record.providers.join(', ')}` : ''}`,'quiet'));
